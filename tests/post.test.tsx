@@ -14,7 +14,7 @@ import type { VerdictResult } from "@/lib/verdict";
 const topic = HotTopicSchema.parse(h03);
 const publicTopic = toPublicTopic(topic);
 function result(overrides: Partial<VerdictResult> = {}): VerdictResult {
-  return { isTrue: false, isCorrect: true, reveal: topic.reveal, sources: sources.map((source) => SourceSchema.parse(source)), rewriteOptions: topic.rewriteOptions, ...overrides };
+  return { isTrue: false, isCorrect: true, reveal: topic.reveal, sources: sources.filter((source) => topic.sourceIds.includes(source.id)).map((source) => SourceSchema.parse(source)), rewriteOptions: topic.rewriteOptions, ...overrides };
 }
 
 beforeEach(() => {

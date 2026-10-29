@@ -4,7 +4,7 @@ import { AskPanel } from "@/components/ai/AskPanel";
 import sourceIndex from "@/data/source-index.json";
 import { SourceSchema } from "@/lib/schemas";
 
-const sources = sourceIndex.map((source) => SourceSchema.parse(source));
+const sources = sourceIndex.filter((source) => source.id.startsWith("S-H03-")).map((source) => SourceSchema.parse(source));
 const fetchMock = vi.fn<typeof fetch>();
 function reply(overrides = {}) {
   return Response.json({ answer: "这是一条来自 mock Provider 的测试输出。", citedSourceIds: ["S-H03-02"], grounded: true, preview: true, ...overrides });
