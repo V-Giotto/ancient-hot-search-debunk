@@ -1,1 +1,3 @@
-# ancient-hot-search-debunk
+# 古代热搜辟谣局
+
+现代社交媒体反差喜剧 + 可靠历史科普的参赛 Web App（开发中）。
