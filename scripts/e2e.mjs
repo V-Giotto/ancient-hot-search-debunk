@@ -9,12 +9,16 @@ import { chromium } from "playwright";
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
 const port = process.env.E2E_PORT || "3123";
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
-const output = path.resolve("artifacts/stage-2-part-1");
+const output = path.resolve("artifacts/stage-2-part-2");
 const scenarios = [
   { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 1 },
   { id: "H02", answer: true, best: "C", wrong: "A", sourceCount: 3 },
   { id: "H03", answer: false, best: "C", wrong: "A", sourceCount: 3 },
   { id: "H04", answer: true, best: "B", wrong: "A", sourceCount: 3 },
+  { id: "H05", answer: false, best: "B", wrong: "A", sourceCount: 1 },
+  { id: "H06", answer: true, best: "A", wrong: "B", sourceCount: 2 },
+  { id: "H07", answer: false, best: "C", wrong: "A", sourceCount: 1 },
+  { id: "H08", answer: true, best: "B", wrong: "A", sourceCount: 1 },
 ];
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 await mkdir(output, { recursive: true });
@@ -188,7 +192,9 @@ try {
     }
   }
   await page.goto(`${baseURL}/discover`);
-  assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), 4);
+  assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), 8);
+  const discoverLinks = await page.locator('[aria-label="发现话题"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+  assert.deepEqual(discoverLinks, scenarios.map(({ id }) => `/post/${id}`));
   const columns = await page.locator('[aria-label="发现话题"]').evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(" ").length);
   assert.equal(columns, 2);
   for (const { id } of scenarios) {
@@ -203,7 +209,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "H03", answer: "false" }) })).status, 400);
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
-  const summary = { passed: true, flow: "trending → H01/H02/H03/H04 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, viewports: ["1440×900", "1920×1080", "1024×768"], browserErrors: errors };
+  const summary = { passed: true, flow: "trending → H01–H08 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, viewports: ["1440×900", "1920×1080", "1024×768"], browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify(summary, null, 2));
 } catch (error) {

@@ -137,20 +137,31 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     expect(() => validateContentSet([topic], sources)).not.toThrow();
   });
 
-  it("按本阶段 4 条真实题目校验仓库数据", () => {
+  it("按 8 条真实题目启用 expectedCount=8 与真假 4:4 校验", () => {
     const topics = getAllTopics();
-    expect(() => validateContentSet(topics, sourceIndex, { expectedCount: 4 })).not.toThrow();
+    expect(() => validateContentSet(topics, sourceIndex, { expectedCount: 8 })).not.toThrow();
+    expect(topics.filter((topic) => !topic.isTrue).map((topic) => topic.id)).toEqual(["H01", "H03", "H05", "H07"]);
+    expect(topics.filter((topic) => topic.isTrue).map((topic) => topic.id)).toEqual(["H02", "H04", "H06", "H08"]);
   });
 
-  it("阶段2第1部分为 H01–H04，排名连续，题目及来源全部 pending 且没有审核签名", () => {
+  it("真实题库缺项或破坏 4:4 时校验失败", () => {
+    const topics = getAllTopics();
+    expect(() => validateContentSet(topics.slice(0, 7), sourceIndex, { expectedCount: 8 })).toThrow(/题目数量应为 8/);
+    const unbalanced = topics.map((topic) => topic.id === "H06" ? { ...topic, isTrue: false } : topic);
+    expect(() => validateContentSet(unbalanced, sourceIndex, { expectedCount: 8 })).toThrow(/真假比例必须为 4:4/);
+  });
+
+  it("阶段2第2部分为 H01–H08，排名连续，题目及来源全部 pending 且没有审核签名", () => {
     const topics = getAllTopics();
     expect(topics.map((topic) => [topic.id, topic.rank, topic.isTrue])).toEqual([
       ["H01", 1, false], ["H02", 2, true], ["H03", 3, false], ["H04", 4, true],
+      ["H05", 5, false], ["H06", 6, true], ["H07", 7, false], ["H08", 8, true],
     ]);
     expect(topics.every((topic) => topic.reviewStatus === "pending")).toBe(true);
     expect(sourceIndex.map((source) => source.id)).toEqual([
       "S-H01-01", "S-H02-01", "S-H02-02", "S-H02-03",
       "S-H03-01", "S-H03-02", "S-H03-03", "S-H04-01", "S-H04-02", "S-H04-03",
+      "S-H05-01", "S-H06-01", "S-H06-02", "S-H07-01", "S-H08-01",
     ]);
     const locators: Record<string, string> = { "S-H02-01": "卷三·马行街铺席", "S-H02-02": "卷二·饮食果子" };
     for (const source of sourceIndex) {
@@ -166,6 +177,10 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     { id: "H02", best: "C", sources: ["S-H02-01", "S-H02-02", "S-H02-03"], corrected: "宋代部分城市已有购买现成饭食、代买送食等服务，与现代外卖平台不同。" },
     { id: "H03", best: "C", sources: ["S-H03-01", "S-H03-02", "S-H03-03"], corrected: "唐代有胡椒、花椒等辛香料，但来自美洲的辣椒约在明末传入中国。" },
     { id: "H04", best: "B", sources: ["S-H04-01", "S-H04-02", "S-H04-03"], corrected: "北宋四川出现交子，并经历民间使用到官府发行的发展过程。" },
+    { id: "H05", best: "B", sources: ["S-H05-01"], corrected: "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。" },
+    { id: "H06", best: "A", sources: ["S-H06-01", "S-H06-02"], corrected: "战国已有可借助冰块冷却酒饮的冰鉴等器具，不等于电冰箱。" },
+    { id: "H07", best: "C", sources: ["S-H07-01"], corrected: "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。" },
+    { id: "H08", best: "B", sources: ["S-H08-01"], corrected: "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。" },
   ])("$id 保持文案模板、八条四角色评论、指定改写及本题事实来源前缀", ({ id, best, sources, corrected }) => {
     const topic = getAllTopics().find((topic) => topic.id === id)!;
     expect(topic.author.fictitious).toBe(true);
@@ -198,7 +213,6 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     }
   });
 
-  it.todo("8条及4:4待阶段2补齐（真实题库，不以合成 fixture 代替正式内容）");
 });
 
 describe("validateContentSet：expectedCount=8 的首发校验（仅内存 fixture）", () => {

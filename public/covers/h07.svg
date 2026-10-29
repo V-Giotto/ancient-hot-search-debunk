@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">蹴鞠首创争议，奖杯先等等</title>
+  <desc id="desc">虚构蹴鞠人物与现代体育资讯卡。原创矢量插画，艺术创作·非史料，不是古代球场、球具、服饰或比赛规则复原。</desc>
+  <rect width="1200" height="675" fill="#eee7df"/>
+  <circle cx="1060" cy="135" r="265" fill="#e3c9b7"/>
+  <path d="M0 544Q350 490 680 548T1200 514V675H0Z" fill="#c8d1b7"/>
+  <rect x="28" y="28" width="1144" height="619" rx="20" fill="none" stroke="#bda889" stroke-width="2"/>
+  <g font-family="sans-serif" fill="#4b413a">
+    <text x="70" y="98" font-size="22" letter-spacing="4">宋代蹴鞠第一资讯 · 荣誉申请中</text>
+    <text x="65" y="207" font-size="70" font-weight="800">首创奖杯先等等</text>
+    <text x="70" y="262" font-size="28">时间线没排完，掌声先存草稿。</text>
+  </g>
+  <g transform="translate(307 391)">
+    <ellipse cx="20" cy="155" rx="142" ry="15" fill="#7d8c6f" opacity=".25"/>
+    <path d="M-43 11L35 6L61 96L-55 102Z" fill="#b56f52"/>
+    <path d="M-41 31L-95 68M35 29L77-5" stroke="#b56f52" stroke-width="21" stroke-linecap="round"/>
+    <path d="M-28 99L-40 146M35 95L106 115" fill="none" stroke="#545951" stroke-width="20" stroke-linecap="round"/>
+    <circle cx="-4" cy="-35" r="44" fill="#ebc49b"/>
+    <path d="M-48-35V-53Q-46-88-3-88Q41-88 41-51V-35L13-57H-21Z" fill="#3d3b36"/>
+    <path d="M-49-63H44L28-88H-30Z" fill="#7a6e57"/>
+    <circle cx="-18" cy="-30" r="4" fill="#3d3b36"/><circle cx="10" cy="-30" r="4" fill="#3d3b36"/>
+    <path d="M-13-10Q-3-4 8-12" fill="none" stroke="#9c6550" stroke-width="3"/>
+    <circle cx="161" cy="67" r="37" fill="#d6b57d" stroke="#96734b" stroke-width="4"/>
+    <path d="M132 45Q170 64 188 91M132 88Q152 60 184 43" fill="none" stroke="#a18053" stroke-width="3"/>
+    <path d="M126 11Q156-24 186-14" fill="none" stroke="#d6ad72" stroke-width="5" stroke-dasharray="8 7"/>
+  </g>
+  <g transform="translate(665 319)" font-family="sans-serif">
+    <rect x="8" y="9" width="425" height="222" rx="20" fill="#bba58b" opacity=".3"/>
+    <rect width="425" height="222" rx="20" fill="#fffaf2" stroke="#bda889" stroke-width="2"/>
+    <rect x="24" y="21" width="150" height="30" rx="15" fill="#e84e48"/>
+    <text x="99" y="43" text-anchor="middle" font-size="18" fill="#fff">虚构体育快讯</text>
+    <text x="25" y="110" font-size="48" font-weight="800" fill="#4b413a">首创争议？</text>
+    <path d="M26 139H399" stroke="#e2cdb3" stroke-width="2"/>
+    <text x="27" y="177" font-size="22" fill="#826c57">先找记载 · 再谈荣誉</text>
+    <text x="27" y="207" font-size="17" fill="#826c57">场景为创作，不复原比赛规则</text>
+  </g>
+  <rect x="70" y="578" width="345" height="43" rx="21" fill="#fffaf2"/>
+  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#78644e">体育资讯 · 起源待查证</text>
+  <rect x="834" y="578" width="296" height="43" rx="21" fill="#fffaf2"/>
+  <text x="982" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#78644e">艺术创作·非史料</text>
+</svg>
