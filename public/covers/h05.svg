@@ -1,39 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
   <title id="title">唐三彩，名字能给配色上锁吗？</title>
   <desc id="desc">虚构彩釉陶器与问号配色卡。原创矢量插画，艺术创作·非史料，不是馆藏器物、配方或釉色复原。</desc>
-  <rect width="1200" height="675" fill="#f1e9dc"/>
-  <circle cx="1030" cy="150" r="270" fill="#e7d3b7"/>
-  <path d="M0 547Q350 495 670 550T1200 520V675H0Z" fill="#dbc6a4"/>
-  <rect x="28" y="28" width="1144" height="619" rx="20" fill="none" stroke="#c5a579" stroke-width="2"/>
-  <g font-family="sans-serif" fill="#4f4438">
+  <rect width="1200" height="675" fill="#f7f5f0" />
+  <circle cx="1060" cy="135" r="270" fill="#eee4d4" />
+  <path d="M0 547Q350 495 670 550T1200 520V675H0Z" fill="#e3cfb0" />
+  <rect x="28" y="28" width="1144" height="619" rx="20" fill="none" stroke="#d6ad72" stroke-width="2" />
+  <g font-family="sans-serif" fill="#26252c">
     <text x="70" y="98" font-size="22" letter-spacing="4">三彩本人在线维权 · 配色讨论中</text>
     <text x="65" y="207" font-size="70" font-weight="800">调色盘被锁了？</text>
-    <text x="70" y="262" font-size="28">名字里的数字，能当说明书吗？</text>
+    <text x="70" y="262" font-size="28" fill="#767680" letter-spacing="0">名字里的数字，能当说明书吗？</text>
   </g>
   <g transform="translate(333 435)">
-    <ellipse cy="104" rx="157" ry="18" fill="#ac936f" opacity=".3"/>
-    <path d="M-58-103H58V-62Q129-25 125 41Q122 98 70 105H-70Q-122 98-125 41Q-129-25-58-62Z" fill="#b47a43" stroke="#896542" stroke-width="4"/>
-    <path d="M-57-66Q-5-24 37-58L61-61Q124-25 121 29Q76 80 32 40Q-18-1-123 35Q-125-23-57-66Z" fill="#608b6d"/>
-    <path d="M-74-31Q-37 9-46 67M49-38Q82 8 68 65" fill="none" stroke="#edcf8f" stroke-width="18" stroke-linecap="round" opacity=".75"/>
-    <rect x="-66" y="-113" width="132" height="18" rx="8" fill="#d6ac6e" stroke="#896542" stroke-width="3"/>
-    <path d="M-109-29Q-173-41-158 15Q-150 43-125 39M109-29Q173-41 158 15Q150 43 125 39" fill="none" stroke="#997449" stroke-width="12"/>
-    <text y="20" text-anchor="middle" font-family="sans-serif" font-size="66" font-weight="800" fill="#fff7e6">?</text>
+    <ellipse cy="104" rx="157" ry="18" fill="#b28b59" opacity=".3" />
+    <path d="M-58-103H58V-62Q129-25 125 41Q122 98 70 105H-70Q-122 98-125 41Q-129-25-58-62Z" fill="#b28b59" stroke="#7d5b32" stroke-width="4" />
+    <path d="M-57-66Q-5-24 37-58L61-61Q124-25 121 29Q76 80 32 40Q-18-1-123 35Q-125-23-57-66Z" fill="#767680" />
+    <path d="M-74-31Q-37 9-46 67M49-38Q82 8 68 65" fill="none" stroke="#efc99c" stroke-width="18" stroke-linecap="round" opacity=".75" />
+    <rect x="-66" y="-113" width="132" height="18" rx="8" fill="#d6ad72" stroke="#7d5b32" stroke-width="3" />
+    <path d="M-109-29Q-173-41-158 15Q-150 43-125 39M109-29Q173-41 158 15Q150 43 125 39" fill="none" stroke="#b28b59" stroke-width="12" />
+    <text y="20" text-anchor="middle" font-family="sans-serif" font-size="66" font-weight="800" fill="#f7f5f0">?</text>
   </g>
   <g transform="translate(641 320)" font-family="sans-serif">
-    <rect x="9" y="9" width="447" height="220" rx="20" fill="#bba07a" opacity=".3"/>
-    <rect width="447" height="220" rx="20" fill="#fffaf0" stroke="#c5a579" stroke-width="2"/>
-    <text x="28" y="45" font-size="20" fill="#8f6d4c">虚构配色卡 · 等待查证</text>
-    <g stroke="#b79d75" stroke-width="2">
-      <rect x="29" y="71" width="78" height="78" rx="12" fill="#608b6d"/>
-      <rect x="133" y="71" width="78" height="78" rx="12" fill="#b47a43"/>
-      <rect x="237" y="71" width="78" height="78" rx="12" fill="#edcf8f"/>
-      <rect x="341" y="71" width="78" height="78" rx="12" fill="#efe9dd" stroke-dasharray="6 5"/>
+    <rect x="9" y="9" width="447" height="220" rx="20" fill="#d6ad72" opacity=".3" />
+    <rect width="447" height="220" rx="20" fill="#f7f5f0" stroke="#d6ad72" stroke-width="2" />
+    <text x="28" y="45" font-size="20" fill="#7d5b32">虚构配色卡 · 等待查证</text>
+    <g stroke="#b28b59" stroke-width="2">
+      <rect x="29" y="71" width="78" height="78" rx="12" fill="#767680" />
+      <rect x="133" y="71" width="78" height="78" rx="12" fill="#b28b59" />
+      <rect x="237" y="71" width="78" height="78" rx="12" fill="#efc99c" />
+      <rect x="341" y="71" width="78" height="78" rx="12" fill="#eee4d4" stroke-dasharray="6 5" />
     </g>
-    <text x="380" y="125" text-anchor="middle" font-size="44" fill="#8f6d4c">?</text>
-    <text x="29" y="190" font-size="22" fill="#75604e">先读器物介绍，再给颜色点名。</text>
+    <text x="380" y="125" text-anchor="middle" font-size="44" fill="#7d5b32">?</text>
+    <text x="29" y="190" font-size="22" fill="#7d5b32">先读器物介绍，再给颜色点名。</text>
   </g>
-  <rect x="70" y="578" width="345" height="43" rx="21" fill="#fffaf0"/>
-  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#75604e">器物拟人 · 配色待查证</text>
-  <rect x="834" y="578" width="296" height="43" rx="21" fill="#fffaf0"/>
-  <text x="982" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#6d5141">艺术创作·非史料</text>
+  <rect x="70" y="578" width="345" height="43" rx="21" fill="#f7f5f0" />
+  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#7d5b32">器物拟人 · 配色待查证</text>
+  <text x="1130" y="98" text-anchor="end" font-family="sans-serif" font-size="18" letter-spacing="2" fill="#7d5b32">热搜档案 / H05</text>
+  <rect x="834" y="578" width="296" height="43" rx="21" fill="#ffffff" stroke="#d6ad72" />
+  <circle cx="861" cy="600" r="5" fill="#e84e48" />
+  <text x="991" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#7d5b32">艺术创作·非史料</text>
 </svg>

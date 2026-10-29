@@ -8,17 +8,24 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
   const dialogRef = useRef<HTMLDialogElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [scale, setScale] = useState(0.6);
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const dialog = dialogRef.current!;
+    const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     dialog.showModal();
+    closeButtonRef.current?.focus();
     const preview = previewRef.current!;
     const observer = new ResizeObserver(() => setScale(preview.clientWidth / 1200));
     observer.observe(preview);
-    return () => { observer.disconnect(); dialog.close(); };
+    return () => {
+      observer.disconnect();
+      dialog.close();
+      if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+    };
   }, []);
 
   async function download() {
@@ -45,11 +52,26 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
     }
   }
 
+  function trapFocus(event: React.KeyboardEvent<HTMLDialogElement>) {
+    if (event.key !== "Tab") return;
+    const controls = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), textarea:not(:disabled), [tabindex="0"]')]
+      .filter((node) => node.getClientRects().length > 0);
+    const first = controls[0];
+    const last = controls.at(-1);
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
+  }
+
   return (
-    <dialog ref={dialogRef} aria-labelledby="card-dialog-title" onCancel={onClose} onClick={(event) => { if (event.target === event.currentTarget) onClose(); }} className="check-card-dialog">
+    <dialog ref={dialogRef} aria-labelledby="card-dialog-title" onKeyDown={trapFocus} onCancel={(event) => { event.preventDefault(); onClose(); }} onClick={(event) => { if (event.target === event.currentTarget) onClose(); }} className="check-card-dialog">
       <div className="mb-5 flex items-center justify-between gap-4">
         <div><h2 id="card-dialog-title" className="text-lg font-bold">查证卡预览</h2><p className="mt-1 text-xs text-muted">1200 × 675 · PNG</p></div>
-        <button type="button" onClick={onClose} className="secondary-button">关闭预览</button>
+        <button ref={closeButtonRef} type="button" onClick={onClose} className="secondary-button">关闭预览</button>
       </div>
       <div ref={previewRef} className="relative aspect-video w-full overflow-hidden rounded-xl border border-ink/10">
         <div style={{ width: 1200, height: 675, transform: `scale(${scale})`, transformOrigin: "top left" }}>

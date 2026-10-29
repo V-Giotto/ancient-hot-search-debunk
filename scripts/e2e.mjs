@@ -9,7 +9,8 @@ import { chromium } from "playwright";
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
 const port = process.env.E2E_PORT || "3123";
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
-const output = path.resolve("artifacts/stage-2-part-2");
+const output = path.resolve("artifacts/stage-3");
+const screenshots = path.join(output, "screenshots");
 const scenarios = [
   { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 1 },
   { id: "H02", answer: true, best: "C", wrong: "A", sourceCount: 3 },
@@ -22,6 +23,7 @@ const scenarios = [
 ];
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 await mkdir(output, { recursive: true });
+await mkdir(screenshots, { recursive: true });
 let server;
 let serverLog = "";
 let browser;
@@ -32,6 +34,42 @@ async function visible(locator) {
 
 async function noOverflow(page) {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, `页面水平溢出：${page.url()}`);
+}
+
+async function focused(locator) {
+  assert.ok(await locator.evaluate((node) => node === document.activeElement), "键盘焦点位置不正确");
+}
+
+async function focusVisible(locator) {
+  assert.ok(await locator.evaluate((node) => node.matches(":focus-visible") && getComputedStyle(node).outlineStyle !== "none" && parseFloat(getComputedStyle(node).outlineWidth) >= 2), "缺少清晰的键盘焦点样式");
+}
+
+async function dialogKeyboard(page) {
+  const trigger = page.getByRole("button", { name: "生成查证卡", exact: true });
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog", { name: "查证卡预览" });
+  await visible(dialog);
+  const close = dialog.getByRole("button", { name: "关闭预览", exact: true });
+  const download = dialog.getByRole("button", { name: "下载 PNG", exact: true });
+  await focused(close);
+  await focusVisible(close);
+  await page.keyboard.press("Tab");
+  await focused(download);
+  await focusVisible(download);
+  await page.keyboard.press("Tab");
+  await focused(close);
+  await page.keyboard.press("Shift+Tab");
+  await focused(download);
+  await page.keyboard.press("Escape");
+  assert.equal(await page.getByRole("dialog").count(), 0);
+  await focused(trigger);
+  await focusVisible(trigger);
+  await page.keyboard.press("Enter");
+  await visible(dialog);
+  await page.keyboard.press("Enter");
+  assert.equal(await page.getByRole("dialog").count(), 0);
+  await focused(trigger);
 }
 
 async function sampledColors(page, png) {
@@ -75,10 +113,13 @@ try {
   const trendingLinks = await page.locator('[aria-label="热搜排行"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   assert.deepEqual(trendingLinks, scenarios.map(({ id }) => `/post/${id}`));
   await noOverflow(page);
+  await page.keyboard.press("Tab");
+  await focusVisible(page.locator(":focus"));
   await page.screenshot({ path: path.join(output, "trending-1440.png"), fullPage: true });
 
   const flows = [];
   for (const scenario of scenarios) {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
     const { id, answer, best, wrong, sourceCount } = scenario;
     const topic = JSON.parse(await readFile(`data/topics/${id.toLowerCase()}.json`, "utf8"));
     const initialHtml = await (await fetch(`${baseURL}/post/${id}`)).text();
@@ -117,6 +158,7 @@ try {
     assert.equal(result.reveal.correctedClaim, topic.reveal.correctedClaim);
     assert.equal(result.rewriteOptions.find((option) => option.isBest).id, best);
     await visible(page.getByText(stamp, { exact: true }));
+    assert.equal(await page.locator(".verdict-stamp").evaluate((node) => getComputedStyle(node).animationDuration), "0.6s");
     await visible(page.getByText("答对了！这次吃瓜有依据。", { exact: true }));
     assert.equal(verdictCalls, callsBefore + 1);
     assert.ok(await page.getByRole("radio", { name: "是真的", exact: true }).isDisabled());
@@ -165,6 +207,8 @@ try {
     assert.ok(colorCount > 20, `${id} 导出图片可能空白`);
     await page.getByRole("button", { name: "关闭预览", exact: true }).click();
     assert.equal(await page.getByRole("dialog").count(), 0);
+    await focused(page.getByRole("button", { name: "生成查证卡", exact: true }));
+    if (id === "H03") await dialogKeyboard(page);
     const saved = await page.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
     const progress = JSON.parse(saved)[id];
     assert.equal(progress.selectedAnswer, answer);
@@ -188,8 +232,27 @@ try {
       await page.goto(`${baseURL}${route}`);
       await page.waitForLoadState("networkidle");
       await noOverflow(page);
+      assert.equal(await page.locator(".shell-right-rail").isVisible(), viewport.width >= 1440);
       assert.ok(await page.locator("img").evaluateAll((images) => images.every((image) => image.complete && image.naturalWidth > 0)), "本地素材加载失败");
+      const untabbable = await page.locator('a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), summary').evaluateAll((nodes) => nodes.filter((node) => node.getClientRects().length && node.tabIndex < 0).length);
+      assert.equal(untabbable, 0, "存在不可 Tab 聚焦的可用控件");
+      if (viewport.width >= 1440 && ["/trending", "/discover", "/post/H03"].includes(route)) {
+        if (route === "/post/H03") {
+          await visible(page.locator(".verdict-stamp"));
+          await page.locator(".reveal-panel").scrollIntoViewIfNeeded();
+        }
+        const name = route === "/post/H03" ? "post-H03-revealed" : route.slice(1);
+        await page.screenshot({ path: path.join(screenshots, `${name}-${viewport.width}x${viewport.height}.png`), fullPage: route !== "/post/H03" });
+      }
     }
+    await page.goto(`${baseURL}/post/H03`);
+    await visible(page.locator(".verdict-stamp"));
+    await page.getByRole("button", { name: "生成查证卡", exact: true }).click();
+    await visible(page.getByRole("dialog"));
+    await noOverflow(page);
+    if (viewport.width >= 1440) await page.screenshot({ path: path.join(screenshots, `check-card-dialog-${viewport.width}x${viewport.height}.png`) });
+    await page.keyboard.press("Escape");
+    await focused(page.getByRole("button", { name: "生成查证卡", exact: true }));
   }
   await page.goto(`${baseURL}/discover`);
   assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), 8);
@@ -209,7 +272,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "H03", answer: "false" }) })).status, 400);
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
-  const summary = { passed: true, flow: "trending → H01–H08 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, viewports: ["1440×900", "1920×1080", "1024×768"], browserErrors: errors };
+  const summary = { passed: true, flow: "trending → H01–H08 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, viewports: ["1440×900", "1920×1080", "1024×768"], keyboard: "Tab/focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify(summary, null, 2));
 } catch (error) {

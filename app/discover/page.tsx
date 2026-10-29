@@ -21,7 +21,7 @@ export default function DiscoverPage() {
           {topics.map((topic) => (
             <li key={topic.id} className="min-w-0 rounded-2xl border border-ink/5 bg-card">
               <Link href={`/post/${encodeURIComponent(topic.id)}`} className="block overflow-hidden rounded-2xl hover:text-accent">
-                <img src={topic.coverUrl} alt={topic.coverAlt} width={1200} height={675} className="aspect-[4/3] w-full object-cover" />
+                <img src={topic.coverUrl} alt={topic.coverAlt} width={1200} height={675} className="aspect-video w-full object-contain" />
                 <div className="p-5">
                   <p className="mb-2 text-xs text-muted">{topic.category} · 艺术创作·非史料</p>
                   <h2 className="leading-7 font-semibold">{topic.title.replaceAll("#", "").replace("家人们谁懂啊！", "")}</h2>

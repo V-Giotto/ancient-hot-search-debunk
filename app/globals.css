@@ -35,7 +35,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 3px solid #b33f39;
     outline-offset: 4px;
   }
 
@@ -51,6 +51,21 @@
   align-items: start;
   gap: 24px;
 }
+
+.shell-grid > * { min-width: 0; }
+
+main { line-height: 1.65; }
+button, input, textarea, summary, a { -webkit-tap-highlight-color: transparent; }
+a, button, summary { transition: color 180ms, background-color 180ms, border-color 180ms; }
+[aria-label="热搜排行"] > li > a:hover { background: #f7f5f0; }
+[aria-label="发现话题"] > li { box-shadow: 0 3px 14px #26252c04; transition: box-shadow 220ms, transform 220ms; }
+[aria-label="发现话题"] > li:hover { box-shadow: 0 8px 24px #26252c0c; transform: translateY(-3px); }
+[aria-label="发现话题"] > li > a { overflow: visible; }
+[aria-label="发现话题"] > li > a > img { border-radius: 15px 15px 0 0; }
+.answer-option:has(input:focus-visible) { outline: 3px solid #b33f39; outline-offset: 4px; }
+.answer-option, .rewrite-option { transition: background-color 180ms, border-color 180ms; }
+.reveal-panel { animation: panel-enter 280ms ease-out both; }
+@keyframes panel-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .shell-right-rail {
   display: none;
@@ -104,6 +119,13 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .rewrite-option { display: flex; width: 100%; align-items: flex-start; gap: 12px; padding: 16px; border-width: 1px; border-radius: 12px; text-align: left; font-size: 14px; line-height: 1.9; cursor: pointer; }
 .check-card-dialog { position: fixed; inset: 0; margin: auto; width: min(1280px, calc(100vw - 48px)); max-height: calc(100vh - 48px); overflow: auto; padding: 24px; border: 1px solid #dfd9ce; border-radius: 18px; background: white; color: var(--ink); box-shadow: 0 24px 100px #26252c30; }
 .check-card-dialog::backdrop { background: #26252ca6; }
+.check-card-dialog[open] { animation: panel-enter 220ms ease-out both; }
+.check-card-dialog::backdrop { animation: backdrop-enter 220ms ease-out both; }
+@keyframes backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .shell-grid { grid-template-columns: 208px minmax(0, 1fr); }
+}
 
 @media (min-width: 1440px) {
   .shell-grid {
@@ -125,9 +147,9 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0s !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0s !important;
     scroll-behavior: auto !important;
   }
 }

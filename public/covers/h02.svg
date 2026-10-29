@@ -1,41 +1,55 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
   <title id="title">汴京饭点，午饭进度？</title>
   <desc id="desc">虚构街头提食盒人物与现代订单卡的戏仿组合。原创矢量插画，艺术创作·非史料，不代表宋代配送制度或真实界面。</desc>
-  <rect width="1200" height="675" fill="#edf0e4"/>
-  <circle cx="1040" cy="160" r="265" fill="#dce2cc"/>
-  <rect x="28" y="28" width="1144" height="619" rx="20" fill="none" stroke="#bdc3a3" stroke-width="2"/>
-  <path d="M0 539Q350 495 650 550T1200 520V675H0Z" fill="#d2d9bd"/>
-  <g fill="#c5cfb1"><rect x="104" y="346" width="140" height="165" rx="8"/><rect x="300" y="355" width="176" height="159" rx="8"/></g>
-  <path d="M82 349L175 296L267 349M274 356L387 304L500 356" fill="none" stroke="#a4b193" stroke-width="13" stroke-linecap="round"/>
-  <g font-family="sans-serif" fill="#33483f">
-    <text x="70" y="98" font-size="22" letter-spacing="5">汴京探店阿宋 · 跨时空菜单</text>
-    <text x="65" y="207" font-size="72" font-weight="800">午饭进度？</text>
-    <text x="70" y="262" font-size="28">先别掏手机，先把场景问清楚。</text>
+  <rect width="1200" height="675" fill="#f7f5f0" />
+  <circle cx="1060" cy="135" r="270" fill="#eee4d4" />
+  <path d="M0 547Q350 495 670 550T1200 520V675H0Z" fill="#e3cfb0" />
+  <rect x="28" y="28" width="1144" height="619" rx="20" fill="none" stroke="#d6ad72" stroke-width="2" />
+  <g fill="#e3cfb0">
+    <rect x="104" y="346" width="140" height="165" rx="8" />
+    <rect x="300" y="355" width="176" height="159" rx="8" />
+  </g>
+  <path d="M82 349L175 296L267 349M274 356L387 304L500 356" fill="none" stroke="#77998a" stroke-width="13" stroke-linecap="round" />
+  <g font-family="sans-serif" fill="#26252c">
+    <text x="70" y="98" font-size="22" letter-spacing="4">汴京探店阿宋 · 跨时空菜单</text>
+    <text x="65" y="207" font-size="70" font-weight="800">午饭进度？</text>
+    <text x="70" y="262" font-size="28" fill="#767680" letter-spacing="0">先别掏手机，先把场景问清楚。</text>
   </g>
   <g transform="translate(410 382)">
-    <path d="M-64 150L-46 64H38L66 150" fill="#4d7468"/>
-    <path d="M-23 156L-33 201M35 155L51 200" stroke="#4d5550" stroke-width="20" stroke-linecap="round"/>
-    <path d="M-46 82L-91 118M40 80L98 105" stroke="#4d7468" stroke-width="23" stroke-linecap="round"/>
-    <ellipse cy="13" rx="54" ry="62" fill="#eec99f"/>
-    <path d="M-54 7V-24Q-54-63 0-63Q55-62 54-24V5L24-27H-25Z" fill="#3d3c37"/>
-    <path d="M-59-35H60L40-62H-36Z" fill="#a98558"/>
-    <circle cx="-18" cy="14" r="5" fill="#3d3c37"/><circle cx="18" cy="14" r="5" fill="#3d3c37"/>
-    <path d="M-10 38Q0 47 12 37" fill="none" stroke="#9d6350" stroke-width="4" stroke-linecap="round"/>
-    <path d="M93 115V88Q94 66 118 66Q141 66 143 88V115" fill="none" stroke="#916941" stroke-width="9"/>
-    <rect x="77" y="110" width="83" height="72" rx="9" fill="#c59761"/>
-    <path d="M77 132H160M77 157H160" stroke="#e1bd87" stroke-width="4"/>
+    <path d="M-64 150L-46 64H38L66 150" fill="#426b58" />
+    <path d="M-23 156L-33 201M35 155L51 200" stroke="#426b58" stroke-width="20" stroke-linecap="round" />
+    <path d="M-46 82L-91 118M40 80L98 105" stroke="#426b58" stroke-width="23" stroke-linecap="round" />
+    <ellipse cy="13" rx="54" ry="62" fill="#efc99c" />
+    <path d="M-54 7V-24Q-54-63 0-63Q55-62 54-24V5L24-27H-25Z" fill="#26252c" />
+    <path d="M-59-35H60L40-62H-36Z" fill="#b28b59" />
+    <circle cx="-18" cy="14" r="5" fill="#26252c" />
+    <circle cx="18" cy="14" r="5" fill="#26252c" />
+    <path d="M-10 38Q0 47 12 37" fill="none" stroke="#7d5b32" stroke-width="4" stroke-linecap="round" />
+    <path d="M93 115V88Q94 66 118 66Q141 66 143 88V115" fill="none" stroke="#7d5b32" stroke-width="9" />
+    <rect x="77" y="110" width="83" height="72" rx="9" fill="#b28b59" />
+    <path d="M77 132H160M77 157H160" stroke="#efc99c" stroke-width="4" />
   </g>
   <g transform="translate(690 307)" font-family="sans-serif">
-    <rect width="400" height="227" rx="23" fill="#fffaf0" stroke="#c5b28d" stroke-width="2"/>
-    <rect x="23" y="20" width="141" height="29" rx="14" fill="#ede5d3"/>
-    <text x="94" y="41" text-anchor="middle" font-size="17" fill="#75604e">虚构订单卡</text>
-    <text x="25" y="94" font-size="33" font-weight="750" fill="#33483f">饭碗已就位</text>
-    <path d="M44 145H352" stroke="#d5c5a3" stroke-width="5" stroke-dasharray="9 9"/>
-    <g fill="#e84e48"><circle cx="45" cy="145" r="13"/><circle cx="198" cy="145" r="13"/><circle cx="352" cy="145" r="13"/></g>
-    <g font-size="19" fill="#75604e" text-anchor="middle"><text x="45" y="190">购食？</text><text x="198" y="190">代买？</text><text x="352" y="190">送食？</text></g>
+    <rect width="400" height="227" rx="23" fill="#f7f5f0" stroke="#d6ad72" stroke-width="2" />
+    <rect x="23" y="20" width="141" height="29" rx="14" fill="#eee4d4" />
+    <text x="94" y="41" text-anchor="middle" font-size="17" fill="#7d5b32">虚构订单卡</text>
+    <text x="25" y="94" font-size="33" font-weight="750" fill="#26252c">饭碗已就位</text>
+    <path d="M44 145H352" stroke="#e3cfb0" stroke-width="5" stroke-dasharray="9 9" />
+    <g fill="#e84e48">
+      <circle cx="45" cy="145" r="13" />
+      <circle cx="198" cy="145" r="13" />
+      <circle cx="352" cy="145" r="13" />
+    </g>
+    <g font-size="19" fill="#7d5b32" text-anchor="middle">
+      <text x="45" y="190">购食？</text>
+      <text x="198" y="190">代买？</text>
+      <text x="352" y="190">送食？</text>
+    </g>
   </g>
-  <rect x="70" y="578" width="345" height="43" rx="21" fill="#fffaf0"/>
-  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#526658">现代类比 · 饭点待查证</text>
-  <rect x="834" y="578" width="296" height="43" rx="21" fill="#fffaf0"/>
-  <text x="982" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#6d5141">艺术创作·非史料</text>
+  <rect x="70" y="578" width="345" height="43" rx="21" fill="#f7f5f0" />
+  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#426b58">现代类比 · 饭点待查证</text>
+  <text x="1130" y="98" text-anchor="end" font-family="sans-serif" font-size="18" letter-spacing="2" fill="#7d5b32">热搜档案 / H02</text>
+  <rect x="834" y="578" width="296" height="43" rx="21" fill="#ffffff" stroke="#d6ad72" />
+  <circle cx="861" cy="600" r="5" fill="#e84e48" />
+  <text x="991" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#7d5b32">艺术创作·非史料</text>
 </svg>

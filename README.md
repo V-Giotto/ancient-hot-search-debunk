@@ -4,11 +4,13 @@
 
 ## 当前阶段
 
-阶段2第2部分：在已提交的 H01–H04 基础上新增 H05–H08，完全复用现有组件、判题、揭晓、改写、AI 追问和 PNG 导出流程，启用真实八题与 4:4 校验。产品依据为 [任务书](docs/任务书.md)，本阶段未新增功能或修改产品组件。
+阶段 3：八张原创 SVG 封面与展示样式统一、盖章/减少动态效果、键盘和弹窗焦点精修，补充交付文档及七题真实 AI 验证。沿用八题与 4:4 校验，不新增功能，不改数据真假、来源或 pending 审核状态。产品依据为 [任务书](docs/任务书.md)。
+
+文档入口：[三分钟演示与容灾](docs/DEMO_SCRIPT.md) · [交付清单与官方规则待确认表](docs/DELIVERY_CHECKLIST.md) · [AI 使用说明](docs/AI_USAGE.md) · [Node 服务端部署说明](docs/DEPLOYMENT.md) · [QA 报告](docs/QA_REPORT.md)。
 
 基于阶段 A 的 Next.js App Router、TypeScript、Tailwind CSS 与 Zod 数据校验，已接通热搜榜／双列发现页 → H01–H08 帖子与各 8 条预制评论 → 真／假提交 → 揭晓与可展开来源 → A/B/C 改写反馈 → 查证卡预览和真实 PNG 下载。首页跳转至 `/trending`，未知帖子显示 404；桌面布局优先适配 1440×900，1440px 以下隐藏右栏。发现页当前没有筛选控件。
 
-当前为 `data/topics/h01.json` 至 `h08.json`，rank 依次为 1–8；H01/H03/H05/H07 为假，H02/H04/H06/H08 为真，正确改写依次为 A、C、C、B、B、A、C、B。H01–H04 数据保持原样。来源限定为技术负责人提供的记录，共 15 条，本次新增 5 条。题目和全部来源保持 `pending`，未填写审核人或日期，页面与导出卡都显示“开发预览：本条史实尚待人工审核”。人工待核对项见 [内容审核记录](docs/CONTENT_REVIEW.md)，原创 SVG 登记见 [素材登记](docs/ASSET_LICENSES.md)。
+当前为 `data/topics/h01.json` 至 `h08.json`，rank 依次为 1–8；H01/H03/H05/H07 为假，H02/H04/H06/H08 为真，正确改写依次为 A、C、C、B、B、A、C、B。H01–H04 数据保持原样。来源沿用技术负责人提供的 15 条记录，本阶段未新增或修改。题目和全部来源保持 `pending`，未填写审核人或日期，页面与导出卡都显示“开发预览：本条史实尚待人工审核”。人工待核对项见 [内容审核记录](docs/CONTENT_REVIEW.md)，原创 SVG 登记见 [素材登记](docs/ASSET_LICENSES.md)。
 
 H01 保留石门分手后是否再见的存疑；H02 区分《东京梦华录》原文与现代解释，限定北宋东京等特定城市，不等同于现代平台或全国普及；H04 区分私交子与官交子，国博来源页题为《会子版》，不能当作交子印版。新增封面均为原创 SVG，头像复用已登记素材。
 
@@ -49,7 +51,7 @@ npm run build
 npm run test:e2e
 ```
 
-脚本自动启动本地生产服务（默认端口 3123），使用 Playwright 和系统 `/usr/bin/google-chrome`。其他环境可先 `npx playwright install chromium`，或用 `CHROME_PATH` 指定浏览器；`E2E_PORT` 可改端口，`E2E_BASE_URL` 可使用已启动的服务。脚本逐条实际完成榜单 → H01–H08 → 按各题真假提交 → 查来源 → 错误及正确改写 → 下载 PNG → 分题刷新恢复，其中包含 H03 选假与 H06 选真。保留首次 HTML 无答案、来源链接归属、卡片文案无裁切、1200×675 PNG 签名／尺寸／非空像素、404、减少动态效果与三个桌面宽度无溢出检查，并核对发现页八条入口。下载和截图保存在忽略的 `artifacts/stage-2-part-2/`，验收结果为 `result.json`。
+脚本自动启动本地生产服务（默认端口 3123），使用 Playwright 和系统 `/usr/bin/google-chrome`。其他环境可先 `npx playwright install chromium`，或用 `CHROME_PATH` 指定浏览器；`E2E_PORT` 可改端口，`E2E_BASE_URL` 可使用已启动的服务。脚本逐条实际完成榜单 → H01–H08 → 按各题真假提交 → 查来源 → 错误及正确改写 → 下载 PNG → 分题刷新恢复，其中包含 H03 选假与 H06 选真。保留首次 HTML 无答案、来源链接归属、卡片文案无裁切、1200×675 PNG 签名／尺寸／非空像素、404、减少动态效果与三个桌面宽度无溢出检查，并核对发现页八条入口。下载与验收结果保存在忽略的 `artifacts/stage-3/`；`screenshots/` 包含 1440×900 和 1920×1080 的热榜、发现页、H03 揭晓和查证卡弹窗共 8 张截图。E2E 同时验证焦点可见、弹窗 Tab 循环、Esc/按钮关闭和焦点返回。
 
 ## 数据约定
 
@@ -92,4 +94,4 @@ npm run build
 CONTENT_MODE=preview npm start
 ```
 
-真实联调与无 Key 浏览器回归可执行 `node scripts/qa-ai.mjs`（先 build，需要环境中的 Key 与 Chromium）。脚本依次启动有 Key 和无 Key 的生产服务，调用 H03 三个指定问题、检查负面回答、验证 503 与页面基础流程，更新 [QA 报告](docs/QA_REPORT.md)；真实调用会消耗模型额度。无 Key 检查同样使用 preview，以避免 H03 的 409 审核门控先行返回。`npm run test:e2e` 负责八条内容的基础流程回归，本次未重复调用真实 AI。
+阶段 3 七题真实联调执行 `node scripts/qa-stage-3-ai.mjs`；历史阶段的三问与无 Key 浏览器回归可执行 `node scripts/qa-ai.mjs`（先 build，需要环境中的 Key 与 Chromium）。脚本依次启动有 Key 和无 Key 的生产服务，调用 H03 三个指定问题、检查负面回答、验证 503 与页面基础流程，更新 [QA 报告](docs/QA_REPORT.md)；真实调用会消耗模型额度。无 Key 检查同样使用 preview，以避免 H03 的 409 审核门控先行返回。`npm run test:e2e` 负责八条内容的基础流程回归，本次未重复调用真实 AI。

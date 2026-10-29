@@ -27,7 +27,7 @@ export default function TrendingPage() {
                   <h2 className="leading-7 font-semibold">{topic.title}</h2>
                   <p className="mt-3 text-xs text-muted">{topic.category} · 模拟热度 {topic.simulatedHeat.toLocaleString("zh-CN")}</p>
                 </div>
-                <img src={topic.coverUrl} alt={topic.coverAlt} width={112} height={84} className="aspect-[4/3] w-24 shrink-0 rounded-xl object-cover lg:w-28" />
+                <img src={topic.coverUrl} alt={topic.coverAlt} width={160} height={90} className="aspect-video w-32 shrink-0 rounded-xl object-contain xl:w-40" />
               </Link>
             </li>
           ))}
