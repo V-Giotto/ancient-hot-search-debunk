@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F7F5F0;
+  --card: #FFFFFF;
+  --accent: #E84E48;
+  --gold: #D6AD72;
+  --ink: #26252C;
+  --muted: #767680;
+  --system-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-gold: var(--gold);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --font-sans: var(--system-sans);
+}
+
+@layer base {
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--ink);
+    font-family: var(--system-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    text-underline-offset: 4px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: var(--ink);
+  }
+}
+
+.shell-grid {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.shell-right-rail {
+  display: none;
+}
+
+@media (min-width: 1440px) {
+  .shell-grid {
+    grid-template-columns: 232px minmax(0, 1fr) 296px;
+  }
+
+  .shell-right-rail {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .shell-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
