@@ -4,11 +4,13 @@
 
 ## 当前阶段
 
-阶段 C：H03 真实 AI 追问 `/api/ask` 与揭晓后的 AskPanel。产品依据为 [任务书](docs/任务书.md)。
+阶段2第1部分：在已提交的阶段 A/B/C 基础上新增 H01、H02、H04 三条数据，完全复用 H03 的组件、判题、揭晓、改写、AI 追问和 PNG 导出流程。产品依据为 [任务书](docs/任务书.md)，本阶段未新增功能或修改产品组件。
 
-基于阶段 A 的 Next.js App Router、TypeScript、Tailwind CSS 与 Zod 数据校验，已接通热搜榜／双列发现页 → H03 帖子与 8 条预制评论 → 真／假提交 → 揭晓与可展开来源 → A/B/C 改写反馈 → 查证卡预览和真实 PNG 下载。首页跳转至 `/trending`，未知帖子显示 404；桌面布局优先适配 1440×900，1440px 以下隐藏右栏。
+基于阶段 A 的 Next.js App Router、TypeScript、Tailwind CSS 与 Zod 数据校验，已接通热搜榜／双列发现页 → H01–H04 帖子与各 8 条预制评论 → 真／假提交 → 揭晓与可展开来源 → A/B/C 改写反馈 → 查证卡预览和真实 PNG 下载。首页跳转至 `/trending`，未知帖子显示 404；桌面布局优先适配 1440×900，1440px 以下隐藏右栏。
 
-当前只有 `data/topics/h03.json`，rank 暂为 1；来源限定为技术负责人提供的三条记录。题目和全部来源保持 `pending`，页面与导出卡都显示“开发预览：本条史实尚待人工审核”。人工待核对项见 [内容审核记录](docs/CONTENT_REVIEW.md)，原创 SVG 登记见 [素材登记](docs/ASSET_LICENSES.md)。其余七条和真实题库 4:4 验收留待后续阶段。
+当前为 `data/topics/h01.json` 至 `h04.json`，rank 依次为 1–4；H03 仅调整排名。真假依次为假、真、假、真，正确改写依次为 A、C、C、B。来源限定为技术负责人提供的记录，共 10 条，本次新增 7 条。题目和全部来源保持 `pending`，未填写审核签名，页面与导出卡都显示“开发预览：本条史实尚待人工审核”。人工待核对项见 [内容审核记录](docs/CONTENT_REVIEW.md)，原创 SVG 登记见 [素材登记](docs/ASSET_LICENSES.md)。H05–H08 和完整真实题库 4:4 验收留待后续阶段。
+
+H01 保留石门分手后是否再见的存疑；H02 区分《东京梦华录》原文与现代解释，限定北宋东京等特定城市，不等同于现代平台或全国普及；H04 区分私交子与官交子，国博来源页题为《会子版》，不能当作交子印版。新增封面均为原创 SVG，头像复用已登记素材。
 
 提交判断并揭晓后，AskPanel 可自由输入或点击三个预设问题，真实调用服务端 AI，展示加载、回答、来源标题外链及失败重试；失败时保留输入，不预录或写死回答。每条 AI 回答提示“AI 生成，可能有误，以史料为准”，preview 回答另标“开发预览·资料待审核”。对话仅保存在组件内存，不写入 localStorage。
 
@@ -36,7 +38,7 @@ npm start
 
 `typecheck` 执行 `tsc --noEmit`，`test` 执行 `vitest run`，`start` 在构建后运行生产服务。Vitest 默认提供 jsdom 环境及 `@/` 路径别名，已安装 Testing Library；数据测试使用 Node 环境。
 
-`tests/content.test.ts` 对真实 H03 和来源运行校验，并检查 pending、审核签名缺省、8 条评论四种角色、C 为正确改写、事实卡来源 ID、本地 SVG 与素材登记；内存 fixture 继续覆盖完整性规则正反例，不进入题库。其他测试覆盖 JSON 加载、判题、进度读写及存储异常、组件交互和真实数据的 API 路由行为。合成真题只用于验证“查证属实”分支，不新增正式话题。AI 单元与组件测试全部 mock fetch，不调用外网，覆盖 400/404/409/503/504/502/429、引用过滤、注入消息隔离、敏感数据不进入日志或响应、AskPanel 加载/重试/预设问题。
+`tests/content.test.ts` 按 4 条真实题目校验，检查排名、真假、pending、审核签名缺省、80–150 字正文、各 8 条四角色评论、指定改写位置与任务书原文、事实卡来源 ID、给定 locator、本地 SVG 与素材登记；完整八题与 4:4 的真实题库验收仍为 todo。内存 fixture 继续覆盖完整性规则正反例，不进入题库。其他测试覆盖 JSON 加载、四条真实数据的真假判题 API、进度读写及存储异常、组件交互。H03 组件测试仍使用本题来源，避免新增来源改变全局数组位置后混入其它题目。AI 单元与组件测试全部 mock fetch，不调用外网，覆盖 400/404/409/503/504/502/429、引用过滤、注入消息隔离、敏感数据不进入日志或响应、AskPanel 加载/重试/预设问题。
 
 构建后可运行真实浏览器验收：
 
@@ -45,7 +47,7 @@ npm run build
 npm run test:e2e
 ```
 
-脚本自动启动本地生产服务（默认端口 3123），使用 Playwright 和系统 `/usr/bin/google-chrome`。其他环境可先 `npx playwright install chromium`，或用 `CHROME_PATH` 指定浏览器；`E2E_PORT` 可改端口，`E2E_BASE_URL` 可使用已启动的服务。脚本实际完成榜单 → H03 → 选假 → 提交 → 查来源 → 改写 → 下载 PNG → 刷新恢复，并检查首次 HTML 无答案、1200×675 PNG 签名／尺寸／非空像素、404、减少动态效果与三个桌面宽度无溢出。下载和截图保存在忽略的 `artifacts/stage-b/`，验收结果为 `result.json`。
+脚本自动启动本地生产服务（默认端口 3123），使用 Playwright 和系统 `/usr/bin/google-chrome`。其他环境可先 `npx playwright install chromium`，或用 `CHROME_PATH` 指定浏览器；`E2E_PORT` 可改端口，`E2E_BASE_URL` 可使用已启动的服务。脚本逐条实际完成榜单 → H01/H02/H03/H04 → 选假／真／假／真 → 提交 → 查来源 → 错误及正确改写 → 下载 PNG → 分题刷新恢复，并检查首次 HTML 无答案、来源链接归属、卡片文案无裁切、1200×675 PNG 签名／尺寸／非空像素、404、减少动态效果与三个桌面宽度无溢出。下载和截图保存在忽略的 `artifacts/stage-2-part-1/`，验收结果为 `result.json`。
 
 ## 数据约定
 
@@ -55,7 +57,7 @@ npm run test:e2e
 - `validateContentSet(topics, sources, { expectedCount })` 校验失败时抛错。默认按当前题目数量检查从 1 开始的连续排名；显式传入 `expectedCount: 8` 时额外要求总数为 8 且真假 4:4。
 - 当前加载器按已有题目数量校验，允许空题库与 `pending` 的开发预览。正式发布前仍须完成任务书中的人工审核与仅发布 `reviewed` 题目的要求；结构校验不代表史实已审核或引用语义已匹配。
 - `simulatedReposts`、`simulatedBookmarks` 补齐转发和收藏统计，与点赞、评论一样只作模拟值展示。
-- `public/covers/`、`public/avatars/` 存放 H03 原创 SVG；`public/decorations/` 继续预留。使用系统中文无衬线字体，不提交字体文件。
+- `public/covers/`、`public/avatars/` 存放 H01–H04 原创封面与复用的原创头像；`public/decorations/` 继续预留。使用系统中文无衬线字体，不提交字体文件。
 
 ## AI 接口与环境变量
 
@@ -88,4 +90,4 @@ npm run build
 CONTENT_MODE=preview npm start
 ```
 
-真实联调与无 Key 浏览器回归可执行 `node scripts/qa-ai.mjs`（先 build，需要环境中的 Key 与 Chromium）。脚本依次启动有 Key 和无 Key 的生产服务，调用三个指定问题、检查负面回答、验证 503 与页面基础流程，更新 [QA 报告](docs/QA_REPORT.md)；真实调用会消耗模型额度。无 Key 检查同样使用 preview，以避免 H03 的 409 审核门控先行返回。现有 `npm run test:e2e` 仍负责阶段 B 全流程回归。
+真实联调与无 Key 浏览器回归可执行 `node scripts/qa-ai.mjs`（先 build，需要环境中的 Key 与 Chromium）。脚本依次启动有 Key 和无 Key 的生产服务，调用 H03 三个指定问题、检查负面回答、验证 503 与页面基础流程，更新 [QA 报告](docs/QA_REPORT.md)；真实调用会消耗模型额度。无 Key 检查同样使用 preview，以避免 H03 的 409 审核门控先行返回。`npm run test:e2e` 负责四条内容的基础流程回归，本次未重复调用真实 AI。
