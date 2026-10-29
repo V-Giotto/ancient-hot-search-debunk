@@ -29,12 +29,14 @@ describe("真假判断与揭晓", () => {
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
     expect(fetch).not.toHaveBeenCalled();
     expect(screen.queryByText("谣言退散")).toBeNull();
+    expect(screen.queryByRole("heading", { name: "这条热搜，还想问什么？" })).toBeNull();
     fireEvent.click(screen.getByRole("radio", { name: "是真的" }));
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     expect(screen.getByRole("radio", { name: "是假的" })).toHaveProperty("checked", true);
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", false);
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     await screen.findByText("谣言退散");
+    expect(screen.getByRole("heading", { name: "这条热搜，还想问什么？" })).toBeTruthy();
     expect(screen.getByText("核心主张为假。")).toBeTruthy();
     expect(screen.getByText("答对了！这次吃瓜有依据。")).toBeTruthy();
     expect(screen.getByRole("radio", { name: "是真的" }).matches(":disabled")).toBe(true);

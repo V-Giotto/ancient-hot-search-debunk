@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AskPanel } from "@/components/ai/AskPanel";
 import { readProgress, saveProgress } from "@/lib/progress";
 import type { PublicTopic } from "@/lib/public-topic";
 import type { TopicProgress } from "@/lib/schemas";
@@ -123,6 +124,7 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
       </section>
       {result && <>
         <VerdictReveal result={result} revisiting={revisiting} />
+        <AskPanel key={topic.id} topicId={topic.id} sources={result.sources} />
         <RewriteExercise options={result.rewriteOptions} selectedId={rewriteId} onSelect={chooseRewrite} />
         <section className="panel flex flex-wrap items-center justify-between gap-5">
           <div><h2 className="font-bold">把这次查证带走</h2><p className="mt-2 text-sm text-muted">生成一张有结论、有来源的查证卡。</p></div>

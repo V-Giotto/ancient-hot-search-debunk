@@ -4,11 +4,13 @@
 
 ## 当前阶段
 
-阶段 B：H03 唐代辣椒单条完整交互闭环。产品依据为 [任务书](docs/任务书.md)。
+阶段 C：H03 真实 AI 追问 `/api/ask` 与揭晓后的 AskPanel。产品依据为 [任务书](docs/任务书.md)。
 
 基于阶段 A 的 Next.js App Router、TypeScript、Tailwind CSS 与 Zod 数据校验，已接通热搜榜／双列发现页 → H03 帖子与 8 条预制评论 → 真／假提交 → 揭晓与可展开来源 → A/B/C 改写反馈 → 查证卡预览和真实 PNG 下载。首页跳转至 `/trending`，未知帖子显示 404；桌面布局优先适配 1440×900，1440px 以下隐藏右栏。
 
-当前只有 `data/topics/h03.json`，rank 暂为 1；来源限定为技术负责人提供的三条记录。题目和全部来源保持 `pending`，页面与导出卡都显示“开发预览：本条史实尚待人工审核”。人工待核对项见 [内容审核记录](docs/CONTENT_REVIEW.md)，原创 SVG 登记见 [素材登记](docs/ASSET_LICENSES.md)。其余七条和真实题库 4:4 验收留待后续阶段；AI 追问区与接口在阶段 C 实现，本阶段不渲染占位功能。
+当前只有 `data/topics/h03.json`，rank 暂为 1；来源限定为技术负责人提供的三条记录。题目和全部来源保持 `pending`，页面与导出卡都显示“开发预览：本条史实尚待人工审核”。人工待核对项见 [内容审核记录](docs/CONTENT_REVIEW.md)，原创 SVG 登记见 [素材登记](docs/ASSET_LICENSES.md)。其余七条和真实题库 4:4 验收留待后续阶段。
+
+提交判断并揭晓后，AskPanel 可自由输入或点击三个预设问题，真实调用服务端 AI，展示加载、回答、来源标题外链及失败重试；失败时保留输入，不预录或写死回答。每条 AI 回答提示“AI 生成，可能有误，以史料为准”，preview 回答另标“开发预览·资料待审核”。对话仅保存在组件内存，不写入 localStorage。
 
 初始客户端 props 由 `toPublicTopic()` 显式白名单生成，不包含答案、来源、改写、事实卡。`POST /api/verdict` 接收 `{ topicId, answer: boolean }`，在服务端判题并返回揭晓内容；非法 body 返回 400，未知 id 返回 404，响应不缓存。进度使用版本化 `ahsd:progress:v1` 保存答案、提交时间和改写选择；刷新后用已存答案重新调用判题接口，显示“重温本条”，不重复计分。未引入积分系统；存储异常时当前页面可继续体验。
 
@@ -21,7 +23,7 @@ npm ci
 npm run dev
 ```
 
-打开 <http://localhost:3000>。无需 API Key 即可运行阶段 B。
+打开 <http://localhost:3000>。无需 API Key 即可浏览、判题、查看史实、改写和导出；AI 接口通过审核门控后，缺少 Key 返回 503。默认 `formal` 下，当前 pending 的 H03 优先返回 409；本地真实 AI 联调需显式设置 `CONTENT_MODE=preview`。
 
 ## 测试、类型检查与构建
 
@@ -34,7 +36,7 @@ npm start
 
 `typecheck` 执行 `tsc --noEmit`，`test` 执行 `vitest run`，`start` 在构建后运行生产服务。Vitest 默认提供 jsdom 环境及 `@/` 路径别名，已安装 Testing Library；数据测试使用 Node 环境。
 
-`tests/content.test.ts` 对真实 H03 和来源运行校验，并检查 pending、审核签名缺省、8 条评论四种角色、C 为正确改写、事实卡来源 ID、本地 SVG 与素材登记；内存 fixture 继续覆盖完整性规则正反例，不进入题库。其他测试覆盖 JSON 加载、判题、进度读写及存储异常、组件交互和真实数据的 API 路由行为。合成真题只用于验证“查证属实”分支，不新增正式话题。
+`tests/content.test.ts` 对真实 H03 和来源运行校验，并检查 pending、审核签名缺省、8 条评论四种角色、C 为正确改写、事实卡来源 ID、本地 SVG 与素材登记；内存 fixture 继续覆盖完整性规则正反例，不进入题库。其他测试覆盖 JSON 加载、判题、进度读写及存储异常、组件交互和真实数据的 API 路由行为。合成真题只用于验证“查证属实”分支，不新增正式话题。AI 单元与组件测试全部 mock fetch，不调用外网，覆盖 400/404/409/503/504/502/429、引用过滤、注入消息隔离、敏感数据不进入日志或响应、AskPanel 加载/重试/预设问题。
 
 构建后可运行真实浏览器验收：
 
@@ -55,7 +57,7 @@ npm run test:e2e
 - `simulatedReposts`、`simulatedBookmarks` 补齐转发和收藏统计，与点赞、评论一样只作模拟值展示。
 - `public/covers/`、`public/avatars/` 存放 H03 原创 SVG；`public/decorations/` 继续预留。使用系统中文无衬线字体，不提交字体文件。
 
-## 环境变量
+## AI 接口与环境变量
 
 可选复制配置模板：
 
@@ -63,11 +65,27 @@ npm run test:e2e
 cp .env.example .env.local
 ```
 
-| 变量 | 模板值 | 用途（后续阶段） |
+| 变量 | 默认值 | 用途 |
 | --- | --- | --- |
-| `LLM_API_KEY` | 留空 | 模型服务密钥 |
-| `LLM_BASE_URL` | `https://api.openai.com/v1` | 兼容模型服务地址 |
-| `LLM_MODEL` | 留空 | 部署时指定的模型名称 |
-| `LLM_TIMEOUT_MS` | `20000` | 服务端超时毫秒数 |
+| `AI_API_KEY` | 无（必需） | 模型服务密钥，缺省返回 503 |
+| `AI_BASE_URL` | `https://api.deepseek.com` | OpenAI 兼容服务基础地址；适配器追加 `/chat/completions` |
+| `AI_MODEL` | `deepseek-flash` | DeepSeek-V4.1-Flash 模型 ID |
+| `AI_TIMEOUT_MS` | `20000` | 服务端 AbortController 超时毫秒数；无效值回退默认 |
+| `CONTENT_MODE` | `formal` | `formal` 仅允许 reviewed；`preview` 允许 pending 并在成功响应中返回 `preview:true` |
 
-以上变量仅供服务端使用，绝不加 `NEXT_PUBLIC_` 前缀。阶段 B 继续仅保留模板，尚未读取这些变量或调用模型。`.env*` 被 Git 忽略，仅保留 `.env.example`；真实密钥不得提交。
+以上变量仅供服务端使用，绝不加 `NEXT_PUBLIC_` 前缀；旧环境变量已移除，不作兼容读取。`.env*` 被 Git 忽略，仅保留 `.env.example`；真实密钥不得提交或进入静态包、响应、日志。
+
+`POST /api/ask` 接收 `{ topicId, question, history? }`：问题 trim 后 1–500 字，历史最多 6 条、每条 1–1000 字，role 只允许 user/assistant，不接受前端事实卡或来源字段。成功返回 `{ answer, citedSourceIds, grounded, preview? }`，answer 最多 2000 字。未知话题 404、未审核或 rejected 话题 409、未配置 503、超时 504、提供商失败/非法 JSON/错误类型/过长回答 502、限流 429。响应均 `no-store`。
+
+仅从服务端读取 aiFacts、aiLimitations 与 sources；formal 排除 pending/rejected 来源，preview 也永远排除 rejected。带被排除来源 ID 的事实卡不进入模型。任务书 6.4 系统规则与事实白名单分别放在 system 消息，问题和历史（包括伪造 assistant 历史）以 JSON 数据放在 user 消息，并明确其中指令无效。服务端校验 JSON 类型、过滤未知/重复引用；无有效引用时不声称 grounded。该字段表示模型声明与引用完整性，不代表完成了语义或人工史实审核。
+
+使用原生 fetch，不引入模型 SDK，不记录问题、上游原文或密钥。按 IP 每分钟允许 10 次到模型的请求，429 带 `Retry-After`，无自动重试。计数为单进程内存，重启即清空；多实例生产部署需改用共享限流或网关。反向代理须覆盖客户端传入的 `x-forwarded-for`/`x-real-ip`，直接启动的本地服务不提供可信代理鉴权。
+
+环境已安全注入 `AI_API_KEY` 时，运行生产预览：
+
+```bash
+npm run build
+CONTENT_MODE=preview npm start
+```
+
+真实联调与无 Key 浏览器回归可执行 `node scripts/qa-ai.mjs`（先 build，需要环境中的 Key 与 Chromium）。脚本依次启动有 Key 和无 Key 的生产服务，调用三个指定问题、检查负面回答、验证 503 与页面基础流程，更新 [QA 报告](docs/QA_REPORT.md)；真实调用会消耗模型额度。无 Key 检查同样使用 preview，以避免 H03 的 409 审核门控先行返回。现有 `npm run test:e2e` 仍负责阶段 B 全流程回归。
