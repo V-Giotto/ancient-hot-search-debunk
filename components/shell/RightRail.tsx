@@ -1,6 +1,6 @@
 export function RightRail() {
   return (
-    <aside aria-label="辟谣局信息栏" className="shell-right-rail min-w-0 space-y-5">
+    <aside aria-label="辟谣局信息栏" className="shell-right-rail shell-sticky-rail min-w-0 space-y-5">
       <section className="rounded-2xl border border-ink/5 bg-card p-6">
         <p className="mb-3 text-xs font-medium tracking-widest text-accent">来自辟谣局</p>
         <h2 className="text-base font-bold">辟谣局公告</h2>

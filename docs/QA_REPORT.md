@@ -1,6 +1,6 @@
 # QA 报告
 
-阶段 3 最新结果见文末；下方阶段 C 记录保留作为历史验收。
+最新 P0 自查与阶段 4 回归见文末；下方阶段 C、阶段 3 记录保留作为历史验收。
 
 验收日期：2026-10-29。范围仅为现有 H03 的真实 AI 追问与 AskPanel；题目、来源与审核状态保持原样，其余七条未开发。
 
@@ -135,3 +135,60 @@ AI 单元/组件测试全部 mock fetch，未真实调用网络，覆盖：
 首轮发现并修复：浏览器原生 dialog 的 Tab 可落到文档/body，现补充首尾焦点循环；真实 AI 把有直接依据的冰鉴原理误标 grounded:false，且出现“已审核资料”措辞，无依据问题还带背景引用。只调整服务端提示词，明确 grounded 与人工审核状态的区别、资料不足时空引用、preview 的待审核用语；重新构建后完整重测七问全部符合。首轮 AI 原答保留在忽略的 `artifacts/stage-3/ai/attempt-1.json`，最后通过版本在 `live-results.json`。本阶段未调整数据、来源或审核状态，未 commit/push。
 
 未完成的团队交付项仍为人工史实复核、五人试玩、演示录像与正式部署，见 DELIVERY_CHECKLIST.md；不影响本阶段技术检查结论，不宣称这些已经完成。官方规则未知。
+
+## P0 验收自查（2026-10-29）
+
+逐条对应任务书 **9.1 的全部 20 项**。本轮只修复壳层与键盘焦点、补充回归断言及截图，未修改 `data/` 下任何真值、来源或审核状态。下表“通过”表示所列功能与测试范围通过，不等于史实已经人工审定，也不等于已经部署。
+
+| # | 9.1 P0 验收项 | 状态 | 证据与未完成范围 |
+| --- | --- | --- | --- |
+| 1 | 首页进入热搜榜，PC 1440×900 的布局完整 | 通过 | `scripts/e2e.mjs` 从 `/` 进入并断言跳转 `/trending`、标题与无水平溢出；`artifacts/stage-4/screenshots/trending-1440x900.png`。 |
+| 2 | 热搜榜有 8 条，排序正确、内容不重复、可点击 | 通过 | E2E 的 `trendingLinks` 严格等于 H01–H08，并逐条实际点击；`tests/content.test.ts` 的真实八题/4:4、ID 唯一及连续排名校验。 |
+| 3 | 发现页双列图文卡有同样 8 条，封面可正常展示 | 通过 | E2E 的 `discoverLinks`、8 条数量、`gridTemplateColumns` 两列断言，以及三尺寸全路由图片 `complete/naturalWidth` 与无溢出断言。 |
+| 4 | 点击榜单/发现中的同一 ID，进入同一条帖子详情 | 通过 | E2E 从两个入口分别点击全部 H01–H08，核对 URL；榜单入口还逐题核对题目标题、账号、正文及核心主张。 |
+| 5 | 每条帖子有完整账号、正文、模拟统计与至少 6 条评论 | 通过 | E2E 核对作者、正文、`模拟互动统计`、默认 4 条/展开 8 条；`tests/content.test.ts` 逐题字段与 8 条四角色评论校验。 |
+| 6 | 评论“展开更多”按钮功能真实，评论中没有直接剧透答案 | 通过 | E2E 八题均验证 4→8→4；`tests/post.test.tsx`“默认四条，展开八条，再收起到四条”。检查当前 64 条评论，未见直接给出主张真值或改写答案；脚本另断言不包含准确结论全文、判定印章及显式答案标签，此断言不代替正式文案审校。 |
+| 7 | 每条帖子显示单一明确主张与真/假二选一；未选不能提交 | 通过 | E2E 逐题主张全文、恰好 2 个 radio、未选 submit disabled、提交前可改选及提交后锁定断言；`tests/post.test.tsx` 对应真假判断测试。 |
+| 8 | 用户提交后显示正确的预制答案；答错和答对都能正常进入揭秘 | 通过 | E2E 八题核对真实 `/api/verdict` 响应与题库结论、答对提示；独立会话 H03 选真，核对答错提示、谣言退散及查证卡可打开；`tests/verdict-route.test.ts` 覆盖八题各两种答案。 |
+| 9 | 揭晓页面有短结论、详细解释、正确表述、拓展知识 | 通过 | E2E 的 `reveal` 逐题核对 `shortExplanation/detailedExplanation/correctedClaim/funFact` 全文；`tests/content.test.ts` 拒绝 reveal 各空白字段。 |
+| 10 | 每条至少有可点击来源；来源机构、链接与支持点对应，不编造页码 | 部分 | E2E 逐题核对外链 URL、`noopener`、来源机构与支持点原文及 pending 标记；`tests/content.test.ts` 核对全部来源 ID 与给定 locator，未添加页码。证据可追踪；链接内容与支持点的语义核验、原文/版本复核仍需人工，见 `docs/CONTENT_REVIEW.md`。 |
+| 11 | 每条至少有 3 个改写选项，选择后给出反馈；每题正解唯一 | 通过 | `tests/content.test.ts` 恰好 3 选项、恰好 1 正解及每题正解位置；E2E 八题先选错误再选正确并核对反馈、刷新恢复；`tests/post.test.tsx` 改写交互测试。 |
+| 12 | 用户可针对当前主题真实调用 AI，并看到实际生成的回答 | 部分 | 沿用本日阶段 3 真实生产服务七问记录（非 mock），见本报告“七问真实 AI”、`scripts/qa-stage-3-ai.mjs`、`artifacts/stage-3/ai/live-results.json`；组件为真实 POST `/api/ask`。全部话题 pending，正式模式当前仍返回 409，只能 preview 联调；本轮未重复调用模型，也未声称正式审核模式可用。 |
+| 13 | AI 不编造来源，引用 ID 经后端白名单过滤；无依据回答可承认不足 | 部分 | `tests/ask-route.test.ts`“过滤 made-up-999 并去重，无有效引用时 grounded 降为 false”、`tests/source-guard.test.ts` 及 AskPanel rejected/未知引用过滤；阶段 3 真实私信、价格、捏造史书与冰块来源负例均承认不足。ID 过滤与这些样例通过；不能证明所有生成文本永不臆造，仍需人工内容审核。 |
+| 14 | API Key 缺失/模型超时不使核心浏览、判题或导出崩溃 | 通过 | `tests/ask-route.test.ts` 缺 Key 503、AbortController 超时 504；`tests/ask-panel.test.tsx` HTTP 503/504 保留输入并可重试。既有本日阶段 C `scripts/qa-ai.mjs` 真实无 Key 生产服务验证浏览/判题/改写/PNG；本轮八题核心 E2E 无需请求 AI。本轮未重跑真实超时或阶段 C 联调。 |
+| 15 | 可以生成真正 PNG 文件的查证卡，图像尺寸合理，中文字体与头像正常 | 通过 | E2E 八题真实下载，核对 PNG 签名、1200×675、文件大小、非空像素、卡片子元素无裁切与待审核标识；全路由头像/封面加载断言。已查看三张指定截图及 `artifacts/stage-4/H06-check-card.png`，中文正常。查证卡沿用任务书 3.7 的无头像模板，页面使用原创头像。 |
+| 16 | 页面可以返回和继续浏览，浏览器刷新不会造成白屏 | 通过 | E2E 八题刷新后显示重温、答案和改写恢复且存储不变；`stickyRailsAtBottom` 在滚到底部实际点击导航跳转发现页；面包屑和返回链接指向热榜/发现，未知帖子 404。 |
+| 17 | 所有热度与角色发言明确是模拟与架空演绎 | 通过 | `AppShell.tsx` 固定 header 的架空演绎标识；`PostExperience.tsx` 架空账号与模拟统计说明、`Comments.tsx` 预制评论提示；E2E 逐题可见文本与导出卡待审提示断言。热榜、发现与 PNG 保留模拟/架空说明，未发现伪搜索或模拟点赞按钮。 |
+| 18 | 8 条史实全部有人审校、证据可追踪、通过二次抽查 | 需人工 | **未完成**：全部 8 题与 15 条来源仍为 pending，没有审核人/日期。`docs/CONTENT_REVIEW.md` 列出支持范围和逐题待核对项；`tests/content.test.ts` 明确检查 pending 与无审核签名。需审核人逐项核实并由第二人抽查，不能由自动测试代签。 |
+| 19 | 应用在 1920×1080、1440×900 下无严重错位；键盘 Tab 可移动主要按钮焦点 | 通过 | E2E 两种大屏及 1024×768 全路由无溢出；`stickyRailsAtBottom` 核对 header 下方的左右栏 boundingBox、无遮挡和左栏真实点击；`longRailsScrollInternally` 注入测试长内容，检查栏内滚动且页面不动。提交后标题焦点→Tab 到解释、弹窗焦点循环/Esc/返回、focus-visible 与减少动态效果均通过。 |
+| 20 | README 中能复制命令启动、配置模型服务、运行测试和构建 | 通过 | `README.md` 的本地启动、测试/构建、模型环境变量、preview/formal、Chromium 配置与 E2E 命令齐全；本轮实际运行下列四个命令。`npm ci`/`npm run dev` 未重复执行。 |
+
+汇总：**16 项通过、3 项部分、1 项需人工；无“未通过”项，但 P0 尚未全部完成。** 部分项为来源内容人工核验、AI 正式模式开放及生成文本的事实边界。保留审核门控，不为使表格全绿而升级数据状态。
+
+本轮发现并修复两处代码缺口：
+
+- 左右栏缺少 sticky：桌面 header 高度统一为 88px，两栏 `top` 共用该高度；最大高度扣除 header 与壳层底部 32px，内容过长时 `overflow-y:auto`。页底实际左栏 y=88；1440/1920 的右栏也为 y=88。1024 隐藏右栏，左栏仍可操作且无水平溢出。
+- 主动提交后按钮移除导致焦点丢失：将焦点移到揭晓标题，Tab 可继续进入详细解释；刷新自动恢复不抢焦点。新增 `tests/post.test.tsx`“主动提交后焦点移至揭晓标题，下一步可继续用键盘查阅依据”，并在 E2E 验证真实键盘行为。
+
+| 本轮命令 | 实际结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 9 个文件，211 项通过，无 todo |
+| `npm run build` | 通过，判题与 AI 均为动态服务端路由 |
+| `npm run test:e2e` | 通过；八题闭环、独立会话答错揭秘、三尺寸滚动侧栏、长栏内滚动与焦点验证；浏览器运行错误 0 |
+
+补充来源展示断言后的一次复跑遇到原有 `networkidle` 等待超时，未计为通过。现改为明确等待列表标题或帖子揭晓完成，保留页面加载、图片完整性及全部功能断言；随后完整 E2E 复跑通过。
+
+机器结果：`artifacts/stage-4/result.json`，含三种视口的实际滚动距离、两栏 boundingBox、导航真实点击结果与栏内滚动结果。产物目录继续受 `.gitignore` 忽略。三张指定截图均为实际 **1440×900** 视口图片，已查看：
+
+- `artifacts/stage-4/screenshots/trending-1440x900.png`
+- `artifacts/stage-4/screenshots/post-H03-revealed-scrolled-1440x900.png`（揭晓后的中下部，左右栏同时可见）
+- `artifacts/stage-4/screenshots/post-H06-revealed-1440x900.png`
+
+| 其他团队交付项（不计入上方 20 项） | 状态 | 证据/下一步 |
+| --- | --- | --- |
+| 至少 5 名非开发者试玩（任务书 9.3） | 需人工 | 待办；仓库无试玩记录，按 9.3 记录理解、独立导出与架空辨识情况。 |
+| 公开部署与正式环境模型验证 | 需人工 | 待办；`docs/DEPLOYMENT.md`、`docs/DELIVERY_CHECKLIST.md`，尚无公开 Demo URL；本轮只启动本机生产服务。 |
+| 正式演示录像、提交材料与官方规则确认 | 需人工 | 待办；`docs/DEMO_SCRIPT.md`、`docs/DELIVERY_CHECKLIST.md`；本轮未录制、发布或提交。 |
+
+本轮未 git commit/push，未新增任务书外功能。

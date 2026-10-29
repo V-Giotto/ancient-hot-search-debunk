@@ -12,7 +12,7 @@ export function NavRail() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="主导航" className="min-w-0 rounded-2xl border border-ink/5 bg-card p-4">
+    <nav aria-label="主导航" className="shell-sticky-rail min-w-0 rounded-2xl border border-ink/5 bg-card p-4">
       <p className="px-4 pt-2 pb-4 text-xs tracking-widest text-muted">跨时空围观指南</p>
       <ul className="space-y-2">
         {navigation.map((item) => {

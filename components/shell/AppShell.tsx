@@ -9,7 +9,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-card focus:p-3">
         跳到主要内容
       </a>
-      <header className="sticky top-0 z-20 border-b border-ink/8 bg-card">
+      <header className="shell-header sticky top-0 z-20 border-b border-ink/8 bg-card">
         <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-4 px-8 py-5">
           <Link href="/trending" className="flex min-w-0 items-center gap-3 rounded-sm">
             <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent text-xl font-bold text-card">

@@ -32,6 +32,15 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
   const [showCard, setShowCard] = useState(false);
   const savedRef = useRef<TopicProgress | undefined>(undefined);
   const pendingRef = useRef(false);
+  const revealHeadingRef = useRef<HTMLHeadingElement>(null);
+  const focusRevealRef = useRef(false);
+
+  useEffect(() => {
+    if (result && focusRevealRef.current) {
+      focusRevealRef.current = false;
+      revealHeadingRef.current?.focus();
+    }
+  }, [result]);
 
   useEffect(() => {
     let active = true;
@@ -74,6 +83,7 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
     setError("");
     try {
       const data = await requestVerdict(topic.id, answer);
+      focusRevealRef.current = true;
       setResult(data);
       setRestoreFailed(false);
       if (revisiting) {
@@ -123,7 +133,7 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
         {storageFailed && <p role="status" className="mt-3 text-xs text-muted">本机存储不可用，本次可继续体验；刷新后进度可能无法保留。</p>}
       </section>
       {result && <>
-        <VerdictReveal result={result} revisiting={revisiting} />
+        <VerdictReveal result={result} revisiting={revisiting} headingRef={revealHeadingRef} />
         <AskPanel key={topic.id} topicId={topic.id} sources={result.sources} />
         <RewriteExercise options={result.rewriteOptions} selectedId={rewriteId} onSelect={chooseRewrite} />
         <section className="panel flex flex-wrap items-center justify-between gap-5">

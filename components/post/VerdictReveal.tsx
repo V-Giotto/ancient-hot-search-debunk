@@ -1,12 +1,13 @@
+import type { Ref } from "react";
 import type { VerdictResult } from "@/lib/verdict";
 
-export function VerdictReveal({ result, revisiting }: { result: VerdictResult; revisiting: boolean }) {
+export function VerdictReveal({ result, revisiting, headingRef }: { result: VerdictResult; revisiting: boolean; headingRef?: Ref<HTMLHeadingElement> }) {
   return (
     <section className="panel reveal-panel" aria-labelledby="reveal-heading">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="eyebrow">查证结果 · 开发预览</p>
-          <h2 id="reveal-heading" className="text-xl font-bold">{result.reveal.verdictHeadline}</h2>
+          <h2 ref={headingRef} id="reveal-heading" tabIndex={-1} className="text-xl font-bold">{result.reveal.verdictHeadline}</h2>
         </div>
         <span className={`verdict-stamp ${result.isTrue ? "stamp-true" : ""}`}>{result.isTrue ? "查证属实" : "谣言退散"}</span>
       </div>

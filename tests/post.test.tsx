@@ -58,6 +58,16 @@ describe("真假判断与揭晓", () => {
     expect(screen.getByRole("button", { name: "生成查证卡" })).toHaveProperty("disabled", false);
   });
 
+  it("主动提交后焦点移至揭晓标题，下一步可继续用键盘查阅依据", async () => {
+    render(<VerdictTask topic={publicTopic} />);
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    const submit = screen.getByRole("button", { name: "提交判断" });
+    submit.focus();
+    fireEvent.click(submit);
+    await screen.findByText("谣言退散");
+    expect(document.activeElement).toBe(screen.getByRole("heading", { name: topic.reveal.verdictHeadline }));
+  });
+
   it("合成真题显示查证属实（不新增正式题目）", async () => {
     vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => result({ isTrue: true }) } as Response);
     render(<VerdictTask topic={{ ...publicTopic, id: "SYNTHETIC-TRUE", claim: "合成真题主张" }} />);
@@ -76,6 +86,7 @@ describe("真假判断与揭晓", () => {
     expect(fetch).toHaveBeenCalledWith("/api/verdict", expect.objectContaining({ body: JSON.stringify({ topicId: "H03", answer: false }) }));
     expect(screen.getByText("改写正确，这样说更准确。")).toBeTruthy();
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
+    expect(document.activeElement).not.toBe(screen.getByRole("heading", { name: topic.reveal.verdictHeadline }));
   });
 
   it("请求失败保留选择，可再次提交", async () => {
