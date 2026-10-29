@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "id": "S-H03-01",
+    "title": "南京记忆|蔬菜名称与南京话——蔬菜中的舶来品（上）",
+    "organization": "南京市地方志工作办公室",
+    "url": "https://dfz.nanjing.gov.cn/gzdt/202601/t20260121_5774472.html",
+    "supports": "番椒即辣椒，原产中南美洲，明朝末年传入；我国原有调味料花椒，隋唐时引进胡椒；辣椒传入后南京人也曾称其为胡椒，二者在民国文献中被混为一谈。",
+    "locator": "",
+    "kind": "public_culture",
+    "status": "pending"
+  },
+  {
+    "id": "S-H03-02",
+    "title": "“凤辣子”不是“小辣椒”",
+    "organization": "光明网·中华读书报",
+    "url": "https://epaper.gmw.cn/zhdsb/html/2025-02/12/nw.D110000zhdsb_20250212_2-15.htm",
+    "supports": "我国本土无原产辣椒，辣椒原产美洲；辣椒传入前，花椒、姜、茱萸是民间使用最多的辛辣调料；胡椒在汉魏南北朝传入，唐代仍十分珍贵；王象晋《群芳谱》（明天启元年，1621）载‘番椒，亦名秦椒……味甚辣’，近年有学者认为它是最早记载辣椒的著作。",
+    "locator": "",
+    "kind": "public_culture",
+    "status": "pending"
+  },
+  {
+    "id": "S-H03-03",
+    "title": "作物的故事︱谁人首载辣椒？——高濂〈遵生八笺〉“番椒”考",
+    "organization": "澎湃新闻·私家历史",
+    "url": "https://www.thepaper.cn/newsDetail_forward_27299138",
+    "supports": "辣椒原产美洲；《遵生八笺》（序于万历十九年，1591）中的‘番椒’条通常被视为最早记载，但初刻本有无此条存在版本争议；先秦两汉文献里的‘秦椒’原指花椒，不是美洲辣椒。",
+    "locator": "",
+    "kind": "academic",
+    "status": "pending"
+  }
+]

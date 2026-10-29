@@ -10,6 +10,7 @@ export default function DiscoverPage() {
 
   return (
     <>
+      <Link href="/trending" className="mb-5 inline-block text-sm text-accent hover:underline">← 返回热搜榜</Link>
       <div className="mb-6">
         <p className="mb-2 text-xs font-medium tracking-widest text-accent">发现</p>
         <h1 className="text-2xl leading-snug font-bold">跨时空吃瓜现场</h1>
@@ -19,10 +20,15 @@ export default function DiscoverPage() {
         <ul aria-label="发现话题" className="grid grid-cols-2 gap-5">
           {topics.map((topic) => (
             <li key={topic.id} className="min-w-0 rounded-2xl border border-ink/5 bg-card">
-              <Link href={`/post/${encodeURIComponent(topic.id)}`} className="block rounded-2xl p-6 hover:text-accent">
-                <p className="mb-3 text-xs text-muted">{topic.category}</p>
-                <h2 className="leading-7 font-semibold">{topic.title}</h2>
-                <p className="mt-5 text-xs text-muted">{topic.author.name} · 模拟点赞 {topic.simulatedLikes.toLocaleString("zh-CN")}</p>
+              <Link href={`/post/${encodeURIComponent(topic.id)}`} className="block overflow-hidden rounded-2xl hover:text-accent">
+                <img src={topic.coverUrl} alt={topic.coverAlt} width={1200} height={675} className="aspect-[4/3] w-full object-cover" />
+                <div className="p-5">
+                  <p className="mb-2 text-xs text-muted">{topic.category} · 艺术创作·非史料</p>
+                  <h2 className="leading-7 font-semibold">{topic.title.replaceAll("#", "").replace("家人们谁懂啊！", "")}</h2>
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs text-accent">{topic.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
+                  <div className="mt-5 flex items-center gap-2"><img src={topic.author.avatarUrl} alt="原创架空头像" width={26} height={26} className="size-7 rounded-full" /><span className="text-xs text-muted">{topic.author.name}</span></div>
+                  <p className="mt-3 text-xs text-muted">模拟点赞 {topic.simulatedLikes.toLocaleString("zh-CN")}</p>
+                </div>
               </Link>
             </li>
           ))}

@@ -1,5 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import sourceIndex from "@/data/source-index.json";
 import {
   CommentSchema,
@@ -138,6 +140,37 @@ describe("validateContentSet：当前题目的完整性规则", () => {
   it("按当前真实题目数量校验仓库数据", () => {
     const topics = getAllTopics();
     expect(() => validateContentSet(topics, sourceIndex, { expectedCount: topics.length })).not.toThrow();
+  });
+
+  it("阶段 B 真实题库只有 H03，排名 1，全部保留 pending 且没有审核签名", () => {
+    const topics = getAllTopics();
+    expect(topics.map((topic) => topic.id)).toEqual(["H03"]);
+    expect(topics[0].rank).toBe(1);
+    expect(topics[0].isTrue).toBe(false);
+    expect(topics[0].reviewStatus).toBe("pending");
+    expect(sourceIndex.map((source) => source.id)).toEqual(["S-H03-01", "S-H03-02", "S-H03-03"]);
+    expect(sourceIndex.every((source) => source.status === "pending" && source.locator === "")).toBe(true);
+    const raw = JSON.stringify([topics, sourceIndex]);
+    for (const field of ["reviewBy", "reviewedAt", "verifiedBy", "verifiedAt"]) expect(raw).not.toContain(`"${field}"`);
+    expect(topics[0].comments).toHaveLength(8);
+    expect(new Set(topics[0].comments.map((comment) => comment.role)).size).toBe(4);
+    expect(topics[0].rewriteOptions.find((option) => option.isBest)?.id).toBe("C");
+    for (const fact of topics[0].aiFacts) {
+      expect(topics[0].sourceIds).toContain(fact.match(/^\[([^\]]+)\]/)?.[1]);
+    }
+  });
+
+  it("真实题目封面与所有头像使用已登记的本地原创 SVG", () => {
+    const topic = getAllTopics()[0];
+    const assets = new Set([topic.coverUrl, topic.author.avatarUrl, ...topic.comments.map((comment) => comment.avatar!)]);
+    const licenses = readFileSync(path.join(process.cwd(), "docs/ASSET_LICENSES.md"), "utf8");
+    for (const asset of assets) {
+      expect(asset).toMatch(/^\/(covers|avatars)\/[\w-]+\.svg$/);
+      const svg = readFileSync(path.join(process.cwd(), "public", asset), "utf8");
+      expect(svg).toContain("艺术创作·非史料");
+      expect(svg).not.toMatch(/(?:href|src)=["']https?:/);
+      expect(licenses).toContain(`public${asset}`);
+    }
   });
 
   it.todo("8条及4:4待阶段2补齐（真实题库，不以合成 fixture 代替正式内容）");

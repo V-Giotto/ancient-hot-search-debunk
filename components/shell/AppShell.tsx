@@ -28,9 +28,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="shell-grid mx-auto max-w-[1600px] px-8 py-8">
         <NavRail />
         <main id="main-content" tabIndex={-1} className="min-w-0 wrap-break-word">
-          <div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-muted">
+          <div role="note" className="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-gold/40 bg-gold/10 px-4 py-3 text-xs leading-6 text-muted">
             <span className="rounded-md bg-gold/15 px-2.5 py-1 font-medium text-ink">开发预览模式</span>
-            <span>阶段 A · 页面骨架与数据校验</span>
+            <span>开发预览：本条史实尚待人工审核</span>
           </div>
           {children}
         </main>

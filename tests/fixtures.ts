@@ -33,6 +33,8 @@ export function makeTopic(overrides: Partial<HotTopic> = {}): HotTopic {
     simulatedHeat: 100,
     simulatedLikes: 10,
     simulatedComments: 6,
+    simulatedReposts: 2,
+    simulatedBookmarks: 3,
     comments: Array.from({ length: 6 }, (_, index) => ({
       id: `COMMENT-${index + 1}`,
       author: `测试网友${index + 1}`,

@@ -59,6 +59,8 @@ export const HotTopicSchema = z.strictObject({
   simulatedHeat: simulatedCount,
   simulatedLikes: simulatedCount,
   simulatedComments: simulatedCount,
+  simulatedReposts: simulatedCount,
+  simulatedBookmarks: simulatedCount,
   comments: z.array(CommentSchema).min(6, "每条话题至少需要 6 条评论"),
   claim: nonEmptyText,
   isTrue: z.boolean(),

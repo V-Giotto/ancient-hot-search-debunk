@@ -56,6 +56,55 @@
   display: none;
 }
 
+.panel {
+  border: 1px solid #26252c12;
+  border-radius: 16px;
+  background: var(--card);
+  padding: 28px;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: #b33f39;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+.primary-button, .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 180ms, border-color 180ms;
+}
+
+.primary-button { background: #c8403a; color: white; border: 1px solid transparent; }
+.primary-button:hover:not(:disabled) { background: #ac352f; }
+.primary-button:disabled { background: #dedbd5; color: #716c65; cursor: default; }
+.secondary-button { background: var(--background); border: 1px solid #26252c12; }
+.secondary-button:hover { border-color: var(--gold); }
+.task-panel { border-top: 3px solid var(--accent); }
+.answer-option { display: flex; align-items: center; justify-content: center; gap: 12px; border: 1px solid #26252c26; border-radius: 12px; padding: 18px 10px; font-size: 15px; }
+.answer-option input { accent-color: #c8403a; width: 16px; height: 16px; }
+.answer-selected { border-color: var(--accent); background: #e84e480a; color: #b33f39; }
+.result-heading { font-size: 13px; font-weight: 750; letter-spacing: 0.05em; color: #7a5a32; }
+summary { cursor: pointer; color: #b33f39; font-weight: 600; }
+.verdict-stamp { display: inline-block; flex-shrink: 0; padding: 9px 13px; border: 3px double #b33f39; border-radius: 6px; color: #b33f39; font-size: 22px; font-weight: 850; transform: rotate(-8deg); animation: verdict-stamp 600ms ease-out both; }
+.stamp-true { border-color: #426b58; color: #426b58; }
+@keyframes verdict-stamp {
+  0% { opacity: 0; transform: scale(1.6) rotate(-16deg); }
+  65% { opacity: 1; transform: scale(0.95) rotate(-8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-8deg); }
+}
+.rewrite-option { display: flex; width: 100%; align-items: flex-start; gap: 12px; padding: 16px; border-width: 1px; border-radius: 12px; text-align: left; font-size: 14px; line-height: 1.9; cursor: pointer; }
+.check-card-dialog { position: fixed; inset: 0; margin: auto; width: min(1280px, calc(100vw - 48px)); max-height: calc(100vh - 48px); overflow: auto; padding: 24px; border: 1px solid #dfd9ce; border-radius: 18px; background: white; color: var(--ink); box-shadow: 0 24px 100px #26252c30; }
+.check-card-dialog::backdrop { background: #26252ca6; }
+
 @media (min-width: 1440px) {
   .shell-grid {
     grid-template-columns: 232px minmax(0, 1fr) 296px;
