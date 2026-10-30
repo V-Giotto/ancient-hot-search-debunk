@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { createServer } from "node:net";
 import { setTimeout } from "node:timers/promises";
 import { chromium } from "playwright";
 
@@ -32,6 +33,103 @@ await mkdir(screenshots, { recursive: true });
 let server;
 let serverLog = "";
 let browser;
+const revealChecks = [];
+
+async function requireFreePort() {
+  const probe = createServer();
+  await new Promise((resolve, reject) => {
+    probe.once("error", () => reject(new Error(`E2E 端口 ${port} 被占用，请先结束该端口的旧 Next 进程。`)));
+    probe.listen(Number(port), "127.0.0.1", () => probe.close(resolve));
+  });
+}
+
+async function breadcrumbChecks(page, id) {
+  const breadcrumb = page.getByRole("navigation", { name: "面包屑", exact: true });
+  const snapshot = await breadcrumb.evaluate((nav) => {
+    const discover = nav.querySelector('a[href="/discover"]');
+    const separator = nav.querySelector("li:last-child .breadcrumb-separator");
+    const current = nav.querySelector('[aria-current="page"]');
+    const textRange = document.createRange();
+    textRange.selectNodeContents(discover);
+    const textBox = textRange.getBoundingClientRect();
+    const separatorBox = separator.getBoundingClientRect();
+    const currentBox = current.getBoundingClientRect();
+    return {
+      items: nav.querySelectorAll("ol > li").length,
+      links: [...nav.querySelectorAll("a")].map((link) => [link.textContent, link.getAttribute("href")]),
+      separators: [...nav.querySelectorAll(".breadcrumb-separator")].map((node) => [node.textContent, node.getAttribute("aria-hidden")]),
+      current: current.textContent,
+      discoverToSeparator: separatorBox.left - textBox.right,
+      separatorToCurrent: currentBox.left - separatorBox.right,
+      sameLine: Math.abs(textBox.top - separatorBox.top) < 5 && Math.abs(separatorBox.top - currentBox.top) < 1,
+    };
+  });
+  assert.deepEqual({ items: snapshot.items, links: snapshot.links, separators: snapshot.separators, current: snapshot.current }, {
+    items: 3, links: [["← 返回热搜榜", "/trending"], ["发现", "/discover"]],
+    separators: [["/", "true"], ["/", "true"]], current: `帖子 ${id}`,
+  });
+  assert.ok(snapshot.sameLine && snapshot.discoverToSeparator >= 4 && snapshot.discoverToSeparator <= 12.1 && Math.abs(snapshot.separatorToCurrent - 4) < 0.1, `${id} 面包屑间距异常：${JSON.stringify(snapshot)}`);
+  if (["H09", "H12"].includes(id)) {
+    const { width, height } = page.viewportSize();
+    await breadcrumb.screenshot({ path: path.join(screenshots, `v0.9.0-breadcrumb-${id}-${width}x${height}.png`), animations: "disabled" });
+  }
+  return snapshot;
+}
+
+async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false }) {
+  // 等真实提交触发的滚动稳定；此处不手动滚动，避免掩盖吸顶遮挡回归。
+  await page.waitForFunction(() => {
+    const panel = document.querySelector(".reveal-panel");
+    return panel && Math.abs(panel.getBoundingClientRect().top - parseFloat(getComputedStyle(panel).scrollMarginTop)) < 0.5;
+  });
+  const layout = await page.locator(".reveal-panel").evaluate((panel) => {
+    const heading = panel.querySelector("#reveal-heading");
+    const header = document.querySelector(".shell-header").getBoundingClientRect();
+    const stamp = panel.querySelector(".verdict-stamp");
+    const stampBox = stamp.getBoundingClientRect();
+    const rowBox = panel.querySelector(".verdict-stamp-row").getBoundingClientRect();
+    const feedback = panel.querySelector(".verdict-feedback");
+    const corrected = panel.querySelector(".corrected-claim").getBoundingClientRect();
+    return {
+      panelTop: panel.getBoundingClientRect().top, titleTop: heading.getBoundingClientRect().top, headerBottom: header.bottom,
+      headingMargin: parseFloat(getComputedStyle(heading).scrollMarginTop), panelMargin: parseFloat(getComputedStyle(panel).scrollMarginTop), headerHeight: header.height,
+      stampSize: parseFloat(getComputedStyle(stamp).fontSize), stampCentered: Math.abs(stampBox.left + stampBox.width / 2 - rowBox.left - rowBox.width / 2) < 0.5,
+      stampText: stamp.textContent, feedbackClass: feedback.className,
+      icon: feedback.querySelector('[aria-hidden="true"]').textContent,
+      feedbackColor: getComputedStyle(feedback).color, feedbackBackground: getComputedStyle(feedback).backgroundColor,
+      order: [...panel.querySelectorAll(".verdict-stamp-row, .verdict-feedback, .corrected-claim")].map((node) => node.classList[0]),
+      details: [...panel.querySelectorAll("details")].map((node) => node.open),
+      duplicateAnswer: panel.innerText.includes("明确答案"),
+      correctedBottom: corrected.bottom, stickerBottom: panel.querySelector(".sticker-earned").getBoundingClientRect().bottom,
+      tabsTop: document.querySelector(".bottom-tabs").getBoundingClientRect().top,
+    };
+  });
+  assert.ok(layout.titleTop >= layout.headerBottom, "提交后结果标题被吸顶头遮挡");
+  assert.ok(layout.panelTop >= layout.headerBottom, "提交后结果卡片顶部被吸顶头遮挡");
+  assert.equal(layout.headingMargin, layout.headerHeight + 8);
+  assert.equal(layout.panelMargin, layout.headerHeight + 8);
+  assert.ok(layout.stampSize >= 32 && layout.stampCentered, "印章未放大居中");
+  assert.match(layout.stampText, new RegExp(`核心主张为${isTrue ? "真" : "假"}`));
+  assert.ok(layout.feedbackClass.includes(correct ? "feedback-correct" : "feedback-incorrect"));
+  assert.equal(layout.icon, correct ? "✓" : "✕");
+  assert.equal(layout.feedbackColor, correct ? "rgb(52, 88, 68)" : "rgb(162, 51, 46)");
+  assert.notEqual(layout.feedbackBackground, "rgba(0, 0, 0, 0)");
+  assert.deepEqual(layout.order, ["verdict-stamp-row", "verdict-feedback", "corrected-claim"]);
+  assert.deepEqual(layout.details, [false, false, false]);
+  assert.equal(layout.duplicateAnswer, false);
+  if (firstScreen) assert.ok(layout.correctedBottom <= layout.tabsTop && layout.stickerBottom <= layout.tabsTop, "准确说法或获得贴纸反馈未完整进入揭晓首屏");
+  revealChecks.push({ route: new URL(page.url()).pathname, viewport: page.viewportSize(), correct, ...layout });
+}
+
+async function earnedSticker(page, id, count) {
+  const sticker = page.getByRole("region", { name: "本题贴纸", exact: true });
+  assert.equal(await sticker.getAttribute("aria-live"), "polite");
+  assert.equal(await sticker.getAttribute("aria-atomic"), "true");
+  await visible(sticker.getByText(new RegExp(`^获得贴纸：.+ · 已查证 ${count}/${scenarios.length}$`)));
+  if (id === "H03") await visible(sticker.getByText(`获得贴纸：饭局手记 · 已查证 ${count}/${scenarios.length}`, { exact: true }));
+  assert.equal(await sticker.getByRole("link", { name: "去贴纸墙 →", exact: true }).getAttribute("href"), "/stickers");
+  assert.equal(await page.locator(".reveal-panel .sticker-earned").count(), 1);
+}
 
 async function visible(locator) {
   await locator.waitFor({ state: "visible" });
@@ -280,7 +378,13 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
   await page.locator('[aria-label="热搜排行"] a[href="/post/H03"]').click();
   await page.getByRole("button", { name: "提交判断", exact: true }).click();
-  await visible(page.getByRole("region", { name: "本题贴纸", exact: true }).getByText("饭局手记 · 已解锁", { exact: true }));
+  await visible(page.locator(".verdict-stamp"));
+  await revealSummaryChecks(page, { correct: true, isTrue: false, firstScreen: viewport.width === 390 });
+  await earnedSticker(page, "H03", 1);
+  if (viewport.width === 390) await page.screenshot({ path: path.join(screenshots, "v0.9.0-reveal-390x844.png"), animations: "disabled" });
+  await page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }).click();
+  await page.waitForURL("**/stickers");
+  await collectionCount(page, 1);
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
   await collectionCount(page, 1);
   geometry.push(await mobileGeometry(page, "答一题后热榜进度 1/N"));
@@ -299,6 +403,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await unlocked.getByRole("link").click();
   await page.waitForURL("**/post/H03");
   await visible(page.getByText("重温本条 · 已恢复上次答案，不重复累计。", { exact: true }));
+  assert.equal(await page.getByText(/获得贴纸/).count(), 0, "重温不应重复提示获得贴纸");
   await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
   await collectionCount(page, 1);
   await page.reload();
@@ -425,17 +530,27 @@ async function sampledColors(page, png) {
 }
 
 try {
+  const buildId = (await readFile(".next/BUILD_ID", "utf8")).trim();
+  let serverStartError;
   if (!process.env.E2E_BASE_URL) {
+    await requireFreePort();
     server = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "--hostname", "127.0.0.1", "--port", port], { stdio: ["ignore", "pipe", "pipe"] });
+    server.once("error", (error) => { serverStartError = error; });
     for (const stream of [server.stdout, server.stderr]) stream.on("data", (data) => { serverLog += data.toString(); });
   }
   let started = false;
   for (let attempt = 0; attempt < 60; attempt++) {
+    if (serverStartError) throw serverStartError;
+    assert.ok(!server || server.exitCode === null, "当前构建的 Next 进程启动失败，拒绝使用旧服务");
     try { started = (await fetch(`${baseURL}/trending`)).ok; } catch { /* 服务启动中 */ }
     if (started) break;
     await setTimeout(250);
   }
   assert.ok(started, "生产服务未启动");
+  const manifestPath = `/_next/static/${buildId}/_buildManifest.js`;
+  const servedManifest = await fetch(`${baseURL}${manifestPath}`);
+  assert.equal(servedManifest.status, 200, "服务 BUILD_ID 与当前构建不一致");
+  assert.equal(await servedManifest.text(), await readFile(`.next/static/${buildId}/_buildManifest.js`, "utf8"), "服务构建产物与本地不一致");
   const executablePath = process.env.CHROME_PATH || (existsSync("/usr/bin/google-chrome") ? "/usr/bin/google-chrome" : undefined);
   browser = await chromium.launch({ executablePath, headless: true, args: ["--no-sandbox", "--disable-dev-shm-usage"] });
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, acceptDownloads: true });
@@ -540,18 +655,24 @@ try {
     assert.equal(result.rewriteOptions.find((option) => option.isBest).id, best);
     await visible(page.getByText(stamp, { exact: true }));
     await focused(page.locator("#reveal-heading"));
+    await revealSummaryChecks(page, { correct: true, isTrue: answer, firstScreen: true });
+    await earnedSticker(page, id, flows.length + 1);
     if (id === "H03") {
       await page.keyboard.press("Tab");
-      await focused(page.getByText("展开详细解释", { exact: true }));
-      await focusVisible(page.getByText("展开详细解释", { exact: true }));
+      await focused(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }));
+      await focusVisible(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }));
+      await page.keyboard.press("Tab");
+      await focused(page.getByText("为什么", { exact: true }));
+      await focusVisible(page.getByText("为什么", { exact: true }));
     }
     assert.equal(await page.locator(".verdict-stamp").evaluate((node) => getComputedStyle(node).animationDuration), "0.6s");
     await visible(page.getByText("答对了！这次吃瓜有依据。", { exact: true }));
     assert.equal(verdictCalls, callsBefore + 1);
     assert.ok(await page.getByRole("radio", { name: "是真的", exact: true }).isDisabled());
     assert.ok(await page.getByRole("radio", { name: "是假的", exact: true }).isDisabled());
-    await page.getByText("展开详细解释", { exact: true }).click();
+    await page.getByText("为什么", { exact: true }).click();
     await page.getByText(`展开史料依据（${sourceCount} 条）`, { exact: true }).click();
+    await page.getByText("延伸冷知识", { exact: true }).click();
     const reveal = page.locator(".reveal-panel");
     for (const field of ["shortExplanation", "detailedExplanation", "correctedClaim", "funFact"]) {
       await visible(reveal.getByText(topic.reveal[field], { exact: true }));
@@ -622,6 +743,7 @@ try {
     assert.equal(progress.selectedRewriteOptionId, best);
     await page.reload();
     await visible(page.getByText("重温本条 · 已恢复上次答案，不重复累计。", { exact: true }));
+    assert.equal(await page.getByText(/获得贴纸/).count(), 0, "刷新重温不应重复提示获得贴纸");
     assert.equal(verdictCalls, callsBefore + 2);
     if (id === "H12") {
       const poll = page.getByRole("region", { name: "直觉投票", exact: true });
@@ -690,6 +812,7 @@ try {
       const scenario = scenarios.find(({ id }) => route === `/post/${id}`);
       if (scenario) {
         const topic = trendingTopics.find(({ id }) => id === scenario.id);
+        pageGeometry.breadcrumb = await breadcrumbChecks(mobile, scenario.id);
         pageGeometry.social = await postSocialChecks(mobile, topic);
         if (scenario.format) assert.equal(await mobile.locator("article[data-format]").getAttribute("data-format"), scenario.format);
         if (scenario.id === "H12") {
@@ -707,6 +830,7 @@ try {
         await mobile.getByRole("button", { name: "提交判断", exact: true }).click();
         await visible(mobile.locator(".verdict-stamp"));
         await focused(mobile.locator("#reveal-heading"));
+        await revealSummaryChecks(mobile, { correct: true, isTrue: scenario.answer, firstScreen: viewport.width === 390 });
         if (scenario.id === "H03") {
           await mobile.waitForFunction(() => {
             const heading = document.querySelector("#reveal-heading").getBoundingClientRect();
@@ -714,9 +838,11 @@ try {
             return heading.y >= header.bottom && heading.bottom < window.innerHeight - 65;
           });
           assert.equal(await mobile.locator(".verdict-stamp").evaluate((node) => getComputedStyle(node).animationDuration), "0s");
+          assert.equal(await mobile.locator(".verdict-stamp").evaluate((node) => getComputedStyle(node).animationName), "none");
         }
-        await mobile.getByText("展开详细解释", { exact: true }).click();
+        await mobile.getByText("为什么", { exact: true }).click();
         await mobile.getByText(`展开史料依据（${scenario.sourceCount} 条）`, { exact: true }).click();
+        await mobile.getByText("延伸冷知识", { exact: true }).click();
         geometry.push(await mobileGeometry(mobile, `${route} 揭晓/证据/AI/改写`));
         await mobile.getByRole("button", { name: new RegExp(`^${scenario.best} `) }).click();
         await mobileGeometry(mobile, `${route} 改写反馈`);
@@ -776,6 +902,8 @@ try {
   await visible(wrongPage.getByText("这次答错了，带走一个新知识。", { exact: true }));
   await visible(wrongPage.getByText("谣言退散", { exact: true }));
   await focused(wrongPage.locator("#reveal-heading"));
+  await revealSummaryChecks(wrongPage, { correct: false, isTrue: false, firstScreen: true });
+  await earnedSticker(wrongPage, "H03", 1);
   await wrongPage.getByRole("button", { name: "生成查证卡", exact: true }).click();
   await visible(wrongPage.getByRole("dialog", { name: "查证卡预览" }));
   await wrongPage.getByRole("button", { name: "关闭预览", exact: true }).click();
@@ -790,7 +918,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "H03", answer: "false" }) })).status, 400);
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
-  const summary = { passed: true, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、提交后 1/N、贴纸解锁回帖、刷新恢复、重温去重、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, buildId, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

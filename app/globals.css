@@ -8,6 +8,7 @@
   --ink: #26252C;
   --muted: #767680;
   --shell-header-height: calc(80px + env(safe-area-inset-top, 0px));
+  --reveal-scroll-margin: calc(var(--shell-header-height) + 8px);
   --bottom-tabs-height: calc(65px + env(safe-area-inset-bottom, 0px));
   --system-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
@@ -80,7 +81,11 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-#reveal-heading { scroll-margin-top: calc(var(--shell-header-height) + 24px); }
+.reveal-panel, #reveal-heading { scroll-margin-top: var(--reveal-scroll-margin); }
+.post-breadcrumb ol { display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; }
+.post-breadcrumb li { display: inline-flex; align-items: center; gap: 4px; }
+.post-breadcrumb a { justify-content: center; }
+.breadcrumb-separator { flex-shrink: 0; }
 
 @media (min-width: 600px) {
   .app-shell, .bottom-tabs { width: 390px; }
@@ -134,7 +139,8 @@ a, button, summary { transition: color 180ms, background-color 180ms, border-col
 .comment-row .author-meta { font-size: 10px; }
 .answer-option:has(input:focus-visible) { outline: 3px solid #b33f39; outline-offset: 4px; }
 .answer-option, .rewrite-option { transition: background-color 180ms, border-color 180ms; }
-.reveal-panel { animation: panel-enter 280ms ease-out both; }
+.reveal-panel { animation: reveal-enter 280ms ease-out both; }
+@keyframes reveal-enter { from { opacity: 0; } to { opacity: 1; } }
 @keyframes panel-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .panel {
@@ -178,8 +184,17 @@ a, button, summary { transition: color 180ms, background-color 180ms, border-col
 .answer-selected { border-color: var(--accent); background: #e84e480a; color: #b33f39; }
 .result-heading { font-size: 13px; font-weight: 750; letter-spacing: 0.05em; color: #7a5a32; }
 summary { cursor: pointer; color: #b33f39; font-weight: 600; }
-.verdict-stamp { display: inline-block; flex-shrink: 0; padding: 9px 13px; border: 3px double #b33f39; border-radius: 6px; color: #b33f39; font-size: 22px; font-weight: 850; transform: rotate(-8deg); animation: verdict-stamp 600ms ease-out both; }
+.verdict-stamp-row { display: flex; justify-content: center; padding: 28px 0; }
+.verdict-stamp { display: inline-block; flex-shrink: 0; padding: 12px 22px; border: 4px double #b33f39; border-radius: 6px; color: #b33f39; font-size: 32px; font-weight: 850; line-height: 1.4; letter-spacing: 0.08em; transform: rotate(-8deg); animation: verdict-stamp 600ms ease-out both; }
 .stamp-true { border-color: #426b58; color: #426b58; }
+.verdict-feedback { display: flex; align-items: center; gap: 10px; border: 1px solid; border-radius: 10px; padding: 12px; font-size: 13px; font-weight: 650; line-height: 1.7; }
+.feedback-correct { border-color: #426b5833; background: #426b580d; color: #345844; }
+.feedback-incorrect { border-color: #b33f3933; background: #e84e480d; color: #a2332e; }
+.verdict-feedback-icon { flex-shrink: 0; font-size: 20px; line-height: 1; }
+.reveal-details > details { border-top: 1px solid #26252c12; padding-block: 4px; }
+.reveal-details > details[open] { padding-bottom: 16px; }
+.sticker-earned { display: flex; align-items: center; gap: 12px; margin-top: 16px; border: 1px solid #d6ad724d; border-radius: 12px; padding: 10px 12px; background: #d6ad720a; }
+.sticker-earned .sticker-badge { width: 40px; height: 40px; border-radius: 12px; font-size: 22px; }
 .collection-meter { appearance: none; border: 0; border-radius: 99px; overflow: hidden; background: #f0ece5; }
 .collection-meter::-webkit-progress-bar { background: #f0ece5; }
 .collection-meter::-webkit-progress-value { background: var(--accent); border-radius: 99px; }
@@ -250,6 +265,7 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 @keyframes backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
+  .verdict-stamp, .reveal-panel { animation: none; }
   *,
   *::before,
   *::after {

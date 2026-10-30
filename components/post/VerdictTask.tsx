@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AskPanel } from "@/components/ai/AskPanel";
-import { readProgress, saveProgress } from "@/lib/progress";
+import { readCollectionProgress, readProgress, saveProgress } from "@/lib/progress";
 import type { PublicTopic } from "@/lib/public-topic";
 import type { TopicProgress } from "@/lib/schemas";
 import type { VerdictResult } from "@/lib/verdict";
@@ -22,7 +22,7 @@ async function requestVerdict(topicId: string, answer: boolean): Promise<Verdict
   return response.json();
 }
 
-export function VerdictTask({ topic }: { topic: PublicTopic }) {
+export function VerdictTask({ topic, topicIds }: { topic: PublicTopic; topicIds: readonly string[] }) {
   const [answer, setAnswer] = useState<boolean>();
   const [result, setResult] = useState<VerdictResult>();
   const [busy, setBusy] = useState(false);
@@ -33,6 +33,7 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
   const [storageFailed, setStorageFailed] = useState(false);
   const [rewriteId, setRewriteId] = useState<string>();
   const [showCard, setShowCard] = useState(false);
+  const [earnedProgress, setEarnedProgress] = useState<{ completed: number; total: number }>();
   const savedRef = useRef<TopicProgress | undefined>(undefined);
   const pendingRef = useRef(false);
   const revealHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -43,7 +44,7 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
       focusRevealRef.current = false;
       const heading = revealHeadingRef.current;
       heading?.focus({ preventScroll: true });
-      heading?.scrollIntoView({
+      heading?.closest(".reveal-panel")?.scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
         block: "start",
       });
@@ -97,7 +98,10 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
       if (revisiting) {
         setRewriteId(savedRef.current?.selectedRewriteOptionId);
       } else {
+        const collection = readCollectionProgress(topicIds);
         persist({ topicId: topic.id, selectedAnswer: answer, submittedAt: new Date().toISOString(), revealed: true });
+        // 本机存储失败时，也把本次成功揭晓计入当前页面的即时反馈。
+        setEarnedProgress({ completed: new Set([...collection.completedIds, topic.id]).size, total: collection.total });
       }
     } catch {
       setError(revisiting ? "揭晓内容恢复失败，请重试恢复。" : "判题暂时不可用，请重试。你的选择仍然保留。");
@@ -141,15 +145,18 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
         {storageFailed && <p role="status" className="mt-3 text-xs text-muted">本机存储不可用，本次可继续体验；刷新后进度可能无法保留。</p>}
       </section>
       {result && <>
-        <VerdictReveal result={result} revisiting={revisiting} headingRef={revealHeadingRef} />
-        <section className="panel flex flex-wrap items-center gap-4" aria-label="本题贴纸">
-          <StickerBadge sticker={getSticker(topic.id)} unlocked />
-          <div className="min-w-0 flex-1">
-            <h2 className="font-bold">{getSticker(topic.id).name} · 已解锁</h2>
-            <p className="mt-1 text-xs text-muted">{storageFailed ? "本次已解锁，存储不可用时刷新可能丢失。" : "仅保存在本机，重温不重复收集。"}</p>
-            <Link href="/stickers" className="mt-1 text-sm text-accent hover:underline">去贴纸墙 →</Link>
-          </div>
-        </section>
+        <VerdictReveal result={result} revisiting={revisiting} headingRef={revealHeadingRef}>
+          <section className="sticker-earned" aria-label="本题贴纸" aria-live="polite" aria-atomic="true">
+            <StickerBadge sticker={getSticker(topic.id)} unlocked />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs leading-6 font-semibold">{!revisiting && earnedProgress
+                ? `获得贴纸：${getSticker(topic.id).name} · 已查证 ${earnedProgress.completed}/${earnedProgress.total}`
+                : `${getSticker(topic.id).name} · 已解锁`}</p>
+              {storageFailed && <p className="text-xs text-muted">本次已解锁，存储不可用时刷新可能丢失。</p>}
+              <Link href="/stickers" className="text-xs text-accent hover:underline">去贴纸墙 →</Link>
+            </div>
+          </section>
+        </VerdictReveal>
         <AskPanel key={topic.id} topicId={topic.id} sources={result.sources} />
         <RewriteExercise options={result.rewriteOptions} selectedId={rewriteId} onSelect={chooseRewrite} />
         <section className="panel flex flex-wrap items-center justify-between gap-5">

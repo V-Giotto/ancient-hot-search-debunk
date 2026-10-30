@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import h03 from "@/data/topics/h03.json";
 import sources from "@/data/source-index.json";
@@ -12,9 +12,11 @@ import { HotTopicSchema, SourceSchema } from "@/lib/schemas";
 import { PROGRESS_KEY, readProgress, saveProgress } from "@/lib/progress";
 import type { VerdictResult } from "@/lib/verdict";
 import { compactCount } from "@/lib/social-display";
+import { getAllTopics } from "@/lib/topics";
 
 const topic = HotTopicSchema.parse(h03);
 const publicTopic = toPublicTopic(topic);
+const topicIds = getAllTopics().map((topic) => topic.id);
 const scrollIntoView = vi.fn();
 const scrollIntoViewDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "scrollIntoView");
 function result(overrides: Partial<VerdictResult> = {}): VerdictResult {
@@ -38,7 +40,7 @@ afterEach(() => {
 
 describe("真假判断与揭晓", () => {
   it("帖子与评论保留数字，移除账号、图注和互动免责声明", () => {
-    const { container } = render(<PostExperience topic={publicTopic} />);
+    const { container } = render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
     expect(container.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
     expect(screen.getByLabelText("互动统计").textContent).toContain(compactCount(topic.simulatedLikes));
     expect(container.querySelector("figcaption")).toBeNull();
@@ -48,7 +50,7 @@ describe("真假判断与揭晓", () => {
   });
 
   it("未选禁用提交，提交前可以改选，提交后锁定且显示假题、答对文案", async () => {
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
     expect(fetch).not.toHaveBeenCalled();
     expect(screen.queryByText("谣言退散")).toBeNull();
@@ -60,7 +62,10 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     await screen.findByText("谣言退散");
     expect(screen.getByRole("heading", { name: "这条热搜，还想问什么？" })).toBeTruthy();
-    expect(screen.getByText("核心主张为假。")).toBeTruthy();
+    const stamp = screen.getByText("谣言退散").closest(".verdict-stamp")!;
+    expect(stamp.textContent).toContain("核心主张为假。");
+    expect(stamp.querySelector(".sr-only")).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: /明确答案/ })).toBeNull();
     expect(screen.getByText("答对了！这次吃瓜有依据。")).toBeTruthy();
     expect(screen.getByRole("radio", { name: "是真的" }).matches(":disabled")).toBe(true);
     expect(screen.getByRole("radio", { name: "是假的" }).matches(":disabled")).toBe(true);
@@ -69,17 +74,22 @@ describe("真假判断与揭晓", () => {
     expect(fetch).toHaveBeenCalledWith("/api/verdict", expect.objectContaining({ body: JSON.stringify({ topicId: "H03", answer: false }) }));
     expect(readProgress("H03")?.revealed).toBe(true);
     expect(readProgress("H03")?.selectedAnswer).toBe(false);
-    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("饭局手记 · 已解锁");
-    expect(screen.getAllByText("待人工审核")).toHaveLength(3);
+    const sticker = screen.getByRole("region", { name: "本题贴纸" });
+    expect(sticker.textContent).toContain(`获得贴纸：饭局手记 · 已查证 1/${topicIds.length}`);
+    expect(sticker.getAttribute("aria-live")).toBe("polite");
+    expect(sticker.getAttribute("aria-atomic")).toBe("true");
+    expect(within(sticker).getByRole("link", { name: "去贴纸墙 →" }).getAttribute("href")).toBe("/stickers");
+    expect(screen.getByRole("region", { name: topic.reveal.verdictHeadline }).contains(sticker)).toBe(true);
   });
 
   it("答错也揭晓，不阻塞查证卡", async () => {
     vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => result({ isCorrect: false }) } as Response);
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     fireEvent.click(screen.getByRole("radio", { name: "是真的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("这次答错了，带走一个新知识。")).toBeTruthy();
-    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("饭局手记 · 已解锁");
+    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain(`获得贴纸：饭局手记 · 已查证 1/${topicIds.length}`);
+    expect(screen.getByText("这次答错了，带走一个新知识。").closest("[role=status]")?.classList.contains("feedback-incorrect")).toBe(true);
     expect(readProgress("H03")?.revealed).toBe(true);
     expect(screen.getByRole("button", { name: "生成查证卡" })).toHaveProperty("disabled", false);
   });
@@ -87,9 +97,9 @@ describe("真假判断与揭晓", () => {
   it.each([
     { reducedMotion: false, behavior: "smooth" },
     { reducedMotion: true, behavior: "instant" },
-  ])("主动提交后聚焦并滚动到揭晓标题：reducedMotion=$reducedMotion，behavior=$behavior", async ({ reducedMotion, behavior }) => {
+  ])("主动提交后聚焦标题并滚动到完整结果区：reducedMotion=$reducedMotion，behavior=$behavior", async ({ reducedMotion, behavior }) => {
     vi.mocked(window.matchMedia).mockReturnValue({ matches: reducedMotion } as MediaQueryList);
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     const focus = vi.spyOn(HTMLElement.prototype, "focus");
     expect(scrollIntoView).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
@@ -102,36 +112,38 @@ describe("真假判断与揭晓", () => {
     expect(focus).toHaveBeenLastCalledWith({ preventScroll: true });
     expect(window.matchMedia).toHaveBeenCalledWith("(prefers-reduced-motion: reduce)");
     expect(scrollIntoView).toHaveBeenCalledExactlyOnceWith({ behavior, block: "start" });
-    expect(scrollIntoView.mock.contexts[0]).toBe(heading);
+    expect(scrollIntoView.mock.contexts[0]).toBe(heading.closest(".reveal-panel"));
     fireEvent.click(screen.getByRole("button", { name: /^C / }));
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 
   it("合成真题显示查证属实（不新增正式题目）", async () => {
     vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => result({ isTrue: true }) } as Response);
-    render(<VerdictTask topic={{ ...publicTopic, id: "SYNTHETIC-TRUE", claim: "合成真题主张" }} />);
+    render(<VerdictTask topic={{ ...publicTopic, id: "SYNTHETIC-TRUE", claim: "合成真题主张" }} topicIds={["SYNTHETIC-TRUE"]} />);
     fireEvent.click(screen.getByRole("radio", { name: "是真的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("查证属实")).toBeTruthy();
-    expect(screen.getByText("核心主张为真。")).toBeTruthy();
+    expect(screen.getByText("查证属实").closest(".verdict-stamp")?.textContent).toContain("核心主张为真。");
     expect(screen.queryByText("谣言退散")).toBeNull();
   });
 
   it("刷新时用保存的 false 再请求接口，恢复改写并保持原提交时间", async () => {
     saveProgress({ topicId: "H03", selectedAnswer: false, submittedAt: "2026-10-29T12:00:00Z", revealed: true, selectedRewriteOptionId: "C" });
     const before = localStorage.getItem(PROGRESS_KEY);
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     expect(await screen.findByText("重温本条 · 已恢复上次答案，不重复累计。")).toBeTruthy();
     expect(fetch).toHaveBeenCalledWith("/api/verdict", expect.objectContaining({ body: JSON.stringify({ topicId: "H03", answer: false }) }));
     expect(screen.getByText("改写正确，这样说更准确。")).toBeTruthy();
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
     expect(document.activeElement).not.toBe(screen.getByRole("heading", { name: topic.reveal.verdictHeadline }));
     expect(scrollIntoView).not.toHaveBeenCalled();
+    expect(screen.queryByText(/获得贴纸/)).toBeNull();
+    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("饭局手记 · 已解锁");
   });
 
   it("请求失败保留选择，可再次提交", async () => {
     vi.mocked(fetch).mockRejectedValueOnce(new Error("offline"));
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByRole("alert")).toBeTruthy();
@@ -145,21 +157,59 @@ describe("真假判断与揭晓", () => {
   it("恢复接口失败后可重试，仍锁定旧答案", async () => {
     saveProgress({ topicId: "H03", selectedAnswer: false, revealed: true });
     vi.mocked(fetch).mockRejectedValueOnce(new Error("offline"));
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     fireEvent.click(await screen.findByRole("button", { name: "重试恢复" }));
     await screen.findByText("谣言退散");
     expect(screen.getByRole("radio", { name: "是真的" }).matches(":disabled")).toBe(true);
     expect(screen.getByText("重温本条 · 已恢复上次答案，不重复累计。")).toBeTruthy();
+    expect(screen.queryByText(/获得贴纸/)).toBeNull();
   });
 
   it("localStorage 抛错时仍可提交揭晓", async () => {
     vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("quota"); });
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     await screen.findByText("谣言退散");
     expect(screen.getByText(/本机存储不可用/)).toBeTruthy();
     expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("本次已解锁");
+    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain(`已查证 1/${topicIds.length}`);
+  });
+
+  it("揭晓依次展示印章、彩色结果条、准确说法，解释/全部来源/延伸默认折叠且均可展开", async () => {
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    await screen.findByText("谣言退散");
+    const reveal = screen.getByRole("region", { name: topic.reveal.verdictHeadline });
+    const order = [...reveal.querySelectorAll(".verdict-stamp-row, .verdict-feedback, .corrected-claim")].map((node) => node.classList[0]);
+    expect(order).toEqual(["verdict-stamp-row", "verdict-feedback", "corrected-claim"]);
+    const feedback = reveal.querySelector(".verdict-feedback")!;
+    expect(feedback.classList.contains("feedback-correct")).toBe(true);
+    expect(feedback.querySelector('[aria-hidden="true"]')?.textContent).toBe("✓");
+    const details = [...reveal.querySelectorAll("details")];
+    expect(details).toHaveLength(3);
+    expect(details.every((section) => !section.open)).toBe(true);
+    for (const section of details) fireEvent.click(section.querySelector("summary")!);
+    expect(details.every((section) => section.open)).toBe(true);
+    for (const field of ["shortExplanation", "detailedExplanation", "correctedClaim", "funFact"] as const) {
+      expect(within(reveal).getByText(topic.reveal[field], { exact: true })).toBeTruthy();
+    }
+    expect(within(reveal).getAllByText("待人工审核")).toHaveLength(topic.sourceIds.length);
+    const links = within(reveal).getAllByRole("link").filter((link) => link.getAttribute("target") === "_blank");
+    expect(links.map((link) => link.getAttribute("href"))).toEqual(result().sources.map((source) => source.url));
+  });
+
+  it("贴纸即时计数只统计题库中的不同已揭晓题目，忽略草稿和旧题", async () => {
+    saveProgress({ topicId: "H01", selectedAnswer: false, revealed: true });
+    saveProgress({ topicId: "H02", selectedAnswer: true, revealed: false });
+    saveProgress({ topicId: "OLD", selectedAnswer: false, revealed: true });
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    expect(await screen.findByText(`获得贴纸：饭局手记 · 已查证 2/${topicIds.length}`)).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: /^C / }));
+    expect(screen.getByText(`获得贴纸：饭局手记 · 已查证 2/${topicIds.length}`)).toBeTruthy();
   });
 });
 
@@ -188,7 +238,7 @@ describe("评论与改写", () => {
   });
 
   it("改写选择写回进度", async () => {
-    render(<VerdictTask topic={publicTopic} />);
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     await screen.findByText("谣言退散");

@@ -19,7 +19,12 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe("按 format 选择帖子模板", () => {
   it.each(topics)("$id 渲染对应模板、唯一标题/正文、统计与原判题入口", (topic) => {
-    const { container } = render(<PostExperience topic={toPublicTopic(topic)} />);
+    const { container } = render(<PostExperience topic={toPublicTopic(topic)} topicIds={topics.map((topic) => topic.id)} />);
+    const breadcrumb = screen.getByRole("navigation", { name: "面包屑" });
+    expect(within(breadcrumb).getAllByRole("listitem")).toHaveLength(3);
+    expect(within(breadcrumb).getAllByRole("link").map((link) => [link.textContent, link.getAttribute("href")])).toEqual([["← 返回热搜榜", "/trending"], ["发现", "/discover"]]);
+    expect(breadcrumb.querySelector('[aria-current="page"]')?.textContent).toBe(`帖子 ${topic.id}`);
+    expect([...breadcrumb.querySelectorAll(".breadcrumb-separator")].map((node) => [node.textContent, node.getAttribute("aria-hidden")])).toEqual([["/", "true"], ["/", "true"]]);
     expect(container.querySelector("article")?.getAttribute("data-format")).toBe(topic.format ?? "post");
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(topic.title);
     expect(screen.getByText(topic.body, { exact: true })).toBeTruthy();
