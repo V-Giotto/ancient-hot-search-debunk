@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { createServer } from "node:net";
@@ -81,13 +81,100 @@ async function trendingDensityChecks(page) {
   return layout;
 }
 
-async function versionScreenshot(page, name, version = "0.10.0") {
+async function versionScreenshot(page, name, version = "0.10.0", { scrollToTop = true } = {}) {
   await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  if (scrollToTop) await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   const filename = `v${version}-${name}-390x844.png`;
   const target = path.join(screenshots, filename);
   await page.screenshot({ path: target, animations: "disabled" });
   if (reviewDir) await copyFile(target, path.join(reviewDir, filename));
+}
+
+async function firstLoadChecks(browser, errors) {
+  // 从构建内容识别导出库独立 chunk，避免把文件名散列写死。
+  const chunkDir = ".next/static/chunks";
+  const files = (await readdir(chunkDir, { recursive: true })).filter((name) => name.endsWith(".js"));
+  const exportChunks = (await Promise.all(files.map(async (file) => (await readFile(path.join(chunkDir, file), "utf8")).includes("Failed to fetch resource:") ? `/_next/static/chunks/${file}` : null))).filter(Boolean);
+  assert.ok(exportChunks.length > 0, "未找到 html-to-image 的独立动态 chunk");
+  const routes = [];
+  for (const route of ["/trending", "/discover", "/stickers", "/post/H12"]) {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    try {
+      const page = await context.newPage();
+      page.on("pageerror", (error) => errors.push(error.message));
+      const session = await context.newCDPSession(page);
+      await session.send("Network.enable");
+      await session.send("Network.setCacheDisabled", { cacheDisabled: true });
+      await page.goto(`${baseURL}${route}`);
+      await visible(page.getByRole("heading", { level: 1 }));
+      // 只在冷启动资源计量时等待网络空闲，包含首屏自动预取，不进行任何交互。
+      await page.waitForLoadState("networkidle");
+      const scripts = await page.evaluate(() => performance.getEntriesByType("resource").filter((entry) => new URL(entry.name).pathname.endsWith(".js")).map((entry) => ({
+        path: new URL(entry.name).pathname, encodedBytes: entry.encodedBodySize, decodedBytes: entry.decodedBodySize, transferBytes: entry.transferSize,
+      })));
+      assert.ok(scripts.length > 0 && scripts.every((entry) => entry.encodedBytes > 0), "冷启动 JS 计量缺失或命中缓存");
+      const sum = (field) => scripts.reduce((total, script) => total + script[field], 0);
+      const encodedBytes = sum("encodedBytes");
+      assert.ok(encodedBytes < 300000, `${route} 首屏压缩 JS 超过 300KB：${encodedBytes} 字节`);
+      assert.ok(scripts.every((script) => !exportChunks.includes(script.path)), `${route} 首屏提前请求 html-to-image`);
+      routes.push({ route, encodedBytes, decodedBytes: sum("decodedBytes"), transferBytes: sum("transferBytes"), scripts });
+    } finally { await context.close(); }
+  }
+  return { viewport: "390×844", cache: "每路由新会话、禁用 HTTP 缓存", budgetBytes: 300000, metric: "ResourceTiming encodedBodySize；全部外部 JS，含自动预取；另记解压大小与含协议开销的传输大小", exportChunks, routes };
+}
+
+async function pollTendencyChecks(page) {
+  const poll = page.getByRole("region", { name: "直觉投票", exact: true });
+  await visible(poll.getByText("少数倾向", { exact: true }));
+  await visible(poll.getByText("多数倾向", { exact: true }));
+  assert.doesNotMatch(await poll.textContent(), /\d+(?:\.\d+)?\s*%/);
+  assert.equal(await poll.locator('[style*="width"]').count(), 0, "倾向文字条不应保留精确比例图形");
+  assert.equal(await poll.getByRole("button", { pressed: true }).count(), 1);
+  assert.equal(await poll.locator("button:enabled").count(), 0);
+}
+
+async function pollHandoffChecks(page) {
+  // 核验用户投票后的真实落点，不调用测试滚动来修正位置。
+  await page.waitForFunction(() => {
+    const panel = document.querySelector(".task-panel");
+    const top = panel.getBoundingClientRect().top;
+    const margin = parseFloat(getComputedStyle(panel).scrollMarginTop);
+    // 判题区接近页尾，较高视口可能先到最大滚动距离；无需为对齐添加空白。
+    const atPageEnd = Math.abs(window.scrollY + window.innerHeight - document.documentElement.scrollHeight) < 1;
+    return Math.abs(top - margin) < 1 || (atPageEnd && top >= margin);
+  });
+  await focused(page.locator("#task-heading"));
+  const layout = await page.locator(".task-panel").evaluate((panel) => {
+    const headerBottom = document.querySelector(".shell-header").getBoundingClientRect().bottom;
+    const tabsTop = document.querySelector(".bottom-tabs").getBoundingClientRect().top;
+    const heading = panel.querySelector("#task-heading").getBoundingClientRect();
+    return { panelTop: panel.getBoundingClientRect().top, panelBottom: panel.getBoundingClientRect().bottom, headingTop: heading.top, headingBottom: heading.bottom, headerBottom, tabsTop, scrollY: window.scrollY };
+  });
+  assert.ok(layout.scrollY > 0 && layout.panelTop >= layout.headerBottom + 7.5 && layout.headingBottom < layout.tabsTop, "投票后判题区标题被吸顶头部或底栏遮挡");
+  assert.ok(layout.panelBottom <= layout.tabsTop, "投票后判题区未完整进入首屏");
+  await pollTendencyChecks(page);
+  return layout;
+}
+
+async function discoverEmptyChecks(page, geometry) {
+  const search = page.getByRole("searchbox", { name: "筛选话题", exact: true });
+  await search.fill("没有匹配话题的关键词");
+  await visible(page.getByRole("heading", { name: "没有找到匹配的话题", exact: true }));
+  assert.equal(await page.getByRole("status").textContent(), "0 条话题");
+  assert.equal(await page.getByRole("list", { name: "发现话题", exact: true }).count(), 0);
+  const start = page.getByRole("link", { name: "从热榜第 1 条开始", exact: true });
+  const firstTopic = trendingTopics.find(({ rank }) => rank === 1);
+  assert.equal(await start.getAttribute("href"), `/post/${firstTopic.id}`);
+  geometry.push(await mobileGeometry(page, "发现页筛选无结果"));
+  await page.getByRole("button", { name: "清除筛选", exact: true }).click();
+  assert.equal(await search.inputValue(), "");
+  assert.equal(await page.getByRole("list", { name: "发现话题", exact: true }).getByRole("listitem").count(), scenarios.length);
+  assert.equal(await start.count(), 0);
+  await search.fill("没有匹配话题的关键词");
+  await start.click();
+  await page.waitForURL(`**/post/${firstTopic.id}`);
+  await visible(page.getByRole("heading", { level: 1, name: firstTopic.title, exact: true }));
+  await page.goto(`${baseURL}/discover`);
 }
 
 async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false }) {
@@ -109,6 +196,7 @@ async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false 
       headingMargin: parseFloat(getComputedStyle(heading).scrollMarginTop), panelMargin: parseFloat(getComputedStyle(panel).scrollMarginTop), headerHeight: header.height,
       stampSize: parseFloat(getComputedStyle(stamp).fontSize), stampCentered: Math.abs(stampBox.left + stampBox.width / 2 - rowBox.left - rowBox.width / 2) < 0.5,
       stampText: stamp.textContent, feedbackClass: feedback.className,
+      stampIcon: stamp.querySelector('svg[aria-hidden="true"]').getAttribute("data-status-icon"),
       icon: feedback.querySelector('[aria-hidden="true"]').textContent,
       feedbackColor: getComputedStyle(feedback).color, feedbackBackground: getComputedStyle(feedback).backgroundColor,
       order: [...panel.querySelectorAll(".verdict-stamp-row, .verdict-feedback, .corrected-claim")].map((node) => node.classList[0]),
@@ -126,6 +214,7 @@ async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false 
   assert.equal(layout.panelMargin, layout.headerHeight + 8);
   assert.ok(layout.stampSize >= 32 && layout.stampCentered, "印章未放大居中");
   assert.match(layout.stampText, new RegExp(`核心主张为${isTrue ? "真" : "假"}`));
+  assert.equal(layout.stampIcon, isTrue ? "verified" : "refuted");
   assert.ok(layout.feedbackClass.includes(correct ? "feedback-correct" : "feedback-incorrect"));
   assert.equal(layout.icon, correct ? "✓" : "✕");
   assert.equal(layout.feedbackColor, correct ? "rgb(52, 88, 68)" : "rgb(162, 51, 46)");
@@ -154,6 +243,7 @@ async function visible(locator) {
 
 async function noOverflow(page) {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true, `页面水平溢出：${page.url()}`);
+  assert.ok(await page.evaluate(() => Math.abs((window.visualViewport?.scale ?? 1) - 1) < 0.01), `视口被瞬时溢出缩放：${page.url()}`);
 }
 
 async function noDisclaimerLabels(page) {
@@ -314,16 +404,26 @@ async function trendingChecks(page, keyboard = false) {
   assert.ok(await tabs.evaluate((node) => node.scrollWidth > node.clientWidth && getComputedStyle(node).overflowX === "auto"), "分类应在栏内横向滚动");
 
   const ranks = await list.getByTestId("trending-rank").evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).color));
-  assert.deepEqual(ranks, trendingTopics.map(({ rank }) => rank === 1 ? "rgb(232, 78, 72)" : rank === 2 ? "rgb(215, 123, 54)" : rank === 3 ? "rgb(194, 154, 70)" : "rgb(153, 150, 157)"), "排名应为红、橙、金黄，其余灰色");
+  assert.deepEqual(ranks, trendingTopics.map(({ rank }) => rank === 1 ? "rgb(232, 78, 72)" : rank === 2 ? "rgb(215, 123, 54)" : rank === 3 ? "rgb(137, 101, 29)" : "rgb(153, 150, 157)"), "排名应为红、橙、深金色，其余灰色");
+  const rankThreeContrast = await list.locator(".trending-rank-3").evaluate((node) => {
+    const luminance = (rgb) => rgb.match(/[\d.]+/g).slice(0, 3).map(Number).map((value) => value / 255).map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+    const foreground = getComputedStyle(node).color;
+    const backgrounds = [getComputedStyle(node.closest(".trending-list")).backgroundColor, getComputedStyle(document.body).backgroundColor];
+    const ratios = backgrounds.map((color) => (Math.max(luminance(foreground), luminance(color)) + 0.05) / (Math.min(luminance(foreground), luminance(color)) + 0.05));
+    return { foreground, backgrounds, ratios };
+  });
+  assert.ok(rankThreeContrast.ratios.every((ratio) => ratio >= 4.5), `排名第 3 对比度不足：${JSON.stringify(rankThreeContrast)}`);
   const quarter = Math.ceil(trendingTopics.length / 4);
   const tagFor = (rank) => rank <= quarter ? "爆" : rank > trendingTopics.length - quarter ? "新" : "热";
   const tagColors = { 爆: "rgb(232, 78, 72)", 热: "rgb(245, 158, 11)", 新: "rgb(47, 128, 237)" };
   const capsules = await list.getByTestId("trending-tag").evaluateAll((nodes) => nodes.map((node) => ({
     text: node.textContent, background: getComputedStyle(node).backgroundColor,
     radius: parseFloat(getComputedStyle(node).borderRadius), color: getComputedStyle(node).color,
+    icon: node.querySelector('svg[aria-hidden="true"][focusable="false"]')?.getAttribute("data-status-icon"),
   })));
   assert.deepEqual(capsules.map(({ text }) => text), trendingTopics.map(({ rank }) => tagFor(rank)));
   for (const capsule of capsules) {
+    assert.equal(capsule.icon, { 爆: "burst", 热: "flame", 新: "spark" }[capsule.text], "胶囊需文字和不同图标双编码");
     assert.equal(capsule.background, tagColors[capsule.text]);
     assert.equal(capsule.color, "rgb(255, 255, 255)");
     assert.ok(capsule.radius >= 4, "热度标签应有胶囊圆角");
@@ -374,7 +474,7 @@ async function trendingChecks(page, keyboard = false) {
     document.querySelector('[role="tablist"]').scrollLeft = 0;
     window.scrollTo(0, 0);
   });
-  return { categories, filters: "逐类匹配、全部恢复、保留原排名/标签与全题库进度", ranks, capsules, keyboard };
+  return { categories, filters: "逐类匹配、全部恢复、保留原排名/标签与全题库进度", ranks, rankThreeContrast, capsules, keyboard };
 }
 
 async function collectionCount(page, count) {
@@ -396,6 +496,13 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   assert.equal(await stickers.getByRole("link").count(), 0);
   assert.equal(await stickers.getByText("未解锁 · 提交判断后收集", { exact: true }).count(), scenarios.length);
   geometry.push(await mobileGeometry(page, "贴纸墙全部锁定"));
+  const start = page.getByRole("link", { name: "从热榜第 1 条开始", exact: true });
+  const firstTopic = trendingTopics.find(({ rank }) => rank === 1);
+  assert.equal(await start.getAttribute("href"), `/post/${firstTopic.id}`);
+  if (viewport.width === 390) await versionScreenshot(page, "stickers-empty", packageVersion);
+  await start.click();
+  await page.waitForURL(`**/post/${firstTopic.id}`);
+  await visible(page.getByRole("heading", { level: 1, name: firstTopic.title, exact: true }));
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
   await page.waitForURL("**/trending");
   await page.locator('[aria-label="热搜排行"] a[href="/post/H03"]').click();
@@ -416,6 +523,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }).click();
   await page.waitForURL("**/stickers");
   await collectionCount(page, 1);
+  assert.equal(await start.count(), 0, "已有贴纸时不应出现空态引导");
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
   await page.waitForURL("**/trending");
   await visible(page.locator(".trending-hero"));
@@ -448,6 +556,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await collectionCount(page, 0);
   assert.equal(await stickers.getByRole("link").count(), 0);
   geometry.push(await mobileGeometry(page, "清除本机存储后贴纸归零"));
+  await visible(start);
 }
 
 async function screenshotAt(page, locator, filename) {
@@ -662,6 +771,12 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  const performanceChecks = await firstLoadChecks(browser, errors);
+  const exportChunkLoads = new Set();
+  page.on("request", (request) => {
+    const pathname = new URL(request.url()).pathname;
+    if (performanceChecks.exportChunks.includes(pathname)) exportChunkLoads.add(pathname);
+  });
   let verdictCalls = 0;
   page.on("request", (request) => { if (request.url().endsWith("/api/verdict")) verdictCalls++; });
 
@@ -721,19 +836,20 @@ try {
     if (id === "H09") await versionScreenshot(page, "H09", packageVersion);
     if (id === "H12") {
       const poll = page.getByRole("region", { name: "直觉投票", exact: true });
-      assert.equal(await poll.getByText("42%", { exact: true }).count(), 0);
-      assert.equal(await poll.getByText("58%", { exact: true }).count(), 0);
+      assert.equal(await poll.getByText("少数倾向", { exact: true }).count(), 0);
+      assert.equal(await poll.getByText("多数倾向", { exact: true }).count(), 0);
       const savedBeforeVote = await page.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
       const verdictCallsBeforeVote = verdictCalls;
       // 投与后续判题相反的直觉，确认投票不会输入判题或解锁贴纸。
       await poll.getByRole("button", { name: "直觉：同一部书", exact: true }).click();
-      await visible(poll.getByText("42%", { exact: true }));
-      await visible(poll.getByText("58%", { exact: true }));
+      await pollTendencyChecks(page);
       assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:poll:v1:H12")), "same");
       assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), savedBeforeVote);
       assert.equal(verdictCalls, verdictCallsBeforeVote);
       assert.ok(await page.getByRole("button", { name: "提交判断", exact: true }).isDisabled());
-      formatChecks.push({ id, format: "poll", ...(await mobileGeometry(page, "H12 投票后固定比例与原判题区")), pollSavedSeparately: true });
+      const handoff = await pollHandoffChecks(page);
+      await versionScreenshot(page, "H12", packageVersion, { scrollToTop: false });
+      formatChecks.push({ id, format: "poll", ...(await mobileGeometry(page, "H12 投票后倾向文字条与原判题区")), handoff, pollSavedSeparately: true });
     }
     if (id === "H03") {
       await versionScreenshot(page, "post");
@@ -843,9 +959,14 @@ try {
     assert.deepEqual(overflow, { width: 1200, height: 675, clientHeight: 675, clipped: false }, `${id} 查证卡内容溢出`);
     await mobileGeometry(page, `${id} 查证卡弹窗`);
     if (id === "H03") await page.screenshot({ path: path.join(screenshots, "check-card-390x844.png"), animations: "disabled" });
+    if (id === "H01") assert.equal(exportChunkLoads.size, 0, "首次 PNG 下载前不应请求导出库");
     const downloadReady = page.waitForEvent("download");
     await page.getByRole("button", { name: "下载 PNG", exact: true }).click();
     const download = await downloadReady;
+    if (id === "H01") {
+      assert.ok(exportChunkLoads.size > 0, "下载时应动态请求 html-to-image");
+      performanceChecks.lazyExport = { beforeDownload: "未加载", afterDownload: [...exportChunkLoads], downloaded: true };
+    }
     assert.equal(await download.failure(), null);
     assert.equal(download.suggestedFilename(), `${id}-查证卡.png`);
     const pngPath = path.join(output, `${id}-check-card.png`);
@@ -871,8 +992,7 @@ try {
     assert.equal(verdictCalls, callsBefore + 2);
     if (id === "H12") {
       const poll = page.getByRole("region", { name: "直觉投票", exact: true });
-      await visible(poll.getByText("42%", { exact: true }));
-      await visible(poll.getByText("58%", { exact: true }));
+      await pollTendencyChecks(page);
       assert.ok(await poll.getByRole("button", { pressed: true }).textContent().then((text) => text.includes("同一部书")));
       assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:poll:v1:H12")), "same");
     }
@@ -930,6 +1050,7 @@ try {
         await mobileGeometry(mobile, "页内公告/守则展开");
       }
       if (route === "/discover") {
+        await discoverEmptyChecks(mobile, geometry);
         pageGeometry.masonry = await discoverChecks(mobile);
         if (viewport.width === 390) {
           await mobile.waitForLoadState("networkidle");
@@ -944,11 +1065,15 @@ try {
         pageGeometry.social = await postSocialChecks(mobile, topic);
         if (scenario.format) assert.equal(await mobile.locator("article[data-format]").getAttribute("data-format"), scenario.format);
         if (scenario.id === "H12") {
+          if (viewport.width === 375) await mobile.emulateMedia({ reducedMotion: "reduce" });
+          const savedBeforeVote = await mobile.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
           const poll = mobile.getByRole("region", { name: "直觉投票", exact: true });
           await poll.getByRole("button", { name: "直觉：两部书", exact: true }).click();
-          await visible(poll.getByText("42%", { exact: true }));
-          await visible(poll.getByText("58%", { exact: true }));
-          geometry.push(await mobileGeometry(mobile, "H12 移动端投票后"));
+          const handoff = await pollHandoffChecks(mobile);
+          assert.equal(await mobile.evaluate(() => localStorage.getItem("ahsd:progress:v1")), savedBeforeVote);
+          if (viewport.width === 390) await versionScreenshot(mobile, "H12", packageVersion, { scrollToTop: false });
+          geometry.push({ ...(await mobileGeometry(mobile, "H12 移动端投票后")), handoff, reducedMotion: viewport.width === 375 });
+          await mobile.emulateMedia({ reducedMotion: "no-preference" });
         }
         await mobile.getByRole("button", { name: /展开更多评论/ }).click();
         await postSocialChecks(mobile, topic);
@@ -1047,7 +1172,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, buildId, previewBuild, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, buildId, previewBuild, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；刷新不跳转；独立本机存储，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

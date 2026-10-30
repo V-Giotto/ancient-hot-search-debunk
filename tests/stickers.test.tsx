@@ -17,6 +17,7 @@ describe("贴纸墙与本机进度展示", () => {
   it("全题库锁定态不泄题，无可点击帖子；传给客户端的徽记仅有中性主题元数据", () => {
     const page = StickersPage();
     expect(page.props.children[1].props.stickers).toEqual(stickers);
+    expect(page.props.children[1].props.firstTopicId).toBe(topics.find(({ rank }) => rank === 1)!.id);
     for (const sticker of stickers) expect(Object.keys(sticker).sort()).toEqual(["id", "mark", "name"]);
     const { container } = render(page);
     const wall = screen.getByRole("list", { name: "贴纸收藏" });
@@ -24,6 +25,7 @@ describe("贴纸墙与本机进度展示", () => {
     expect(within(wall).getAllByText("未解锁 · 提交判断后收集")).toHaveLength(topics.length);
     expect(within(wall).queryAllByRole("link")).toHaveLength(0);
     expect(screen.getByRole("status").textContent).toBe(`已查证 0/${topics.length}`);
+    expect(screen.getByRole("link", { name: "从热榜第 1 条开始" }).getAttribute("href")).toBe(`/post/${topics.find(({ rank }) => rank === 1)!.id}`);
     for (const topic of topics) {
       expect(container.textContent).not.toContain(topic.reveal.correctedClaim);
       expect(container.innerHTML).not.toContain(topic.reveal.shortExplanation);
@@ -44,13 +46,14 @@ describe("贴纸墙与本机进度展示", () => {
     act(() => { saveProgress({ topicId: "H03", selectedAnswer: false, revealed: true, selectedRewriteOptionId: "C" }); });
     expect(screen.getAllByRole("status").map((node) => node.textContent)).toEqual([`已查证 1/${topics.length}`, `已查证 1/${topics.length}`]);
     cleanup();
-    render(<StickerWall stickers={stickers} />);
+    render(<StickerWall stickers={stickers} firstTopicId={topics.find(({ rank }) => rank === 1)!.id} />);
     expect(screen.getByRole("status").textContent).toBe(`已查证 1/${topics.length}`);
+    expect(screen.queryByRole("link", { name: "从热榜第 1 条开始" })).toBeNull();
     expect(within(screen.getByRole("list", { name: "贴纸收藏" })).getAllByRole("link")).toHaveLength(1);
   });
 
   it("跨页存储事件和清除事件同步解锁/归零，重新聚焦时也检查清除", () => {
-    render(<StickerWall stickers={stickers} />);
+    render(<StickerWall stickers={stickers} firstTopicId={topics.find(({ rank }) => rank === 1)!.id} />);
     act(() => {
       localStorage.setItem(PROGRESS_KEY, JSON.stringify({ H03: { topicId: "H03", selectedAnswer: true, revealed: true } }));
       window.dispatchEvent(new StorageEvent("storage", { key: PROGRESS_KEY }));
@@ -61,6 +64,7 @@ describe("贴纸墙与本机进度展示", () => {
       window.dispatchEvent(new StorageEvent("storage", { key: null }));
     });
     expect(screen.getByRole("status").textContent).toBe(`已查证 0/${topics.length}`);
+    expect(screen.getByRole("link", { name: "从热榜第 1 条开始" })).toBeTruthy();
     act(() => { saveProgress({ topicId: "H03", selectedAnswer: false, revealed: true }); });
     act(() => { localStorage.clear(); window.dispatchEvent(new Event("focus")); });
     expect(screen.getByRole("status").textContent).toBe(`已查证 0/${topics.length}`);

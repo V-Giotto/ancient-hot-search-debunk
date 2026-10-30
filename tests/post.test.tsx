@@ -64,6 +64,7 @@ describe("真假判断与揭晓", () => {
     await screen.findByText("谣言退散");
     expect(screen.getByRole("heading", { name: "这条热搜，还想问什么？" })).toBeTruthy();
     const stamp = screen.getByText("谣言退散").closest(".verdict-stamp")!;
+    expect(stamp.querySelector('svg[data-status-icon="refuted"][aria-hidden="true"]')).toBeTruthy();
     expect(stamp.textContent).toContain("核心主张为假。");
     expect(stamp.querySelector(".sr-only")).toBeTruthy();
     expect(screen.queryByRole("heading", { name: /明确答案/ })).toBeNull();
@@ -137,6 +138,7 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("查证属实")).toBeTruthy();
     expect(screen.getByText("查证属实").closest(".verdict-stamp")?.textContent).toContain("核心主张为真。");
+    expect(screen.getByText("查证属实").closest(".verdict-stamp")?.querySelector('svg[data-status-icon="verified"][aria-hidden="true"]')).toBeTruthy();
     expect(screen.queryByText("谣言退散")).toBeNull();
   });
 

@@ -74,16 +74,17 @@ describe("按 format 选择帖子模板", () => {
 });
 
 describe("本机直觉投票与判题隔离", () => {
-  it.each(["same", "different"])("投 %s 后才显示固定比例，锁定选择，刷新恢复且不改变判题进度", (choice) => {
+  it.each(["same", "different"])("投 %s 后才显示多数/少数倾向文字条，锁定选择，刷新恢复且不改变判题进度", (choice) => {
     localStorage.setItem(PROGRESS_KEY, '{"existing":"unchanged"}');
     const before = localStorage.getItem(PROGRESS_KEY);
     const { unmount } = render(<PostFormat topic={poll} />);
-    expect(screen.queryByText("42%")).toBeNull();
-    expect(screen.queryByText("58%")).toBeNull();
+    expect(screen.queryByText("少数倾向")).toBeNull();
+    expect(screen.queryByText("多数倾向")).toBeNull();
     const section = screen.getByRole("region", { name: "直觉投票" });
     fireEvent.click(within(section).getByRole("button", { name: choice === "same" ? "直觉：同一部书" : "直觉：两部书" }));
-    expect(screen.getByText("42%")).toBeTruthy();
-    expect(screen.getByText("58%")).toBeTruthy();
+    expect(screen.getByText("少数倾向")).toBeTruthy();
+    expect(screen.getByText("多数倾向")).toBeTruthy();
+    expect(section.textContent).not.toMatch(/\d+%/);
     expect(localStorage.getItem(pollKey)).toBe(choice);
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
     expect(fetch).not.toHaveBeenCalled();
@@ -91,15 +92,37 @@ describe("本机直觉投票与判题隔离", () => {
     unmount();
     render(<PostFormat topic={poll} />);
     expect(screen.getByRole("button", { pressed: true }).textContent).toContain(choice === "same" ? "同一部书" : "两部书");
-    expect(screen.getByText("42%")).toBeTruthy();
-    expect(screen.getByText("58%")).toBeTruthy();
+    expect(screen.getByText("少数倾向")).toBeTruthy();
+    expect(screen.getByText("多数倾向")).toBeTruthy();
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
+  });
+
+  it.each([false, true])("主动投票滚动并聚焦原判题区，减少动态效果=%s；恢复不跳转", (reducedMotion) => {
+    vi.stubGlobal("matchMedia", vi.fn().mockReturnValue({ matches: reducedMotion }));
+    const props = { topic: poll, topicIds: topics.map(({ id }) => id) };
+    const { unmount } = render(<PostExperience {...props} />);
+    const heading = screen.getByRole("heading", { name: "这条主张，你信吗？" });
+    const panel = heading.closest<HTMLElement>(".task-panel")!;
+    const scroll = vi.fn();
+    panel.scrollIntoView = scroll;
+    fireEvent.click(screen.getByRole("button", { name: "直觉：两部书" }));
+    expect(document.activeElement).toBe(heading);
+    expect(scroll).toHaveBeenCalledExactlyOnceWith({ behavior: reducedMotion ? "instant" : "smooth", block: "start" });
+    expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+    expect(localStorage.getItem(PROGRESS_KEY)).toBeNull();
+    expect(fetch).not.toHaveBeenCalled();
+    unmount();
+    const initialFocus = document.activeElement;
+    render(<PostExperience {...props} />);
+    expect(screen.getByText("多数倾向")).toBeTruthy();
+    expect(document.activeElement).toBe(initialFocus);
+    expect(scroll).toHaveBeenCalledTimes(1);
   });
 
   it.each(["garbage", "null", '"same"'])("忽略损坏/非法存储 %s", (stored) => {
     localStorage.setItem(pollKey, stored);
     render(<PostFormat topic={poll} />);
-    expect(screen.queryByText("42%")).toBeNull();
+    expect(screen.queryByText("少数倾向")).toBeNull();
     expect(screen.getByRole("button", { name: "直觉：同一部书" })).toHaveProperty("disabled", false);
   });
 
@@ -108,7 +131,7 @@ describe("本机直觉投票与判题隔离", () => {
     vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("quota"); });
     render(<PostFormat topic={poll} />);
     fireEvent.click(screen.getByRole("button", { name: "直觉：两部书" }));
-    expect(screen.getByText("58%")).toBeTruthy();
+    expect(screen.getByText("多数倾向")).toBeTruthy();
     expect(screen.getByText(/本机存储不可用/)).toBeTruthy();
     expect(fetch).not.toHaveBeenCalled();
   });

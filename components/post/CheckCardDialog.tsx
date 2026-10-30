@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { PublicTopic } from "@/lib/public-topic";
 import type { VerdictResult } from "@/lib/verdict";
+import { StatusIcon } from "@/components/social/StatusIcon";
 
 export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic; result: VerdictResult; onClose: () => void }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -84,7 +85,7 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
             </div>
             <h3 style={{ fontSize: 37, lineHeight: 1.45, margin: "22px 0 15px", fontWeight: 800 }}>{topic.title}</h3>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
-              <span style={{ border: `2px solid ${result.isTrue ? "#426b58" : "#c3433d"}`, color: result.isTrue ? "#426b58" : "#c3433d", padding: "6px 18px", borderRadius: 5, fontSize: 27, fontWeight: 800 }}>{result.isTrue ? "查证属实" : "谣言退散"}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `2px solid ${result.isTrue ? "#426b58" : "#c3433d"}`, color: result.isTrue ? "#426b58" : "#c3433d", padding: "6px 18px", borderRadius: 5, fontSize: 27, fontWeight: 800 }}><StatusIcon name={result.isTrue ? "verified" : "refuted"} size={28} />{result.isTrue ? "查证属实" : "谣言退散"}</span>
               <strong style={{ fontSize: 24 }}>查证结果：{result.isTrue ? "真" : "假"}</strong>
             </div>
             <div style={{ background: "#fff", borderLeft: "5px solid #d6ad72", padding: "16px 22px", fontSize: 27, fontWeight: 650, lineHeight: 1.65 }}>{result.reveal.correctedClaim}</div>

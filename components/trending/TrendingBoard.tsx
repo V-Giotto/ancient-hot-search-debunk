@@ -6,6 +6,9 @@ import { CollectionProgress } from "@/components/progress/CollectionProgress";
 import { EmptyState } from "@/components/shell/EmptyState";
 import type { PublicTopic } from "@/lib/public-topic";
 import { trendingTag, trendingTagClass } from "@/lib/trending-tag";
+import { StatusIcon, type StatusIconName } from "@/components/social/StatusIcon";
+
+const tagIcons: Record<ReturnType<typeof trendingTag>, StatusIconName> = { 爆: "burst", 热: "flame", 新: "spark" };
 
 export type TrendingTopic = Pick<PublicTopic,
   "id" | "rank" | "category" | "title" | "simulatedHeat" | "coverUrl" | "coverAlt"
@@ -89,7 +92,7 @@ export function TrendingBoard({ topics }: { topics: readonly TrendingTopic[] }) 
                       <p>{(topic.simulatedHeat / 10000).toLocaleString("zh-CN", { maximumFractionDigits: 1 })} 万热度</p>
                     </div>
                     <div className="trending-media">
-                      <span data-testid="trending-tag" className={`trending-tag ${trendingTagClass[tag]}`}>{tag}</span>
+                      <span data-testid="trending-tag" className={`trending-tag ${trendingTagClass[tag]}`}><StatusIcon name={tagIcons[tag]} size={12} /><span>{tag}</span></span>
                       <img src={topic.coverUrl} alt={topic.coverAlt} width={96} height={54} className="trending-thumbnail" />
                     </div>
                   </Link>

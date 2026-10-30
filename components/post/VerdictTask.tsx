@@ -121,7 +121,7 @@ export function VerdictTask({ topic, topicIds }: { topic: PublicTopic; topicIds:
     <>
       <section className="panel task-panel" aria-labelledby="task-heading">
         <p className="eyebrow">辟谣局任务 / {topic.id}</p>
-        <h2 id="task-heading" className="text-xl font-bold">这条主张，你信吗？</h2>
+        <h2 id="task-heading" tabIndex={-1} className="text-xl font-bold">这条主张，你信吗？</h2>
         <p className="mt-4 text-lg leading-8 font-semibold">{topic.claim}</p>
         <p className="mt-3 text-sm text-muted">只判断这一条史实主张。提交前可以改选，提交后锁定。</p>
         <fieldset disabled={locked} className="mt-6">

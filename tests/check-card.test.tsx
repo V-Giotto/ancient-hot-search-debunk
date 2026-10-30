@@ -45,6 +45,7 @@ describe("手机查证卡预览与导出", () => {
     const card = screen.getByTestId("check-card");
     expect(card.textContent).not.toMatch(/架空|虚构|模拟|非史料/);
     expect(card.textContent).toContain("开发预览：本条史实尚待人工审核");
+    expect(card.querySelector('svg[data-status-icon="refuted"][aria-hidden="true"]')).toBeTruthy();
     expect(card.parentElement!.style.transform).toBe(`scale(${320 / 1200})`);
     previewWidth = 280;
     act(() => resize());

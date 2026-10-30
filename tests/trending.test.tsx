@@ -40,6 +40,10 @@ describe("移动端热榜", () => {
       const tag = within(row).getByTestId("trending-tag");
       const expected = trendingTag(topic.rank, topics.length);
       expect(tag.textContent).toBe(expected);
+      const icon = tag.querySelector("svg")!;
+      expect(icon.getAttribute("data-status-icon")).toBe(({ 爆: "burst", 热: "flame", 新: "spark" })[expected]);
+      expect(icon.getAttribute("aria-hidden")).toBe("true");
+      expect(icon.getAttribute("focusable")).toBe("false");
       for (const className of trendingTagClass[expected].split(" ")) expect(tag.classList.contains(className)).toBe(true);
       expect(within(row).getByRole("img").getAttribute("src")).toBe(topic.coverUrl);
     });

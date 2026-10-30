@@ -5,13 +5,19 @@ import type { Sticker } from "@/lib/stickers";
 import { ProgressDisplay } from "@/components/progress/CollectionProgress";
 import { useCollectionProgress } from "@/components/progress/useCollectionProgress";
 import { StickerBadge } from "./StickerBadge";
+import { StartFirstTopic } from "@/components/shell/StartFirstTopic";
 
-export function StickerWall({ stickers }: { stickers: Sticker[] }) {
+export function StickerWall({ stickers, firstTopicId }: { stickers: Sticker[]; firstTopicId?: string }) {
   const progress = useCollectionProgress(stickers.map((sticker) => sticker.id));
 
   return (
     <>
       <ProgressDisplay progress={progress} />
+      {progress?.completedIds.length === 0 && firstTopicId && <section aria-label="开始收集贴纸" className="mb-5 rounded-2xl border border-gold/30 bg-card p-4">
+        <h2 className="font-bold">第一枚贴纸，从一次查证开始</h2>
+        <p className="mt-2 mb-3 text-sm leading-6 text-muted">选一条热搜，提交判断，就能留下主题贴纸。</p>
+        <StartFirstTopic topicId={firstTopicId} />
+      </section>}
       <ul aria-label="贴纸收藏" className="grid grid-cols-2 gap-3">
         {stickers.map((sticker) => {
           const unlocked = progress?.completedIds.includes(sticker.id) ?? false;

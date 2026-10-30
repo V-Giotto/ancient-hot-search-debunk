@@ -1,5 +1,6 @@
 import type { ReactNode, Ref } from "react";
 import type { VerdictResult } from "@/lib/verdict";
+import { StatusIcon } from "@/components/social/StatusIcon";
 
 export function VerdictReveal({ result, revisiting, headingRef, children }: { result: VerdictResult; revisiting: boolean; headingRef?: Ref<HTMLHeadingElement>; children?: ReactNode }) {
   return (
@@ -8,6 +9,7 @@ export function VerdictReveal({ result, revisiting, headingRef, children }: { re
       <h2 ref={headingRef} id="reveal-heading" tabIndex={-1} className="text-xl font-bold">{result.reveal.verdictHeadline}</h2>
       <div className="verdict-stamp-row">
         <span className={`verdict-stamp ${result.isTrue ? "stamp-true" : ""}`}>
+          <StatusIcon name={result.isTrue ? "verified" : "refuted"} size={28} />
           <span>{result.isTrue ? "查证属实" : "谣言退散"}</span>
           <span className="sr-only">，核心主张为{result.isTrue ? "真" : "假"}。</span>
         </span>
