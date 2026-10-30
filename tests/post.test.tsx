@@ -187,7 +187,7 @@ describe("真假判断与揭晓", () => {
     expect(scrollIntoView).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("谣言退散")).toBeTruthy();
-    expect(scrollIntoView).toHaveBeenCalledExactlyOnceWith({ behavior: "smooth", block: "start" });
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalledExactlyOnceWith({ behavior: "smooth", block: "start" }));
   });
 
   it.each(["{broken", "null", "[]", '{"H03":{"revealed":"true"}}'])("损坏旧数据 %s 不影响进入与首次收集", async (stored) => {

@@ -1,5 +1,6 @@
 {
   "id": "H09",
+  "era": { "label": "北宋", "order": 5 },
   "rank": 9,
   "module": "trending",
   "format": "news",

@@ -53,11 +53,11 @@ describe("统一检查元话语、自我旁白与引文", () => {
     ["libai", "吾是李白，你今日过得如何？"], ["dufu", "我是杜甫，你慢慢说。"],
     ["libai", "《春日忆李白》《李白与杜甫》"], ["dufu", "《鲁郡东石门送杜二甫》"],
   ])("允许第一人称、谈论对方及已审书名：%s %s", (id, reply) => {
-    expect(findChatOutputViolations(reply, getFriendById(id)!, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [] });
+    expect(findChatOutputViolations(reply, getFriendById(id)!, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [], missingEraMarker: false });
   });
   it("引号不能掩盖自我旁白或元话语，两类违规一并报告", () => {
     expect(findChatOutputViolations("资料里‘李白说不存在的诗句’。", friend, sources)).toEqual({
-      unsupportedQuotes: ["李白说不存在的诗句"], personaFragments: ["资料里"],
+      unsupportedQuotes: ["李白说不存在的诗句"], personaFragments: ["资料里"], missingEraMarker: false,
     });
     expect(findChatOutputViolations("‘来源’", friend, sources).personaFragments).toEqual(["来源"]);
   });
@@ -67,6 +67,31 @@ describe("统一检查元话语、自我旁白与引文", () => {
     expect(reply).toContain(current.persona.selfReference[0]);
     expect(reply).toContain("记不真切");
     expect(reply).not.toMatch(/[“”‘’「」『』《》"']/);
-    expect(findChatOutputViolations(reply, current, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [] });
+    expect(findChatOutputViolations(reply, current, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [], missingEraMarker: false });
+  });
+});
+
+describe("晚代耳闻标记与统一校验", () => {
+  const laterEra = { label: "北宋", order: 5 } as const;
+  it.each(["听说", "听闻", "耳闻", "据说", "后世", "身后"])("晚代回复接受标记：%s", (marker) => {
+    expect(findChatOutputViolations(`${marker}此事，吾不敢多说。`, friend, sources, [], laterEra).missingEraMarker).toBe(false);
+  });
+  it("同轮报告引文、元话语和时代违规，不能相互掩盖", () => {
+    expect(findChatOutputViolations("资料里‘不存在的引文’。", friend, sources, [], laterEra)).toEqual({
+      unsupportedQuotes: ["不存在的引文"], personaFragments: ["资料里"], missingEraMarker: true,
+    });
+    expect(findChatOutputViolations("听说资料里‘不存在的引文’。", friend, sources, [], laterEra)).toEqual({
+      unsupportedQuotes: ["不存在的引文"], personaFragments: ["资料里"], missingEraMarker: false,
+    });
+  });
+  it.each(["libai", "dufu"])("%s 的晚代兜底以配置自称且通过所有输出检查", (friendId) => {
+    const current = getFriendById(friendId)!;
+    const reply = getChatSafeReply(current, laterEra);
+    expect(reply).toBe(`${current.persona.selfReference[0]}身后之事，只是耳闻，不敢多说。`);
+    expect(findChatOutputViolations(reply, current, sources, [], laterEra)).toEqual({
+      unsupportedQuotes: [], personaFragments: [], missingEraMarker: false,
+    });
+    expect(getChatSafeReply(current, current.era)).toBe(getChatSafeReply(current));
+    expect(getChatSafeReply(current, { label: "战国", order: 2 })).toBe(getChatSafeReply(current));
   });
 });

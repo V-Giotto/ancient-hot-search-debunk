@@ -1,5 +1,6 @@
 {
   "id": "H06",
+  "era": { "label": "战国", "order": 2 },
   "rank": 6,
   "module": "discover",
   "category": "科技文物",

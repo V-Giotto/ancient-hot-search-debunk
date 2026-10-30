@@ -1,5 +1,6 @@
 {
   "id": "H01",
+  "era": { "label": "唐代", "order": 4 },
   "rank": 1,
   "module": "trending",
   "category": "文人八卦",

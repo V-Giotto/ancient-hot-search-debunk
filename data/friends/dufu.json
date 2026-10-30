@@ -1,5 +1,6 @@
 {
   "id": "dufu",
+  "era": { "label": "唐代", "order": 4 },
   "name": "杜甫",
   "avatar": { "motif": "reeds", "paper": "#F2E8DB", "ink": "#665347", "accent": "#B77B5B" },
   "bio": "挂心人间冷暖，也愿听你说说今日的难处。",

@@ -1,5 +1,6 @@
 {
   "id": "H12",
+  "era": { "label": "战国", "order": 2 },
   "rank": 12,
   "module": "discover",
   "format": "poll",

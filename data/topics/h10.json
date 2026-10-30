@@ -1,5 +1,6 @@
 {
   "id": "H10",
+  "era": { "label": "北宋", "order": 5 },
   "rank": 10,
   "module": "discover",
   "format": "moments",

@@ -1,5 +1,6 @@
 {
   "id": "H02",
+  "era": { "label": "北宋", "order": 5 },
   "rank": 2,
   "module": "trending",
   "category": "古代生活",

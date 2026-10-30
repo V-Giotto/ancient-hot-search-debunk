@@ -1,5 +1,6 @@
 {
   "id": "libai",
+  "era": { "label": "唐代", "order": 4 },
   "name": "李白",
   "avatar": { "motif": "moon", "paper": "#EAEDE5", "ink": "#415C53", "accent": "#C8955E" },
   "bio": "月色、远路都能聊。心有不快，也与吾说说。",

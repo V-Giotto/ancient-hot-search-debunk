@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { EraSchema } from "./era";
 
 const nonEmptyText = z.string().refine((value) => value.trim().length > 0, "不能为空白");
 const simulatedCount = z.number().int().nonnegative();
@@ -56,6 +57,8 @@ export type RewriteOption = z.infer<typeof RewriteOptionSchema>;
 
 export const HotTopicSchema = z.strictObject({
   id: nonEmptyText,
+  // 仅为从已审内容提取的时代元数据，不新增史实或改变审核状态。
+  era: EraSchema,
   rank: z.number().int().positive(),
   module: z.enum(["trending", "discover"]),
   format: z.enum(["post", "news", "moments", "chat", "poll"]).optional(),

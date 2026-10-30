@@ -17,6 +17,7 @@ export function makeSource(overrides: Partial<Source> = {}): Source {
 export function makeTopic(overrides: Partial<HotTopic> = {}): HotTopic {
   return {
     id: "TEST-1",
+    era: { label: "唐代", order: 4 },
     rank: 1,
     module: "trending",
     category: "合成测试",

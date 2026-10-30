@@ -1,5 +1,6 @@
 {
   "id": "H04",
+  "era": { "label": "北宋", "order": 5 },
   "rank": 4,
   "module": "trending",
   "category": "古代商业",

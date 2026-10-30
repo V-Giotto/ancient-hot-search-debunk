@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { EraSchema } from "./era";
 
 const text = (max: number) => z.string().trim().min(1).max(max);
 const color = z.string().regex(/^#[0-9a-fA-F]{6}$/);
@@ -23,6 +24,7 @@ export const FriendPersonaSchema = z.strictObject({
 export const FriendSchema = z.strictObject({
   id: z.string().regex(/^[a-z][a-z0-9-]{0,47}$/),
   name: text(24),
+  era: EraSchema,
   avatar: z.strictObject({ motif: z.enum(["moon", "reeds"]), paper: color, ink: color, accent: color }),
   bio: text(100),
   greeting: text(200),

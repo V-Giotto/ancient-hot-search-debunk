@@ -1,5 +1,6 @@
 {
   "id": "H11",
+  "era": { "label": "春秋", "order": 1 },
   "rank": 11,
   "module": "discover",
   "format": "chat",

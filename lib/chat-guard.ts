@@ -1,5 +1,6 @@
 import type { Friend } from "./friend-schema";
 import type { Source } from "./schemas";
+import { isLaterEra, type Era } from "./era";
 
 const quotePatterns = () => [/“([^”]*)”/g, /‘([^’]*)’/g, /「([^」]*)」/g, /『([^』]*)』/g, /"([^"]*)"/g, /'([^']*)'/g, /《([^》]*)》/g];
 
@@ -22,7 +23,7 @@ export function findUnsupportedChatQuotes(reply: string, friend: Friend, sources
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-export function findChatOutputViolations(reply: string, friend: Friend, sources: Source[], sharedSourceIds: readonly string[] = []) {
+export function findChatOutputViolations(reply: string, friend: Friend, sources: Source[], sharedSourceIds: readonly string[] = [], topicEra?: Era) {
   const personaFragments = new Set<string>();
   const meta = /(?:根据|依据|按照)?资料(?:里|中|显示|表明|记载)?|来源|设定|提示词|人工智能|模型|角色扮演|(?:作为\s*)?\bAI\b/giu;
   for (const match of reply.matchAll(meta)) personaFragments.add(match[0]);
@@ -37,9 +38,11 @@ export function findChatOutputViolations(reply: string, friend: Friend, sources:
   const selfNarration = new RegExp(`(?:(?:${references})\\s*)?[（(]\\s*${name}\\s*[）)]|${name}(?:\\s*(?:说(?:过|道)?|曰|认为|觉得|表示|写(?:过|道)?))?`, "gu");
   for (const match of narration.matchAll(selfNarration)) personaFragments.add(match[0]);
 
-  return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments] };
+  const missingEraMarker = Boolean(topicEra && isLaterEra(topicEra, friend.era) && !/听说|听闻|耳闻|据说|后世|身后/u.test(reply));
+  return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments], missingEraMarker };
 }
 
-export function getChatSafeReply(friend: Friend): string {
+export function getChatSafeReply(friend: Friend, topicEra?: Era): string {
+  if (topicEra && isLaterEra(topicEra, friend.era)) return `${friend.persona.selfReference[0]}身后之事，只是耳闻，不敢多说。`;
   return `此事${friend.persona.selfReference[0]}记不真切了，换个话头可好？`;
 }
