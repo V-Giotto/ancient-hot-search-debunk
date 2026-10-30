@@ -15,13 +15,20 @@ function send() { fireEvent.click(screen.getByRole("button", { name: "发送消�
 const transcript = () => screen.getByRole("log", { name: "与李白的对话" });
 
 describe("好友列表与即时对话", () => {
-  it("由数据渲染列表和原创 SVG，并正确链接到好友", () => {
+  it("由数据渲染本地 WebP 头像，保留姓名 alt、预留尺寸和好友链接", () => {
     render(FriendsPage());
     const list = screen.getByRole("list", { name: "好友列表" });
     expect(within(list).getByRole("link", { name: "与李白对话" }).getAttribute("href")).toBe("/friends/libai");
     expect(within(list).getByRole("link", { name: "与杜甫对话" }).getAttribute("href")).toBe("/friends/dufu");
-    expect(list.querySelectorAll("svg.friend-avatar")).toHaveLength(2);
-    expect(list.querySelectorAll("img, image, script")).toHaveLength(0);
+    expect(list.querySelectorAll("img.friend-avatar")).toHaveLength(2);
+    expect(list.querySelectorAll("svg.friend-avatar, image, script")).toHaveLength(0);
+    for (const [id, name] of [["libai", "李白"], ["dufu", "杜甫"]]) {
+      const image = within(list).getByRole("img", { name });
+      expect(image.getAttribute("src")).toBe(`/friends/${id}.webp`);
+      expect(image.getAttribute("width")).toBe("64");
+      expect(image.getAttribute("height")).toBe("64");
+      expect(image.getAttribute("loading")).toBe("eager");
+    }
     expect(fetchMock).not.toHaveBeenCalled();
   });
   it("首次只有开场白、一行角色说明与禁用的空输入发送按钮", () => {

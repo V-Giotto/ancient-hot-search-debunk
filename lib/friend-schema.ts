@@ -20,12 +20,13 @@ export const FriendPersonaSchema = z.strictObject({
   taboos: traits,
 });
 
-// 头像由本项目原创 SVG 绘制；数据只配置纹样和颜色，不执行 SVG/HTML 字符串。
+// 本地像素风头像；保留旧纹样配置以兼容历史数据，不传给客户端。
 export const FriendSchema = z.strictObject({
   id: z.string().regex(/^[a-z][a-z0-9-]{0,47}$/),
   name: text(24),
   era: EraSchema,
-  avatar: z.strictObject({ motif: z.enum(["moon", "reeds"]), paper: color, ink: color, accent: color }),
+  avatarUrl: z.string().regex(/^\/friends\/[a-z][a-z0-9-]{0,47}\.webp$/),
+  avatar: z.strictObject({ motif: z.enum(["moon", "reeds"]), paper: color, ink: color, accent: color }).optional(),
   bio: text(100),
   greeting: text(200),
   sourceIds: z.array(text(100)).min(1).max(16).refine((ids) => new Set(ids).size === ids.length, "来源 ID 不能重复"),
@@ -34,4 +35,4 @@ export const FriendSchema = z.strictObject({
 });
 
 export type Friend = z.infer<typeof FriendSchema>;
-export type FriendProfile = Pick<Friend, "id" | "name" | "avatar" | "bio" | "greeting">;
+export type FriendProfile = Pick<Friend, "id" | "name" | "avatarUrl" | "bio" | "greeting">;

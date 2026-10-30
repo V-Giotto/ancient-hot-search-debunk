@@ -37,6 +37,6 @@ export function getFriendSources(friend: Friend): Source[] {
   // 即使调用者传入了旧数据或绕过加载器，也再次限制 reviewed 白名单。
   return loadFriends().sources.filter((source) => friend.sourceIds.includes(source.id) && source.status === "reviewed");
 }
-export function toFriendProfile({ id, name, avatar, bio, greeting }: Friend): FriendProfile {
-  return { id, name, avatar, bio, greeting };
+export function toFriendProfile({ id, name, avatarUrl, bio, greeting }: Friend): FriendProfile {
+  return { id, name, avatarUrl, bio, greeting };
 }

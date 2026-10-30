@@ -126,13 +126,13 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
         {((message.status === "offline" || message.status === "failed") || (message.status === "pending" && sharing !== message.id)) && <button type="button" className="secondary-button" disabled={Boolean(pending || sharing)} onClick={() => void replyToShare(message)}>请好友再看看</button>}
       </div></li>;
     return <li key={key} className={`chat-message chat-message-${message.role}`}>
-      {message.role === "assistant" ? <FriendAvatar avatar={friend.avatar} /> : <span className="chat-self-avatar">我</span>}
+      {message.role === "assistant" ? <FriendAvatar friend={friend} /> : <span className="chat-self-avatar">我</span>}
       <div className="chat-message-copy">{message.role === "assistant" && <span className="chat-sender">{friend.name}</span>}<p className="chat-bubble">{message.content}</p></div>
     </li>;
   }
   const busy = Boolean(pending || sharing);
   return <section className="friend-chat" aria-labelledby="friend-chat-heading">
-    <div className="chat-profile"><FriendAvatar avatar={friend.avatar} /><div><h1 id="friend-chat-heading">{friend.name}</h1><p>{friend.bio}</p></div></div>
+    <div className="chat-profile"><FriendAvatar friend={friend} /><div><h1 id="friend-chat-heading">{friend.name}</h1><p>{friend.bio}</p></div></div>
     <p className="chat-role-note">这是角色扮演，史实以给定资料为准。</p>
     <div className="chat-session-tools"><p>闲谈保存在本机 · 最多 {CHAT_STORAGE_MAX_ENTRIES} 条</p><button type="button" className="secondary-button" onClick={clear} disabled={!messages.length && !busy}>清空对话</button></div>
     <div className="chat-transcript" role="log" aria-label={`与${friend.name}的对话`} aria-live="polite" aria-relevant="additions text">

@@ -10,13 +10,13 @@
   "category": "古代体育",
   "tags": ["蹴鞠", "首创争议", "体育史待查证"],
   "title": "蹴鞠是否始于宋代？体育话题中的首创说法待核对",
-  "coverUrl": "/covers/h07.svg",
+  "coverUrl": "/covers/h07.webp",
   "coverAlt": "蹴鞠场景与首创争议体育资讯卡插画",
   "author": {
     "name": "宋代蹴鞠第一资讯",
     "handle": "@songdai_cuju",
     "bio": "体育资讯号｜首创申请先排队，证据材料请带齐。",
-    "avatarUrl": "/avatars/hype.svg",
+    "avatarUrl": "/avatars/hype.webp",
     "fictitious": true
   },
   "body": "话题将“蹴鞠首创”与宋代联系起来，留言随即围绕首创应如何认定展开讨论。部分留言要求先查阅资料，按时间整理相关记载。对于这项主张，海报与标题只能提出问题，不能代替时间线；应在阅读材料后，再判断首创说法是否有依据。",
@@ -27,14 +27,14 @@
   "simulatedReposts": 570,
   "simulatedBookmarks": 2230,
   "comments": [
-    { "id": "H07-C01", "author": "球迷从不缺席", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "球还没看见，评论区的嗓子已经完成热身。围观席还有位置吗？", "simulatedLikes": 438, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 3848 },
-    { "id": "H07-C02", "author": "时间线先排队", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "先把记载按时间排好，再讨论首创。标题里的荣誉可不能靠音量投票。", "simulatedLikes": 612, "simulatedReplies": 9, "simulatedReposts": 6, "simulatedViews": 5127 },
-    { "id": "H07-C03", "author": "体坛热搜加速器", "avatar": "/avatars/hype.svg", "role": "troll", "text": "奖杯我负责画，掌声你们负责刷，查资料的网友先别划走啊！", "simulatedLikes": 209, "simulatedReplies": 10, "simulatedReposts": 5, "simulatedViews": 2367 },
-    { "id": "H07-C04", "author": "宋代球场候补", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本网友刚报到，就被拉进荣誉申请群。能先让我喘口气吗？", "simulatedLikes": 327, "simulatedReplies": 11, "simulatedReposts": 4, "simulatedViews": 3254 },
-    { "id": "H07-C05", "author": "体育词条慢读员", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "记载说的是开展、发展还是起源？这几个词最好逐个读清楚。", "simulatedLikes": 558, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4932 },
-    { "id": "H07-C06", "author": "看台常驻吃瓜人", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我只是路过体育区，没想到要先学会看资料才能加入群聊。", "simulatedLikes": 281, "simulatedReplies": 13, "simulatedReposts": 2, "simulatedViews": 3054 },
-    { "id": "H07-C07", "author": "赛后闲聊候场中", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本账号的赛后感想先存草稿，今天大家似乎更想讨论海报署名。", "simulatedLikes": 264, "simulatedReplies": 14, "simulatedReposts": 1, "simulatedViews": 2996 },
-    { "id": "H07-C08", "author": "掌声调度办公室", "avatar": "/avatars/hype.svg", "role": "troll", "text": "这届评论区连奖杯底座的文案都吵起来了，流量比我跑得快。", "simulatedLikes": 173, "simulatedReplies": 15, "simulatedReposts": 0, "simulatedViews": 2420 }
+    { "id": "H07-C01", "author": "球迷从不缺席", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "球还没看见，评论区的嗓子已经完成热身。围观席还有位置吗？", "simulatedLikes": 438, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 3848 },
+    { "id": "H07-C02", "author": "时间线先排队", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "先把记载按时间排好，再讨论首创。标题里的荣誉可不能靠音量投票。", "simulatedLikes": 612, "simulatedReplies": 9, "simulatedReposts": 6, "simulatedViews": 5127 },
+    { "id": "H07-C03", "author": "体坛热搜加速器", "avatar": "/avatars/hype.webp", "role": "troll", "text": "奖杯我负责画，掌声你们负责刷，查资料的网友先别划走啊！", "simulatedLikes": 209, "simulatedReplies": 10, "simulatedReposts": 5, "simulatedViews": 2367 },
+    { "id": "H07-C04", "author": "宋代球场候补", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "本网友刚报到，就被拉进荣誉申请群。能先让我喘口气吗？", "simulatedLikes": 327, "simulatedReplies": 11, "simulatedReposts": 4, "simulatedViews": 3254 },
+    { "id": "H07-C05", "author": "体育词条慢读员", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "记载说的是开展、发展还是起源？这几个词最好逐个读清楚。", "simulatedLikes": 558, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4932 },
+    { "id": "H07-C06", "author": "看台常驻吃瓜人", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "我只是路过体育区，没想到要先学会看资料才能加入群聊。", "simulatedLikes": 281, "simulatedReplies": 13, "simulatedReposts": 2, "simulatedViews": 3054 },
+    { "id": "H07-C07", "author": "赛后闲聊候场中", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "本账号的赛后感想先存草稿，今天大家似乎更想讨论海报署名。", "simulatedLikes": 264, "simulatedReplies": 14, "simulatedReposts": 1, "simulatedViews": 2996 },
+    { "id": "H07-C08", "author": "掌声调度办公室", "avatar": "/avatars/hype.webp", "role": "troll", "text": "这届评论区连奖杯底座的文案都吵起来了，流量比我跑得快。", "simulatedLikes": 173, "simulatedReplies": 15, "simulatedReposts": 0, "simulatedViews": 2420 }
   ],
   "claim": "蹴鞠始创于宋代。",
   "isTrue": false,
@@ -72,7 +72,7 @@
   "reviewStatus": "reviewed",
   "reviewBy": "Giotto",
   "reviewedAt": "2026-10-30T02:33:00-07:00",
-  "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。",
+  "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "街巷采闻社",
     "lead": "一则将蹴鞠首创归于宋代的说法引发讨论，相关记载的先后顺序成为核对重点。",

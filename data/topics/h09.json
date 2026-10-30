@@ -15,13 +15,13 @@
     "防火"
   ],
   "title": "东京望火楼如何应对火情？楼下救火安排引关注",
-  "coverUrl": "/covers/h09.svg",
+  "coverUrl": "/covers/h09.webp",
   "coverAlt": "望火楼主题的观察窗、警讯线与问号图形",
   "author": {
     "name": "东京街巷快讯",
     "handle": "@dongjing_kuaixun",
     "bio": "街巷播报｜快讯先到，依据随后查。",
-    "avatarUrl": "/avatars/reader.svg",
+    "avatarUrl": "/avatars/reader.webp",
     "fictitious": true
   },
   "body": "本次讨论从望火楼的名称出发，进一步追问救火人员与器具所在的位置。部分留言提醒，仅看楼名不足以理解完整安排，也不宜在转发时自行补充情节。核对这一说法，需要把楼上职责与楼下配置分别对照记载，避免用想象代替证据。",
@@ -35,7 +35,7 @@
     {
       "id": "H09-C01",
       "author": "前排等资料",
-      "avatar": "/avatars/spectator.svg",
+      "avatar": "/avatars/spectator.webp",
       "role": "spectator",
       "text": "转发到一半停住了：我连楼上楼下都没看明白，怎么先替它写起了简介。",
       "simulatedLikes": 520, "simulatedReplies": 10, "simulatedReposts": 1, "simulatedViews": 4628
@@ -43,7 +43,7 @@
     {
       "id": "H09-C02",
       "author": "慢读课代表",
-      "avatar": "/avatars/reader.svg",
+      "avatar": "/avatars/reader.webp",
       "role": "history_nerd",
       "text": "楼名不是懒人版全文，人员和器具还得看记载怎么说。",
       "simulatedLikes": 483, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4430
@@ -51,7 +51,7 @@
     {
       "id": "H09-C03",
       "author": "热度值班员",
-      "avatar": "/avatars/hype.svg",
+      "avatar": "/avatars/hype.webp",
       "role": "troll",
       "text": "热搜推送比我反应还快，我的理解目前仍在缓冲。",
       "simulatedLikes": 446, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4232
@@ -59,7 +59,7 @@
     {
       "id": "H09-C04",
       "author": "街巷围观客",
-      "avatar": "/avatars/changan.svg",
+      "avatar": "/avatars/changan.webp",
       "role": "in_world",
       "text": "刚进评论区就被问住了，先从激情发言切换成默默围观。",
       "simulatedLikes": 409, "simulatedReplies": 13, "simulatedReposts": 4, "simulatedViews": 4034
@@ -67,7 +67,7 @@
     {
       "id": "H09-C05",
       "author": "上下文观察员",
-      "avatar": "/avatars/reader.svg",
+      "avatar": "/avatars/reader.webp",
       "role": "history_nerd",
       "text": "只截楼名就开讲，后面的上下文是不是被折叠了？",
       "simulatedLikes": 372, "simulatedReplies": 14, "simulatedReposts": 5, "simulatedViews": 3836
@@ -75,7 +75,7 @@
     {
       "id": "H09-C06",
       "author": "收藏夹管理员",
-      "avatar": "/avatars/spectator.svg",
+      "avatar": "/avatars/spectator.webp",
       "role": "spectator",
       "text": "想蹲个懒人总结，结果越蹲问题越多，收藏夹又开始加班。",
       "simulatedLikes": 335, "simulatedReplies": 15, "simulatedReposts": 6, "simulatedViews": 3638
@@ -83,7 +83,7 @@
     {
       "id": "H09-C07",
       "author": "书签借我用用",
-      "avatar": "/avatars/changan.svg",
+      "avatar": "/avatars/changan.webp",
       "role": "in_world",
       "text": "本来只想路过，现在退出去都怕错过后续。",
       "simulatedLikes": 298, "simulatedReplies": 16, "simulatedReposts": 7, "simulatedViews": 3440
@@ -91,7 +91,7 @@
     {
       "id": "H09-C08",
       "author": "标题排版中",
-      "avatar": "/avatars/hype.svg",
+      "avatar": "/avatars/hype.webp",
       "role": "troll",
       "text": "标题很会抓人，我很会点进来，理解这件事还在排队。",
       "simulatedLikes": 261, "simulatedReplies": 17, "simulatedReposts": 0, "simulatedViews": 3242
@@ -143,7 +143,7 @@
   "reviewStatus": "reviewed",
   "reviewBy": "Giotto",
   "reviewedAt": "2026-10-30T02:33:00-07:00",
-  "assetLicense": "原创 SVG，艺术创作·非史料；许可与待审记录见 docs/ASSET_LICENSES.md。",
+  "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "街巷采闻社",
     "lead": "东京望火楼的相关话题引发关注，楼上职责与楼下人员、器具安排成为讨论重点。",

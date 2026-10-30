@@ -28,6 +28,8 @@ describe("好友数据与 reviewed 来源", () => {
     { sourceIds: ["S-H01-01", "S-H01-01"] }, { persona: [] }, { persona: [" "] },
     { avatar: { ...friend.avatar, paper: "url(secret)" } },
     { avatar: { ...friend.avatar, motif: "external-image" } }, { unexpected: true },
+    { avatarUrl: undefined }, { avatarUrl: "https://example.com/libai.webp" },
+    { avatarUrl: "/friends/../libai.webp" }, { avatarUrl: "/friends/libai.svg" },
     { era: undefined }, { era: "唐代" }, { era: { label: "唐代", order: 5 } },
   ])("非法好友数据被拒绝：%j", (override) => {
     expect(() => validateFriends([{ ...friend, ...override }], sources)).toThrow();
@@ -66,7 +68,13 @@ describe("好友数据与 reviewed 来源", () => {
     expect(validateFriends([friend, { ...friend, id: "new-friend", name: "新好友" }], sources)).toHaveLength(2);
   });
   it("客户端资料使用显式白名单，不包含 persona 和来源", () => {
-    expect(Object.keys(toFriendProfile(friend)).sort()).toEqual(["avatar", "bio", "greeting", "id", "name"]);
+    expect(Object.keys(toFriendProfile(friend)).sort()).toEqual(["avatarUrl", "bio", "greeting", "id", "name"]);
+    expect(toFriendProfile(friend).avatarUrl).toBe("/friends/libai.webp");
+  });
+  it("旧 motif 配置保留兼容，图片资料也可独立使用", () => {
+    expect(FriendSchema.parse(friend).avatar).toEqual(friend.avatar);
+    const { avatar: _avatar, ...imageProfile } = friend;
+    expect(FriendSchema.parse(imageProfile)).toEqual(imageProfile);
   });
 });
 

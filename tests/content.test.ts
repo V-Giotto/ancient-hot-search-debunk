@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import sourceIndex from "@/data/source-index.json";
 import {
@@ -14,6 +14,7 @@ import {
 import { getAllTopics, validateContentSet } from "@/lib/topics";
 import { toPublicTopic } from "@/lib/public-topic";
 import { makeSource, makeTopic, makeTopics } from "./fixtures";
+import { getAllFriends } from "@/lib/friends";
 
 const sources = [makeSource()];
 
@@ -224,24 +225,29 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     }
   });
 
-  it("真实题目封面与所有头像使用已登记的本地原创 SVG", () => {
-    const assets = new Set(getAllTopics().flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl, ...topic.comments.map((comment) => comment.avatar!)]));
+  it("十二张封面、五张作者/评论头像与两张好友头像均为已登记的本地 WebP，旧 SVG 已移除", () => {
+    const assets = new Set([
+      ...getAllTopics().flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl,
+        ...topic.comments.flatMap((comment) => [comment.avatar!, ...(comment.replies ?? []).map((reply) => reply.avatar!)])]),
+      ...getAllFriends().map((friend) => friend.avatarUrl),
+    ]);
+    expect(assets.size).toBe(19);
     const licenses = readFileSync(path.join(process.cwd(), "docs/ASSET_LICENSES.md"), "utf8");
     for (const asset of assets) {
-      expect(asset).toMatch(/^\/(covers|avatars)\/[\w-]+\.svg$/);
-      const svg = readFileSync(path.join(process.cwd(), "public", asset), "utf8");
-      expect(svg).not.toMatch(/虚构|架空|模拟|非史料|非实物复原|不是实物复原|仅作戏仿|场景为创作/);
-      expect(svg).not.toContain('<rect x="834" y="578"');
-      expect(svg).not.toContain('<circle cx="861" cy="600"');
-      if (asset.startsWith("/covers/")) {
-        expect(svg).not.toMatch(/<rect x="70" y="578"|<text x="242" y="607"|<text x="70" y="609"/);
-        expect(svg).toContain('viewBox="0 0 1200 675"');
-        expect(svg).toContain('font-size="70"');
-        expect(svg).toContain("热搜档案 / H");
-      }
-      expect(svg).not.toMatch(/(?:href|src)=["']https?:/);
+      expect(asset).toMatch(/^\/(covers|avatars|friends)\/[\w-]+\.webp$/);
+      const webp = readFileSync(path.join(process.cwd(), "public", asset));
+      expect(webp.subarray(0, 4).toString()).toBe("RIFF");
+      expect(webp.subarray(8, 12).toString()).toBe("WEBP");
+      expect(webp.readUInt32LE(4)).toBe(webp.length - 8);
       expect(licenses).toContain(`public${asset}`);
     }
+    for (const folder of ["covers", "avatars", "friends"]) {
+      const files = readdirSync(path.join(process.cwd(), "public", folder));
+      expect(files.filter((file) => file.endsWith(".svg"))).toEqual([]);
+      expect(files.filter((file) => file.endsWith(".webp")).map((file) => `/${folder}/${file}`).sort())
+        .toEqual([...assets].filter((asset) => asset.startsWith(`/${folder}/`)).sort());
+    }
+    for (const phrase of ["Grok Bot 图像生成", "仅参考风格未复制构图", "不含真实品牌/logo", "器物/建筑造型为示意", "待 Giotto 审核"]) expect(licenses).toContain(phrase);
   });
 
   it("题面、账号、评论及揭晓不含虚构标签，保留内部素材登记与 AI 事实边界", () => {
@@ -249,7 +255,7 @@ describe("validateContentSet：当前题目的完整性规则", () => {
       const displayed = JSON.stringify({ ...toPublicTopic(topic), reveal: topic.reveal, rewriteOptions: topic.rewriteOptions });
       expect(displayed).not.toMatch(/虚构|架空|模拟|非史料|只是创作|只是梗|均为现代演绎|拟人账号/);
       expect(topic.aiLimitations.length).toBeGreaterThan(0);
-      expect(topic.assetLicense).toContain("艺术创作·非史料");
+      expect(topic.assetLicense).toContain("AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核");
       expect(topic.reviewStatus).toBe("reviewed");
     }
   });

@@ -10,13 +10,13 @@
   "category": "科技文物",
   "tags": ["青铜冰鉴", "冰饮开箱", "古代器物"],
   "title": "战国冰饮开箱引围观：青铜器也能给酒饮降温？",
-  "coverUrl": "/covers/h06.svg",
+  "coverUrl": "/covers/h06.webp",
   "coverAlt": "青铜套器与冰饮开箱贴纸插画",
   "author": {
     "name": "楚地贵族生活家",
     "handle": "@chudi_shenghuo",
     "bio": "生活分享号｜开箱可以有排面，结论还得有依据。",
-    "avatarUrl": "/avatars/changan.svg",
+    "avatarUrl": "/avatars/changan.webp",
     "fictitious": true
   },
   "body": "夏天一热，评论区就开始催更冰饮开箱。本生活家刚摆出一个青铜器话题，网友已经问到第三轮：酒装哪里，冷从哪里来，这个开箱到底有没有实物依据？还有人顺手给它贴上了‘冰箱’标签。先别急着下单同款，营销词归营销词，器物结构归器物结构。今天这杯围观饮料，得等查证之后再端稳！",
@@ -27,18 +27,18 @@
   "simulatedReposts": 620,
   "simulatedBookmarks": 2670,
   "comments": [
-    { "id": "H06-C01", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "开箱还没开始，我已经把空杯子拿来了。围观能附赠一点凉快吗？", "simulatedLikes": 473, "simulatedReplies": 7, "simulatedReposts": 6, "simulatedViews": 3990, "replies": [
-      {"id": "H06-C01-R1", "replyTo": "H06-C01", "author": "楚地贵族生活家", "avatar": "/avatars/changan.svg", "text": "开箱视频还在加载，空杯子先放下，凉不凉得看资料说了算。"},
-      {"id": "H06-C01-R2", "replyTo": "H06-C01-R1", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.svg", "text": "懂了，先收起吸管，安静等开箱结果。"},
-      {"id": "H06-C01-R3", "replyTo": "H06-C01-R2", "author": "楚地贵族生活家", "avatar": "/avatars/changan.svg", "text": "吸管先替我保管，结论出来再一起举杯（只举杯）。"}
+    { "id": "H06-C01", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "开箱还没开始，我已经把空杯子拿来了。围观能附赠一点凉快吗？", "simulatedLikes": 473, "simulatedReplies": 7, "simulatedReposts": 6, "simulatedViews": 3990, "replies": [
+      {"id": "H06-C01-R1", "replyTo": "H06-C01", "author": "楚地贵族生活家", "avatar": "/avatars/changan.webp", "text": "开箱视频还在加载，空杯子先放下，凉不凉得看资料说了算。"},
+      {"id": "H06-C01-R2", "replyTo": "H06-C01-R1", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.webp", "text": "懂了，先收起吸管，安静等开箱结果。"},
+      {"id": "H06-C01-R3", "replyTo": "H06-C01-R2", "author": "楚地贵族生活家", "avatar": "/avatars/changan.webp", "text": "吸管先替我保管，结论出来再一起举杯（只举杯）。"}
     ] },
-    { "id": "H06-C02", "author": "结构图先别滑走", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "先把盛酒的位置和器物之间的空间分开看，别只盯着开箱标签。", "simulatedLikes": 604, "simulatedReplies": 8, "simulatedReposts": 4, "simulatedViews": 4968 },
-    { "id": "H06-C03", "author": "开箱标题批发部", "avatar": "/avatars/hype.svg", "role": "troll", "text": "封面排面给满，标题热度拉高。至于杯子，评论区请自备！", "simulatedLikes": 218, "simulatedReplies": 9, "simulatedReposts": 2, "simulatedViews": 2327 },
-    { "id": "H06-C04", "author": "楚地宴席围观员", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本宴席网友先申请坐下，主家的开箱话题比我的杯子还抢镜。", "simulatedLikes": 315, "simulatedReplies": 10, "simulatedReposts": 0, "simulatedViews": 3067 },
-    { "id": "H06-C05", "author": "器物说明慢慢读", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "现代起的外号和器物实际怎么工作，要不要分别查一遍？", "simulatedLikes": 562, "simulatedReplies": 11, "simulatedReposts": 6, "simulatedViews": 4857 },
-    { "id": "H06-C06", "author": "杯子已经就位", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我从茶水间一路围观过来，今日份摸鱼终于有了学术气氛。", "simulatedLikes": 289, "simulatedReplies": 12, "simulatedReposts": 4, "simulatedViews": 3007 },
-    { "id": "H06-C07", "author": "宴席座位候补", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "座次表先留一格给我，论吃瓜积极程度，本账号不接受调剂。", "simulatedLikes": 271, "simulatedReplies": 13, "simulatedReposts": 2, "simulatedViews": 2942 },
-    { "id": "H06-C08", "author": "凉快话题助推员", "avatar": "/avatars/hype.svg", "role": "troll", "text": "评论区热到冒烟，这条到底该算生活区还是开箱区？我先两边占座。", "simulatedLikes": 182, "simulatedReplies": 14, "simulatedReposts": 0, "simulatedViews": 2380 }
+    { "id": "H06-C02", "author": "结构图先别滑走", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "先把盛酒的位置和器物之间的空间分开看，别只盯着开箱标签。", "simulatedLikes": 604, "simulatedReplies": 8, "simulatedReposts": 4, "simulatedViews": 4968 },
+    { "id": "H06-C03", "author": "开箱标题批发部", "avatar": "/avatars/hype.webp", "role": "troll", "text": "封面排面给满，标题热度拉高。至于杯子，评论区请自备！", "simulatedLikes": 218, "simulatedReplies": 9, "simulatedReposts": 2, "simulatedViews": 2327 },
+    { "id": "H06-C04", "author": "楚地宴席围观员", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "本宴席网友先申请坐下，主家的开箱话题比我的杯子还抢镜。", "simulatedLikes": 315, "simulatedReplies": 10, "simulatedReposts": 0, "simulatedViews": 3067 },
+    { "id": "H06-C05", "author": "器物说明慢慢读", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "现代起的外号和器物实际怎么工作，要不要分别查一遍？", "simulatedLikes": 562, "simulatedReplies": 11, "simulatedReposts": 6, "simulatedViews": 4857 },
+    { "id": "H06-C06", "author": "杯子已经就位", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "我从茶水间一路围观过来，今日份摸鱼终于有了学术气氛。", "simulatedLikes": 289, "simulatedReplies": 12, "simulatedReposts": 4, "simulatedViews": 3007 },
+    { "id": "H06-C07", "author": "宴席座位候补", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "座次表先留一格给我，论吃瓜积极程度，本账号不接受调剂。", "simulatedLikes": 271, "simulatedReplies": 13, "simulatedReposts": 2, "simulatedViews": 2942 },
+    { "id": "H06-C08", "author": "凉快话题助推员", "avatar": "/avatars/hype.webp", "role": "troll", "text": "评论区热到冒烟，这条到底该算生活区还是开箱区？我先两边占座。", "simulatedLikes": 182, "simulatedReplies": 14, "simulatedReposts": 0, "simulatedViews": 2380 }
   ],
   "claim": "战国时期存在利用冰块冷却酒饮的青铜器具。",
   "isTrue": true,
@@ -75,5 +75,5 @@
   "reviewStatus": "reviewed",
   "reviewBy": "Giotto",
   "reviewedAt": "2026-10-30T02:33:00-07:00",
-  "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
+  "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。"
 }

@@ -2,6 +2,7 @@
   "id": "dufu",
   "era": { "label": "唐代", "order": 4 },
   "name": "杜甫",
+  "avatarUrl": "/friends/dufu.webp",
   "avatar": { "motif": "reeds", "paper": "#F2E8DB", "ink": "#665347", "accent": "#B77B5B" },
   "bio": "挂心人间冷暖，也愿听你说说今日的难处。",
   "greeting": "你来了。今日过得如何，可有什么难处？不必急，慢慢说，甫在这里听着。",

@@ -1,6 +1,6 @@
 # QA 报告
 
-最新结果为文末“v0.18.3 仅保留中间界面”；前文各阶段的 pending、409、未签名及人设待细化均为当时验收状态，不代表当前实现。现有 12 题与 28 条来源均已审；H07、H12 年代及 H07 准确表述由 Giotto 审核，其余十题年代、六项人设事实使用条目及两位好友年代仍待 Giotto 审核。
+最新结果为文末“v0.19.0 像素风封面与头像”；前文各阶段的 pending、409、未签名及人设待细化均为当时验收状态，不代表当前实现。现有 12 题与 28 条来源均已审；H07、H12 年代及 H07 准确表述由 Giotto 审核，其余十题年代、六项人设事实使用条目及两位好友年代仍待 Giotto 审核。
 
 验收日期：2026-10-29。范围仅为现有 H03 的真实 AI 追问与 AskPanel；题目、来源与审核状态保持原样，其余七条未开发。
 
@@ -653,3 +653,62 @@ Zod 严格要求 `rumorEra`、`coreContext`、`evidenceEra` 非空，`eraReview`
 - [手机首页 390×844](/workspace/iter1/v0.18.3-home-390x844.png)：无公告与守则折叠块，原进度卡与四 Tab 保留。
 
 `data/` 无任何变更，不新增史实、来源或审核签名。单测全部 mock，E2E 自启 formal/preview 服务均显式无 key，成功与错误状态使用浏览器 mock，真实 AI 调用 **0** 次；未打印或记录密钥，未 commit、tag 或 push。
+
+
+## v0.19.0 像素风封面与头像（2026-10-30）
+
+全站像素风改版第一步，接入用户已提供的 19 张原图：十二张 1200×675 WebP 封面、五张 256×256 作者/评论头像及两张 256×256 好友头像；原图字节未修改。题目、作者、全部评论及楼中楼统一使用 WebP，删除旧封面和头像 SVG；运行代码、测试 fixture 与文档无旧文件路径残留。现有 metadata 仅包含标题/描述，没有另行配置的 OG 封面 URL。好友列表、聊天头像与转发好友选择共用 img，alt 为好友名，HTML 固定 64×64，CSS 按场景预留 64/52/44/36px 方形空间；两张好友图及聊天重复图使用 eager、async 解码与浏览器缓存。旧 motif 数据与 schema 保留兼容，客户端资料白名单只传 avatarUrl。
+
+封面与头像采用 object-fit: cover；原比例为 16:9/1:1，浏览器验证显示比例和自然尺寸，确保缩略图、发现双列、详情大图与转发弹层不拉伸。未强制 image-rendering: pixelated。PNG 查证卡当前只含文字和状态 SVG，没有内嵌题目封面；保留十二题 1200×675 的真实 PNG 下载回归，并额外用同版本 html-to-image 测试 WebP→SVG foreignObject→PNG 的真实像素输出。
+
+所有新图登记为 Grok Bot 图像生成的原创像素风插画，风格参考由用户提供，仅参考风格未复制构图，不含真实品牌/logo；非史料、非历史复原，器物/建筑造型为示意，均为“待 Giotto 审核”。题目 assetLicense 同步指定说明，用户批准样张不代替素材审核。第二步 v0.20.0 为贴纸与 UI 图标。
+
+### 本轮资源总量
+
+| 图片 | 数量 | 原文件总字节 |
+| --- | --- | --- |
+| 封面 | 12 | 1,015,714 B |
+| 作者/评论头像 | 5 | 63,980 B |
+| 好友头像 | 2 | 24,082 B |
+| 合计 | 19 | **1,103,776 B（约 1.05 MiB）** |
+
+### 自动化验证
+
+| 命令/检查 | 结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 25 个测试文件、721 项全部通过；AI 上游全部 mock |
+| `npm run build` | 通过；BUILD_ID `b1c2617f-efef-4206-acdb-eaaefa24f2ad`；构建环境显式无 AI key |
+| `CHROME_PATH=/usr/bin/google-chrome npm run test:e2e` | 通过；十二题完整流程、255 项布局检查、23 项桌面/边界检查；浏览器错误 0 |
+| WebP 专项 | 19 张全部 200、Content-Type 为 image/webp，返回内容与仓库原图逐字节一致；全部成功解码，封面 1200×675、头像 256×256；图片 404/请求失败 0 |
+| 图片布局与 CLS | 390×844、375×667、430×932 各覆盖热榜、发现、好友列表、两位好友聊天和十二题详情，共 51 个页面；图片延迟 150ms 到达，最大 CLS **0**（阈值 0.1）；固定尺寸/alt/比例/cover、无溢出均通过 |
+| 分享与导出 | 三视口两模块的好友转发弹层头像尺寸/alt/cover 正常；十二题真实 1200×675 PNG 非空且无文字裁切；额外 WebP 内嵌 SVG 导出逐像素平均误差 **0** |
+| `node --check scripts/e2e.mjs`、`git diff --check` | 通过 |
+| 内容边界 | 十二题仅改封面/头像路径和 assetLicense；coverAlt、其它内容、所有审核字段及来源索引保持原样 |
+
+首次浏览器回归发现旧详情配图断言仍要求 object-fit: contain，已同步为本版的 cover 与等比显示要求；最终完整回归通过。PNG 查证卡无需兼容代码或额外依赖。WebP 实测导出保存在 `artifacts/stage-6/webp-export-compatibility.png`，PNG 为 1,107,158 B。
+
+### 首屏 JS 对比
+
+修改前使用当时现有的 v0.18.4 生产构建测量，修改后用本次构建；每路由 390×844 新会话、禁用 HTTP 缓存，计量 ResourceTiming encodedBodySize，包含自动预取的外部 JS。解压后 JS 总量也未增加。图片通过静态 URL 单独传输，未嵌入 JS；下表图片栏为该路由本次实际请求字节，不等于全库总量。
+
+| 路由 | 修改前压缩 JS | v0.19.0 压缩 JS | 变化 | 图片请求字节 |
+| --- | --- | --- | --- | --- |
+| `/trending` | 176,209 B | 176,209 B | +0 B | 574,410 B |
+| `/discover` | 141,696 B | 141,696 B | +0 B | 478,040 B |
+| `/me` | 175,675 B | 175,675 B | +0 B | 0 B |
+| `/me?tab=favorites` | 175,675 B | 175,675 B | +0 B | 0 B |
+| `/post/H12` | 186,230 B | 185,935 B | -295 B | 119,304 B |
+
+全部低于 300,000 B 首屏压缩 JS 预算。html-to-image 独立动态 chunk 在首屏和首次预览均未请求，首次点击“下载 PNG”后才加载。基线与对比数据分别保存在 `artifacts/stage-6/v0.18.4-js-baseline.json`、`artifacts/stage-6/v0.19.0-js-comparison.json`；完整浏览器结果为 `artifacts/stage-6/result.json`，其中 pixelAssets 记录图片状态、字节、51 页 CLS/尺寸和导出像素误差。
+
+
+### 指定截图
+
+以下截图均为 390×844，已打开复核，且与 artifacts/stage-6/screenshots 中同名副本逐字节一致：
+
+- [热榜](/workspace/iter1/v0.19.0-trending-390x844.png)：完整露出前四条新闻，缩略图使用像素风封面。
+- [发现瀑布流](/workspace/iter1/v0.19.0-discover-390x844.png)：两列主题封面和作者像素头像，原配图比例保持。
+- [好友列表](/workspace/iter1/v0.19.0-friends-390x844.png)：杜甫与李白图片头像、简介及底部四 Tab 正常。
+
+根包与锁文件顶层/根包均为 **0.19.0**。逐题比对 HEAD：除了 cover/avatar 路径与 assetLicense，其余内容、coverAlt 和 reviewStatus 完全一致；data/source-index.json 与 HEAD 逐字节一致。本轮未调用真实 AI、未打印或记录密钥，未 commit、tag 或 push。

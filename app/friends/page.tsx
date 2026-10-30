@@ -19,7 +19,7 @@ export default function FriendsPage() {
     <ul className="friends-list" aria-label="好友列表">
       {friends.map((friend) => <li key={friend.id}>
         <Link href={`/friends/${friend.id}`} className="friend-card" aria-label={`与${friend.name}对话`}>
-          <FriendAvatar avatar={friend.avatar} />
+          <FriendAvatar friend={friend} />
           <div className="friend-card-copy"><h3>{friend.name}</h3><p>{friend.bio}</p><span>开始对话 <span aria-hidden="true">↗</span></span></div>
         </Link>
       </li>)}

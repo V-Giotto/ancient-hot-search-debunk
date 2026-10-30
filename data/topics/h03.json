@@ -10,13 +10,13 @@
   "category": "古代美食",
   "tags": ["长安吃瓜", "辛味疑云", "跨时空饭局"],
   "title": "唐代已实现“辣椒自由”？饮食话题中的配料待核对",
-  "coverUrl": "/covers/h03.svg",
+  "coverUrl": "/covers/h03.webp",
   "coverAlt": "唐风角色围观一锅夸张红汤的插画",
   "author": {
     "name": "长安吃货观察局",
     "handle": "@changan_chihuo",
     "bio": "跨时空饭局观察员｜今天这锅，评论区先尝。",
-    "avatarUrl": "/avatars/changan.svg",
+    "avatarUrl": "/avatars/changan.webp",
     "fictitious": true
   },
   "body": "话题以一顿跨时空饭局为切入点，围绕锅中配料是否合理展开讨论。部分留言关注辛味，也有留言要求先查看配料表。对此，不能仅凭颜色或“辣”的描述判断具体调料，应将说法中的食材与相关记载对照，再判断这一主张是否成立。",
@@ -27,14 +27,14 @@
   "simulatedReposts": 820,
   "simulatedBookmarks": 3200,
   "comments": [
-    { "id": "H03-C01", "author": "胡椒不背锅", "avatar": "/avatars/pepper.svg", "role": "in_world", "text": "你们每次说‘辣’，怎么都要算到我头上？", "simulatedLikes": 628, "simulatedReplies": 4, "simulatedReposts": 3, "simulatedViews": 4766 },
-    { "id": "H03-C02", "author": "长安西市排队王", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "菜单还没看明白，排队的号已经过了。能先给我留个靠锅的位置吗？", "simulatedLikes": 412, "simulatedReplies": 5, "simulatedReposts": 6, "simulatedViews": 3315 },
-    { "id": "H03-C03", "author": "历史课代表已上线", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "这里说的辣，和今天的辣椒是一回事吗？先把配料名字问清楚。", "simulatedLikes": 593, "simulatedReplies": 6, "simulatedReposts": 1, "simulatedViews": 4643 },
-    { "id": "H03-C04", "author": "跨时空吃瓜群众", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我负责搬小板凳，你们负责讲明白，别让我的瓜串味了。", "simulatedLikes": 287, "simulatedReplies": 7, "simulatedReposts": 4, "simulatedViews": 2562 },
-    { "id": "H03-C05", "author": "热榜加料小助手", "avatar": "/avatars/hype.svg", "role": "troll", "text": "震惊！一口锅让整个评论区停止划水！标题我先写，配料表你们补。", "simulatedLikes": 165, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 1769 },
-    { "id": "H03-C06", "author": "调料考据进行中", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "建议调查一下辣椒到底何时传入中国，再决定这筷子往哪儿夹。", "simulatedLikes": 381, "simulatedReplies": 9, "simulatedReposts": 2, "simulatedViews": 3342 },
-    { "id": "H03-C07", "author": "一碗清水路过", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "隔着屏幕先喝一口水。你们继续，我的嘴已经替我退出群聊。", "simulatedLikes": 209, "simulatedReplies": 10, "simulatedReposts": 5, "simulatedViews": 2199 },
-    { "id": "H03-C08", "author": "长安饭局气氛组", "avatar": "/avatars/hype.svg", "role": "troll", "text": "家人们先别吵，锅都要凉了！我宣布本桌最忙的是评论区。", "simulatedLikes": 138, "simulatedReplies": 11, "simulatedReposts": 0, "simulatedViews": 1763 }
+    { "id": "H03-C01", "author": "胡椒不背锅", "avatar": "/avatars/pepper.webp", "role": "in_world", "text": "你们每次说‘辣’，怎么都要算到我头上？", "simulatedLikes": 628, "simulatedReplies": 4, "simulatedReposts": 3, "simulatedViews": 4766 },
+    { "id": "H03-C02", "author": "长安西市排队王", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "菜单还没看明白，排队的号已经过了。能先给我留个靠锅的位置吗？", "simulatedLikes": 412, "simulatedReplies": 5, "simulatedReposts": 6, "simulatedViews": 3315 },
+    { "id": "H03-C03", "author": "历史课代表已上线", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "这里说的辣，和今天的辣椒是一回事吗？先把配料名字问清楚。", "simulatedLikes": 593, "simulatedReplies": 6, "simulatedReposts": 1, "simulatedViews": 4643 },
+    { "id": "H03-C04", "author": "跨时空吃瓜群众", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "我负责搬小板凳，你们负责讲明白，别让我的瓜串味了。", "simulatedLikes": 287, "simulatedReplies": 7, "simulatedReposts": 4, "simulatedViews": 2562 },
+    { "id": "H03-C05", "author": "热榜加料小助手", "avatar": "/avatars/hype.webp", "role": "troll", "text": "震惊！一口锅让整个评论区停止划水！标题我先写，配料表你们补。", "simulatedLikes": 165, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 1769 },
+    { "id": "H03-C06", "author": "调料考据进行中", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "建议调查一下辣椒到底何时传入中国，再决定这筷子往哪儿夹。", "simulatedLikes": 381, "simulatedReplies": 9, "simulatedReposts": 2, "simulatedViews": 3342 },
+    { "id": "H03-C07", "author": "一碗清水路过", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "隔着屏幕先喝一口水。你们继续，我的嘴已经替我退出群聊。", "simulatedLikes": 209, "simulatedReplies": 10, "simulatedReposts": 5, "simulatedViews": 2199 },
+    { "id": "H03-C08", "author": "长安饭局气氛组", "avatar": "/avatars/hype.webp", "role": "troll", "text": "家人们先别吵，锅都要凉了！我宣布本桌最忙的是评论区。", "simulatedLikes": 138, "simulatedReplies": 11, "simulatedReposts": 0, "simulatedViews": 1763 }
   ],
   "claim": "唐代中国已经使用原产美洲的辣椒进行调味。",
   "isTrue": false,
@@ -70,7 +70,7 @@
   "reviewStatus": "reviewed",
   "reviewBy": "Giotto",
   "reviewedAt": "2026-10-30T02:33:00-07:00",
-  "assetLicense": "仓库原创 SVG，由 Codex 生成，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。",
+  "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "街巷采闻社",
     "lead": "一则唐代已能自由使用辣椒的饮食说法引发讨论，配料与辛味的对应关系成为核对重点。",

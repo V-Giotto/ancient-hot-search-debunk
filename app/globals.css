@@ -108,11 +108,11 @@ a, button, summary { transition: color 180ms, background-color 180ms, border-col
 .discover-card { break-inside: avoid; margin-bottom: 10px; border: 1px solid #d76b4e18; border-radius: 22px; background: var(--card); box-shadow: 0 5px 18px #a74d2e0d; }
 .discover-card > a { display: block; min-width: 0; border-radius: inherit; }
 .discover-card > a:hover h2 { color: #b33f39; }
-.discover-cover { display: block; width: 100%; height: auto; object-fit: contain; border-radius: 21px 21px 0 0; background: var(--background); }
+.discover-cover { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 21px 21px 0 0; background: var(--background); }
 .discover-copy { padding: 10px 9px 12px; }
 .discover-copy h2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 13px; font-weight: 650; line-height: 1.6; }
 .discover-byline { display: flex; align-items: center; gap: 4px; margin-top: 12px; color: var(--muted); font-size: 10px; }
-.discover-byline > img { width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; }
+.discover-byline > img { object-fit: cover; width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; }
 .discover-author { min-width: 0; flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .discover-likes { display: inline-flex; flex-shrink: 0; align-items: center; gap: 2px; font-variant-numeric: tabular-nums; }
 .discover-likes svg { width: 15px; height: 15px; }
@@ -139,7 +139,7 @@ a, button, summary { transition: color 180ms, background-color 180ms, border-col
 .post-statistics { margin-top: 16px; border-top: 1px solid #26252c12; padding-block: 16px; }
 .post-body { margin-top: 12px; font-size: 14px; line-height: 1.95; white-space: pre-wrap; }
 .post-cover { overflow: hidden; border-radius: 12px; }
-.post-cover > img { display: block; width: 100%; height: auto; object-fit: contain; border-radius: inherit; }
+.post-cover > img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: inherit; }
 .social-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: 8px; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
 .social-stat { display: flex; align-items: center; gap: 4px; min-width: 0; }
 .social-stat:last-child { justify-content: flex-end; }
@@ -260,7 +260,7 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .trending-media { position: relative; padding-top: 4px; }
 .trending-media > .trending-tag { position: absolute; top: 0; right: 0; z-index: 1; }
 .trending-tag { display: inline-flex; align-items: center; justify-content: center; gap: 3px; min-width: 24px; height: 20px; padding-inline: 7px; border-radius: 6px; font-size: 10px; font-weight: 700; line-height: 1; }
-.trending-thumbnail { display: block; width: 96px; max-width: 100%; height: auto; aspect-ratio: 16 / 9; border: 1px solid #26252c08; border-radius: 6px; object-fit: contain; background: var(--background); }
+.trending-thumbnail { display: block; width: 96px; max-width: 100%; height: auto; aspect-ratio: 16 / 9; border: 1px solid #26252c08; border-radius: 6px; object-fit: cover; background: var(--background); }
 .trending-discover { display: flex; justify-content: center; gap: 12px; margin: 12px 16px 0; color: #b33f39; font-size: 12px; }
 @keyframes verdict-stamp {
   0% { opacity: 0; transform: scale(1.6) rotate(-16deg); }
@@ -383,7 +383,7 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .friends-list { display: grid; gap: 12px; }
 .friend-card { display: flex; width: 100%; gap: 16px; align-items: flex-start; padding: 20px 16px; border: 1px solid #26252c0d; border-radius: 14px; background: var(--card); }
 .friend-card:hover { border-color: #bda183; background: #fffdf9; }
-.friend-avatar { display: block; flex-shrink: 0; width: 64px; height: 64px; border-radius: 20px; }
+.friend-avatar { object-fit: cover; display: block; flex-shrink: 0; width: 64px; height: 64px; border-radius: 20px; }
 .friend-card-copy { min-width: 0; flex: 1; }
 .friend-card h3 { font-size: 18px; font-weight: 650; letter-spacing: .08em; }
 .friend-card p { margin-top: 6px; font-size: 12px; color: #706961; line-height: 1.85; }
