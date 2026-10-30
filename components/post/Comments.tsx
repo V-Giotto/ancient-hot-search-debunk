@@ -20,14 +20,15 @@ function ReplyThread({ replies, parentId, parentAuthor, author }: { replies: Com
   </ol>;
 }
 
-export function Comments({ comments, author = "", title }: { comments: Comment[]; author?: string; title?: string }) {
+export function Comments({ comments, author = "", title, module = "discover" }: { comments: Comment[]; author?: string; title?: string; module?: "trending" | "discover" }) {
   const [expanded, setExpanded] = useState(false);
+  const news = module === "trending";
   return (
-    <section className="panel comments-panel" aria-labelledby="comments-heading">
-      <p className="comments-context">发现 · 帖子讨论<span>{title}</span></p>
+    <section className={`panel comments-panel${news ? " news-comments" : ""}`} aria-labelledby="comments-heading">
+      <p className="comments-context">{news ? "热搜 · 报道讨论" : "发现 · 帖子讨论"}<span>{title}</span></p>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 id="comments-heading" className="text-lg font-bold">和作者聊两句</h2>
-        <span className="text-xs text-muted">作者在楼里</span>
+        <h2 id="comments-heading" tabIndex={-1} className="text-lg font-bold">{news ? "读者评论" : "评论区"}</h2>
+        <span className="text-xs text-muted">查看讨论</span>
       </div>
       <ul id="post-comments" className="mt-3 divide-y divide-ink/7">
         {(expanded ? comments : comments.slice(0, 4)).map((comment, index) => (
@@ -39,9 +40,9 @@ export function Comments({ comments, author = "", title }: { comments: Comment[]
           </li>
         ))}
       </ul>
-      <button type="button" aria-expanded={expanded} aria-controls="post-comments" onClick={() => setExpanded(!expanded)} className="secondary-button w-full">
+      {comments.length > 4 && <button type="button" aria-expanded={expanded} aria-controls="post-comments" onClick={() => setExpanded(!expanded)} className="secondary-button w-full">
         <PixelIcon name={expanded ? "collapse" : "expand"} size={16} />{expanded ? "收起评论" : `展开更多评论（还有 ${comments.length - 4} 条）`}
-      </button>
+      </button>}
     </section>
   );
 }

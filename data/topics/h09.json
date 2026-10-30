@@ -1,20 +1,27 @@
 {
   "id": "H09",
-  "era": { "label": "北宋", "order": 5 },
+  "era": {
+    "label": "北宋",
+    "order": 5
+  },
   "rumorEra": "北宋",
   "coreContext": "北宋东京望火楼、驻军与救火器具",
-  "evidenceEra": "待定",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "南宋文献（《东京梦华录》，1147年成书）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 9,
   "module": "trending",
   "format": "news",
   "category": "城市守望",
   "tags": [
+    "北宋东京",
     "望火楼",
-    "东京快讯",
-    "防火"
+    "城市防火"
   ],
-  "title": "东京望火楼如何应对火情？楼下救火安排引关注",
+  "title": "北宋东京的防火配置有多专业",
   "coverUrl": "/covers/h09.webp",
   "coverAlt": "望火楼主题的观察窗、警讯线与问号图形",
   "author": {
@@ -24,7 +31,7 @@
     "avatarUrl": "/avatars/reader.webp",
     "fictitious": true
   },
-  "body": "本次讨论从望火楼的名称出发，进一步追问救火人员与器具所在的位置。部分留言提醒，仅看楼名不足以理解完整安排，也不宜在转发时自行补充情节。核对这一说法，需要把楼上职责与楼下配置分别对照记载，避免用想象代替证据。",
+  "body": "没有现代通讯设备，古代城市发现火情后该怎么办？最近，北宋东京的望火楼受到关注。有人以为它只是一个居高望远的地方，也有人提出：光靠站得高、看得远，还不足以完成救火。楼上是否有人值守？楼下又有哪些人员和器具？这些细节决定了它究竟是不是一套有组织的防火安排。",
   "simulatedHeat": 510000,
   "simulatedViews": 979670,
   "simulatedLikes": 11500,
@@ -34,67 +41,92 @@
   "comments": [
     {
       "id": "H09-C01",
-      "author": "前排等资料",
+      "author": "楼名理解满分",
       "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "转发到一半停住了：我连楼上楼下都没看明白，怎么先替它写起了简介。",
-      "simulatedLikes": 520, "simulatedReplies": 10, "simulatedReposts": 1, "simulatedViews": 4628
+      "role": "troll",
+      "text": "叫望火楼，我猜就是站高点看火情，后面的事大概另说？",
+      "simulatedLikes": 520,
+      "simulatedReplies": 10,
+      "simulatedReposts": 1,
+      "simulatedViews": 4628,
+      "replies": [
+        {
+          "id": "H09-C01-R1",
+          "replyTo": "H09-C01",
+          "author": "东京街巷居民",
+          "avatar": "/avatars/reader.webp",
+          "text": "你只安排了看见，那看见以后谁来处理，这一步还空着呢。"
+        },
+        {
+          "id": "H09-C01-R2",
+          "replyTo": "H09-C01-R1",
+          "author": "东京街巷快讯",
+          "avatar": "/avatars/reader.webp",
+          "text": "这个空白留给记载回答，先读《东京梦华录》的防火一段，把人员和器具分别找出来。"
+        },
+        {
+          "id": "H09-C01-R3",
+          "replyTo": "H09-C01-R2",
+          "author": "楼名理解满分",
+          "avatar": "/avatars/spectator.webp",
+          "text": "好，楼名阅读满分撤回，全文阅读准备开始。"
+        }
+      ]
     },
     {
       "id": "H09-C02",
-      "author": "慢读课代表",
+      "author": "东京街巷居民",
       "avatar": "/avatars/reader.webp",
-      "role": "history_nerd",
-      "text": "楼名不是懒人版全文，人员和器具还得看记载怎么说。",
-      "simulatedLikes": 483, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4430
+      "role": "in_world",
+      "text": "发现火情之后谁去救？总不能只负责站在楼上喊吧。",
+      "simulatedLikes": 483,
+      "simulatedReplies": 11,
+      "simulatedReposts": 2,
+      "simulatedViews": 4430
     },
     {
       "id": "H09-C03",
-      "author": "热度值班员",
+      "author": "古籍检索员",
       "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "热搜推送比我反应还快，我的理解目前仍在缓冲。",
-      "simulatedLikes": 446, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4232
+      "role": "history_nerd",
+      "text": "《东京梦华录》里有值得核对的细节，别只看示意图，楼上楼下分开读。",
+      "simulatedLikes": 446,
+      "simulatedReplies": 12,
+      "simulatedReposts": 3,
+      "simulatedViews": 4232
     },
     {
       "id": "H09-C04",
-      "author": "街巷围观客",
+      "author": "建筑爱好者",
       "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "刚进评论区就被问住了，先从激情发言切换成默默围观。",
-      "simulatedLikes": 409, "simulatedReplies": 13, "simulatedReposts": 4, "simulatedViews": 4034
+      "role": "spectator",
+      "text": "这个楼名我记住了，但现在更想知道楼下是什么。",
+      "simulatedLikes": 409,
+      "simulatedReplies": 13,
+      "simulatedReposts": 4,
+      "simulatedViews": 4034
     },
     {
       "id": "H09-C05",
-      "author": "上下文观察员",
+      "author": "现代消防观察员",
       "avatar": "/avatars/reader.webp",
       "role": "history_nerd",
-      "text": "只截楼名就开讲，后面的上下文是不是被折叠了？",
-      "simulatedLikes": 372, "simulatedReplies": 14, "simulatedReposts": 5, "simulatedViews": 3836
+      "text": "古今条件不同，发现火情和组织处置得分别看，别直接套今天的体系。",
+      "simulatedLikes": 372,
+      "simulatedReplies": 14,
+      "simulatedReposts": 5,
+      "simulatedViews": 3836
     },
     {
       "id": "H09-C06",
-      "author": "收藏夹管理员",
+      "author": "东京散步中",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "想蹲个懒人总结，结果越蹲问题越多，收藏夹又开始加班。",
-      "simulatedLikes": 335, "simulatedReplies": 15, "simulatedReposts": 6, "simulatedViews": 3638
-    },
-    {
-      "id": "H09-C07",
-      "author": "书签借我用用",
-      "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "本来只想路过，现在退出去都怕错过后续。",
-      "simulatedLikes": 298, "simulatedReplies": 16, "simulatedReposts": 7, "simulatedViews": 3440
-    },
-    {
-      "id": "H09-C08",
-      "author": "标题排版中",
-      "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "标题很会抓人，我很会点进来，理解这件事还在排队。",
-      "simulatedLikes": 261, "simulatedReplies": 17, "simulatedReposts": 0, "simulatedViews": 3242
+      "text": "本来想认一座楼，结果带着一张楼层功能表回来了。",
+      "simulatedLikes": 335,
+      "simulatedReplies": 15,
+      "simulatedReposts": 6,
+      "simulatedViews": 3638
     }
   ],
   "claim": "北宋都城东京设有望火楼瞭望火情，楼下驻有专门救火的军兵并备有救火器具。",
@@ -146,11 +178,11 @@
   "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "街巷采闻社",
-    "lead": "东京望火楼的相关话题引发关注，楼上职责与楼下人员、器具安排成为讨论重点。",
+    "lead": "读者讨论古代城市如何应对火情，一座名叫“望火楼”的建筑进入视野：楼上楼下分别做什么？",
     "publishedAt": "2026-10-30T09:45:00+08:00",
     "related": [
-      "留言提醒，楼名不能代替全文，人员与器具仍需查阅记载。",
-      "讨论建议先弄清楼上与楼下的安排，再作转述。"
+      "从楼名猜用途之后，楼下的人员与器具成了新的问题。",
+      "《东京梦华录》的防火记载，读者准备逐项对照。"
     ]
   }
 }

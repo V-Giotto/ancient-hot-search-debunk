@@ -1,25 +1,36 @@
 {
   "id": "H08",
-  "era": { "label": "唐代", "order": 4 },
+  "era": {
+    "label": "唐代",
+    "order": 4
+  },
   "rumorEra": "唐代",
   "coreContext": "唐代带植毛孔的牙刷柄",
   "evidenceEra": "唐代器物、1984年出土",
-  "eraReview": { "status": "pending" },
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 8,
   "module": "discover",
   "category": "古代日常",
-  "tags": ["唐代牙刷柄", "晨间Routine", "器物与日常"],
-  "title": "大唐晨间Routine刷屏：牙刷柄也有植毛孔？",
+  "tags": [
+    "唐代日常",
+    "牙刷考古",
+    "古代生活"
+  ],
+  "title": "谁说古人不讲究口腔卫生？这件小东西有点眼熟",
   "coverUrl": "/covers/h08.webp",
   "coverAlt": "唐风角色与带孔骨柄示意卡插画",
   "author": {
     "name": "大唐晨间Routine研究所",
     "handle": "@datang_chenjian",
-    "bio": "日常分享号｜早起先醒神，精致人设等查证。",
+    "bio": "晨间清单观察｜我先研究小孔，闹钟稍后再响。",
     "avatarUrl": "/avatars/changan.webp",
     "fictitious": true
   },
-  "body": "今天的晨间Routine刚开场，评论区就开始放大一张牙刷柄示意图：上面的小孔是干什么的，这件东西又该放进哪段时间线？本研究所的精致人设还没立稳，就被网友要求补交器物说明。先把滤镜和同款链接收起来，别凭一张开箱图就给所有人的早晨安排流程。查完资料，再来讨论这份晨间清单！",
+  "body": "最近看到一件唐代骨制器物，顶端整整齐齐开着小孔。第一眼我还以为是谁把现代牙刷柄放进了文物照片里。\n\n朋友说：“不可能吧，那时候哪有这种东西？”\n\n我反而想知道，这些孔到底是干什么用的。先别急着替所有唐朝人安排刷牙打卡，至少这件器物本身值得研究。",
   "simulatedHeat": 628700,
   "simulatedViews": 1042840,
   "simulatedLikes": 16280,
@@ -27,18 +38,95 @@
   "simulatedReposts": 520,
   "simulatedBookmarks": 2510,
   "comments": [
-    { "id": "H08-C01", "author": "今日也想早起", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "晨间清单已经收藏，闹钟响的时候能不能也帮我打开这条帖子？", "simulatedLikes": 456, "simulatedReplies": 9, "simulatedReposts": 0, "simulatedViews": 4077, "replies": [
-      {"id": "H08-C01-R1", "replyTo": "H08-C01", "author": "大唐晨间Routine研究所", "avatar": "/avatars/changan.webp", "text": "闹钟我管不了，但这条帖子会一直在这儿等你醒神后来查。"},
-      {"id": "H08-C01-R2", "replyTo": "H08-C01-R1", "author": "今日也想早起", "avatar": "/avatars/spectator.webp", "text": "行，那我先把起床任务改成看完这条。"},
-      {"id": "H08-C01-R3", "replyTo": "H08-C01-R2", "author": "大唐晨间Routine研究所", "avatar": "/avatars/changan.webp", "text": "早起打卡加一项：先查证，再晒精致。"}
-    ] },
-    { "id": "H08-C02", "author": "器物档案慢读员", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "示意图只能帮助提问，年代和结构还得回到器物介绍里核对。", "simulatedLikes": 596, "simulatedReplies": 10, "simulatedReposts": 0, "simulatedViews": 5118 },
-    { "id": "H08-C03", "author": "精致标题营业中", "avatar": "/avatars/hype.webp", "role": "troll", "text": "精致人设先别塌，我的晨间话题封面还在排版！", "simulatedLikes": 204, "simulatedReplies": 11, "simulatedReposts": 0, "simulatedViews": 2435 },
-    { "id": "H08-C04", "author": "大唐赖床候补", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "本网友申请把晨间流程整体往后挪一会儿，先围观再起床。", "simulatedLikes": 332, "simulatedReplies": 12, "simulatedReposts": 0, "simulatedViews": 3392 },
-    { "id": "H08-C05", "author": "使用范围也要查", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "查一件器物和查人们的日常习惯，需要的证据是不是也得分开看？", "simulatedLikes": 551, "simulatedReplies": 13, "simulatedReposts": 0, "simulatedViews": 4986 },
-    { "id": "H08-C06", "author": "闹钟静音爱好者", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "这条帖子最让我震惊的部分，是评论区居然都醒得这么早。", "simulatedLikes": 287, "simulatedReplies": 14, "simulatedReposts": 0, "simulatedViews": 3199 },
-    { "id": "H08-C07", "author": "长安晨起打卡员", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "本账号先提交一份起床申请，精致程度等我睡醒再议。", "simulatedLikes": 258, "simulatedReplies": 15, "simulatedReposts": 0, "simulatedViews": 3057 },
-    { "id": "H08-C08", "author": "Routine热度监工", "avatar": "/avatars/hype.webp", "role": "troll", "text": "晨间清单还没写完，围观热度已经提前上班。我的标题绝不迟到。", "simulatedLikes": 169, "simulatedReplies": 16, "simulatedReposts": 0, "simulatedViews": 2495 }
+    {
+      "id": "H08-C01",
+      "author": "看着很眼熟",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "这形状和我的牙刷柄有点像，我先猜它跟刷牙有关。",
+      "simulatedLikes": 456,
+      "simulatedReplies": 9,
+      "simulatedReposts": 0,
+      "simulatedViews": 4077,
+      "replies": [
+        {
+          "id": "H08-C01-R1",
+          "replyTo": "H08-C01",
+          "author": "文物观察员",
+          "avatar": "/avatars/reader.webp",
+          "text": "像是第一印象，用途还得看介绍；也别顺手推成人人都用。"
+        },
+        {
+          "id": "H08-C01-R2",
+          "replyTo": "H08-C01-R1",
+          "author": "大唐晨间Routine研究所",
+          "avatar": "/avatars/changan.webp",
+          "text": "我也是卡在小孔这里，先读博物馆的器物介绍，再补晨间清单。"
+        },
+        {
+          "id": "H08-C01-R3",
+          "replyTo": "H08-C01-R2",
+          "author": "看着很眼熟",
+          "avatar": "/avatars/spectator.webp",
+          "text": "收到，我先保留这个猜测，不替整条街安排刷牙。"
+        }
+      ]
+    },
+    {
+      "id": "H08-C02",
+      "author": "文物观察员",
+      "avatar": "/avatars/reader.webp",
+      "role": "history_nerd",
+      "text": "猜用途之前还是要看器物介绍；就算认出一件，也不能替所有人安排晨间流程。",
+      "simulatedLikes": 596,
+      "simulatedReplies": 10,
+      "simulatedReposts": 0,
+      "simulatedViews": 5118
+    },
+    {
+      "id": "H08-C03",
+      "author": "认真研究小孔",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "成都中医药大学博物馆有器物资料，小孔用途这一项我想先对上。",
+      "simulatedLikes": 204,
+      "simulatedReplies": 11,
+      "simulatedReposts": 0,
+      "simulatedViews": 2435
+    },
+    {
+      "id": "H08-C04",
+      "author": "起床困难户",
+      "avatar": "/avatars/changan.webp",
+      "role": "spectator",
+      "text": "我连现代牙刷都得靠闹钟提醒才想起来用，晨间清单先欠着。",
+      "simulatedLikes": 332,
+      "simulatedReplies": 12,
+      "simulatedReposts": 0,
+      "simulatedViews": 3392
+    },
+    {
+      "id": "H08-C05",
+      "author": "晨起慢半拍",
+      "avatar": "/avatars/reader.webp",
+      "role": "in_world",
+      "text": "先别催打卡，我还在把器物照片放大，想看清那些孔。",
+      "simulatedLikes": 551,
+      "simulatedReplies": 13,
+      "simulatedReposts": 0,
+      "simulatedViews": 4986
+    },
+    {
+      "id": "H08-C06",
+      "author": "牙杯还没摆好",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "大家讨论到唐代了，我今天的起床进度还没跟上。",
+      "simulatedLikes": 287,
+      "simulatedReplies": 14,
+      "simulatedReposts": 0,
+      "simulatedViews": 3199
+    }
   ],
   "claim": "唐代存在具有植毛孔结构的牙刷柄。",
   "isTrue": true,
@@ -49,11 +137,29 @@
     "correctedClaim": "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。",
     "funFact": "文章介绍，这件牙刷柄现展于成都中医药大学博物馆‘室雅人洁’展区；毛束已消失，展出的柄不能当作完整刷毛的实物证据。"
   },
-  "sourceIds": ["S-H08-01", "S-H08-02"],
+  "sourceIds": [
+    "S-H08-01",
+    "S-H08-02"
+  ],
   "rewriteOptions": [
-    { "id": "A", "text": "每个唐人都有塑料牙刷，刷牙已经是人人相同的日常流程。", "isBest": false, "feedback": "来源介绍的是骨制牙刷柄，且说明此种牙刷并非普通人所用，不能扩大成人人使用的塑料牙刷。" },
-    { "id": "B", "text": "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。", "isBest": true, "feedback": "这个版本把结论限定在器物存在，没有扩大到普遍使用，也没有把已消失的毛束当作现存证据。" },
-    { "id": "C", "text": "唐代完全没有口腔清洁，也不存在带植毛孔的牙刷柄。", "isBest": false, "feedback": "文章介绍了带孔骨制牙刷柄，也提到用杨柳枝清洁牙齿，完全没有的说法不成立。" }
+    {
+      "id": "A",
+      "text": "每个唐人都有塑料牙刷，刷牙已经是人人相同的日常流程。",
+      "isBest": false,
+      "feedback": "来源介绍的是骨制牙刷柄，且说明此种牙刷并非普通人所用，不能扩大成人人使用的塑料牙刷。"
+    },
+    {
+      "id": "B",
+      "text": "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。",
+      "isBest": true,
+      "feedback": "这个版本把结论限定在器物存在，没有扩大到普遍使用，也没有把已消失的毛束当作现存证据。"
+    },
+    {
+      "id": "C",
+      "text": "唐代完全没有口腔清洁，也不存在带植毛孔的牙刷柄。",
+      "isBest": false,
+      "feedback": "文章介绍了带孔骨制牙刷柄，也提到用杨柳枝清洁牙齿，完全没有的说法不成立。"
+    }
   ],
   "aiFacts": [
     "[S-H08-01] 成都中医药大学官网转载‘健康成都’《1000多年前的古人刷牙吗？》（2021-12-20），内容为该校博物馆管理员介绍。",

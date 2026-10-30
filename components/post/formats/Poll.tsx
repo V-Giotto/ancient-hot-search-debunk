@@ -37,11 +37,11 @@ export function Poll({ topic }: { topic: PublicTopic }) {
       <div className="mt-5 grid grid-cols-2 gap-2 text-center text-sm font-bold"><p className="rounded-xl bg-gold/15 p-4">《孙子兵法》</p><p className="rounded-xl bg-[#426b58]/10 p-4">《孙膑兵法》</p></div>
       <section aria-label="直觉投票" className="mt-4 rounded-xl border border-ink/10 p-4">
         <h2 className="font-bold">先投直觉，再查证</h2>
-        <p className="mt-2 text-xs leading-6 text-muted">投票后展示预设倾向；每次进入或再玩一次都可重投，不影响真假判题与贴纸。</p>
+        <p className="mt-2 text-xs leading-6 text-muted">先选一个直觉，再核对材料；每次进入或再玩一次都可重投，不影响真假判题与贴纸。</p>
         <div className="mt-3 space-y-3">{options.map((option) => <button key={option.id} type="button" disabled={!!choice} aria-pressed={choice === option.id} onClick={() => vote(option.id)} className="relative block min-h-12 w-full overflow-hidden rounded-lg border border-ink/15 px-3 py-3 text-left text-sm disabled:cursor-default">
           <span className="flex flex-wrap items-center justify-between gap-2"><span>{option.label}{choice === option.id && <PixelIcon name="check" size={16} />}</span>{choice && <span className="poll-tendency">{option.tendency}</span>}</span>
         </button>)}</div>
-        {choice && <p role="status" className="mt-3 text-xs text-muted">已投票 · 预设倾向不随投票变化，请继续查证。</p>}
+        {choice && <p role="status" className="mt-3 text-xs text-muted">已记录本次直觉，请继续查证。</p>}
         <a href="#task-heading" className="mt-3 text-sm font-semibold text-accent">继续判断真假 <PixelIcon name="down" size={16} /></a>
       </section><Body topic={topic} />
   </>;

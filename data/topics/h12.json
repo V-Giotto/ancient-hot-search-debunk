@@ -10,21 +10,21 @@
   "format": "poll",
   "category": "兵书辨名",
   "tags": [
-    "银雀山",
-    "兵书辨名",
-    "对比投票"
+    "孙子兵法",
+    "孙膑兵法",
+    "兵书冷知识"
   ],
-  "title": "《孙子兵法》和《孙膑兵法》：书名像就能认亲？",
+  "title": "我把两本兵书当成一本，读书会差点把我请出去",
   "coverUrl": "/covers/h12.webp",
   "coverAlt": "两部兵书书名对照与投票条图形",
   "author": {
     "name": "兵书对照读书会",
     "handle": "@bingshu_dushuhui",
-    "bio": "书名对照｜先投直觉，再看证据。",
+    "bio": "兵书对照读书会｜先读全书名，再整理书单。",
     "avatarUrl": "/avatars/reader.webp",
     "fictitious": true
   },
-  "body": "读书会发起投票：《孙子兵法》和《孙膑兵法》，名字看着像，能直接当成同一部书吗？我刚想靠眼熟秒选，评论区已经开始问理由。平时刷到长文就求省流，这回倒好，连书名都想合并阅读。投票时有多果断，解释时就有多安静。先留住你的直觉，等看完材料再回来：到底是读懂了，还是大脑又在偷偷开省电模式？",
+  "body": "昨天整理书单，看到《孙子兵法》和《孙膑兵法》。我：名字这么像，难道不是一本书的不同叫法？\n\n朋友盯着我看了三秒，说：“你要不要先把两个书名读完整？”\n\n于是我们发起了投票。先别去搜答案，凭你的第一反应判断：这两部兵书到底是不是同一部？",
   "simulatedHeat": 480000,
   "simulatedViews": 790160,
   "simulatedLikes": 10000,
@@ -34,70 +34,92 @@
   "comments": [
     {
       "id": "H12-C01",
-      "author": "前排等资料",
+      "author": "书单合并大师",
       "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "选项点得飞快，理由加载失败，这熟悉的学习状态。",
-      "simulatedLikes": 520, "simulatedReplies": 13, "simulatedReposts": 4, "simulatedViews": 4937, "replies": [
-      {"id": "H12-C01-R1", "replyTo": "H12-C01", "author": "兵书对照读书会", "avatar": "/avatars/reader.webp", "text": "投票可以凭直觉，解释就得凭书了，读书会今晚加时。"},
-      {"id": "H12-C01-R2", "replyTo": "H12-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.webp", "text": "那我先把选项理由空着，等读完再补。"},
-      {"id": "H12-C01-R3", "replyTo": "H12-C01-R2", "author": "兵书对照读书会", "avatar": "/avatars/reader.webp", "text": "空着比乱填强，书签夹好，下次活动带来对照。"}
-    ] },
+      "role": "troll",
+      "text": "我也差点合并了，名字这么近，第一反应真是一本书换了个叫法。",
+      "simulatedLikes": 520,
+      "simulatedReplies": 13,
+      "simulatedReposts": 4,
+      "simulatedViews": 4937,
+      "replies": [
+        {
+          "id": "H12-C01-R1",
+          "replyTo": "H12-C01",
+          "author": "名字辨识困难户",
+          "avatar": "/avatars/reader.webp",
+          "text": "名字像就合并，那书单也太容易瘦身了，材料还没看呢。"
+        },
+        {
+          "id": "H12-C01-R2",
+          "replyTo": "H12-C01-R1",
+          "author": "兵书对照读书会",
+          "avatar": "/avatars/reader.webp",
+          "text": "今天读书会改成材料核对会，先把银雀山竹简这条线索记下。"
+        },
+        {
+          "id": "H12-C01-R3",
+          "replyTo": "H12-C01-R2",
+          "author": "书单合并大师",
+          "avatar": "/avatars/spectator.webp",
+          "text": "收到，阅读任务暂缓缩水，书签先分开放。"
+        }
+      ]
+    },
     {
       "id": "H12-C02",
-      "author": "慢读课代表",
+      "author": "名字辨识困难户",
       "avatar": "/avatars/reader.webp",
-      "role": "history_nerd",
-      "text": "名字像只能说明值得查，材料里的书名与记载还得对着读。",
-      "simulatedLikes": 483, "simulatedReplies": 14, "simulatedReposts": 0, "simulatedViews": 4739
+      "role": "spectator",
+      "text": "光靠名字认关系不太稳吧？我连书名都得再读两遍。",
+      "simulatedLikes": 483,
+      "simulatedReplies": 14,
+      "simulatedReposts": 0,
+      "simulatedViews": 4739
     },
     {
       "id": "H12-C03",
-      "author": "热度值班员",
+      "author": "竹简研究爱好者",
       "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "刚想靠眼熟过关，就被一句为什么问回了阅读区。",
-      "simulatedLikes": 446, "simulatedReplies": 15, "simulatedReposts": 4, "simulatedViews": 4541
+      "role": "history_nerd",
+      "text": "银雀山汉墓竹简是一条可以追下去的线索，先看材料，再决定书单怎么排。",
+      "simulatedLikes": 446,
+      "simulatedReplies": 15,
+      "simulatedReposts": 4,
+      "simulatedViews": 4541
     },
     {
       "id": "H12-C04",
-      "author": "街巷围观客",
+      "author": "阅读量计算中",
       "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "读书会气氛很好，本人的阅读进度暂时不方便透露。",
-      "simulatedLikes": 409, "simulatedReplies": 16, "simulatedReposts": 0, "simulatedViews": 4343
+      "role": "spectator",
+      "text": "我刚想庆祝阅读任务缩水，读书会的气氛就不允许了。",
+      "simulatedLikes": 409,
+      "simulatedReplies": 16,
+      "simulatedReposts": 0,
+      "simulatedViews": 4343
     },
     {
       "id": "H12-C05",
-      "author": "上下文观察员",
+      "author": "书架整理员",
       "avatar": "/avatars/reader.webp",
-      "role": "history_nerd",
-      "text": "抄写时期和成书年代别混着看，省流也不能省掉区别。",
-      "simulatedLikes": 372, "simulatedReplies": 17, "simulatedReposts": 4, "simulatedViews": 4145
+      "role": "in_world",
+      "text": "先各夹一张书签，等关系弄清楚，再决定怎么摆。",
+      "simulatedLikes": 372,
+      "simulatedReplies": 17,
+      "simulatedReposts": 4,
+      "simulatedViews": 4145
     },
     {
       "id": "H12-C06",
-      "author": "收藏夹管理员",
+      "author": "慢慢读完再说",
       "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "本想随大流省点事，结果投完还是想知道凭什么。",
-      "simulatedLikes": 335, "simulatedReplies": 18, "simulatedReposts": 0, "simulatedViews": 3947
-    },
-    {
-      "id": "H12-C07",
-      "author": "书签借我用用",
-      "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "收藏夹已经加入读书会，本人正在努力跟上收藏夹。",
-      "simulatedLikes": 298, "simulatedReplies": 0, "simulatedReposts": 4, "simulatedViews": 3749
-    },
-    {
-      "id": "H12-C08",
-      "author": "标题排版中",
-      "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "我的直觉说就选这个，我的解释说你先看看材料。",
-      "simulatedLikes": 261, "simulatedReplies": 1, "simulatedReposts": 0, "simulatedViews": 3551
+      "role": "history_nerd",
+      "text": "我想把两份书名对应的材料放在一起核对，投票理由先留空。",
+      "simulatedLikes": 335,
+      "simulatedReplies": 18,
+      "simulatedReposts": 0,
+      "simulatedViews": 3947
     }
   ],
   "claim": "《孙子兵法》和《孙膑兵法》其实是同一部书。",

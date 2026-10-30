@@ -1,15 +1,26 @@
 {
   "id": "H02",
-  "era": { "label": "北宋", "order": 5 },
+  "era": {
+    "label": "北宋",
+    "order": 5
+  },
   "rumorEra": "宋代",
   "coreContext": "北宋东京等特定城市的购食与代买送食",
-  "evidenceEra": "待定",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "南宋文献（《东京梦华录》，1147年成书）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 2,
   "module": "trending",
   "category": "古代生活",
-  "tags": ["汴京饭点", "外卖是类比", "午饭待查证"],
-  "title": "宋代城市能否代买送食？“外卖”说法引发关注",
+  "tags": [
+    "汴京生活",
+    "打工人午饭",
+    "代买送食"
+  ],
+  "title": "汴京打工人已经不想自己做饭了",
   "coverUrl": "/covers/h02.webp",
   "coverAlt": "街头提食盒人物与带问号的订单进度卡插画",
   "author": {
@@ -19,7 +30,7 @@
     "avatarUrl": "/avatars/changan.webp",
     "fictitious": true
   },
-  "body": "本次讨论围绕现成饭食与代买送食展开。部分留言将其与日常午饭需求联系起来，也有留言提醒，应先说明“外卖”在此处的含义。相关说法能否成立，需要区分历史场景与现代用语，不能仅凭一个熟悉的名称推定全部服务形式。",
+  "body": "今天的汴京美食话题有点出乎意料：有人说，在宋代城市生活，吃饭并不一定要自己下厨，街头可以购买现成的饭食，也可能请人代买送来。不少网友瞬间产生共鸣。但“买饭”“跑腿”和今天的外卖平台究竟是不是一回事，仍然需要分清。古人的午饭，真能这样解决吗？",
   "simulatedHeat": 1125800,
   "simulatedViews": 1421860,
   "simulatedLikes": 31800,
@@ -27,14 +38,95 @@
   "simulatedReposts": 1050,
   "simulatedBookmarks": 3800,
   "comments": [
-    { "id": "H02-C01", "author": "今日不想开灶", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "我先把锅放下。评论区能顺便研究一下吃完谁洗碗吗？", "simulatedLikes": 672, "simulatedReplies": 3, "simulatedReposts": 2, "simulatedViews": 4971 },
-    { "id": "H02-C02", "author": "东京生活观察员", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "先分清买现成吃食和平台点外卖，别让一个词把场景全打包了。", "simulatedLikes": 731, "simulatedReplies": 4, "simulatedReposts": 4, "simulatedViews": 5445 },
-    { "id": "H02-C03", "author": "配送时效研究所", "avatar": "/avatars/hype.webp", "role": "troll", "text": "饭还没到我的想象里，评论区的倒计时已经开始催我了。", "simulatedLikes": 259, "simulatedReplies": 5, "simulatedReposts": 6, "simulatedViews": 2202 },
-    { "id": "H02-C04", "author": "跨时空空碗", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "本来在刷知识，现在在刷口水。我的收藏夹怎么越来越像菜单？", "simulatedLikes": 486, "simulatedReplies": 6, "simulatedReposts": 0, "simulatedViews": 3852 },
-    { "id": "H02-C05", "author": "古籍检索中", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "《东京梦华录》值得查一下，先找原文再决定给谁颁‘午饭救星’奖。", "simulatedLikes": 618, "simulatedReplies": 7, "simulatedReposts": 2, "simulatedViews": 4837 },
-    { "id": "H02-C06", "author": "汴京饭点气氛组", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "你们继续辩，我的饭碗已经摆成了旁听席。", "simulatedLikes": 304, "simulatedReplies": 8, "simulatedReposts": 4, "simulatedViews": 2700 },
-    { "id": "H02-C07", "author": "热榜闻香而来", "avatar": "/avatars/hype.webp", "role": "troll", "text": "急！标题的香味超标了，建议全体网友自备纸巾和理智。", "simulatedLikes": 217, "simulatedReplies": 9, "simulatedReposts": 6, "simulatedViews": 2152 },
-    { "id": "H02-C08", "author": "今天也没洗碗", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "看到‘忙到没空生火’就进来了，以为是我的工作日报泄露了。", "simulatedLikes": 395, "simulatedReplies": 10, "simulatedReposts": 0, "simulatedViews": 3459 }
+    {
+      "id": "H02-C01",
+      "author": "汴京吃货",
+      "avatar": "/avatars/changan.webp",
+      "role": "in_world",
+      "text": "这说法我愿意信，懒得开火的心情隔着多少年都能懂。",
+      "simulatedLikes": 672,
+      "simulatedReplies": 3,
+      "simulatedReposts": 2,
+      "simulatedViews": 4971,
+      "replies": [
+        {
+          "id": "H02-C01-R1",
+          "replyTo": "H02-C01",
+          "author": "严谨的吃货",
+          "avatar": "/avatars/hype.webp",
+          "text": "懒得开火我也懂，不过愿望归愿望，有没有这种服务还得看材料吧？"
+        },
+        {
+          "id": "H02-C01-R2",
+          "replyTo": "H02-C01-R1",
+          "author": "汴京探店阿宋",
+          "avatar": "/avatars/changan.webp",
+          "text": "对，先分清要核对哪种服务，再看《东京梦华录》，别把今天的点餐流程搬过去。"
+        },
+        {
+          "id": "H02-C01-R3",
+          "replyTo": "H02-C01-R2",
+          "author": "汴京吃货",
+          "avatar": "/avatars/changan.webp",
+          "text": "那我先不研究怎么点，继续研究想吃什么。"
+        }
+      ]
+    },
+    {
+      "id": "H02-C02",
+      "author": "没手机怎么点",
+      "avatar": "/avatars/reader.webp",
+      "role": "troll",
+      "text": "宋代又没手机，我第一反应是不太可能。",
+      "simulatedLikes": 731,
+      "simulatedReplies": 4,
+      "simulatedReposts": 4,
+      "simulatedViews": 5445
+    },
+    {
+      "id": "H02-C03",
+      "author": "严谨的吃货",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "《东京梦华录》可以对照着读；有人代买和手机下单得分开问。",
+      "simulatedLikes": 259,
+      "simulatedReplies": 5,
+      "simulatedReposts": 6,
+      "simulatedViews": 2202
+    },
+    {
+      "id": "H02-C04",
+      "author": "午饭困难户",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "不管什么朝代，到了饭点还是那个问题：吃什么？",
+      "simulatedLikes": 486,
+      "simulatedReplies": 6,
+      "simulatedReposts": 0,
+      "simulatedViews": 3852
+    },
+    {
+      "id": "H02-C05",
+      "author": "今天不想生火",
+      "avatar": "/avatars/reader.webp",
+      "role": "in_world",
+      "text": "我唯一关心的是，能不能坐着把饭等来，锅已经洗干净收好了。",
+      "simulatedLikes": 618,
+      "simulatedReplies": 7,
+      "simulatedReposts": 2,
+      "simulatedViews": 4837
+    },
+    {
+      "id": "H02-C06",
+      "author": "不想洗碗的人",
+      "avatar": "/avatars/changan.webp",
+      "role": "spectator",
+      "text": "大家的午饭想得很周全，我还停在吃完谁洗碗。",
+      "simulatedLikes": 304,
+      "simulatedReplies": 8,
+      "simulatedReposts": 4,
+      "simulatedViews": 2700
+    }
   ],
   "claim": "宋代城市出现过购买现成食物并由他人代买或配送的服务。",
   "isTrue": true,
@@ -45,11 +137,30 @@
     "correctedClaim": "宋代部分城市已有购买现成饭食、代买送食等服务，与现代外卖平台不同。",
     "funFact": "同一句购食记载也要留意版本：给定的维基文库本写‘旋置’，常见引文作‘旋买’。查证时把版本差异写清楚，比把熟悉的转引直接当原文更稳妥。"
   },
-  "sourceIds": ["S-H02-01", "S-H02-02", "S-H02-03"],
+  "sourceIds": [
+    "S-H02-01",
+    "S-H02-02",
+    "S-H02-03"
+  ],
   "rewriteOptions": [
-    { "id": "A", "text": "宋代已经有手机配送平台，买饭流程和今天完全一样。", "isBest": false, "feedback": "这是把现代类比当成古代制度。所列文献和现代解释支持购食及代买送食的场景，不能证明手机 App、平台或骑手体系。" },
-    { "id": "B", "text": "宋代全国每户都依赖外卖，不再自己准备饭食。", "isBest": false, "feedback": "特定城市的文献和个案不能推成全国普及，更不能推成每户都依赖外卖。" },
-    { "id": "C", "text": "宋代部分城市已有购买现成饭食、代买送食等服务，与现代外卖平台不同。", "isBest": true, "feedback": "这个版本保留了部分城市的范围，也区分古代购食、代买送食实践与现代平台制度。" }
+    {
+      "id": "A",
+      "text": "宋代已经有手机配送平台，买饭流程和今天完全一样。",
+      "isBest": false,
+      "feedback": "这是把现代类比当成古代制度。所列文献和现代解释支持购食及代买送食的场景，不能证明手机 App、平台或骑手体系。"
+    },
+    {
+      "id": "B",
+      "text": "宋代全国每户都依赖外卖，不再自己准备饭食。",
+      "isBest": false,
+      "feedback": "特定城市的文献和个案不能推成全国普及，更不能推成每户都依赖外卖。"
+    },
+    {
+      "id": "C",
+      "text": "宋代部分城市已有购买现成饭食、代买送食等服务，与现代外卖平台不同。",
+      "isBest": true,
+      "feedback": "这个版本保留了部分城市的范围，也区分古代购食、代买送食实践与现代平台制度。"
+    }
   ],
   "aiFacts": [
     "[S-H02-01] 《东京梦华录》卷三‘马行街铺席’记东京坊巷‘处处拥门，各有茶坊酒店，勾肆饮食。市井经纪之家，往往只于市店旋置饮食，不置家蔬’。",
@@ -74,11 +185,11 @@
   "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "街巷采闻社",
-    "lead": "有关宋代购买现成饭食、请人跑腿的说法受到关注，“外卖”这一类比的适用范围仍需核对。",
+    "lead": "一则有关宋代城市购食、代买送食的讨论走红。现代网友发现，古人可能也有“懒得开火”的烦恼。",
     "publishedAt": "2026-10-30T09:25:00+08:00",
     "related": [
-      "留言建议，分清购买现成吃食与平台点餐的场景。",
-      "讨论的核对重点是“外卖”一词的含义与适用边界。"
+      "买现成饭、请人代买、平台点餐，讨论里混在一起的三个场景。",
+      "《东京梦华录》成为读者查找城市饮食线索的起点。"
     ]
   }
 }

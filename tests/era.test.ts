@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { EraSchema, isLaterEra } from "@/lib/era";
 import { getAllTopics, validateContentSet } from "@/lib/topics";
 import { makeSource, makeTopic } from "./fixtures";
+import approvedEraReview from "./fixtures/approved-era-review.json";
 
 const eras = [
   { label: "春秋", order: 1 }, { label: "战国", order: 2 }, { label: "汉", order: 3 },
@@ -41,13 +42,23 @@ describe("结构化时代与先后比较", () => {
     expect(isLaterEra(across, eras[0])).toBe(false);
     expect(isLaterEra(eras[4], eras[3])).toBe(true);
   });
-  it("仅 H07、H12 的年代经 Giotto 审核，原题目 reviewStatus 不变", () => {
+  it("十题采用 Giotto 11:29 审核，H07/H12 原签名及原题目 reviewStatus 不变", () => {
     for (const topic of getAllTopics()) {
       expect(topic.reviewStatus).toBe("reviewed");
       expect(topic.eraReview).toEqual(["H07", "H12"].includes(topic.id)
         ? { status: "reviewed", by: "Giotto", at: "2026-10-30T07:32:00-07:00" }
-        : { status: "pending" });
+        : { status: "reviewed", reviewer: "Giotto", reviewedAt: "2026-10-30T11:29:00-07:00" });
     }
+  });
+  it("仅应用批准的 evidenceEra 与 eraReview，H08 仅更新 eraReview", () => {
+    expect(Object.keys(approvedEraReview).sort()).toEqual(["H01", "H02", "H03", "H04", "H05", "H06", "H08", "H09", "H10", "H11"]);
+    for (const topic of getAllTopics()) {
+      const patch = approvedEraReview[topic.id as keyof typeof approvedEraReview];
+      if (!patch) continue;
+      expect(Object.keys(patch.after).sort()).toEqual(topic.id === "H08" ? ["eraReview"] : ["eraReview", "evidenceEra"]);
+      expect(topic).toMatchObject(patch.after);
+    }
+    expect(getAllTopics().find(({ id }) => id === "H08")!.evidenceEra).toBe("唐代器物、1984年出土");
   });
   it("H07、H12 分开记录传言、核心背景与证据时间", () => {
     const topics = getAllTopics();
@@ -68,6 +79,11 @@ describe("结构化时代与先后比较", () => {
   it.each([
     { status: "rejected" }, { status: "pending", by: " " },
     { status: "reviewed", at: "2026-10-30" }, { status: "pending", extra: true },
+    { status: "reviewed", reviewer: " ", reviewedAt: "2026-10-30T11:29:00-07:00" },
+    { status: "reviewed", reviewer: "Giotto", reviewedAt: "2026-10-30" },
+    { status: "reviewed", reviewer: "Giotto" },
+    { status: "reviewed", reviewedAt: "2026-10-30T11:29:00-07:00" },
+    { status: "reviewed", by: "Giotto", reviewedAt: "2026-10-30T11:29:00-07:00" },
   ])("拒绝非法年代审核记录 %j", (eraReview) => {
     expect(() => validateContentSet([{ ...makeTopic(), eraReview }], [makeSource()])).toThrow();
   });

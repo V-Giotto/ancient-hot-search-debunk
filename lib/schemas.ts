@@ -7,11 +7,16 @@ const simulatedCount = z.number().int().nonnegative();
 export const ReviewStatusSchema = z.enum(["pending", "reviewed", "rejected"]);
 export type ReviewStatus = z.infer<typeof ReviewStatusSchema>;
 
-export const EraReviewSchema = z.strictObject({
+// 保留 H07/H12 已审核的 by/at；新审核按 Giotto 指定的 reviewer/reviewedAt 存储。
+export const EraReviewSchema = z.union([z.strictObject({
   status: z.enum(["reviewed", "pending"]),
   by: nonEmptyText.optional(),
   at: z.iso.datetime({ offset: true }).optional(),
-});
+}), z.strictObject({
+  status: z.literal("reviewed"),
+  reviewer: nonEmptyText,
+  reviewedAt: z.iso.datetime({ offset: true }),
+})]);
 
 export const SourceKindSchema = z.enum(["primary", "museum", "academic", "public_culture"]);
 export type SourceKind = z.infer<typeof SourceKindSchema>;

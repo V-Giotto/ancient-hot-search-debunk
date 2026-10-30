@@ -38,10 +38,11 @@ afterEach(() => {
 });
 
 describe("真假判断与揭晓", () => {
-  it("热搜新闻提供三项互动，无楼层评论、emoji 或免责声明", () => {
+  it("热搜新闻提供三项互动与读者评论，无 emoji 或免责声明", () => {
     const { container } = render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
     expect(container.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
-    expect(container.querySelector(".social-stats, .comments-panel")).toBeNull();
+    expect(screen.getByRole("region", { name: "读者评论" })).toBeTruthy();
+    expect(container.querySelector(".news-comments .reply-thread")).toBeTruthy();
     expect(container.textContent).not.toMatch(/\p{Extended_Pictographic}/u);
     expect(container.querySelector("figcaption")).toBeNull();
     expect(container.querySelectorAll("img").length).toBeGreaterThan(0);
@@ -248,13 +249,13 @@ describe("真假判断与揭晓", () => {
 });
 
 describe("评论与改写", () => {
-  it("默认四条，展开八条，再收起到四条", () => {
-    render(<Comments comments={topic.comments} />);
-    expect(screen.getAllByRole("listitem")).toHaveLength(4);
+  it("默认四条，展开全部评论，再收起到四条", () => {
+    const { container } = render(<Comments comments={topic.comments} />);
+    expect(container.querySelectorAll("#post-comments > li")).toHaveLength(4);
     fireEvent.click(screen.getByRole("button", { name: /展开更多评论/ }));
-    expect(screen.getAllByRole("listitem")).toHaveLength(8);
+    expect(container.querySelectorAll("#post-comments > li")).toHaveLength(topic.comments.length);
     fireEvent.click(screen.getByRole("button", { name: "收起评论" }));
-    expect(screen.getAllByRole("listitem")).toHaveLength(4);
+    expect(container.querySelectorAll("#post-comments > li")).toHaveLength(4);
   });
 
   it("改写选择显示对应反馈与正确项，可改选", () => {

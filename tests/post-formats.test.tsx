@@ -32,7 +32,7 @@ describe("按 format 选择帖子模板", () => {
     expect(article.getAttribute("data-format")).toBe(news ? "news" : topic.format ?? "post");
     expect(article.getAttribute("data-module")).toBe(topic.module);
     expect(within(article).getByRole("heading", { level: 1 }).textContent).toBe(topic.title);
-    expect(within(article).getByText(topic.body, { exact: true })).toBeTruthy();
+    expect(article.querySelector(".post-body")!.textContent).toBe(topic.body);
     expect(article.querySelectorAll("h1")).toHaveLength(1);
     expect(article.querySelectorAll(".post-cover")).toHaveLength(1);
     const eraChip = within(article).getByLabelText(`历史年代：${topic.era.label}`);
@@ -47,7 +47,7 @@ describe("按 format 选择帖子模板", () => {
       expect(article.querySelector(".news-lead")!.textContent).toBe(topic.news!.lead);
       expect(within(article).getByRole("region", { name: "相关报道" }).querySelectorAll("li")).toHaveLength(2);
       expect(article.querySelector(".news-related")!.textContent).toContain(topic.news!.related[0]);
-      expect(container.querySelector(".social-stats, .author-row, .reply-thread, .comments-panel, .follow-button")).toBeNull();
+      expect(article.querySelector(".social-stats, .author-row, .reply-thread, .comments-panel, .follow-button")).toBeNull();
       expect(article.textContent).not.toMatch(/\p{Extended_Pictographic}|\p{Regional_Indicator}|[\u20e3\ufe0f]/u);
       expect(article.textContent).not.toMatch(/家人们|谁懂啊|顶流|塑料友情|小板凳|在线蹲/);
     } else {
@@ -63,20 +63,21 @@ describe("按 format 选择帖子模板", () => {
       expect(within(actions).getByRole("button", { name: "点赞" }).textContent).toContain(compactCount(topic.simulatedLikes));
       expect(within(actions).getByRole("button", { name: "收藏" })).toBeTruthy();
       expect(within(actions).getByRole("button", { name: /^转发/ })).toBeTruthy();
-      const comment = container.querySelector("#post-comments > li")!;
-      expect(comment.querySelector(".author-row")!.textContent).toContain(topic.comments[0].author);
-      expect(comment.querySelectorAll("dl svg")).toHaveLength(4);
-      expect(comment.querySelectorAll("[data-reply-id]")).toHaveLength(3);
-      for (const reply of topic.comments[0].replies!) {
-        const node = comment.querySelector(`[data-reply-id="${reply.id}"]`)!;
-        expect(node.getAttribute("data-reply-to")).toBe(reply.replyTo);
-        expect(node.parentElement!.parentElement!.getAttribute("data-reply-id")).toBe(reply.replyTo === topic.comments[0].id ? null : reply.replyTo);
-        expect(node.querySelector(":scope > .author-row .author-badge")?.textContent).toBe(reply.author === topic.author.name ? "作者" : undefined);
-      }
-      expect(container.querySelectorAll("#post-comments > li")).toHaveLength(4);
-      fireEvent.click(screen.getByRole("button", { name: /展开更多评论/ }));
-      expect(container.querySelectorAll("#post-comments > li")).toHaveLength(8);
     }
+    expect(screen.getByRole("region", { name: news ? "读者评论" : "评论区" })).toBeTruthy();
+    const comment = container.querySelector("#post-comments > li")!;
+    expect(comment.querySelector(".author-row")!.textContent).toContain(topic.comments[0].author);
+    expect(comment.querySelectorAll("dl svg")).toHaveLength(4);
+    expect(comment.querySelectorAll("[data-reply-id]")).toHaveLength(topic.comments[0].replies?.length ?? 0);
+    for (const reply of topic.comments[0].replies!) {
+      const node = comment.querySelector(`[data-reply-id="${reply.id}"]`)!;
+      expect(node.getAttribute("data-reply-to")).toBe(reply.replyTo);
+      expect(node.parentElement!.parentElement!.getAttribute("data-reply-id")).toBe(reply.replyTo === topic.comments[0].id ? null : reply.replyTo);
+      expect(node.querySelector(":scope > .author-row .author-badge")?.textContent).toBe(reply.author === topic.author.name ? "作者" : undefined);
+    }
+    expect(container.querySelectorAll("#post-comments > li")).toHaveLength(4);
+    fireEvent.click(screen.getByRole("button", { name: /展开更多评论/ }));
+    expect(container.querySelectorAll("#post-comments > li")).toHaveLength(topic.comments.length);
     expect(screen.getByRole("heading", { name: "这条主张，你信吗？" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
     expect(container.querySelector(".mobile-briefing")).toBeNull();
@@ -207,6 +208,7 @@ describe("本次页面直觉投票与判题隔离", () => {
     expect(screen.getByText("少数倾向")).toBeTruthy();
     expect(screen.getByText("多数倾向")).toBeTruthy();
     expect(section.textContent).not.toMatch(/\d+%/);
+    expect(section.textContent).not.toMatch(/虚构|架空|模拟|预置展示|预设倾向/);
     expect(localStorage.getItem(pollKey)).toBeNull();
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
     expect(fetch).not.toHaveBeenCalled();

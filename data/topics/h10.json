@@ -1,30 +1,37 @@
 {
   "id": "H10",
-  "era": { "label": "北宋", "order": 5 },
+  "era": {
+    "label": "北宋",
+    "order": 5
+  },
   "rumorEra": "北宋",
   "coreContext": "北宋庆历年间毕昇胶泥活字",
-  "evidenceEra": "待定",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "北宋文献（《梦溪笔谈》，约1087—1090年成书，具体年代尚有考证差异）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 10,
   "module": "discover",
   "format": "moments",
   "category": "印刷手记",
   "tags": [
-    "胶泥活字",
-    "毕昇",
-    "朋友圈"
+    "活字印刷",
+    "宋代科技",
+    "古代手作"
   ],
-  "title": "毕昇胶泥字块刷屏：手作区这是开大了？",
+  "title": "朋友说他要一个字一个字做印刷，我以为他疯了",
   "coverUrl": "/covers/h10.webp",
   "coverAlt": "胶泥活字主题的字块与朋友圈配图格",
   "author": {
     "name": "活版手作观察员",
     "handle": "@huoban_shouzuo",
-    "bio": "手作动态｜配图先发，工艺慢慢查。",
+    "bio": "手作观察员｜先想明白，暂时还没动手。",
     "avatarUrl": "/avatars/reader.webp",
     "fictitious": true
   },
-  "body": "朋友圈刷到胶泥小字块，手作区的胜负欲突然上线：别人晒作品，我晒收藏夹。放大看看就觉得自己会了，真要讲材料和做法，输入中的状态挂了半天也没发出去。毕昇这条动态到底靠不靠谱？滤镜负责好看，记载负责说清。先别在评论里秒回求教程，这回要交的作业，是分清自己看懂了，还是只是点过赞了。",
+  "body": "最近刷到一种制作文字印版的方法：不是把整页文字都刻在同一块板上，而是把字一个个单独做出来。\n\n我第一反应：这得有多麻烦？\n\n但转念一想，如果这些字可以重新组合，事情好像不一样了。问题来了，这种用胶泥制作字块的想法，真的在北宋就有了吗？",
   "simulatedHeat": 500000,
   "simulatedViews": 916500,
   "simulatedLikes": 11000,
@@ -34,70 +41,92 @@
   "comments": [
     {
       "id": "H10-C01",
-      "author": "前排等资料",
+      "author": "一字一块听着靠谱",
       "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "眼睛说会了，解释说你先别急，收藏夹说又是我来兜底。",
-      "simulatedLikes": 520, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4731, "replies": [
-      {"id": "H10-C01-R1", "replyTo": "H10-C01", "author": "活版手作观察员", "avatar": "/avatars/reader.webp", "text": "收藏夹别慌，这次不考手工，先把记载读顺就算交作业。"},
-      {"id": "H10-C01-R2", "replyTo": "H10-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.webp", "text": "那我先把教程收藏夹清一清，腾地方给资料。"},
-      {"id": "H10-C01-R3", "replyTo": "H10-C01-R2", "author": "活版手作观察员", "avatar": "/avatars/reader.webp", "text": "腾出来的位置别再塞教程了，留给原文吧。"}
-    ] },
+      "role": "in_world",
+      "text": "能重新组合的话，我愿意信这个主意有用，只是年代还想核对。",
+      "simulatedLikes": 520,
+      "simulatedReplies": 11,
+      "simulatedReposts": 2,
+      "simulatedViews": 4731,
+      "replies": [
+        {
+          "id": "H10-C01-R1",
+          "replyTo": "H10-C01",
+          "author": "字块收纳员",
+          "avatar": "/avatars/reader.webp",
+          "text": "主意听着不错，可重新组合之前，是不是还得先把字找到？"
+        },
+        {
+          "id": "H10-C01-R2",
+          "replyTo": "H10-C01-R1",
+          "author": "活版手作观察员",
+          "avatar": "/avatars/reader.webp",
+          "text": "我也想看制作和排版怎么衔接，先读《梦溪笔谈》，收纳方案别靠脑补。"
+        },
+        {
+          "id": "H10-C01-R3",
+          "replyTo": "H10-C01-R2",
+          "author": "一字一块听着靠谱",
+          "avatar": "/avatars/spectator.webp",
+          "text": "那我先把教程关掉，给原文留个窗口。"
+        }
+      ]
+    },
     {
       "id": "H10-C02",
-      "author": "慢读课代表",
+      "author": "字块收纳员",
       "avatar": "/avatars/reader.webp",
-      "role": "history_nerd",
-      "text": "配图放大不等于工艺讲明白了，材料和处理方法还得读记载。",
-      "simulatedLikes": 483, "simulatedReplies": 12, "simulatedReposts": 4, "simulatedViews": 4533
+      "role": "troll",
+      "text": "一字一块，那么多字怎么找？光想收纳，我就有点怀疑能不能做下去。",
+      "simulatedLikes": 483,
+      "simulatedReplies": 12,
+      "simulatedReposts": 4,
+      "simulatedViews": 4533
     },
     {
       "id": "H10-C03",
-      "author": "热度值班员",
+      "author": "读过梦溪笔谈",
       "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "点赞很熟练，复述就卡壳，建议把我的手作等级改成围观。",
-      "simulatedLikes": 446, "simulatedReplies": 13, "simulatedReposts": 6, "simulatedViews": 4335
+      "role": "history_nerd",
+      "text": "别急着脑补整套工厂流程，沈括《梦溪笔谈》的记载可以先看。",
+      "simulatedLikes": 446,
+      "simulatedReplies": 13,
+      "simulatedReposts": 6,
+      "simulatedViews": 4335
     },
     {
       "id": "H10-C04",
-      "author": "街巷围观客",
+      "author": "排版受害者",
       "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "别人更新作品，我更新收藏夹，大家都有进度。",
-      "simulatedLikes": 409, "simulatedReplies": 14, "simulatedReposts": 0, "simulatedViews": 4137
+      "role": "spectator",
+      "text": "当代改论文格式的人听完，第一反应是想要一个撤销键。",
+      "simulatedLikes": 409,
+      "simulatedReplies": 14,
+      "simulatedReposts": 0,
+      "simulatedViews": 4137
     },
     {
       "id": "H10-C05",
-      "author": "上下文观察员",
+      "author": "手还没开始动",
       "avatar": "/avatars/reader.webp",
-      "role": "history_nerd",
-      "text": "《梦溪笔谈》这条线索先收藏，别看完标题就自称学会了。",
-      "simulatedLikes": 372, "simulatedReplies": 15, "simulatedReposts": 2, "simulatedViews": 3939
+      "role": "in_world",
+      "text": "我现在只有收藏教程的熟练度，还没有制作一个字的勇气。",
+      "simulatedLikes": 372,
+      "simulatedReplies": 15,
+      "simulatedReposts": 2,
+      "simulatedViews": 3939
     },
     {
       "id": "H10-C06",
-      "author": "收藏夹管理员",
+      "author": "印版观察中",
       "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "刚想评论求教程，想起收藏夹里那些从没打开的教程，又默默撤回。",
-      "simulatedLikes": 335, "simulatedReplies": 16, "simulatedReposts": 4, "simulatedViews": 3741
-    },
-    {
-      "id": "H10-C07",
-      "author": "书签借我用用",
-      "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "输入中挂了半天，最后只发出一句让我再看看。",
-      "simulatedLikes": 298, "simulatedReplies": 17, "simulatedReposts": 6, "simulatedViews": 3543
-    },
-    {
-      "id": "H10-C08",
-      "author": "标题排版中",
-      "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "手作区请继续更新，我的动手计划正在无限延期。",
-      "simulatedLikes": 261, "simulatedReplies": 18, "simulatedReposts": 0, "simulatedViews": 3345
+      "role": "history_nerd",
+      "text": "制作和排版到底怎么衔接？我想把这两步分开读，先不猜工艺。",
+      "simulatedLikes": 335,
+      "simulatedReplies": 16,
+      "simulatedReposts": 4,
+      "simulatedViews": 3741
     }
   ],
   "claim": "北宋时期，平民毕昇发明了用胶泥刻字的活字印刷（活版）。",

@@ -1,15 +1,26 @@
 {
   "id": "H04",
-  "era": { "label": "北宋", "order": 5 },
+  "era": {
+    "label": "北宋",
+    "order": 5
+  },
   "rumorEra": "北宋",
   "coreContext": "北宋四川交子由民间使用到官府发行",
-  "evidenceEra": "待定",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "南宋史籍（《续资治通鉴长编》记载北宋交子）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 4,
   "module": "trending",
   "category": "古代商业",
-  "tags": ["纸上财富", "交子待查证", "古代财经"],
-  "title": "纸币并非现代发明？北宋“纸上财富”话题待查证",
+  "tags": [
+    "北宋交子",
+    "古代财经",
+    "纸与信用"
+  ],
+  "title": "四川商人开始拿一张纸谈生意了",
   "coverUrl": "/covers/h04.webp",
   "coverAlt": "古代商人面对写有纸币时代问号的财经资讯卡插画",
   "author": {
@@ -19,7 +30,7 @@
     "avatarUrl": "/avatars/hype.webp",
     "fictitious": true
   },
-  "body": "本次话题围绕纸币是否属于现代发明展开。留言既关注携带钱币的负担，也追问一张纸为何能够被接受。讨论还涉及民间如何使用、官府如何管理等问题。核对这一说法时，应关注题目中的地域与使用场景，避免仅依据资讯标题作出判断。",
+  "body": "“带一大串钱出门”和“带一张纸出门”，如果都能用于交易，你会选哪个？最近，一则关于北宋四川交子的说法让人好奇。有人觉得纸张轻便得不可思议，也有人质疑：一张纸凭什么能代表钱？先别急着套用今天的支付习惯，值得查证的是交子如何出现，以及民间与官府分别扮演了什么角色。",
   "simulatedHeat": 856400,
   "simulatedViews": 1295520,
   "simulatedLikes": 23700,
@@ -27,14 +38,95 @@
   "simulatedReposts": 760,
   "simulatedBookmarks": 2950,
   "comments": [
-    { "id": "H04-C01", "author": "钱串子肩周炎", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "钱包负责显摆，肩膀负责提出异议。能先给我一个坐着吃瓜的位置吗？", "simulatedLikes": 583, "simulatedReplies": 5, "simulatedReposts": 4, "simulatedViews": 4554 },
-    { "id": "H04-C02", "author": "蜀地商业评论员", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "地点线索先看看四川，别让热搜账号的所在地抢走了题目的地名。", "simulatedLikes": 648, "simulatedReplies": 6, "simulatedReposts": 0, "simulatedViews": 5070 },
-    { "id": "H04-C03", "author": "铜钱爱好者协会", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "我先把收藏夹抱紧。你们讨论钱包升级，怎么我的爱好突然开了危机会议？", "simulatedLikes": 367, "simulatedReplies": 7, "simulatedReposts": 4, "simulatedViews": 3164 },
-    { "id": "H04-C04", "author": "财经标题加速器", "avatar": "/avatars/hype.webp", "role": "troll", "text": "一张资讯卡把评论区炸出来了，建议给我的标题单独配个钱袋。", "simulatedLikes": 201, "simulatedReplies": 8, "simulatedReposts": 0, "simulatedViews": 2063 },
-    { "id": "H04-C05", "author": "认真看制度", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "民间使用和官府正式发行，要不要分开查？先别把两个场景塞进同一个钱包。", "simulatedLikes": 592, "simulatedReplies": 9, "simulatedReposts": 4, "simulatedViews": 4861 },
-    { "id": "H04-C06", "author": "钱袋减负申请中", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "本钱袋请求先休息一会儿，围观也算负重训练吗？", "simulatedLikes": 286, "simulatedReplies": 10, "simulatedReposts": 0, "simulatedViews": 2780 },
-    { "id": "H04-C07", "author": "余额围观员", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "纸厚纸薄先不说，我的余额一直很轻，这算不算参与讨论的资格？", "simulatedLikes": 413, "simulatedReplies": 11, "simulatedReposts": 4, "simulatedViews": 3730 },
-    { "id": "H04-C08", "author": "热榜理财气氛组", "avatar": "/avatars/hype.webp", "role": "troll", "text": "知识还没进账，表情包已经满仓。评论区的算盘都快敲出节奏了。", "simulatedLikes": 179, "simulatedReplies": 12, "simulatedReposts": 0, "simulatedViews": 2153 }
+    {
+      "id": "H04-C01",
+      "author": "铜钱搬运工",
+      "avatar": "/avatars/changan.webp",
+      "role": "in_world",
+      "text": "如果是真的，我的肩膀第一个表示支持，纸听着就轻。",
+      "simulatedLikes": 583,
+      "simulatedReplies": 5,
+      "simulatedReposts": 4,
+      "simulatedViews": 4554,
+      "replies": [
+        {
+          "id": "H04-C01-R1",
+          "replyTo": "H04-C01",
+          "author": "蜀地行商",
+          "avatar": "/avatars/reader.webp",
+          "text": "肩膀同意可不算交易凭据，收不收还得另想。"
+        },
+        {
+          "id": "H04-C01-R2",
+          "replyTo": "H04-C01-R1",
+          "author": "汴京财经观察",
+          "avatar": "/avatars/hype.webp",
+          "text": "就沿着这个问题看：民间怎样使用、官府怎样管理，时间线分别核对。"
+        },
+        {
+          "id": "H04-C01-R3",
+          "replyTo": "H04-C01-R2",
+          "author": "铜钱搬运工",
+          "avatar": "/avatars/changan.webp",
+          "text": "行，肩膀暂时只负责提议，不负责担保。"
+        }
+      ]
+    },
+    {
+      "id": "H04-C02",
+      "author": "蜀地行商",
+      "avatar": "/avatars/reader.webp",
+      "role": "troll",
+      "text": "轻归轻，一张纸递过来，凭什么让我认？我先打个问号。",
+      "simulatedLikes": 648,
+      "simulatedReplies": 6,
+      "simulatedReposts": 0,
+      "simulatedViews": 5070
+    },
+    {
+      "id": "H04-C03",
+      "author": "历史财经博主",
+      "avatar": "/avatars/spectator.webp",
+      "role": "history_nerd",
+      "text": "民间交子和官交子的时间线得分开看，别把两个阶段混成一次发明。",
+      "simulatedLikes": 367,
+      "simulatedReplies": 7,
+      "simulatedReposts": 4,
+      "simulatedViews": 3164
+    },
+    {
+      "id": "H04-C04",
+      "author": "余额不足",
+      "avatar": "/avatars/hype.webp",
+      "role": "spectator",
+      "text": "大家忙着讨论钱怎么带，我的问题是先得有钱。",
+      "simulatedLikes": 201,
+      "simulatedReplies": 8,
+      "simulatedReposts": 0,
+      "simulatedViews": 2063
+    },
+    {
+      "id": "H04-C05",
+      "author": "钱袋打结中",
+      "avatar": "/avatars/reader.webp",
+      "role": "in_world",
+      "text": "我还在想出门带哪只袋子，你们已经讨论要不要带袋子了。",
+      "simulatedLikes": 592,
+      "simulatedReplies": 9,
+      "simulatedReposts": 4,
+      "simulatedViews": 4861
+    },
+    {
+      "id": "H04-C06",
+      "author": "收款前再想想",
+      "avatar": "/avatars/changan.webp",
+      "role": "history_nerd",
+      "text": "我更想核对的不是纸多轻，而是这张纸为什么会被接受。",
+      "simulatedLikes": 286,
+      "simulatedReplies": 10,
+      "simulatedReposts": 0,
+      "simulatedViews": 2780
+    }
   ],
   "claim": "北宋时期出现了交子纸币。",
   "isTrue": true,
@@ -45,11 +137,30 @@
     "correctedClaim": "北宋四川出现交子，并经历民间使用到官府发行的发展过程。",
     "funFact": "新华网四川频道文章指出，目前尚未发现公认的交子及其印版实物。国博链接的页面题为《会子版》，展品是南宋‘行在会子务’铜印版；看见印版图片，也要先看清它的名字。"
   },
-  "sourceIds": ["S-H04-01", "S-H04-02", "S-H04-03"],
+  "sourceIds": [
+    "S-H04-01",
+    "S-H04-02",
+    "S-H04-03"
+  ],
   "rewriteOptions": [
-    { "id": "A", "text": "交子是现代才发明的，北宋还没有交子纸币。", "isBest": false, "feedback": "所列国博说明和学术文章都介绍了北宋交子，不能把它的出现推到现代。" },
-    { "id": "B", "text": "北宋四川出现交子，并经历民间使用到官府发行的发展过程。", "isBest": true, "feedback": "这个版本明确地点与发展过程，区分民间私交子和官府发行，没有套用现代金融制度。" },
-    { "id": "C", "text": "交子一出现就等于现代银行卡，民间使用和官府发行完全一样。", "isBest": false, "feedback": "这是把古代货币实践等同于现代金融工具，也抹去了民间使用到官府发行的发展过程。" }
+    {
+      "id": "A",
+      "text": "交子是现代才发明的，北宋还没有交子纸币。",
+      "isBest": false,
+      "feedback": "所列国博说明和学术文章都介绍了北宋交子，不能把它的出现推到现代。"
+    },
+    {
+      "id": "B",
+      "text": "北宋四川出现交子，并经历民间使用到官府发行的发展过程。",
+      "isBest": true,
+      "feedback": "这个版本明确地点与发展过程，区分民间私交子和官府发行，没有套用现代金融制度。"
+    },
+    {
+      "id": "C",
+      "text": "交子一出现就等于现代银行卡，民间使用和官府发行完全一样。",
+      "isBest": false,
+      "feedback": "这是把古代货币实践等同于现代金融工具，也抹去了民间使用到官府发行的发展过程。"
+    }
   ],
   "aiFacts": [
     "[S-H04-01] 中国国家博物馆《会子版》页面介绍，北宋中叶以铁钱为主要流通货币的四川地区印制交子，由政府设交子务负责发行管理；国博称其为‘世界上最早的纸币’。",
@@ -74,11 +185,11 @@
   "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "纸上经纬社",
-    "lead": "有关北宋“纸上财富”的说法受到关注，民间使用与官府管理成为讨论焦点。",
+    "lead": "一张纸也能代表财富？有关北宋交子的讨论走红，读者最关心的是：凭什么相信这张纸？",
     "publishedAt": "2026-10-30T09:35:00+08:00",
     "related": [
-      "留言提出，应留意四川这一地点线索，区分题目地名与账号所在地。",
-      "讨论关注民间使用与官府管理，相关说法需要对照材料。"
+      "“带着轻便”和“别人愿意收”，是读者分别追问的两件事。",
+      "民间交子与官交子的时间线，不能在转述时揉成一步。"
     ]
   }
 }

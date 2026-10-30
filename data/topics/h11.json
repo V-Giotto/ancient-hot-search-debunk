@@ -1,30 +1,37 @@
 {
   "id": "H11",
-  "era": { "label": "春秋", "order": 1 },
+  "era": {
+    "label": "春秋",
+    "order": 1
+  },
   "rumorEra": "不限定",
   "coreContext": "孔子在传世《论语·宪问》中的问答",
-  "evidenceEra": "待定",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "先秦《论语》传世文本（编纂年代存在争议）；后世注疏包括三国魏、北宋时期的文献层次",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 11,
   "module": "discover",
   "format": "chat",
   "category": "语录查证",
   "tags": [
+    "孔子语录",
     "论语",
-    "以德报怨",
-    "群聊转发"
+    "原文上下文"
   ],
-  "title": "群聊又转“以德报怨”：孔子真这么说？",
+  "title": "我妈往家族群转了句“孔子名言”，结果我越看越不对",
   "coverUrl": "/covers/h11.webp",
   "coverAlt": "语录核对主题的聊天气泡与问号",
   "author": {
     "name": "语录转发核对组",
     "handle": "@yulu_hedui",
-    "bio": "群聊搬运｜转发之前，先认清谁在说话。",
+    "bio": "语录转发核对组｜家族群很热闹，先认清谁在说话。",
     "avatarUrl": "/avatars/reader.webp",
     "fictitious": true
   },
-  "body": "群聊又在转以德报怨的处世语录，署名孔子，配文还带着一股快转给朋友的熟练感。有人拿来劝架，有人已经设成个性签名；我刚点开，消息就被顶到了看不见的地方。群聊里的阅读进度，主打一个没看完但已转发。等等，这句话在原文里是谁说的？提问和回答可别认错人，断章取义也不能靠转发量续费吧。",
+  "body": "家族群今日份人生哲理更新：“以德报怨——孔子。”\n\n底下已经有人回复“受教了”，还有人准备换成微信签名。但我翻开《论语·宪问》后，发现事情没这么简单。\n\n这句话出现在一段问答里。说出“以德报怨”的人，和孔子本人，真是同一个吗？",
   "simulatedHeat": 490000,
   "simulatedViews": 853330,
   "simulatedLikes": 10500,
@@ -34,70 +41,92 @@
   "comments": [
     {
       "id": "H11-C01",
-      "author": "前排等资料",
+      "author": "先收进签名库",
       "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "刚准备转给朋友，朋友已经转给我了，这群聊是开了循环播放吗。",
-      "simulatedLikes": 520, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4834, "replies": [
-      {"id": "H11-C01-R1", "replyTo": "H11-C01", "author": "语录转发核对组", "avatar": "/avatars/reader.webp", "text": "转发键先松开，咱们核对组今天只干一件事：认清谁在说话。"},
-      {"id": "H11-C01-R2", "replyTo": "H11-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.webp", "text": "收到，我先把那张语录卡从群相册里撤下来。"},
-      {"id": "H11-C01-R3", "replyTo": "H11-C01-R2", "author": "语录转发核对组", "avatar": "/avatars/reader.webp", "text": "撤得好，等上下文读完，再决定要不要发更正。"}
-    ] },
+      "role": "troll",
+      "text": "看到署名孔子，我差点就准备换签名了，这句看着挺熟。",
+      "simulatedLikes": 520,
+      "simulatedReplies": 12,
+      "simulatedReposts": 3,
+      "simulatedViews": 4834,
+      "replies": [
+        {
+          "id": "H11-C01-R1",
+          "replyTo": "H11-C01",
+          "author": "不想再被劝大度",
+          "avatar": "/avatars/reader.webp",
+          "text": "先别急着换，问答里的署名和截图上的署名得对一对吧？"
+        },
+        {
+          "id": "H11-C01-R2",
+          "replyTo": "H11-C01-R1",
+          "author": "语录转发核对组",
+          "avatar": "/avatars/reader.webp",
+          "text": "我也想核对“或曰”到回答这段，截图偏偏把上下文切掉了。"
+        },
+        {
+          "id": "H11-C01-R3",
+          "replyTo": "H11-C01-R2",
+          "author": "先收进签名库",
+          "avatar": "/avatars/spectator.webp",
+          "text": "好，签名先不动，群里的“受教了”也先缓一缓。"
+        }
+      ]
+    },
     {
       "id": "H11-C02",
-      "author": "慢读课代表",
+      "author": "不想再被劝大度",
       "avatar": "/avatars/reader.webp",
-      "role": "history_nerd",
-      "text": "提问和回答得连着读，只看截出来的短句容易认错发言人。",
-      "simulatedLikes": 483, "simulatedReplies": 13, "simulatedReposts": 6, "simulatedViews": 4636
+      "role": "spectator",
+      "text": "我最关心的是，孔子到底怎么回答，别只给我一张金句截图。",
+      "simulatedLikes": 483,
+      "simulatedReplies": 13,
+      "simulatedReposts": 6,
+      "simulatedViews": 4636
     },
     {
       "id": "H11-C03",
-      "author": "热度值班员",
+      "author": "原文搬运员",
       "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "配文写着建议全文背诵，点开却没有全文，这建议也太省流了。",
-      "simulatedLikes": 446, "simulatedReplies": 14, "simulatedReposts": 1, "simulatedViews": 4438
+      "role": "history_nerd",
+      "text": "先看《论语·宪问》的“或曰”，再往下读回答，把说话的人分清。",
+      "simulatedLikes": 446,
+      "simulatedReplies": 14,
+      "simulatedReposts": 1,
+      "simulatedViews": 4438
     },
     {
       "id": "H11-C04",
-      "author": "街巷围观客",
+      "author": "家族群潜水十年",
       "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "别人都在接龙，我还停在加载上下文，申请慢速围观。",
-      "simulatedLikes": 409, "simulatedReplies": 15, "simulatedReposts": 4, "simulatedViews": 4240
+      "role": "spectator",
+      "text": "我转发的时候很自信，问出处的时候很安静。",
+      "simulatedLikes": 409,
+      "simulatedReplies": 15,
+      "simulatedReposts": 4,
+      "simulatedViews": 4240
     },
     {
       "id": "H11-C05",
-      "author": "上下文观察员",
+      "author": "群相册管理员",
       "avatar": "/avatars/reader.webp",
-      "role": "history_nerd",
-      "text": "《论语·宪问》先读完整，别让摘句替整段对话发言。",
-      "simulatedLikes": 372, "simulatedReplies": 16, "simulatedReposts": 7, "simulatedViews": 4042
+      "role": "in_world",
+      "text": "我们群的签名更新速度比读原文快多了，我先把这张图留着对照。",
+      "simulatedLikes": 372,
+      "simulatedReplies": 16,
+      "simulatedReposts": 7,
+      "simulatedViews": 4042
     },
     {
       "id": "H11-C06",
-      "author": "收藏夹管理员",
+      "author": "上下文别裁掉",
       "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "转发时很笃定，被问出处时突然切换成对方正在输入。",
-      "simulatedLikes": 335, "simulatedReplies": 17, "simulatedReposts": 2, "simulatedViews": 3844
-    },
-    {
-      "id": "H11-C07",
-      "author": "书签借我用用",
-      "avatar": "/avatars/changan.webp",
-      "role": "in_world",
-      "text": "消息免打扰开了，未读还在涨，劝人这件事大家是真有空。",
-      "simulatedLikes": 298, "simulatedReplies": 18, "simulatedReposts": 5, "simulatedViews": 3646
-    },
-    {
-      "id": "H11-C08",
-      "author": "标题排版中",
-      "avatar": "/avatars/hype.webp",
-      "role": "troll",
-      "text": "个性签名先别急着换，我可不想过会儿再发个更正。",
-      "simulatedLikes": 261, "simulatedReplies": 0, "simulatedReposts": 0, "simulatedViews": 3448
+      "role": "history_nerd",
+      "text": "问句和答句能不能放在同一张图里？我不想来回翻相册找半句话。",
+      "simulatedLikes": 335,
+      "simulatedReplies": 17,
+      "simulatedReposts": 2,
+      "simulatedViews": 3844
     }
   ],
   "claim": "“以德报怨”是孔子主张的处世原则。",

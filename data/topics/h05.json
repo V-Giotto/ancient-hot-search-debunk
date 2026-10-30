@@ -1,25 +1,36 @@
 {
   "id": "H05",
-  "era": { "label": "唐代", "order": 4 },
+  "era": {
+    "label": "唐代",
+    "order": 4
+  },
   "rumorEra": "不限定",
   "coreContext": "唐代彩釉陶器的多种釉色",
-  "evidenceEra": "待定",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "唐代器物（现代博物馆研究与释读）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 5,
   "module": "discover",
   "category": "科技文物",
-  "tags": ["唐三彩", "名字与颜色", "器物待查证"],
-  "title": "唐三彩名字惹争议：调色盘真被限定三种颜色？",
+  "tags": [
+    "唐三彩",
+    "博物馆日常",
+    "文物冷知识"
+  ],
+  "title": "叫唐三彩就只能有三种颜色？谁给我限量了",
   "coverUrl": "/covers/h05.webp",
   "coverAlt": "彩釉陶器与带问号的配色卡插画",
   "author": {
     "name": "三彩本人在线维权",
     "handle": "@sancai_zaixian",
-    "bio": "釉彩分享号｜名字引发的争议，请交给证据处理。",
+    "bio": "调色盘先别锁｜名字惹的争议，器物介绍里找。",
     "avatarUrl": "/avatars/pepper.webp",
     "fictitious": true
   },
-  "body": "家人们谁懂啊！本账号刚报完名字，评论区就给调色盘上了锁：既然叫唐三彩，颜色当然只能有三种？有人忙着数名字，有人忙着找色卡，我还没开口，双方已经替我的穿搭开了三轮会议。先把滤镜关掉，也别拿昵称当产品说明书。到底该怎么算，等查完器物介绍再来发言！",
+  "body": "今天发现有人认真给我统计颜色，数到第三种就不让数了。\n\n理由是：你叫唐三彩啊。\n\n我寻思名字里有个“三”，怎么就变成了调色盘的使用上限？旁边还有人一本正经地解释：“超出三种就不正宗。”\n\n行，那咱们别吵，直接看看博物馆怎么介绍。",
   "simulatedHeat": 794200,
   "simulatedViews": 1232350,
   "simulatedLikes": 21560,
@@ -27,18 +38,95 @@
   "simulatedReposts": 680,
   "simulatedBookmarks": 2480,
   "comments": [
-    { "id": "H05-C01", "author": "调色盘加班中", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "我只是来选个头像底色，怎么突然参加了命名听证会？", "simulatedLikes": 421, "simulatedReplies": 6, "simulatedReposts": 5, "simulatedViews": 3523, "replies": [
-      {"id": "H05-C01-R1", "replyTo": "H05-C01", "author": "三彩本人在线维权", "avatar": "/avatars/pepper.webp", "text": "头像底色先别定，我这名字到底管不管颜色，咱们等证据开庭再说。"},
-      {"id": "H05-C01-R2", "replyTo": "H05-C01-R1", "author": "调色盘加班中", "avatar": "/avatars/spectator.webp", "text": "好，调色盘先合上，听证会我坐旁听席。"},
-      {"id": "H05-C01-R3", "replyTo": "H05-C01-R2", "author": "三彩本人在线维权", "avatar": "/avatars/pepper.webp", "text": "旁听席给你留着，散会前别偷偷把我改成三色限定款。"}
-    ] },
-    { "id": "H05-C02", "author": "器物说明先读完", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "先看器物说明里的用词，再决定怎么数颜色，别只盯着名字里的数字。", "simulatedLikes": 587, "simulatedReplies": 7, "simulatedReposts": 2, "simulatedViews": 4746 },
-    { "id": "H05-C03", "author": "彩釉区气氛组", "avatar": "/avatars/hype.webp", "role": "troll", "text": "标题我都想好了：一个名字，让整个美术区集体开会！", "simulatedLikes": 196, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 2070 },
-    { "id": "H05-C04", "author": "陶器邻居", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "隔壁围观的器物申请轻拿轻放，吵架的音量倒是可以再放低一点。", "simulatedLikes": 328, "simulatedReplies": 9, "simulatedReposts": 4, "simulatedViews": 3055 },
-    { "id": "H05-C05", "author": "先关滤镜再讨论", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "器物介绍和配图要对着看，屏幕滤镜可不能充当查证工具。", "simulatedLikes": 536, "simulatedReplies": 10, "simulatedReposts": 1, "simulatedViews": 4572 },
-    { "id": "H05-C06", "author": "收藏夹负责围观", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "我的配色审美还没上线，收藏夹已经先替我占好座了。", "simulatedLikes": 279, "simulatedReplies": 11, "simulatedReposts": 6, "simulatedViews": 2834 },
-    { "id": "H05-C07", "author": "器物穿搭待定", "avatar": "/avatars/pepper.webp", "role": "in_world", "text": "本器物今天的穿搭投票暂停，先把评论区的色卡收齐。", "simulatedLikes": 304, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 3070 },
-    { "id": "H05-C08", "author": "热搜配色总监", "avatar": "/avatars/hype.webp", "role": "troll", "text": "别人做配色，我给争论加高光。表情包已经备好，就等你们开麦。", "simulatedLikes": 175, "simulatedReplies": 13, "simulatedReposts": 0, "simulatedViews": 2228 }
+    {
+      "id": "H05-C01",
+      "author": "三种颜色够用了",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "都叫三彩了，不然为什么不叫四彩五彩？我先按名字猜。",
+      "simulatedLikes": 421,
+      "simulatedReplies": 6,
+      "simulatedReposts": 5,
+      "simulatedViews": 3523,
+      "replies": [
+        {
+          "id": "H05-C01-R1",
+          "replyTo": "H05-C01",
+          "author": "三彩本人在线维权",
+          "avatar": "/avatars/pepper.webp",
+          "text": "按这个逻辑，名字里带数字的都得严格按数量交货？"
+        },
+        {
+          "id": "H05-C01-R2",
+          "replyTo": "H05-C01-R1",
+          "author": "器物说明书",
+          "avatar": "/avatars/hype.webp",
+          "text": "别急着定上限，先把博物馆介绍里的名称解释看完。"
+        },
+        {
+          "id": "H05-C01-R3",
+          "replyTo": "H05-C01-R2",
+          "author": "三种颜色够用了",
+          "avatar": "/avatars/spectator.webp",
+          "text": "那我先放下计数器，免得越数问题越多。"
+        }
+      ]
+    },
+    {
+      "id": "H05-C02",
+      "author": "美术生路过",
+      "avatar": "/avatars/reader.webp",
+      "role": "spectator",
+      "text": "名字里的数字就能当配色上限？我最怕有人拿名字限制发挥。",
+      "simulatedLikes": 587,
+      "simulatedReplies": 7,
+      "simulatedReposts": 2,
+      "simulatedViews": 4746
+    },
+    {
+      "id": "H05-C03",
+      "author": "器物说明书",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "国博和故宫的器物介绍都可以对照着看，先读说明，再回来数。",
+      "simulatedLikes": 196,
+      "simulatedReplies": 8,
+      "simulatedReposts": 7,
+      "simulatedViews": 2070
+    },
+    {
+      "id": "H05-C04",
+      "author": "调色盘加班中",
+      "avatar": "/avatars/changan.webp",
+      "role": "spectator",
+      "text": "我只是来选个头像底色，怎么参加了一场命名辩论？",
+      "simulatedLikes": 328,
+      "simulatedReplies": 9,
+      "simulatedReposts": 4,
+      "simulatedViews": 3055
+    },
+    {
+      "id": "H05-C05",
+      "author": "博物馆常客",
+      "avatar": "/avatars/reader.webp",
+      "role": "in_world",
+      "text": "看实物和说明，比盯着名字猜靠谱。我打算把这页介绍读完。",
+      "simulatedLikes": 536,
+      "simulatedReplies": 10,
+      "simulatedReposts": 1,
+      "simulatedViews": 4572
+    },
+    {
+      "id": "H05-C06",
+      "author": "颜色还没数完",
+      "avatar": "/avatars/spectator.webp",
+      "role": "history_nerd",
+      "text": "数的是名字、单件器物，还是整个类别？大家先统一题目吧。",
+      "simulatedLikes": 279,
+      "simulatedReplies": 11,
+      "simulatedReposts": 6,
+      "simulatedViews": 2834
+    }
   ],
   "claim": "唐三彩只有三种釉色。",
   "isTrue": false,
@@ -49,11 +137,29 @@
     "correctedClaim": "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。",
     "funFact": "国博介绍的三彩方柜仿日常方柜制作，用于随葬。器物看起来像日常家具，也要读清它的具体用途。"
   },
-  "sourceIds": ["S-H05-01", "S-H05-02"],
+  "sourceIds": [
+    "S-H05-01",
+    "S-H05-02"
+  ],
   "rewriteOptions": [
-    { "id": "A", "text": "唐三彩只有三种釉色，名字中的三就是严格的颜色上限。", "isBest": false, "feedback": "国博明确说明实际不止三彩，而为多彩，不能用名字直接限定釉色数量。" },
-    { "id": "B", "text": "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。", "isBest": true, "feedback": "这个版本保留彩釉陶器的类别，并准确纠正了只有三种颜色的误解。" },
-    { "id": "C", "text": "唐三彩一定是瓷器，而且釉色数量无限。", "isBest": false, "feedback": "国博称其为铅釉陶器；多彩也不能被夸大成釉色数量无限。" }
+    {
+      "id": "A",
+      "text": "唐三彩只有三种釉色，名字中的三就是严格的颜色上限。",
+      "isBest": false,
+      "feedback": "国博明确说明实际不止三彩，而为多彩，不能用名字直接限定釉色数量。"
+    },
+    {
+      "id": "B",
+      "text": "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。",
+      "isBest": true,
+      "feedback": "这个版本保留彩釉陶器的类别，并准确纠正了只有三种颜色的误解。"
+    },
+    {
+      "id": "C",
+      "text": "唐三彩一定是瓷器，而且釉色数量无限。",
+      "isBest": false,
+      "feedback": "国博称其为铅釉陶器；多彩也不能被夸大成釉色数量无限。"
+    }
   ],
   "aiFacts": [
     "[S-H05-01] 中国国家博物馆《三彩方柜》说明，唐三彩是一种铅釉陶器，以瓷土为胎，分二次烧成，素烧约1100℃、釉烧约900℃。",

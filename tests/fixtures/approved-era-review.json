@@ -1,0 +1,160 @@
+{
+  "H01": {
+    "before": {
+      "evidenceEra": "待定",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "唐代诗作（后世文献汇编传世）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H02": {
+    "before": {
+      "evidenceEra": "待定",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "南宋文献（《东京梦华录》，1147年成书）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H03": {
+    "before": {
+      "evidenceEra": "明代文献（1591年条目有版本争议、1621年记载）",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "明代文献（《群芳谱》1621年成书题跋、1629年刊刻；《遵生八笺》1591年初刻本不见“番椒”条，后出版本存在增补）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H04": {
+    "before": {
+      "evidenceEra": "待定",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "南宋史籍（《续资治通鉴长编》记载北宋交子）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H05": {
+    "before": {
+      "evidenceEra": "待定",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "唐代器物（现代博物馆研究与释读）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H06": {
+    "before": {
+      "evidenceEra": "战国早期器物（出土年代待定）",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "战国早期器物（1978年出土）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H08": {
+    "before": {
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H09": {
+    "before": {
+      "evidenceEra": "待定",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "南宋文献（《东京梦华录》，1147年成书）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H10": {
+    "before": {
+      "evidenceEra": "待定",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "北宋文献（《梦溪笔谈》，约1087—1090年成书，具体年代尚有考证差异）",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  },
+  "H11": {
+    "before": {
+      "evidenceEra": "待定",
+      "eraReview": {
+        "status": "pending"
+      }
+    },
+    "after": {
+      "evidenceEra": "先秦《论语》传世文本（编纂年代存在争议）；后世注疏包括三国魏、北宋时期的文献层次",
+      "eraReview": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T11:29:00-07:00"
+      }
+    }
+  }
+}

@@ -1,15 +1,26 @@
 {
   "id": "H01",
-  "era": { "label": "唐代", "order": 4 },
+  "era": {
+    "label": "唐代",
+    "order": 4
+  },
   "rumorEra": "不限定",
   "coreContext": "唐代李白与杜甫相识交游",
-  "evidenceEra": "待定",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "唐代诗作（后世文献汇编传世）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 1,
   "module": "trending",
   "category": "文人八卦",
-  "tags": ["诗坛吃瓜", "线下见面疑云", "诗友行踪"],
-  "title": "李白与杜甫从未见面？诗人交游说法引发讨论",
+  "tags": [
+    "李白杜甫",
+    "诗坛交游",
+    "古诗里的线索"
+  ],
+  "title": "李白杜甫被传从未线下见面",
   "coverUrl": "/covers/h01.webp",
   "coverAlt": "两位诗人头像之间横着红色断线与问号的插画",
   "author": {
@@ -19,7 +30,7 @@
     "avatarUrl": "/avatars/hype.webp",
     "fictitious": true
   },
-  "body": "目前，讨论集中在“互相关注”能否作为交游依据，以及“从未见面”的说法是否有证据支持。部分留言提出应先查阅线下行踪，而非仅凭标题推断两人的关系。对于这项说法，需要将话题表述与相关记载对照，再作判断。",
+  "body": "诗坛今天出现了一条颇具争议的说法：李白和杜甫其实从来没有见过面。有人觉得两位诗人只是在作品里遥相欣赏，也有人提醒，不能把缺少聊天记录当成没有见面的证据。至于二人的真实交往，不能靠想象中的“好友列表”判断，得看诗文里究竟留下了什么。",
   "simulatedHeat": 1286400,
   "simulatedViews": 1485030,
   "simulatedLikes": 35600,
@@ -27,14 +38,95 @@
   "simulatedReposts": 1260,
   "simulatedBookmarks": 4100,
   "comments": [
-    { "id": "H01-C01", "author": "洛阳同城小助手", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "先别急着拉黑，洛阳这条同城线索，要不要先翻一翻？", "simulatedLikes": 735, "simulatedReplies": 2, "simulatedReposts": 1, "simulatedViews": 5309 },
-    { "id": "H01-C02", "author": "诗仙超话值班员", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "谁把线下行程表藏起来了？我刷新得比上班打卡还勤。", "simulatedLikes": 526, "simulatedReplies": 3, "simulatedReposts": 2, "simulatedViews": 3907 },
-    { "id": "H01-C03", "author": "认真读诗的", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "别只盯着‘互关截图’，他们留下的诗篇里会不会有交游线索？", "simulatedLikes": 689, "simulatedReplies": 4, "simulatedReposts": 3, "simulatedViews": 5109 },
-    { "id": "H01-C04", "author": "诗坛热度搬运站", "avatar": "/avatars/hype.webp", "role": "troll", "text": "震惊！两个问号引发全网加班！我标题还没写完，你们怎么就开始写长评了？", "simulatedLikes": 281, "simulatedReplies": 5, "simulatedReposts": 4, "simulatedViews": 2314 },
-    { "id": "H01-C05", "author": "云端诗友", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "本来只是路过，结果茶续了三杯，瓜还没讲到正题。", "simulatedLikes": 314, "simulatedReplies": 6, "simulatedReposts": 5, "simulatedViews": 2606 },
-    { "id": "H01-C06", "author": "跨朝代围观群众", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "古代没有朋友圈，但评论区已经替他们攒够一年朋友圈素材。", "simulatedLikes": 472, "simulatedReplies": 7, "simulatedReposts": 6, "simulatedViews": 3773 },
-    { "id": "H01-C07", "author": "瓜皮证据分类员", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "请把‘没看见证据’和‘有证据证明没见过’分开排队，别挤在一个问号里。", "simulatedLikes": 431, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 3547 },
-    { "id": "H01-C08", "author": "标题再加三个问号", "avatar": "/avatars/hype.webp", "role": "troll", "text": "标题的问号快不够用了，谁借我几个？下班前还你一整排！", "simulatedLikes": 193, "simulatedReplies": 9, "simulatedReposts": 0, "simulatedViews": 1942 }
+    {
+      "id": "H01-C01",
+      "author": "只看标题的路人",
+      "avatar": "/avatars/changan.webp",
+      "role": "troll",
+      "text": "我原本真以为两位只是隔着诗集互相欣赏，毕竟没见过合照。",
+      "simulatedLikes": 735,
+      "simulatedReplies": 2,
+      "simulatedReposts": 1,
+      "simulatedViews": 5309,
+      "replies": [
+        {
+          "id": "H01-C01-R1",
+          "replyTo": "H01-C01",
+          "author": "诗仙超话管理员",
+          "avatar": "/avatars/spectator.webp",
+          "text": "拿合照当门槛，是不是把今天的相册习惯带进唐诗了？"
+        },
+        {
+          "id": "H01-C01-R2",
+          "replyTo": "H01-C01-R1",
+          "author": "诗坛八卦搬运工",
+          "avatar": "/avatars/hype.webp",
+          "text": "先把《与李十二白同寻范十隐居》放在旁边对读，关系图稍后再画。"
+        },
+        {
+          "id": "H01-C01-R3",
+          "replyTo": "H01-C01-R2",
+          "author": "只看标题的路人",
+          "avatar": "/avatars/changan.webp",
+          "text": "好，我先撤掉合照这一栏，诗集阅读量突然增加了。"
+        }
+      ]
+    },
+    {
+      "id": "H01-C02",
+      "author": "诗仙超话管理员",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "不是，谁给两位诗人填的“从未面基”申请表？合照这个要求也太难了。",
+      "simulatedLikes": 526,
+      "simulatedReplies": 3,
+      "simulatedReposts": 2,
+      "simulatedViews": 3907
+    },
+    {
+      "id": "H01-C03",
+      "author": "杜诗收藏家",
+      "avatar": "/avatars/reader.webp",
+      "role": "history_nerd",
+      "text": "《与李十二白同寻范十隐居》这个标题值得先读一遍，正文也别跳过。",
+      "simulatedLikes": 689,
+      "simulatedReplies": 4,
+      "simulatedReposts": 3,
+      "simulatedViews": 5109
+    },
+    {
+      "id": "H01-C04",
+      "author": "诗集翻到一半",
+      "avatar": "/avatars/hype.webp",
+      "role": "spectator",
+      "text": "这种级别的诗坛八卦，居然把我的唐诗选本从书架请下来了。",
+      "simulatedLikes": 281,
+      "simulatedReplies": 5,
+      "simulatedReposts": 4,
+      "simulatedViews": 2314
+    },
+    {
+      "id": "H01-C05",
+      "author": "洛阳同城网友",
+      "avatar": "/avatars/changan.webp",
+      "role": "in_world",
+      "text": "别光猜关系，我想先把洛阳这条线索对上，再画诗人关系图。",
+      "simulatedLikes": 314,
+      "simulatedReplies": 6,
+      "simulatedReposts": 5,
+      "simulatedViews": 2606
+    },
+    {
+      "id": "H01-C06",
+      "author": "关系图重画中",
+      "avatar": "/avatars/spectator.webp",
+      "role": "history_nerd",
+      "text": "“从未”管的是全部交往，不能只挑一段时间来看吧？",
+      "simulatedLikes": 472,
+      "simulatedReplies": 7,
+      "simulatedReposts": 6,
+      "simulatedViews": 3773
+    }
   ],
   "claim": "李白与杜甫从未见过面。",
   "isTrue": false,
@@ -45,11 +137,29 @@
     "correctedClaim": "李白与杜甫在唐代相识并有交游记载。",
     "funFact": "上海交大报文章还提到，杜甫后来写有《春日忆李白》《梦李白二首》《天末怀李白》等怀念李白的诗。读诗可以找到交游与怀念的线索，却不能据此补出一份每天通信的记录。"
   },
-  "sourceIds": ["S-H01-01", "S-H01-02"],
+  "sourceIds": [
+    "S-H01-01",
+    "S-H01-02"
+  ],
   "rewriteOptions": [
-    { "id": "A", "text": "李白与杜甫在唐代相识并有交游记载。", "isBest": true, "feedback": "这个版本依据相识与交游记载，没有补写两人的私事。" },
-    { "id": "B", "text": "李白与杜甫终生未见，诗里的交游线索都不算数。", "isBest": false, "feedback": "所列文章明确介绍了相识、重逢和同游的记载，不能用标题否定这些依据。" },
-    { "id": "C", "text": "既然有交游记载，就能证明李白与杜甫每天通信。", "isBest": false, "feedback": "相识与交游不等于每天通信。所列来源不能证明通信频率，也不能用来编造私信原文。" }
+    {
+      "id": "A",
+      "text": "李白与杜甫在唐代相识并有交游记载。",
+      "isBest": true,
+      "feedback": "这个版本依据相识与交游记载，没有补写两人的私事。"
+    },
+    {
+      "id": "B",
+      "text": "李白与杜甫终生未见，诗里的交游线索都不算数。",
+      "isBest": false,
+      "feedback": "所列文章明确介绍了相识、重逢和同游的记载，不能用标题否定这些依据。"
+    },
+    {
+      "id": "C",
+      "text": "既然有交游记载，就能证明李白与杜甫每天通信。",
+      "isBest": false,
+      "feedback": "相识与交游不等于每天通信。所列来源不能证明通信频率，也不能用来编造私信原文。"
+    }
   ],
   "aiFacts": [
     "[S-H01-01] 上海交大报‘思源湖’第1706期《李白与杜甫》（2021-05-05）介绍，两人初次相识于公元744年；李白被唐玄宗‘赐金放还’后路过洛阳遇到杜甫。",
@@ -73,11 +183,11 @@
   "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "诗路采闻社",
-    "lead": "关于李白与杜甫是否曾线下见面的说法引发讨论，相关交游线索有待核对。",
+    "lead": "诗坛两位重量级人物被传“从未见过面”。网友翻出交游诗句，追问这条传言究竟从何而来。",
     "publishedAt": "2026-10-30T09:20:00+08:00",
     "related": [
-      "留言提出洛阳这一同城线索，建议进一步查阅相关记载。",
-      "讨论认为，应核对线下行踪，不宜仅凭账号互关作出判断。"
+      "没有合照、没有聊天记录，能否用来判断古人的交游？",
+      "《与李十二白同寻范十隐居》成为读者准备对照的诗文线索。"
     ]
   }
 }

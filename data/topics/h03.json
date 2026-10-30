@@ -1,15 +1,26 @@
 {
   "id": "H03",
-  "era": { "label": "唐代", "order": 4 },
+  "era": {
+    "label": "唐代",
+    "order": 4
+  },
   "rumorEra": "唐代",
   "coreContext": "唐代辛味调料与美洲辣椒传入的区别",
-  "evidenceEra": "明代文献（1591年条目有版本争议、1621年记载）",
-  "eraReview": { "status": "pending" },
+  "evidenceEra": "明代文献（《群芳谱》1621年成书题跋、1629年刊刻；《遵生八笺》1591年初刻本不见“番椒”条，后出版本存在增补）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T11:29:00-07:00"
+  },
   "rank": 3,
   "module": "trending",
   "category": "古代美食",
-  "tags": ["长安吃瓜", "辛味疑云", "跨时空饭局"],
-  "title": "唐代已实现“辣椒自由”？饮食话题中的配料待核对",
+  "tags": [
+    "大唐美食",
+    "配料表",
+    "辛辣味"
+  ],
+  "title": "唐朝火锅里的红辣椒，配料表经得起查吗",
   "coverUrl": "/covers/h03.webp",
   "coverAlt": "唐风角色围观一锅夸张红汤的插画",
   "author": {
@@ -19,7 +30,7 @@
     "avatarUrl": "/avatars/changan.webp",
     "fictitious": true
   },
-  "body": "话题以一顿跨时空饭局为切入点，围绕锅中配料是否合理展开讨论。部分留言关注辛味，也有留言要求先查看配料表。对此，不能仅凭颜色或“辣”的描述判断具体调料，应将说法中的食材与相关记载对照，再判断这一主张是否成立。",
+  "body": "一张号称还原唐代宴席的美食图在网上流传，锅里红彤彤的一片，看得人直流口水。眼尖的网友却问了一个问题：唐朝人真的能用上我们今天熟悉的辣椒吗？有人认为古人既然能吃辣，就一定有辣椒；也有人表示，辛辣味并不只有这一种来源。这次恐怕得先查配料，再决定是否开吃。",
   "simulatedHeat": 982600,
   "simulatedViews": 1358690,
   "simulatedLikes": 26800,
@@ -27,14 +38,95 @@
   "simulatedReposts": 820,
   "simulatedBookmarks": 3200,
   "comments": [
-    { "id": "H03-C01", "author": "胡椒不背锅", "avatar": "/avatars/pepper.webp", "role": "in_world", "text": "你们每次说‘辣’，怎么都要算到我头上？", "simulatedLikes": 628, "simulatedReplies": 4, "simulatedReposts": 3, "simulatedViews": 4766 },
-    { "id": "H03-C02", "author": "长安西市排队王", "avatar": "/avatars/changan.webp", "role": "in_world", "text": "菜单还没看明白，排队的号已经过了。能先给我留个靠锅的位置吗？", "simulatedLikes": 412, "simulatedReplies": 5, "simulatedReposts": 6, "simulatedViews": 3315 },
-    { "id": "H03-C03", "author": "历史课代表已上线", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "这里说的辣，和今天的辣椒是一回事吗？先把配料名字问清楚。", "simulatedLikes": 593, "simulatedReplies": 6, "simulatedReposts": 1, "simulatedViews": 4643 },
-    { "id": "H03-C04", "author": "跨时空吃瓜群众", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "我负责搬小板凳，你们负责讲明白，别让我的瓜串味了。", "simulatedLikes": 287, "simulatedReplies": 7, "simulatedReposts": 4, "simulatedViews": 2562 },
-    { "id": "H03-C05", "author": "热榜加料小助手", "avatar": "/avatars/hype.webp", "role": "troll", "text": "震惊！一口锅让整个评论区停止划水！标题我先写，配料表你们补。", "simulatedLikes": 165, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 1769 },
-    { "id": "H03-C06", "author": "调料考据进行中", "avatar": "/avatars/reader.webp", "role": "history_nerd", "text": "建议调查一下辣椒到底何时传入中国，再决定这筷子往哪儿夹。", "simulatedLikes": 381, "simulatedReplies": 9, "simulatedReposts": 2, "simulatedViews": 3342 },
-    { "id": "H03-C07", "author": "一碗清水路过", "avatar": "/avatars/spectator.webp", "role": "spectator", "text": "隔着屏幕先喝一口水。你们继续，我的嘴已经替我退出群聊。", "simulatedLikes": 209, "simulatedReplies": 10, "simulatedReposts": 5, "simulatedViews": 2199 },
-    { "id": "H03-C08", "author": "长安饭局气氛组", "avatar": "/avatars/hype.webp", "role": "troll", "text": "家人们先别吵，锅都要凉了！我宣布本桌最忙的是评论区。", "simulatedLikes": 138, "simulatedReplies": 11, "simulatedReposts": 0, "simulatedViews": 1763 }
+    {
+      "id": "H03-C01",
+      "author": "见辣就想吃",
+      "avatar": "/avatars/pepper.webp",
+      "role": "troll",
+      "text": "我原本觉得古人能吃辣，锅里放辣椒应该也说得通吧？",
+      "simulatedLikes": 628,
+      "simulatedReplies": 4,
+      "simulatedReposts": 3,
+      "simulatedViews": 4766,
+      "replies": [
+        {
+          "id": "H03-C01-R1",
+          "replyTo": "H03-C01",
+          "author": "长安吃货",
+          "avatar": "/avatars/changan.webp",
+          "text": "你把“能吃辣”和“有这种辣椒”连成一件事了，中间是不是还差一步？"
+        },
+        {
+          "id": "H03-C01-R2",
+          "replyTo": "H03-C01-R1",
+          "author": "长安吃货观察局",
+          "avatar": "/avatars/changan.webp",
+          "text": "对，这次查的是美洲辣椒当时是否传入，别让红汤的颜色替配料作证。"
+        },
+        {
+          "id": "H03-C01-R3",
+          "replyTo": "H03-C01-R2",
+          "author": "见辣就想吃",
+          "avatar": "/avatars/pepper.webp",
+          "text": "明白了，我的食欲暂时不能担任审核员。"
+        }
+      ]
+    },
+    {
+      "id": "H03-C02",
+      "author": "长安吃货",
+      "avatar": "/avatars/changan.webp",
+      "role": "in_world",
+      "text": "没辣椒能不能吃辣？先把这个问题说清楚，我筷子都举起来了。",
+      "simulatedLikes": 412,
+      "simulatedReplies": 5,
+      "simulatedReposts": 6,
+      "simulatedViews": 3315
+    },
+    {
+      "id": "H03-C03",
+      "author": "配料表阅读员",
+      "avatar": "/avatars/reader.webp",
+      "role": "history_nerd",
+      "text": "先分清胡椒、花椒和这次问的美洲辣椒，再查各自的材料，别只看一个“辣”字。",
+      "simulatedLikes": 593,
+      "simulatedReplies": 6,
+      "simulatedReposts": 1,
+      "simulatedViews": 4643
+    },
+    {
+      "id": "H03-C04",
+      "author": "现代火锅爱好者",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我以为是美食测评，没想到筷子还没落下，配料表先被传阅了。",
+      "simulatedLikes": 287,
+      "simulatedReplies": 7,
+      "simulatedReposts": 4,
+      "simulatedViews": 2562
+    },
+    {
+      "id": "H03-C05",
+      "author": "花椒本人",
+      "avatar": "/avatars/hype.webp",
+      "role": "in_world",
+      "text": "一说辛辣味就只喊辣椒，这个讨论能不能给别的调料也留个位子？",
+      "simulatedLikes": 165,
+      "simulatedReplies": 8,
+      "simulatedReposts": 7,
+      "simulatedViews": 1769
+    },
+    {
+      "id": "H03-C06",
+      "author": "只负责涮菜",
+      "avatar": "/avatars/reader.webp",
+      "role": "spectator",
+      "text": "香归香，“大唐同款”这几个字我还想多问一句。",
+      "simulatedLikes": 381,
+      "simulatedReplies": 9,
+      "simulatedReposts": 2,
+      "simulatedViews": 3342
+    }
   ],
   "claim": "唐代中国已经使用原产美洲的辣椒进行调味。",
   "isTrue": false,
@@ -45,11 +137,30 @@
     "correctedClaim": "唐代有胡椒、花椒等辛香料，但来自美洲的辣椒约在明末传入中国。",
     "funFact": "古书里的‘秦椒’不一定是今天的辣椒。澎湃新闻·私家历史的文章指出，先秦两汉文献中的‘秦椒’原指花椒；读到一个‘椒’字，先别急着脑补红辣椒。"
   },
-  "sourceIds": ["S-H03-01", "S-H03-02", "S-H03-03"],
+  "sourceIds": [
+    "S-H03-01",
+    "S-H03-02",
+    "S-H03-03"
+  ],
   "rewriteOptions": [
-    { "id": "A", "text": "唐代没有辛辣调味，古人只能吃清淡的食物。", "isBest": false, "feedback": "这个说法扩大了结论。花椒、胡椒、姜、茱萸等可以提供辛味，不能把没有美洲辣椒推成没有辛辣调味。" },
-    { "id": "B", "text": "古书里写了‘椒’，就能证明唐代已经用今天的辣椒调味。", "isBest": false, "feedback": "名称相似不能证明是同一种植物。‘椒’可能指花椒或胡椒，不能据此认定是原产美洲的辣椒。" },
-    { "id": "C", "text": "唐代有胡椒、花椒等辛香料，但来自美洲的辣椒约在明末传入中国。", "isBest": true, "feedback": "这个版本区分了辛味调料与美洲辣椒，也用‘约在明末’保留了传播时间的合理范围。" }
+    {
+      "id": "A",
+      "text": "唐代没有辛辣调味，古人只能吃清淡的食物。",
+      "isBest": false,
+      "feedback": "这个说法扩大了结论。花椒、胡椒、姜、茱萸等可以提供辛味，不能把没有美洲辣椒推成没有辛辣调味。"
+    },
+    {
+      "id": "B",
+      "text": "古书里写了‘椒’，就能证明唐代已经用今天的辣椒调味。",
+      "isBest": false,
+      "feedback": "名称相似不能证明是同一种植物。‘椒’可能指花椒或胡椒，不能据此认定是原产美洲的辣椒。"
+    },
+    {
+      "id": "C",
+      "text": "唐代有胡椒、花椒等辛香料，但来自美洲的辣椒约在明末传入中国。",
+      "isBest": true,
+      "feedback": "这个版本区分了辛味调料与美洲辣椒，也用‘约在明末’保留了传播时间的合理范围。"
+    }
   ],
   "aiFacts": [
     "[S-H03-01] 番椒即辣椒，原产中南美洲，明朝末年传入；我国原有花椒。",
@@ -73,11 +184,11 @@
   "assetLicense": "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核；工具：Grok Bot 图像生成；未复制构图，不含真实品牌/logo，器物/建筑造型为示意；详见 docs/ASSET_LICENSES.md。",
   "news": {
     "outlet": "街巷采闻社",
-    "lead": "一则唐代已能自由使用辣椒的饮食说法引发讨论，配料与辛味的对应关系成为核对重点。",
+    "lead": "一张配有鲜红辣椒的“大唐美食图”引出争论：锅里看着够香，配料的年代能不能对得上？",
     "publishedAt": "2026-10-30T09:30:00+08:00",
     "related": [
-      "留言提出，“辣”的描述是否足以指向某一种配料，仍需分辨。",
-      "讨论建议先核对配料表，再判断这项饮食说法。"
+      "看起来红、尝起来辣，能不能据此认定具体食材？",
+      "美食图的配料表与食材年代，读者准备分开核对。"
     ]
   }
 }
