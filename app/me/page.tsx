@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { AppShell } from "@/components/shell/AppShell";
 import { MeTabs } from "@/components/me/MeTabs";
 import { getSticker } from "@/lib/stickers";
-import { getAllTopics } from "@/lib/topics";
-import { getAllFeedEntries } from "@/lib/feed";
+import { getAvailableTopics as getAllTopics } from "@/lib/topics";
+import { getAvailableFeedEntries as getAllFeedEntries } from "@/lib/feed";
 
 export const metadata: Metadata = { title: "我的" };
 

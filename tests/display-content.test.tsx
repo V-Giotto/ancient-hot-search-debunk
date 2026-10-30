@@ -26,10 +26,26 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe("v0.21.0 展示内容边界", () => {
-  it("仅允许展示文案与 Giotto 指定的年代审核变更；原指纹与来源索引逐字不变", () => {
-    expect(createHash("sha256").update(readFileSync("data/source-index.json")).digest("hex")).toBe(integrity.sourceIndexSha256);
-    expect(topicIds.toSorted()).toEqual(Object.keys(integrity.protectedTopicSha256).toSorted());
-    for (const topic of topics) {
+  it("旧题原指纹不变；来源只放行登记的 H14 扩充，其余旧来源逐字段不变", () => {
+    const baselineBytes = readFileSync("tests/fixtures/source-index-v0.23.0.json");
+    expect(createHash("sha256").update(baselineBytes).digest("hex")).toBe(integrity.sourceIndexSha256);
+    const baseline = JSON.parse(baselineBytes.toString());
+    const current = JSON.parse(readFileSync("data/source-index.json", "utf8"));
+    expect(current.slice(0, 28).map((source: { id: string }) => source.id)).toEqual(baseline.map((source: { id: string }) => source.id));
+    for (const original of baseline) {
+      const updated = current.find((source: { id: string }) => source.id === original.id);
+      if (original.id !== "S-H02-01") { expect(updated).toEqual(original); continue; }
+      const { supports, status, verifiedAt, verifiedBy, url, ...rest } = updated;
+      expect({ ...rest, supports: original.supports, status: original.status, verifiedAt: original.verifiedAt, verifiedBy: original.verifiedBy, url: original.url }).toEqual(original);
+      expect(supports.startsWith(original.supports + " H14 新增支持段")).toBe(true);
+      expect(supports).toContain("夜市直至三更盡，才五更又復開張。如要鬧去處，通曉不絕。");
+      expect(status).toBe("reviewed");
+      expect(verifiedBy).toBe("Giotto");
+      expect(verifiedAt).toBe("2026-10-30T09:53:00-07:00");
+      expect(url).toBe("https://zh.wikisource.org/wiki/東京夢華錄/卷三");
+    }
+    expect(topicIds.slice(0, 12).toSorted()).toEqual(Object.keys(integrity.protectedTopicSha256).toSorted());
+    for (const topic of topics.slice(0, 12)) {
       // 从原始 JSON 比较，避免 Schema 丢弃或转换字段掩盖差异。
       const raw = JSON.parse(readFileSync(`data/topics/${topic.id.toLowerCase()}.json`, "utf8"));
       const { title: _title, body: _body, tags: _tags, comments: _comments, author, news, ...rest } = raw;

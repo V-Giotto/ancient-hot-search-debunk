@@ -7,6 +7,7 @@ import { createServer } from "node:net";
 import { setTimeout } from "node:timers/promises";
 import { chromium } from "playwright";
 import { phase3Checks } from "./e2e-phase3.mjs";
+import { phase4Checks } from "./e2e-phase4.mjs";
 
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
 const port = process.env.E2E_PORT || "3123";
@@ -27,18 +28,20 @@ const scenarios = [
   { id: "H10", answer: true, best: "C", wrong: "A", sourceCount: 2, format: "moments" },
   { id: "H11", answer: false, best: "B", wrong: "A", sourceCount: 3, format: "chat" },
   { id: "H12", answer: false, best: "C", wrong: "A", sourceCount: 2, format: "poll" },
+  { id: "H13", answer: false, best: "B", wrong: "A", sourceCount: 4 },
+  { id: "H14", answer: true, best: "C", wrong: "A", sourceCount: 2, format: "news" },
 ];
 const displayConstraints = JSON.parse(await readFile("tests/fixtures/display-constraints.json", "utf8"));
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 const { version: packageVersion } = JSON.parse(await readFile("package.json", "utf8"));
 const allTopics = await Promise.all(scenarios.map(({ id }) => readFile(`data/topics/${id.toLowerCase()}.json`, "utf8").then(JSON.parse)));
-const feedEntries = (await Promise.all(["trending", "discover"].map(async (module) => JSON.parse(await readFile(`data/feed/${module}.json`, "utf8"))))).flat().map((entry) => ({ ...allTopics.find(({ id }) => id === entry.topicId), ...entry }));
+const feedEntries = (await Promise.all(["trending", "discover"].map(async (module) => JSON.parse(await readFile(`data/feed/${module}.json`, "utf8"))))).flat().filter((entry) => allTopics.some(({ id }) => id === entry.topicId)).map((entry) => ({ ...allTopics.find(({ id }) => id === entry.topicId), ...entry }));
 const trendingTopics = feedEntries.filter((entry) => entry.module === "trending");
 const discoverTopics = feedEntries.filter((entry) => entry.module === "discover");
 const postPageTitle = (topic) => `${topic.module === "trending" ? "热搜 · 报道" : "发现 · 帖子"} ${topic.id}`;
-assert.equal(trendingTopics.length, 18);
-assert.equal(discoverTopics.length, 24);
-assert.equal(new Set(feedEntries.map(({ topicId }) => topicId)).size, 12);
+assert.equal(trendingTopics.length, 19);
+assert.equal(discoverTopics.length, 25);
+assert.equal(new Set(feedEntries.map(({ topicId }) => topicId)).size, 14);
 await mkdir(output, { recursive: true });
 await mkdir(screenshots, { recursive: true });
 if (reviewDir) await mkdir(reviewDir, { recursive: true });
@@ -172,9 +175,9 @@ async function pixelInteractionChecks(browser, errors) {
       await page.goto(`${baseURL}/me?tab=stickers`);
       await page.waitForFunction(() => document.querySelectorAll('[data-sticker-id][data-unlocked="true"]').length === 2);
       assert.equal(await page.locator("[data-sticker-state=unlocked]").count(), 2);
-      assert.equal(await page.locator("[data-sticker-state=locked] [data-pixel-question]").count(), 10);
+      assert.equal(await page.locator("[data-sticker-state=locked] [data-pixel-question]").count(), scenarios.length - 2);
       assert.equal(await page.locator("[data-sticker-state=unlocked] [data-pixel-question]").count(), 0);
-      await mobileGeometry(page, "像素贴纸二枚解锁十枚锁定");
+      await mobileGeometry(page, "像素贴纸二枚解锁十二枚锁定");
       if (viewport.width === 390) {
         await page.evaluate(() => window.scrollTo({ top: 144, behavior: "instant" }));
         const question = page.locator('[data-sticker-state=locked] [data-pixel-question]').first();
@@ -231,7 +234,7 @@ async function pixelInteractionChecks(browser, errors) {
         await visible(page.locator(".shell-header"));
         await mobileGeometry(page, `像素入口 ${route}`);
       }
-      records.push({ viewport, unlocked: 2, locked: 10, contrasts });
+      records.push({ viewport, unlocked: 2, locked: scenarios.length - 2, contrasts });
     } finally { await context.close(); }
   }
   return { source, records, realAiCalls: 0, screenshots: ["post-actions", "stickers", "tabbar"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-390x844.png`)) };
@@ -277,7 +280,7 @@ async function pixelAssetChecks(browser, errors) {
     ...feedEntries.flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl, ...topic.comments.flatMap((comment) => [comment.avatar, ...(comment.replies ?? []).map((reply) => reply.avatar)])]),
     ...friends.map((friend) => friend.avatarUrl),
   ])].sort();
-  assert.equal(paths.length, 49);
+  assert.equal(paths.length, 51);
   const assets = await Promise.all(paths.map(async (asset) => {
     assert.match(asset, /^\/(covers(?:\/feed)?|avatars|friends)\/[\w-]+\.webp$/);
     const response = await fetch(`${baseURL}${asset}`);
@@ -346,7 +349,7 @@ async function pixelAssetChecks(browser, errors) {
     } finally { await context.close(); }
   }
   assert.deepEqual(failures, [], "出现图片 404 或加载失败");
-  assert.deepEqual([...decoded].sort(), paths, "全部 49 张 WebP 须通过浏览器解码");
+  assert.deepEqual([...decoded].sort(), paths, "全部 51 张 WebP 须通过浏览器解码");
   // 现有查证卡没有封面；单独验证同版本 html-to-image 的 SVG foreignObject 可内嵌 WebP。
   const exportContext = await browser.newContext();
   let webpExport;
@@ -1461,7 +1464,8 @@ async function previewBuildChecks(buildId) {
     await focused(page.locator("#reveal-heading"));
     assert.equal(await page.getByRole("textbox").inputValue(), "唐朝人用什么调料获得辛辣味？");
     assert.deepEqual(errors, [], "preview 浏览器运行错误");
-    return { version: packageVersion, buildId, routes: 4, unconfiguredStatus: 503, retried: true, returned: true };
+    const phase4 = await phase4Checks({ browser, formalURL: baseURL, previewURL, errors, geometryCheck: mobileGeometry, screenshot: versionScreenshot, version: packageVersion });
+    return { version: packageVersion, buildId, routes: 5, unconfiguredStatus: 503, retried: true, returned: true, phase4 };
   } finally {
     await context.close();
     const stopped = new Promise((resolve) => previewServer.once("exit", resolve));
@@ -1546,12 +1550,12 @@ async function feedExpansionChecks(browser, errors) {
         await route.fulfill({ json: { answer: "仅用于验证信息流题目映射的测试回复。", citedSourceIds: [], grounded: false } });
       });
       await page.goto(`${baseURL}/discover`);
-      assert.equal(await page.locator(".discover-card").count(), 24);
+      assert.equal(await page.locator(".discover-card").count(), discoverTopics.length);
       if (viewport.width === 390) await versionScreenshot(page, "discover", packageVersion);
       await page.getByRole("searchbox", { name: "筛选话题", exact: true }).fill(added.find(({ id }) => id === "P01").author.name);
       assert.deepEqual(await page.locator(".discover-card a").evaluateAll((links) => links.map((link) => link.getAttribute("href"))), ["/post/P01"]);
       await page.getByRole("button", { name: "清除筛选", exact: true }).click();
-      geometry.push(await mobileGeometry(page, "24 条发现内容与搜索"));
+      geometry.push(await mobileGeometry(page, "25 条发现内容与搜索"));
       const completed = new Set();
       for (const entry of added) {
         await page.goto(`${baseURL}/post/${entry.id}`);
@@ -1846,9 +1850,10 @@ try {
       await visible(sourceItem.getByText(source.organization, { exact: true }));
       await visible(sourceItem.getByText(`支持要点：${source.supports}`, { exact: true }));
     }
-    assert.equal(await page.getByText("已人工审核", { exact: true }).count(), sourceCount);
-    assert.equal(await page.getByText("待人工审核", { exact: true }).count(), 0);
-    assert.ok(result.sources.every((source) => source.status === "reviewed"));
+    const pendingSourceCount = result.sources.filter(({ status }) => status === "pending").length;
+    assert.equal(await reveal.getByText("已人工审核", { exact: true }).count(), sourceCount - pendingSourceCount);
+    assert.equal(await reveal.getByText("待人工审核", { exact: true }).count(), pendingSourceCount);
+    assert.ok(result.sources.every((source) => source.status === sourceIndex.find(({ id }) => id === source.id).status));
     await mobileGeometry(page, `${id} 揭晓与展开来源`);
     if (id === "H03") await revealScreenshot(page, "post-H03-reveal-390x844.png");
     if (id === "H11") await revealScreenshot(page, "post-H11-reveal-390x844.png");
@@ -1880,7 +1885,7 @@ try {
     await visible(dialog);
     await visible(dialog.getByText(`查证结果：${answer ? "真" : "假"}`, { exact: true }));
     await visible(dialog.getByText(topic.reveal.correctedClaim, { exact: true }));
-    await visible(dialog.getByText("已人工审核", { exact: true }));
+    await visible(dialog.getByText(pendingSourceCount ? "开发预览：本条史实尚待人工审核" : "已人工审核", { exact: true }));
     const overflow = await page.getByTestId("check-card").evaluate((node) => {
       const bounds = node.getBoundingClientRect();
       return {
@@ -2042,7 +2047,20 @@ try {
         }
         await mobile.getByRole("radio", { name: scenario.answer ? "是真的" : "是假的", exact: true }).check();
         if (scenario.id === "H03") await mobile.emulateMedia({ reducedMotion: "reduce" });
-        await mobile.getByRole("button", { name: "提交判断", exact: true }).click();
+        const submitButton = mobile.getByRole("button", { name: "提交判断", exact: true });
+        // 触屏滚动及媒体偏好切换之后先把按钮放入视口；仍使用真实可操作性检查。
+        await submitButton.evaluate((node) => node.scrollIntoView({ behavior: "instant", block: "center" }));
+        try {
+          await submitButton.click();
+        } catch (cause) {
+          const state = await mobile.evaluate(() => ({
+            ready: document.readyState,
+            selected: [...document.querySelectorAll("input[type=radio]:checked")].map((node) => node.value),
+            buttons: [...document.querySelectorAll("button")].filter((node) => node.textContent === "提交判断").map((node) => ({ disabled: node.disabled, box: node.getBoundingClientRect().toJSON() })),
+          }));
+          await mobile.screenshot({ path: path.join(screenshots, `submit-failure-${scenario.id}-${viewport.width}.png`) });
+          throw new Error(`${route} ${viewport.width}×${viewport.height} 提交不可操作：${JSON.stringify(state)}`, { cause });
+        }
         await visible(mobile.locator(".verdict-stamp"));
         await focused(mobile.locator("#reveal-heading"));
         await revealSummaryChecks(mobile, { correct: true, isTrue: scenario.answer, firstScreen: viewport.width === 390 });
@@ -2160,7 +2178,7 @@ try {
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
   assert.deepEqual(errors, [], "新增信息流浏览器出现运行错误");
-  const summary = { passed: true, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "6:6", feedEntries: 42, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/读者评论/本机评论与回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, phase4: previewBuild.phase4, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H14 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十四题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "7:7", feedEntries: 44, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/读者评论/本机评论与回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   const eraDetails = geometry.filter((record) => record.eraChip);
   summary.displayContent = {
     version: packageVersion,
@@ -2175,7 +2193,7 @@ try {
     noHashtagTitles: true,
   };
   summary.phase3 = phase3;
-  assert.equal(eraDetails.length, allTopics.length * 3, "十二题的年代 chip 须在三种手机视口全部通过");
+  assert.equal(eraDetails.length, allTopics.length * 3, "十四题的年代 chip 须在三种手机视口全部通过");
   summary.era = { detailChecks: eraDetails.length, h12FirstScreenChecks: eraDetails.filter((record) => record.eraChip.firstScreen).length, screenshot: path.join(reviewDir, `v${packageVersion}-era-390x844.png`) };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));

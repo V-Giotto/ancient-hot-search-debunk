@@ -4,6 +4,10 @@
 
 ## 当前阶段
 
+v0.24.0（2026-10-30）：完整数据集加入 H13（兵马俑配色，假）与 H14（北宋东京夜市，真），共 14 题、7 真 7 假，信息流 19 热搜/25 发现。Giotto 于 2026-10-30 09:53 PT 审核通过两题、年代字段与新增/扩充来源，均为 reviewed；formal 包含全部十四题。新增信息流文案与评论仍待 Giotto 审核。揭晓与 AI 限制保留核查记录的范围及版本差异；S-H02-01 复用并扩充后本次已审，旧签名留档。两张原创封面及贴纸、核查原文和审核登记见 [内容审核](docs/CONTENT_REVIEW.md)、[候选新题](docs/候选新题.md)、[素材登记](docs/ASSET_LICENSES.md)，四项检查及三张指定截图见 [QA 报告](docs/QA_REPORT.md)。
+
+以下为历史版本记录。
+
 v0.22.0（2026-10-30）：信息流独立为 `data/feed/trending.json`（18 条）与 `discover.json`（24 条），通过 `topicId` 映射现有 H01–H12。新增 T01–T12、P01–P18 的图文/新闻/聊天/手作/投票视角与同话题推荐，旧 `/post/Hxx` 继续可用；题库保持 12 题、6 真 6 假，原事实、来源和审核签名不变。新文案与 AI 生成像素封面均待 Giotto 审核，见 [内容审核](docs/CONTENT_REVIEW.md) 与 [素材登记](docs/ASSET_LICENSES.md)。
 
 判题、来源、改写和 AI 资料、贴纸与进度按 `topicId`；点赞、收藏、分享链接按条目 `id`。同题多帖只累计一次进度，每次进入帖子仍从可重玩初始状态开始。`data/topics` 中的旧展示字段仅兼容历史数据，实际列表与详情展示读取独立 feed。全部热度/发布时间/社交计数为设计数据，没有真实社区统计接入。自动化测试使用 mock 或无 key 本机服务，绝不调用真实 AI。四张指定截图与验证结果见 [QA 报告](docs/QA_REPORT.md)。下文保留各历史版本记录。
@@ -69,7 +73,7 @@ AI_TIMEOUT_MS=20000
 CONTENT_MODE=formal
 ```
 
-当前十二条内容及 28 条来源全部 `reviewed`，默认 `CONTENT_MODE=formal` 可通过审核门控；配置有效 Key 后可调用 AI，无 Key 时返回 **503**。pending/rejected 话题在 formal 下仍返回 **409**；`preview` 继续允许 pending 资料用于开发联调，成功响应标记 `preview:true`，审核状态按实际数据提示。在帖子提交判断并揭晓后，可通过 AI 提问面板继续追问。Key 仅供服务端读取，不要打印、添加 `NEXT_PUBLIC_` 前缀或提交到 Git。
+当前完整数据为 14 题（7 真 7 假）、44 条信息流（19 热搜/25 发现）。H13/H14 题目、年代与新增/扩充来源已获 Giotto 2026-10-30 09:53 PT 审核通过，沿用现有结构签名为 `2026-10-30T09:53:00-07:00`。默认 `formal` 与 preview 均包含全部 14 题、44 条信息流。来源共 33 条，全部 reviewed；S-H02-01 的原段与扩充段均经本次审核，H02 原题签名不变，formal AI 可使用该来源及关联事实。新增信息流文案与评论仍待 Giotto 审核，展示字段 editorialReviewStatus 保持 pending；配置有效 Key 后可调用 AI，无 Key 时返回 **503**。pending/rejected 话题在 formal 下仍返回 **409**；`preview` 继续允许 pending 资料用于开发联调，成功响应标记 `preview:true`，审核状态按实际数据提示。在帖子提交判断并揭晓后，可通过 AI 提问面板继续追问。Key 仅供服务端读取，不要打印、添加 `NEXT_PUBLIC_` 前缀或提交到 Git。
 
 本地验证生产构建与启动（同样读取 `.env.local`）：
 

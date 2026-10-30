@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { readFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FeedEntrySchema } from "@/lib/feed-schema";
 import { getAllFeedEntries, getFeedEntryById, getSameTopicEntries, toPublicFeedEntry, validateFeedSet } from "@/lib/feed";
 import { getAllTopics } from "@/lib/topics";
@@ -14,22 +14,25 @@ const entries = getAllFeedEntries();
 const mapping = ["H01", "H01", "H02", "H02", "H03", "H03", "H04", "H04", "H05", "H06", "H07", "H07", "H08", "H09", "H09", "H10", "H11", "H12"];
 const numbered = (prefix: string, count: number) => Array.from({ length: count }, (_, index) => `${prefix}${String(index + 1).padStart(2, "0")}`);
 
+beforeEach(() => vi.stubEnv("CONTENT_MODE", "preview"));
+afterEach(() => vi.unstubAllEnvs());
+
 describe("独立信息流与审核题库", () => {
-  it("42 条信息流：18 热搜、24 发现；12 题与 6:6 均衡不变", () => {
-    expect(entries).toHaveLength(42);
-    expect(new Set(entries.map(({ id }) => id)).size).toBe(42);
-    expect(topics).toHaveLength(12);
-    expect(topics.filter(({ isTrue }) => isTrue)).toHaveLength(6);
+  it("44 条信息流：19 热搜、25 发现；14 题与 7:7 均衡", () => {
+    expect(entries).toHaveLength(44);
+    expect(new Set(entries.map(({ id }) => id)).size).toBe(44);
+    expect(topics).toHaveLength(14);
+    expect(topics.filter(({ isTrue }) => isTrue)).toHaveLength(7);
     expect(new Set(entries.map(({ topicId }) => topicId))).toEqual(new Set(ids));
     for (const [module, expectedIds] of [
-      ["trending", ["H01", "H02", "H03", "H04", "H07", "H09", ...numbered("T", 12)]],
-      ["discover", ["H05", "H06", "H08", "H10", "H11", "H12", ...numbered("P", 18)]],
+      ["trending", ["H01", "H02", "H03", "H04", "H07", "H09", ...numbered("T", 12), "H14"]],
+      ["discover", ["H05", "H06", "H08", "H10", "H11", "H12", ...numbered("P", 18), "H13"]],
     ] as const) {
       const members = entries.filter((entry) => entry.module === module);
       expect(members.map(({ id }) => id)).toEqual(expectedIds);
       expect(members.map(({ rank }) => rank)).toEqual(members.map((_, i) => i + 1));
     }
-    expect(entries.filter(({ id }) => id.startsWith("T")).map(({ topicId }) => topicId)).toEqual(ids);
+    expect(entries.filter(({ id }) => id.startsWith("T")).map(({ topicId }) => topicId)).toEqual(ids.slice(0, 12));
     expect(entries.filter(({ id }) => id.startsWith("P")).map(({ topicId }) => topicId)).toEqual(mapping);
   });
 
@@ -113,7 +116,7 @@ describe("独立信息流与审核题库", () => {
   it.each(entries)("$id 同话题推荐完整、无自身、无其他主题、摘要不泄漏答案", (entry) => {
     const related = getSameTopicEntries(entry);
     expect(related.map(({ id }) => id)).toEqual(entries.filter((other) => other.topicId === entry.topicId && other.id !== entry.id).map(({ id }) => id));
-    expect(related.length).toBeGreaterThan(0);
+    expect(related.length).toBe(["H13", "H14"].includes(entry.id) ? 0 : entries.filter((other) => other.topicId === entry.topicId).length - 1);
     for (const item of related) expect(Object.keys(item).sort()).toEqual(["coverAlt", "coverUrl", "id", "module", "title", "topicId"]);
   });
 });

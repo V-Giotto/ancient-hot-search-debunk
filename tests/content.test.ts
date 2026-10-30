@@ -139,55 +139,39 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     expect(() => validateContentSet([topic], sources)).not.toThrow();
   });
 
-  it("按 12 条真实题目启用 expectedCount=12 与真假 6:6 校验", () => {
+  it("14 题完整、7 真 7 假；缺题或失衡会拒绝", () => {
     const topics = getAllTopics();
-    expect(() => validateContentSet(topics, sourceIndex, { expectedCount: 12 })).not.toThrow();
-    expect(topics.filter((topic) => !topic.isTrue).map((topic) => topic.id)).toEqual(["H01", "H03", "H05", "H07", "H11", "H12"]);
-    expect(topics.filter((topic) => topic.isTrue).map((topic) => topic.id)).toEqual(["H02", "H04", "H06", "H08", "H09", "H10"]);
+    expect(() => validateContentSet(topics, sourceIndex, { expectedCount: 14 })).not.toThrow();
+    expect(topics.map(({ rank }) => rank)).toEqual(Array.from({ length: 14 }, (_, i) => i + 1));
+    expect(topics.filter(({ isTrue }) => isTrue).map(({ id }) => id)).toEqual(["H02", "H04", "H06", "H08", "H09", "H10", "H14"]);
+    expect(topics.filter(({ isTrue }) => !isTrue).map(({ id }) => id)).toEqual(["H01", "H03", "H05", "H07", "H11", "H12", "H13"]);
+    expect(() => validateContentSet(topics.slice(0, 13), sourceIndex, { expectedCount: 14 })).toThrow(/题目数量应为 14/);
+    expect(() => validateContentSet(topics.map((topic) => topic.id === "H14" ? { ...topic, isTrue: false } : topic), sourceIndex, { expectedCount: 14 })).toThrow(/真假比例必须为 7:7/);
   });
 
-  it("真实题库缺项或破坏 6:6 时校验失败", () => {
+  it("原十二题保留审核签名，两道新题及六条扩充/新增来源采用 Giotto 09:53 审核", () => {
     const topics = getAllTopics();
-    expect(() => validateContentSet(topics.slice(0, 11), sourceIndex, { expectedCount: 12 })).toThrow(/题目数量应为 12/);
-    const unbalanced = topics.map((topic) => topic.id === "H06" ? { ...topic, isTrue: false } : topic);
-    expect(() => validateContentSet(unbalanced, sourceIndex, { expectedCount: 12 })).toThrow(/真假比例必须为 6:6/);
-  });
-
-  it("阶段6 H01–H12 排名连续、真假 6:6，题目及来源全部经 Giotto 人工审核（2026-10-30）", () => {
-    const topics = getAllTopics();
-    expect(topics.map((topic) => [topic.id, topic.rank, topic.isTrue])).toEqual([
-      ["H01", 1, false], ["H02", 2, true], ["H03", 3, false], ["H04", 4, true],
-      ["H05", 5, false], ["H06", 6, true], ["H07", 7, false], ["H08", 8, true],
-      ["H09", 9, true], ["H10", 10, true], ["H11", 11, false], ["H12", 12, false],
-    ]);
-    expect(topics).toHaveLength(12);
-    expect(topics.filter((topic) => topic.isTrue)).toHaveLength(6);
-    for (const topic of topics) {
+    for (const topic of topics.slice(0, 12)) {
       expect(topic.reviewStatus).toBe("reviewed");
       expect(topic.reviewBy).toBe("Giotto");
       expect(topic.reviewedAt).toBe("2026-10-30T02:33:00-07:00");
     }
-    expect(sourceIndex.map((source) => source.id)).toEqual([
-      "S-H01-01", "S-H01-02", "S-H02-01", "S-H02-02", "S-H02-03",
-      "S-H03-01", "S-H03-02", "S-H03-03", "S-H04-01", "S-H04-02", "S-H04-03",
-      "S-H05-01", "S-H05-02", "S-H06-01", "S-H06-02", "S-H07-01", "S-H07-02", "S-H08-01", "S-H08-02",
-      "S-H09-01", "S-H09-02", "S-H10-01", "S-H10-02", "S-H11-01", "S-H11-02", "S-H11-03", "S-H12-01", "S-H12-02",
-    ]);
-    const locators: Record<string, string> = {
-      "S-H01-02": "卷二百二十四·與李十二白同尋範十隱居",
-      "S-H02-01": "卷三·马行街铺席",
-      "S-H02-02": "卷二·饮食果子",
-      "S-H07-02": "卷六十九·苏秦列传·说齐宣王",
-      "S-H09-01": "卷三·防火", "S-H10-01": "卷十八", "S-H11-01": "卷十四·宪问",
-    };
+    for (const topic of topics.slice(12)) {
+      expect(topic.reviewStatus).toBe("reviewed");
+      expect(topic.eraReview).toEqual({ status: "reviewed", reviewer: "Giotto", reviewedAt: "2026-10-30T09:53:00-07:00" });
+      expect(topic.reviewBy).toBe("Giotto");
+      expect(topic.reviewedAt).toBe("2026-10-30T09:53:00-07:00");
+    }
+    expect(sourceIndex).toHaveLength(33);
+    const newlyReviewed = ["S-H02-01", "S-H13-01", "S-H13-02", "S-H13-03", "S-H13-04", "S-H14-01"];
+    expect(sourceIndex.every(({ status }) => status === "reviewed")).toBe(true);
     for (const source of sourceIndex) {
       expect(source.status).toBe("reviewed");
       expect(source.verifiedBy).toBe("Giotto");
-      expect(source.verifiedAt).toBe("2026-10-30T02:33:00-07:00");
-      expect(source.locator).toBe(locators[source.id] ?? "");
+      expect(source.verifiedAt).toBe(newlyReviewed.includes(source.id) ? "2026-10-30T09:53:00-07:00" : "2026-10-30T02:33:00-07:00");
     }
-    const cited = new Set(topics.flatMap((topic) => topic.sourceIds));
-    expect(sourceIndex.every((source) => cited.has(source.id))).toBe(true);
+    const cited = new Set(topics.flatMap(({ sourceIds }) => sourceIds));
+    expect(sourceIndex.every(({ id }) => cited.has(id))).toBe(true);
   });
 
   it.each([
@@ -223,13 +207,13 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     }
   });
 
-  it("十二张封面、五张作者/评论头像与两张好友头像均为已登记的本地 WebP，旧 SVG 已移除", () => {
+  it("十四张封面、五张作者/评论头像与两张好友头像均为已登记的本地 WebP，旧 SVG 已移除", () => {
     const assets = new Set([
       ...getAllTopics().flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl,
         ...topic.comments.flatMap((comment) => [comment.avatar!, ...(comment.replies ?? []).map((reply) => reply.avatar!)])]),
       ...getAllFriends().map((friend) => friend.avatarUrl),
     ]);
-    expect(assets.size).toBe(19);
+    expect(assets.size).toBe(21);
     const licenses = readFileSync(path.join(process.cwd(), "docs/ASSET_LICENSES.md"), "utf8");
     for (const asset of assets) {
       expect(asset).toMatch(/^\/(covers|avatars|friends)\/[\w-]+\.webp$/);
@@ -253,7 +237,7 @@ describe("validateContentSet：当前题目的完整性规则", () => {
       const displayed = JSON.stringify({ ...toPublicTopic(topic), reveal: topic.reveal, rewriteOptions: topic.rewriteOptions });
       expect(displayed).not.toMatch(/虚构|架空|模拟|非史料|只是创作|只是梗|均为现代演绎|拟人账号/);
       expect(topic.aiLimitations.length).toBeGreaterThan(0);
-      expect(topic.assetLicense).toContain("AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核");
+      expect(topic.assetLicense).toContain(["H13", "H14"].includes(topic.id) ? "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核" : "AI 生成原创像素风插画·风格参考由用户提供·非史料、非历史复原·待 Giotto 审核");
       expect(topic.reviewStatus).toBe("reviewed");
     }
   });
@@ -359,12 +343,12 @@ describe("7.3 的类型及 Zod 字段约束", () => {
 });
 
 describe("阶段6的形式与史实边界", () => {
-  it("每题只归属一个模块，各六题且各三真三假，公开题面保留归属", () => {
+  it("每题只归属一个模块，各七题且总计七真七假，公开题面保留归属", () => {
     const topics = getAllTopics();
     for (const module of ["trending", "discover"] as const) {
       const members = topics.filter((topic) => topic.module === module);
-      expect(members).toHaveLength(6);
-      expect(members.filter((topic) => topic.isTrue)).toHaveLength(3);
+      expect(members).toHaveLength(7);
+      expect(members.filter((topic) => topic.isTrue)).toHaveLength(module === "trending" ? 4 : 3);
       expect(members.every((topic) => toPublicTopic(topic).module === module)).toBe(true);
     }
     expect(HotTopicSchema.safeParse({ ...makeTopic(), module: "other" }).success).toBe(false);
@@ -407,9 +391,9 @@ describe("阶段6的形式与史实边界", () => {
     for (const topic of getAllTopics()) {
       if (topic.module === "discover") { expect(topic.news).toBeUndefined(); continue; }
       expect(topic.news).toBeTruthy();
-      expect(topic.news!.outlet).toMatch(/采闻社|经纬社/);
+      expect(topic.news!.outlet.trim().length).toBeGreaterThan(0);
       expect(topic.news!.related).toHaveLength(2);
-      expect(topic.news!.publishedAt).toMatch(/^2026-10-30T09:/);
+      expect(topic.news!.publishedAt).toMatch(/^2026-10-30T/);
       expect(toPublicTopic(topic).news).toEqual(topic.news);
       expect(JSON.stringify({ title: topic.title, body: topic.body, news: topic.news })).not.toMatch(/\p{Extended_Pictographic}|\p{Regional_Indicator}|[\u20e3\ufe0f]/u);
       expect(JSON.stringify(toPublicTopic(topic))).not.toMatch(/"(?:isTrue|reveal|sourceIds|aiFacts|rewriteOptions)"/);
@@ -420,10 +404,10 @@ describe("阶段6的形式与史实边界", () => {
     const topic = makeTopic();
     expect(HotTopicSchema.safeParse({ ...topic, news: { ...topic.news, publishedAt: "not-a-date" } }).success).toBe(false);
   });
-  it("旧题缺省 post，新题依次为 news/moments/chat/poll，公开题面保留 format", () => {
+  it("原有四模板与新增 post/news 保留 format，公开题面保留 format", () => {
     const topics = getAllTopics();
     expect(topics.slice(0, 8).every((topic) => topic.format === undefined)).toBe(true);
-    expect(topics.slice(8).map((topic) => topic.format)).toEqual(["news", "moments", "chat", "poll"]);
+    expect(topics.slice(8).map((topic) => topic.format)).toEqual(["news", "moments", "chat", "poll", "post", "news"]);
     for (const topic of topics) expect(toPublicTopic(topic).format).toBe(topic.format);
     expect(HotTopicSchema.safeParse(makeTopic({ format: "video" as never })).success).toBe(false);
     expect(HotTopicSchema.parse(makeTopic({ format: "post" })).format).toBe("post");

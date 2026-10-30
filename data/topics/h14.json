@@ -1,0 +1,166 @@
+{
+  "id": "H14",
+  "era": {
+    "label": "北宋",
+    "order": 5
+  },
+  "rumorEra": "北宋",
+  "coreContext": "北宋东京马行街、州桥等处夜市",
+  "evidenceEra": "南宋初孟元老追记（《东京梦华录》）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T09:53:00-07:00"
+  },
+  "rank": 14,
+  "module": "trending",
+  "format": "news",
+  "category": "生活民俗",
+  "tags": [
+    "北宋东京",
+    "夜市",
+    "街巷见闻"
+  ],
+  "title": "北宋东京夜市能营业到几点",
+  "coverUrl": "/covers/h14.webp",
+  "coverAlt": "夜色中的街市与摊位像素插画",
+  "author": {
+    "name": "街巷夜读",
+    "handle": "@night_street",
+    "bio": "夜宵话题很热，营业范围和时段也要问清。",
+    "avatarUrl": "/avatars/hype.webp",
+    "fictitious": true
+  },
+  "body": "夜宵讨论里，北宋东京被点了名。有人问：要是夜深了才想起吃东西，街上还能找到开着的店吗？\n\n另一边已经开始争论营业时间：有的猜天黑就收，有的索性把整座城都想成不打烊。两种想象都有气势，却还没把街区和时段说清。\n\n这回先把问题缩小：书里写的是哪些地方、怎样的营业时段？读到热闹，也要记得看看范围。",
+  "simulatedHeat": 330000,
+  "simulatedViews": 509000,
+  "simulatedLikes": 2470,
+  "simulatedComments": 318,
+  "simulatedReposts": 206,
+  "simulatedBookmarks": 428,
+  "news": {
+    "outlet": "街巷夜读",
+    "lead": "关于北宋东京夜市的讨论，从“深夜能不能吃上饭”变成了营业时间之争。网友开始追问，书里写的是哪些街市，又能支持多大的范围。",
+    "publishedAt": "2026-10-30T12:00:00-07:00",
+    "related": [
+      "营业时段该到书中哪一段核对？",
+      "一条街的记述，能代表整座城吗？"
+    ]
+  },
+  "comments": [
+    {
+      "id": "H14-C01",
+      "author": "天黑就想收摊",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "天一黑还做什么生意？我猜早早就关门了。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H14-C01-R1",
+          "replyTo": "H14-C01",
+          "author": "街巷夜读",
+          "avatar": "/avatars/pepper.webp",
+          "text": "你是拿自己的作息猜的吗？我现在缺的是书里对应街市的时段。"
+        },
+        {
+          "id": "H14-C01-R2",
+          "replyTo": "H14-C01-R1",
+          "author": "读书先看地名",
+          "avatar": "/avatars/hype.webp",
+          "text": "那先把街市名和上下文找全，别替所有店铺填同一张表。"
+        }
+      ]
+    },
+    {
+      "id": "H14-C02",
+      "author": "读书先看地名",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "先把书里提到的地方圈出来，别一下替全城安排作息。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H14-C03",
+      "author": "夜宵选择困难",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我只想吃点东西，结果先领到一道阅读理解。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H14-C04",
+      "author": "东京街口等饭",
+      "avatar": "/avatars/pepper.webp",
+      "role": "in_world",
+      "text": "到底几点能买到？别光在评论里喊饿啊。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H14-C05",
+      "author": "古籍书签夹",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "《东京梦华录》可以找找，地名和前后文都别略过。",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H14-C06",
+      "author": "闹钟研究员",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我先记时段，暂时不把所有店都塞进同一张营业表。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "北宋东京有夜市营业至三更，并在五更重新开张。",
+  "isTrue": true,
+  "reveal": {
+    "verdictHeadline": "夜市时段有记述，地点与范围要留住",
+    "shortExplanation": "据《东京梦华录》追记，北宋东京马行街一带夜市至三更尽，五更又开张；这里只能说东京部分街市。",
+    "detailedExplanation": "《东京梦华录》是南宋初孟元老追忆北宋末东京的记述，写作年代晚于所述时代。所选维基文库卷三“马行街铺席”原文为：“夜市直至三更盡，才五更又復開張。如要鬧去處，通曉不絕。”卷二“州橋夜市”列州桥至龙津桥一带的夜间饮食，末云“謂之雜嚼，直至三更”。命题限于这些具体场景，不能推出全城、全国或所有店铺都通宵营业；通晓不绝说的是特定热闹处。引用保留所选版本的“才五更”“如要鬧去處”，不换成流行转述中的“纔”“耍鬧”，也不把更次换算成统一钟点。",
+    "correctedClaim": "据《东京梦华录》追记，北宋东京马行街一带夜市至三更尽、五更又开张；不能推为全城或全国所有店铺通宵营业。",
+    "funFact": "卷二“州橋夜市”与卷三“马行街铺席”提供了两个具体阅读场景。卷三的“通曉不絕”只用于特定热闹处，不能覆盖所有街区。"
+  },
+  "sourceIds": [
+    "S-H02-01",
+    "S-H14-01"
+  ],
+  "aiFacts": [
+    "[S-H02-01] 《东京梦华录》卷三“马行街铺席”记：“夜市直至三更盡，才五更又復開張。如要鬧去處，通曉不絕。”支持北宋东京部分街市的营业时段。",
+    "[S-H14-01] 卷二“州橋夜市”列州桥至龙津桥一带夜间饮食，末云“謂之雜嚼，直至三更”。",
+    "[S-H02-01] 《东京梦华录》为南宋初孟元老追忆北宋末东京的记述，文献写作年代晚于所述时代。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "揭晓必须注明据《东京梦华录》追记；这是南宋初孟元老追忆北宋末东京的文献，写作年代晚于所述时代。",
+    "只限东京马行街、州桥等部分街市；通晓不绝指特定热闹处，不得推出全城或全国通宵、所有店铺都营业。",
+    "维基文库所选原文作才五更、如要鬧去處；流行转述有纔、耍鬧等异文，不得静默替换或改简繁字形。",
+    "不把更次换算成统一钟点，不补来源未载的菜单、店铺数量或夜市普及程度。",
+    "封面与账号发言不能作为夜市形制或营业时段的史料。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T09:53:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "北宋全国所有店铺都通宵营业。",
+      "isBest": false,
+      "feedback": "具体街市和热闹处的记述不能外推全国或所有店铺。"
+    },
+    {
+      "id": "B",
+      "text": "《东京梦华录》是北宋东京夜市的同时代现场营业记录。",
+      "isBest": false,
+      "feedback": "它是南宋初孟元老的追记，写作年代晚于所述时代。"
+    },
+    {
+      "id": "C",
+      "text": "据《东京梦华录》追记，北宋东京马行街一带夜市至三更尽、五更又开张；不能推为全城或全国所有店铺通宵营业。",
+      "isBest": true,
+      "feedback": "注明追记性质，并保留具体街市与营业时段的范围。"
+    }
+  ]
+}

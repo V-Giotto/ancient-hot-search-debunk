@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { z } from "zod";
 import { FeedEntrySchema, type FeedEntry } from "./feed-schema";
-import { getAllTopics } from "./topics";
+import { getAllTopics, getAvailableTopics } from "./topics";
 import { toPublicTopic, type PublicTopic } from "./public-topic";
 
 export function validateFeedSet(input: unknown, topicIds: readonly string[]): FeedEntry[] {
@@ -37,6 +37,15 @@ export function getFeedEntryById(id: string): FeedEntry | undefined {
   return getAllFeedEntries().find((entry) => entry.id === id);
 }
 
+export function getAvailableFeedEntries(): FeedEntry[] {
+  const ids = new Set(getAvailableTopics().map(({ id }) => id));
+  return getAllFeedEntries().filter((entry) => ids.has(entry.topicId));
+}
+
+export function getAvailableFeedEntryById(id: string): FeedEntry | undefined {
+  return getAvailableFeedEntries().find((entry) => entry.id === id);
+}
+
 export function toPublicFeedEntry(entry: FeedEntry): PublicTopic {
   const topic = getAllTopics().find((topic) => topic.id === entry.topicId);
   if (!topic) throw new Error(`${entry.id} 的 topicId 不存在`);
@@ -46,6 +55,6 @@ export function toPublicFeedEntry(entry: FeedEntry): PublicTopic {
 
 export type RelatedEntry = Pick<FeedEntry, "id" | "topicId" | "module" | "title" | "coverUrl" | "coverAlt">;
 export function getSameTopicEntries(entry: Pick<FeedEntry, "id" | "topicId">): RelatedEntry[] {
-  return getAllFeedEntries().filter((other) => other.topicId === entry.topicId && other.id !== entry.id)
+  return getAvailableFeedEntries().filter((other) => other.topicId === entry.topicId && other.id !== entry.id)
     .map(({ id, topicId, module, title, coverUrl, coverAlt }) => ({ id, topicId, module, title, coverUrl, coverAlt }));
 }

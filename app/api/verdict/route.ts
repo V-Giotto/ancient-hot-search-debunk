@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { getSourcesForTopic, getTopicById } from "@/lib/topics";
+import { getSourcesForTopic, getTopicById, isTopicAvailable } from "@/lib/topics";
 import { judgeAnswer, type VerdictResult } from "@/lib/verdict";
 
 export const runtime = "nodejs";
@@ -17,6 +17,7 @@ export async function POST(request: Request) {
 
   const topic = getTopicById(body.topicId);
   if (!topic) return Response.json({ error: "这条热搜暂未找到。" }, { status: 404, headers });
+  if (!isTopicAvailable(topic)) return Response.json({ error: "本条内容审核中，暂不开放判断。" }, { status: 409, headers });
 
   const result: VerdictResult = {
     ...judgeAnswer(topic, body.answer),

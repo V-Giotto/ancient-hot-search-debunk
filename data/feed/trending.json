@@ -2182,5 +2182,114 @@
         "先保留两条书名，再把对应资料摆在一起。"
       ]
     }
+  },
+  {
+    "id": "H14",
+    "module": "trending",
+    "format": "news",
+    "category": "生活民俗",
+    "tags": [
+      "北宋东京",
+      "夜市",
+      "街巷见闻"
+    ],
+    "title": "北宋东京夜市能营业到几点",
+    "coverUrl": "/covers/h14.webp",
+    "coverAlt": "夜色中的街市与摊位像素插画",
+    "author": {
+      "name": "街巷夜读",
+      "handle": "@night_street",
+      "bio": "夜宵话题很热，营业范围和时段也要问清。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "夜宵讨论里，北宋东京被点了名。有人问：要是夜深了才想起吃东西，街上还能找到开着的店吗？\n\n另一边已经开始争论营业时间：有的猜天黑就收，有的索性把整座城都想成不打烊。两种想象都有气势，却还没把街区和时段说清。\n\n这回先把问题缩小：书里写的是哪些地方、怎样的营业时段？读到热闹，也要记得看看范围。",
+    "news": {
+      "outlet": "街巷夜读",
+      "lead": "关于北宋东京夜市的讨论，从“深夜能不能吃上饭”变成了营业时间之争。网友开始追问，书里写的是哪些街市，又能支持多大的范围。",
+      "publishedAt": "2026-10-30T12:00:00-07:00",
+      "related": [
+        "营业时段该到书中哪一段核对？",
+        "一条街的记述，能代表整座城吗？"
+      ]
+    },
+    "simulatedHeat": 330000,
+    "simulatedViews": 509000,
+    "simulatedLikes": 2470,
+    "simulatedComments": 318,
+    "simulatedReposts": 206,
+    "simulatedBookmarks": 428,
+    "comments": [
+      {
+        "id": "H14-C01",
+        "author": "天黑就想收摊",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "天一黑还做什么生意？我猜早早就关门了。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H14-C01-R1",
+            "replyTo": "H14-C01",
+            "author": "街巷夜读",
+            "avatar": "/avatars/pepper.webp",
+            "text": "你是拿自己的作息猜的吗？我现在缺的是书里对应街市的时段。"
+          },
+          {
+            "id": "H14-C01-R2",
+            "replyTo": "H14-C01-R1",
+            "author": "读书先看地名",
+            "avatar": "/avatars/hype.webp",
+            "text": "那先把街市名和上下文找全，别替所有店铺填同一张表。"
+          }
+        ]
+      },
+      {
+        "id": "H14-C02",
+        "author": "读书先看地名",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "先把书里提到的地方圈出来，别一下替全城安排作息。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H14-C03",
+        "author": "夜宵选择困难",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我只想吃点东西，结果先领到一道阅读理解。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H14-C04",
+        "author": "东京街口等饭",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "到底几点能买到？别光在评论里喊饿啊。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H14-C05",
+        "author": "古籍书签夹",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "《东京梦华录》可以找找，地名和前后文都别略过。",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H14-C06",
+        "author": "闹钟研究员",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我先记时段，暂时不把所有店都塞进同一张营业表。",
+        "simulatedLikes": 28
+      }
+    ],
+    "topicId": "H14",
+    "rank": 19,
+    "publishedAt": "2026-10-30T12:00:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
   }
 ]

@@ -1,0 +1,160 @@
+{
+  "id": "H13",
+  "era": {
+    "label": "秦",
+    "order": 2.5
+  },
+  "rumorEra": "不限定",
+  "coreContext": "秦始皇陵兵马俑的制作与彩绘",
+  "evidenceEra": "1974 年起考古发掘、出土现场与实验室观察",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T09:53:00-07:00"
+  },
+  "rank": 13,
+  "module": "discover",
+  "format": "post",
+  "category": "科技文物",
+  "tags": [
+    "兵马俑",
+    "配色争议",
+    "文物观察"
+  ],
+  "title": "我给兵马俑上色，网友说我在乱改历史？",
+  "coverUrl": "/covers/h13.webp",
+  "coverAlt": "灰色与彩色相对的兵马俑像素插画",
+  "author": {
+    "name": "调色盘先别收",
+    "handle": "@clay_palette",
+    "bio": "画到一半卡住了，先把配色问题问明白。",
+    "avatarUrl": "/avatars/pepper.webp",
+    "fictitious": true
+  },
+  "body": "画兵马俑画到一半，群里有人提醒我：怎么还拿着调色盘？灰色画完不就行了？\n\n我停笔看了半天。大家常见的样子，能直接当作它刚制作完成时的样子吗？\n\n一边催我收起颜料，一边让我找依据。好，画先放着，这道配色题大家先选，再一起看材料。",
+  "simulatedHeat": 342000,
+  "simulatedViews": 526000,
+  "simulatedLikes": 2860,
+  "simulatedComments": 372,
+  "simulatedReposts": 185,
+  "simulatedBookmarks": 493,
+  "comments": [
+    {
+      "id": "H13-C01",
+      "author": "灰色省颜料",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "我见到的都是灰色，照着画总不会错吧？",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H13-C01-R1",
+          "replyTo": "H13-C01",
+          "author": "调色盘先别收",
+          "avatar": "/avatars/pepper.webp",
+          "text": "我现在卡的就是：我画的是眼前的外观，还是刚制作完成的样子？"
+        },
+        {
+          "id": "H13-C01-R2",
+          "replyTo": "H13-C01-R1",
+          "author": "器物观察笔记",
+          "avatar": "/avatars/hype.webp",
+          "text": "两件事先分开，再找制作与保护的介绍，光看照片不够。"
+        }
+      ]
+    },
+    {
+      "id": "H13-C02",
+      "author": "器物观察笔记",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "今天的外观能不能代表刚做好的外观？这个得分开问。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H13-C03",
+      "author": "画到一半停工",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我的笔已经举起来了，现在等一个配色依据。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H13-C04",
+      "author": "陶土旁观者",
+      "avatar": "/avatars/pepper.webp",
+      "role": "in_world",
+      "text": "先别替调色盘办退场手续，我也想看这题怎么查。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H13-C05",
+      "author": "博物馆资料夹",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "博物院的保护介绍值得翻翻，别只看网上的图片。",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H13-C06",
+      "author": "图像收藏家",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我存的图一张一个样，图片好看和能作证是两回事。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "秦兵马俑制作之初就只有灰色（不施彩绘）。",
+  "isTrue": false,
+  "reveal": {
+    "verdictHeadline": "把今天的灰色当成原色，判断就跑偏了",
+    "shortExplanation": "兵马俑原有彩绘，生漆打底再敷彩。埋藏中的老化剥落与出土后失水引起的起翘脱落，共同影响了今天所见的颜色。",
+    "detailedExplanation": "秦始皇帝陵博物院介绍：“秦兵马俑彩绘是由底层生漆和颜料层构成的”。人民网所引修复专家兰德省说明，彩绘是制作时最后一个步骤；经历埋藏中的摧残，出土时本身残存色彩的状况就不太好。博物院又指出，生漆底层对失水敏感，干燥收缩会引起起翘卷曲，造成彩绘层脱离陶体。因此应同时考虑埋藏老化与出土后失水剥落，不能说一出土全部瞬间褪色。新华网所列十几种颜色是整体统计，不代表每尊颜色相同或每尊都有十几色。现代复原彩图不能直接证明单件文物的颜色；紫色硅酸铜钡颜料只按博物院所说的在有确切出土地点和年代的秦俑上首次发现，不扩写为世界最早。",
+    "correctedClaim": "秦兵马俑原有彩绘；埋藏老化与出土后失水剥落，使今天多见灰色陶胎。",
+    "funFact": "博物院实验记录：“1分钟后，生漆层的两端明显起翘，4分钟后，大部分起翘”。这是实验观察，不能据此认定所有俑一出土就完全失去颜色。"
+  },
+  "sourceIds": [
+    "S-H13-01",
+    "S-H13-02",
+    "S-H13-03",
+    "S-H13-04"
+  ],
+  "aiFacts": [
+    "[S-H13-01] 秦兵马俑原有彩绘，彩绘由底层生漆和颜料层构成。",
+    "[S-H13-02] 生漆底层对失水非常敏感，干燥收缩会引起起翘卷曲，造成彩绘层脱离陶体；实验有“1分钟后，生漆层的两端明显起翘，4分钟后，大部分起翘”的观察。",
+    "[S-H13-04] 兰德省介绍，彩绘是制作时最后一个步骤，涂生漆作底再敷彩；兵马俑出土时本身残存的色彩状况就不太好。",
+    "[S-H13-03] 新华网报道列举兵马俑整体使用的十几种颜色，将军俑用色多，士兵俑局部简单描绘，不能推出每尊相同。",
+    "[S-H13-01] 博物院称在有确切出土地点和年代的秦俑上首次发现紫色硅酸铜钡颜料，不是世界最早的断言。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "必须写埋藏老化与出土后失水剥落两重原因；来源对出土几分钟褪色的强调程度不同，不能说一出土全部瞬间褪色。",
+    "十几种颜色是整体统计，不可说每尊颜色相同或每尊都有十几色。",
+    "现代复原彩图不是单件文物颜色的直接证据；封面不能当作历史复原证据。",
+    "中国紫只写在有确切出土地点和年代的秦俑上首次发现，不扩写为世界最早。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T09:53:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "兵马俑今天多见灰色，所以制作之初也只有灰色。",
+      "isBest": false,
+      "feedback": "今天的外观不能直接推出制作时的外观。"
+    },
+    {
+      "id": "B",
+      "text": "秦兵马俑原有彩绘；埋藏老化与出土后失水剥落，使今天多见灰色陶胎。",
+      "isBest": true,
+      "feedback": "保留原有彩绘，并同时说明埋藏老化和出土后的失水剥落。"
+    },
+    {
+      "id": "C",
+      "text": "每尊兵马俑原本都有完全相同的十几种颜色，一出土就全部褪去。",
+      "isBest": false,
+      "feedback": "整体颜色统计不能套到每尊俑上，也不能把脱落原因和过程一概而论。"
+    }
+  ]
+}

@@ -15,6 +15,7 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 
 describe("贴纸墙与本机进度展示", () => {
   it("全题库锁定态不泄题，无可点击帖子；传给客户端的徽记仅有中性主题元数据", () => {
+    vi.stubEnv("CONTENT_MODE", "preview");
     const page = MePage();
     const tabs = page.props.children.props.children[2].props.children;
     expect(tabs.props.stickers).toEqual(stickers);
@@ -81,7 +82,7 @@ describe("贴纸墙与本机进度展示", () => {
   });
 
   it("题库增加时总数动态变化，空题库进度条仍有效", () => {
-    const { rerender } = render(<StickerWall stickers={[...stickers, getSticker("H13")]} />);
+    const { rerender } = render(<StickerWall stickers={[...stickers, getSticker("H15")]} />);
     expect(screen.getByRole("status").textContent).toBe(`已查证 0/${topics.length + 1}`);
     expect(screen.getByRole("list", { name: "贴纸收藏" }).children).toHaveLength(topics.length + 1);
     rerender(<StickerWall stickers={[]} />);

@@ -44,7 +44,7 @@ describe("按题收集、按帖互动", () => {
       const view = render(<PostExperience topic={publicEntry(id)} topicIds={topicIds} relatedEntries={getSameTopicEntries(getFeedEntryById(id)!)} />);
       expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
       expect(screen.queryByRole("region", { name: "本题贴纸" })).toBeNull();
-      expect((await submit(index % 2 === 1)).textContent).toContain(index ? "诗友手记 · 已收藏" : "获得贴纸：诗友手记 · 已查证 1/12");
+      expect((await submit(index % 2 === 1)).textContent).toContain(index ? "诗友手记 · 已收藏" : "获得贴纸：诗友手记 · 已查证 1/14");
       expect(readCollectionProgress(topicIds).completedIds).toEqual(["H01"]);
       if (index === 0) saved = localStorage.getItem(PROGRESS_KEY);
       else expect(localStorage.getItem(PROGRESS_KEY)).toBe(saved);

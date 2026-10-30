@@ -870,3 +870,37 @@ Phase 3 四种视口各执行情境改选、实际评论措辞点选、本机评
 - [情境选择与反馈](/workspace/iter1/v0.23.0-scenario-390x844.png)
 - [可疑措辞点选](/workspace/iter1/v0.23.0-wording-390x844.png)
 - [本机评论与回复](/workspace/iter1/v0.23.0-local-comment-390x844.png)
+
+## v0.24.0 Phase 4 · H13/H14 审核通过并入库
+
+验收日期：2026-10-30。继续现有未提交修改，根包与锁文件顶层/根包版本保持 **0.24.0**。用户转交 Giotto 于 **2026-10-30 09:53 PT** 的原话 **“审核通过”**，本次将 H13/H14 的题目、全部新增/扩充来源与年代字段 `eraReview` 改为 reviewed。题目采用 `reviewBy: "Giotto"` 与 `reviewedAt: "2026-10-30T09:53:00-07:00"`，来源采用 `verifiedBy/verifiedAt`，年代采用 `reviewer/reviewedAt`，沿用各自现有 reviewed 结构。
+
+formal、默认、无效模式和 preview 均含 **14 题、7 真 7 假**，信息流 **19 热搜 + 25 发现 = 44 条**；H13/H14 的列表、metadata、详情、判题及十四枚贴纸均可用。来源共 **33 条，全部 reviewed**：S-H13-01–04、S-H14-01 以及扩充的 S-H02-01 共六条采用本次新签名，其余二十七条旧来源逐字段不变。S-H02-01 原 supports 前缀与所选版本字形保留，本次审核覆盖原段与扩充段；H02 原题及年代签名不变，揭晓/导出按来源状态显示已审核，formal AI 可使用全部对应来源与事实。
+
+新增信息流文案、评论与回复仍为 **待 Giotto 审核**；`data/feed` 未改，44 条 `editorialReviewStatus` 均保持 pending。封面、主题贴纸与参与文案的原待审标注不变。CONTENT_REVIEW、候选新题、任务书变更记录及当前说明已同步，候选两题标注“已审核并入库”。
+
+史实、引文、判定及改写内容均沿用既有核查记录，不新增史实或声称重新联网核验。H13 保留埋藏老化与出土后失水剥落、整体色彩统计/单件复原/中国紫边界；H14 保留南宋初追记、具体街市和版本字形限制。仅删除 AI 限制中已失效的题目/来源/年代待审说明，明确展示文案、评论与参与提示不是史实依据。v0.23.0 来源基线原字节与 SHA256、旧题受保护字段指纹、已批准年代例外继续验证。
+
+测试调整：H13/H14 原 pending 门控断言改为 formal/默认/无效模式均可见、metadata 与判题可用、题目/来源/年代签名准确；formal/preview AI 上下文均为 reviewed。通用 pending/rejected 审核门控保留。单测首轮发现两个列表断言仍为 18/24 条，改为 19/25 条后全量重跑通过。E2E 主流程扩至 H01–H14，正式模式验证两题来源和查证卡“已人工审核”，无 key 追问/好友分享为 503。
+
+| 命令 | 结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 通过；31 个文件、1,068 项，无跳过 |
+| `npm run build` | 通过；生产动态路由正常 |
+| `CHROME_PATH=/usr/bin/google-chrome npm run test:e2e` | 通过；14 道主流程、四种视口、浏览器错误 0，无真实 AI 调用 |
+| 三份 E2E 脚本 `node --check`、`git diff --check` | 通过 |
+
+最终 E2E 构建 `9b0b1a60-635e-4b49-8af3-0cc998d86da0` 与 `.next/BUILD_ID` 一致。H01–H14 共 14 道完整主流程、90 次信息流流程、Phase 3 四视口流程及 H13/H14 八次 formal 专项流程全部通过。布局检查为 279 项主回归 + 93 项信息流 + 36 项 Phase 3 + 28 项 Phase 4，合计 **436 项**；触控目标 ≥44px、无横向溢出、无侧栏/公告与禁用 UI 标签，手机列居中，标题无 #。十四题年代 chip 在三种手机视口共 42 次检查通过，51 张 WebP 全部通过真实 HTTP、解码、尺寸及布局检查。
+
+H13/H14 formal 详情与判题均 200，题目/来源/年代已审，追问与好友分享在无 key 服务均 503；preview 详情仍可用。两题的来源面板与真实下载的 1200×675 PNG 查证卡均显示“已人工审核”，内容无裁切，不再出现题目史实待审提示；首次 HTML 与公开 props 不泄露答案字段。三张指定截图已由本轮 formal E2E 覆盖生成并逐张查看，尺寸均为 390×844；热搜截图定位于榜尾，可见第十九条 H14。新增文案/评论的内部待审登记保持不变。
+
+E2E 首轮在素材总数旧断言 49 失败；formal 纳入两道已审新题后应为 51。已更新总数，保留全部素材存在性、HTTP、浏览器解码和尺寸断言，重跑完整 E2E 通过。首轮日志留存于 `artifacts/stage-6/v0.24.0-e2e-review-attempt1.log`，最终完整日志为 `v0.24.0-e2e.log`。
+
+安全边界：Vitest 清空 AI 配置，模型用例全部 mock；build 与 E2E 自启 formal/preview 服务均无 key，上游固定本机不可用端口，不调用真实 AI。不打印、记录或提交密钥，不改 CHANGELOG，不 commit/tag/push，不新增静态部署内容。日志位于 `artifacts/stage-6/v0.24.0-{typecheck,unit,build,e2e}.log`，结构化 E2E 结果为 `artifacts/stage-6/result.json`。
+
+指定截图（390×844，formal，已重新生成并逐张复核）：
+
+- [H13 兵马俑配色详情](/workspace/iter1/v0.24.0-h13-390x844.png)
+- [H14 东京夜市热搜详情](/workspace/iter1/v0.24.0-h14-390x844.png)
+- [热搜榜 H14 入口](/workspace/iter1/v0.24.0-trending-390x844.png)

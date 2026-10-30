@@ -8,7 +8,7 @@ type ContentSetOptions = { expectedCount?: number };
 
 /**
  * 校验失败时抛出带字段路径的 ZodError 或带话题 ID 的完整性错误。
- * 默认按当前题目数量校验连续排名；8/12/16 条阶段均检查真假均衡。
+ * 默认按当前题目数量校验连续排名；8/12/14/16 条阶段均检查真假均衡。
  * pending/rejected 是合法审核状态；本模块不将其自动升级为 reviewed。
  */
 export function validateContentSet(
@@ -59,7 +59,7 @@ export function validateContentSet(
     if (!ranks.has(rank)) errors.push(`rank 必须从 1 连续排列，缺少 ${rank}`);
   }
 
-  if (expectedCount !== undefined && [8, 12, 16].includes(expectedCount)) {
+  if (expectedCount !== undefined && [8, 12, 14, 16].includes(expectedCount)) {
     const trueCount = parsedTopics.filter((topic) => topic.isTrue).length;
     const falseCount = parsedTopics.length - trueCount;
     const half = expectedCount / 2;
@@ -100,6 +100,15 @@ function loadContentSet(): { topics: HotTopic[]; sources: Source[] } {
 
 export function getAllTopics(): HotTopic[] {
   return loadContentSet().topics;
+}
+
+/** 候选留在完整数据集中供审核；只有显式 preview 可展示 pending。 */
+export function isTopicAvailable(topic: HotTopic): boolean {
+  return topic.reviewStatus === "reviewed" || (process.env.CONTENT_MODE === "preview" && topic.reviewStatus === "pending");
+}
+
+export function getAvailableTopics(): HotTopic[] {
+  return getAllTopics().filter(isTopicAvailable);
 }
 
 export function getTopicById(id: string): HotTopic | undefined {

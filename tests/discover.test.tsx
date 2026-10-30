@@ -1,11 +1,12 @@
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import DiscoverPage from "@/app/discover/page";
 import { getAllTopics } from "@/lib/topics";
 import { getAllFeedEntries } from "@/lib/feed";
 import { DiscoverFeed } from "@/components/discover/DiscoverFeed";
 
-afterEach(cleanup);
+beforeEach(() => vi.stubEnv("CONTENT_MODE", "preview"));
+afterEach(() => { cleanup(); vi.unstubAllEnvs(); });
 
 describe("发现页", () => {
   it("实际发现页仅有发现题目，无匹配时仍能前往热榜第一条", () => {
@@ -64,9 +65,9 @@ describe("发现页", () => {
     });
   });
 
-  it("十二位作者使用数据中的独立可读 handle，不含随机数字串", () => {
+  it("十四位作者使用数据中的独立可读 handle，不含随机数字串", () => {
     const handles = getAllTopics().map((topic) => topic.author.handle);
-    expect(new Set(handles).size).toBe(12);
+    expect(new Set(handles).size).toBe(14);
     for (const handle of handles) expect(handle).toMatch(/^@[a-z_]{3,20}$/);
     expect(handles).toContain("@changan_chihuo");
   });

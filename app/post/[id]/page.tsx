@@ -1,8 +1,8 @@
 import { getAllFriends, toFriendProfile } from "@/lib/friends";
 import { notFound } from "next/navigation";
 import { PostExperience } from "@/components/post/PostExperience";
-import { getFeedEntryById, getSameTopicEntries, toPublicFeedEntry } from "@/lib/feed";
-import { getAllTopics } from "@/lib/topics";
+import { getAvailableFeedEntryById as getFeedEntryById, getSameTopicEntries, toPublicFeedEntry } from "@/lib/feed";
+import { getAvailableTopics as getAllTopics } from "@/lib/topics";
 import { AppShell } from "@/components/shell/AppShell";
 import type { Metadata } from "next";
 

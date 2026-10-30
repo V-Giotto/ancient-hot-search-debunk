@@ -14,9 +14,10 @@ const pollKey = "ahsd:poll:v1:H12";
 
 beforeEach(() => {
   localStorage.clear();
+  vi.stubEnv("CONTENT_MODE", "preview");
   vi.stubGlobal("fetch", vi.fn());
 });
-afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
+afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
 describe("按 format 选择帖子模板", () => {
   it.each(topics)("$id 页面 metadata 使用无井号的原题标题", async (topic) => {

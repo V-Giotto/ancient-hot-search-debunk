@@ -2656,5 +2656,105 @@
     "fictionalFraming": true,
     "statisticsOrigin": "design",
     "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H13",
+    "module": "discover",
+    "format": "post",
+    "category": "科技文物",
+    "tags": [
+      "兵马俑",
+      "配色争议",
+      "文物观察"
+    ],
+    "title": "我给兵马俑上色，网友说我在乱改历史？",
+    "coverUrl": "/covers/h13.webp",
+    "coverAlt": "灰色与彩色相对的兵马俑像素插画",
+    "author": {
+      "name": "调色盘先别收",
+      "handle": "@clay_palette",
+      "bio": "画到一半卡住了，先把配色问题问明白。",
+      "avatarUrl": "/avatars/pepper.webp",
+      "fictitious": true
+    },
+    "body": "画兵马俑画到一半，群里有人提醒我：怎么还拿着调色盘？灰色画完不就行了？\n\n我停笔看了半天。大家常见的样子，能直接当作它刚制作完成时的样子吗？\n\n一边催我收起颜料，一边让我找依据。好，画先放着，这道配色题大家先选，再一起看材料。",
+    "simulatedHeat": 311000,
+    "simulatedViews": 526000,
+    "simulatedLikes": 2860,
+    "simulatedComments": 372,
+    "simulatedReposts": 185,
+    "simulatedBookmarks": 493,
+    "comments": [
+      {
+        "id": "H13-C01",
+        "author": "灰色省颜料",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "我见到的都是灰色，照着画总不会错吧？",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H13-C01-R1",
+            "replyTo": "H13-C01",
+            "author": "调色盘先别收",
+            "avatar": "/avatars/pepper.webp",
+            "text": "我现在卡的就是：我画的是眼前的外观，还是刚制作完成的样子？"
+          },
+          {
+            "id": "H13-C01-R2",
+            "replyTo": "H13-C01-R1",
+            "author": "器物观察笔记",
+            "avatar": "/avatars/hype.webp",
+            "text": "两件事先分开，再找制作与保护的介绍，光看照片不够。"
+          }
+        ]
+      },
+      {
+        "id": "H13-C02",
+        "author": "器物观察笔记",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "今天的外观能不能代表刚做好的外观？这个得分开问。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H13-C03",
+        "author": "画到一半停工",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我的笔已经举起来了，现在等一个配色依据。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H13-C04",
+        "author": "陶土旁观者",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "先别替调色盘办退场手续，我也想看这题怎么查。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H13-C05",
+        "author": "博物馆资料夹",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "博物院的保护介绍值得翻翻，别只看网上的图片。",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H13-C06",
+        "author": "图像收藏家",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我存的图一张一个样，图片好看和能作证是两回事。",
+        "simulatedLikes": 28
+      }
+    ],
+    "topicId": "H13",
+    "rank": 25,
+    "publishedAt": "2026-10-30T12:00:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
   }
 ]

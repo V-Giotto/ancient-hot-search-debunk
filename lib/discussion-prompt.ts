@@ -12,6 +12,8 @@ const prompts: Record<string, string> = {
   H10: "一字一块的胶泥印版，北宋真的有了吗？",
   H11: "转发前先想想：这段问答中，究竟是谁在说话？",
   H12: "两个相近的书名，会不会是同一部书？先留一个直觉。",
+  H13: "眼前的颜色能直接代表制作时的样子吗？先留一个判断。",
+  H14: "夜市能开到几点？记住街区与时段，再去核对记述。",
 };
 
 export function discussionPrompt(id: string): string {

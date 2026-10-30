@@ -29,11 +29,12 @@ describe("结构化时代与先后比较", () => {
     expect(EraSchema.safeParse(era).success).toBe(false);
     expect(() => validateContentSet([{ ...makeTopic(), era }], [makeSource()])).toThrow();
   });
-  it("十二题按核心主张标注，H07 战国，H12 春秋战国取春秋序号", () => {
+  it("十四题按核心主张标注，H07 战国，H12 春秋战国取春秋序号", () => {
     expect(getAllTopics().map(({ id, era }) => [id, era])).toEqual([
       ["H01", eras[3]], ["H02", eras[4]], ["H03", eras[3]], ["H04", eras[4]],
       ["H05", eras[3]], ["H06", eras[1]], ["H07", eras[1]], ["H08", eras[3]],
       ["H09", eras[4]], ["H10", eras[4]], ["H11", eras[0]], ["H12", { label: "春秋战国", order: 1 }],
+      ["H13", { label: "秦", order: 2.5 }], ["H14", eras[4]],
     ]);
   });
   it("跨时代取最早时期序号，春秋战国早于唐，北宋晚于唐", () => {
@@ -43,7 +44,7 @@ describe("结构化时代与先后比较", () => {
     expect(isLaterEra(eras[4], eras[3])).toBe(true);
   });
   it("十题采用 Giotto 11:29 审核，H07/H12 原签名及原题目 reviewStatus 不变", () => {
-    for (const topic of getAllTopics()) {
+    for (const topic of getAllTopics().slice(0, 12)) {
       expect(topic.reviewStatus).toBe("reviewed");
       expect(topic.eraReview).toEqual(["H07", "H12"].includes(topic.id)
         ? { status: "reviewed", by: "Giotto", at: "2026-10-30T07:32:00-07:00" }

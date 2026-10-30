@@ -15,7 +15,7 @@ describe("发现模块作者回复", () => {
   it("每个发现题都有作者回复，且回复文案跨题不重复", () => {
     const seen = new Map<string, string>();
     const discover = topics.filter((t) => t.module === "discover");
-    expect(discover).toHaveLength(6);
+    expect(discover).toHaveLength(7);
     for (const t of discover) {
       const own = replies(t).filter((r) => r.author === t.author.name);
       expect(own.length, t.id).toBeGreaterThan(0);

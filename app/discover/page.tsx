@@ -2,7 +2,7 @@
 import { PixelIcon } from "@/components/pixel/PixelIcon";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllFeedEntries } from "@/lib/feed";
+import { getAvailableFeedEntries as getAllFeedEntries } from "@/lib/feed";
 import { DiscoverFeed } from "@/components/discover/DiscoverFeed";
 import { AppShell } from "@/components/shell/AppShell";
 

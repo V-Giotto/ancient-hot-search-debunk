@@ -87,7 +87,7 @@ describe("移动端共用壳层", () => {
   it.each([TrendingPage, DiscoverPage])("列表页移除标签，保留话题、统计和来源阅读入口：%s", (Page) => {
     render(Page());
     expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
-    expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(Page === DiscoverPage ? 24 : 18);
+    expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(Page === DiscoverPage ? 25 : 19);
     if (Page === DiscoverPage) expect(screen.getByRole("list", { name: "发现话题" })).toBeTruthy();
     else expect(screen.getByText(/128\.6 万热度/)).toBeTruthy();
   });

@@ -33,8 +33,8 @@ describe("我的子标签与旧入口", () => {
     expect(within(tabs).getAllByRole("tab").map((tab) => tab.textContent)).toEqual(["贴纸", "收藏"]);
     expect(screen.getByRole("tab", { selected: true }).textContent).toBe("贴纸");
     expect(screen.getByRole("tabpanel", { name: "贴纸" }).id).toBe(screen.getByRole("tab", { name: "贴纸" }).getAttribute("aria-controls"));
-    expect(screen.getByRole("status").textContent).toBe("已查证 1/12");
-    expect(screen.getByRole("list", { name: "贴纸收藏" }).children).toHaveLength(12);
+    expect(screen.getByRole("status").textContent).toBe(`已查证 1/${topics.length}`);
+    expect(screen.getByRole("list", { name: "贴纸收藏" }).children).toHaveLength(topics.length);
     expect(screen.queryByRole("heading", { name: /我的收藏/ })).toBeNull();
   });
 

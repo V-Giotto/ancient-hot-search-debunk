@@ -78,11 +78,11 @@ describe("原创像素图标系统", () => {
   });
 });
 
-describe("十二枚主题像素贴纸", () => {
+describe("十四枚主题像素贴纸", () => {
   it("每题都有独立原创图形，名称与题目数量对应", () => {
     expect(Object.keys(pixelStickers)).toEqual(getAllTopics().map(({ id }) => id));
     const shapes = Object.values(pixelStickers).map((layers) => JSON.stringify(layers));
-    expect(new Set(shapes).size).toBe(12);
+    expect(new Set(shapes).size).toBe(14);
   });
   it.each(Object.keys(pixelStickers))("%s 解锁渲染彩色贴纸，锁定仅灰色剪影与像素问号，无结论文本", (id) => {
     const { container, rerender } = render(<StickerBadge sticker={getSticker(id)} unlocked />);
@@ -100,7 +100,7 @@ describe("十二枚主题像素贴纸", () => {
     expect(container.textContent).toBe("");
   });
   it("未知题目安全使用中性竹简图形", () => {
-    const { container } = render(<PixelSticker id="H13" unlocked={false} />);
+    const { container } = render(<PixelSticker id="H99" unlocked={false} />);
     expect(container.querySelector("[data-pixel-question]")).toBeTruthy();
   });
 });

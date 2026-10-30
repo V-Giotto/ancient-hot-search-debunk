@@ -92,6 +92,20 @@ export const pixelStickers = {
     [cloud, [[4,13,2,4],[9,12,2,6],[14,14,2,5],[19,12,2,6],[24,14,2,5]]],
     [green, [[9,5,2,2],[19,5,2,2]]],
   ],
+  H13: [ // Neutral clay figure; no reconstruction of an individual artifact.
+    [ink, [[12,2,8,3],[10,5,12,11],[7,16,18,12],[10,28,5,3],[18,28,5,3]]],
+    [clay, [[12,6,8,8],[9,18,14,9],[11,28,3,2],[19,28,3,2]]],
+    [cream, [[12,8,2,2],[18,8,2,2],[14,12,4,1]]],
+    [cloud, [[11,18,10,2],[11,22,10,2]]],
+    [green, [[15,16,2,2]]],
+  ],
+  H14: [ // Market awning and moon; no claim about an actual building.
+    [ink, [[3,9,26,6],[5,15,3,15],[24,15,3,15],[8,23,16,7]]],
+    [cloud, [[5,11,22,2],[10,25,12,3]]],
+    [cream, [[18,2,6,5],[16,5,6,2],[7,15,1,8]]],
+    [clay, [[10,15,3,6],[19,15,3,6]]],
+    [green, [[10,15,3,2],[19,15,3,2],[12,23,8,1]]],
+  ],
 } as const satisfies Record<string, readonly Layer[]>;
 
 export function PixelSticker({ id, unlocked }: { id: string; unlocked: boolean }) {

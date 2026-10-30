@@ -90,9 +90,10 @@ describe("POST /api/ask：输入校验与审核门控", () => {
     expect(outgoing().body.messages[1].content).toContain('"reviewStatus":"pending"');
     expect(outgoing().body.messages[1].content).toContain('"status":"pending"');
   });
-  it.each(topics.getAllTopics())("formal 模式下真实 reviewed $id 进入 mock AI 流程", async (topic) => {
+  it.each(topics.getAllTopics().filter(({ reviewStatus }) => reviewStatus === "reviewed"))("formal 模式下真实 reviewed $id 进入 mock AI 流程", async (topic) => {
     vi.stubEnv("CONTENT_MODE", "formal");
-    const sourceId = topic.sourceIds[0];
+    const allowedSources = topics.getSourcesForTopic(topic).filter(({ status }) => status === "reviewed");
+    const sourceId = allowedSources[0].id;
     fetchMock.mockResolvedValue(providerResult({ answer: "正式模式测试输出", citedSourceIds: [sourceId], grounded: true }));
     const response = await POST(request({ topicId: topic.id, question: "本条资料支持什么？" }));
     expect(response.status).toBe(200);
@@ -101,9 +102,9 @@ describe("POST /api/ask：输入校验与审核门控", () => {
     expect(fetchMock).toHaveBeenCalledOnce();
     const context = JSON.parse(outgoing().body.messages[1].content.split("\n")[1]);
     expect(context).toMatchObject({ topicId: topic.id, reviewStatus: "reviewed", preview: false });
-    expect(context.sources.map((source: { id: string }) => source.id)).toEqual(topic.sourceIds);
+    expect(context.sources.map((source: { id: string }) => source.id)).toEqual(allowedSources.map(({ id }) => id));
     expect(context.sources.every((source: { status: string }) => source.status === "reviewed")).toBe(true);
-    expect(context.aiFacts).toEqual(topic.aiFacts);
+    expect(context.aiFacts).toEqual(topic.aiFacts.filter((fact) => allowedSources.some(({ id }) => fact.startsWith(`[${id}]`))));
   });
   it("preview 下真实 reviewed 资料保留 reviewed 上下文，仅标记开发模式", async () => {
     const response = await POST(request());

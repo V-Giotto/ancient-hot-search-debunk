@@ -1,5 +1,5 @@
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import TrendingPage from "@/app/trending/page";
 import { TrendingBoard } from "@/components/trending/TrendingBoard";
 import { saveProgress } from "@/lib/progress";
@@ -12,8 +12,8 @@ const topics = getAllFeedEntries().filter((topic) => topic.module === "trending"
 const categories = [...new Set(topics.map((topic) => topic.category))];
 const ranking = () => screen.getByRole("list", { name: "热搜排行" });
 
-beforeEach(() => localStorage.clear());
-afterEach(cleanup);
+beforeEach(() => { localStorage.clear(); vi.stubEnv("CONTENT_MODE", "preview"); });
+afterEach(() => { cleanup(); vi.unstubAllEnvs(); });
 
 describe("移动端热榜", () => {
   it("榜单仅传新闻条目题面字段，不传答案", () => {

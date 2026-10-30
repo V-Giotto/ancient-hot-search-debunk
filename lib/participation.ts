@@ -13,6 +13,8 @@ export const debates: Record<string, Debate> = {
   H10: { author: "排版急性子", text: "一个字一块肯定做不成印版，光收拾就够忙了。", challenge: "觉得麻烦能证明做不到吗？制作与排版都要看记载。", response: "好，我先不拿自己的手忙脚乱替别人下结论。" },
   H11: { author: "语录搬运工", text: "只要出现在孔子的问答里，就一定是孔子说的。", challenge: "问的人和答的人都在场，你把说话人核对了吗？", response: "那我先按住转发，完整读完这段再来。" },
   H12: { author: "书单合并员", text: "书名这么像，肯定就是同一部书。", challenge: "相似的书名够用来合并书目吗？对应材料看了吗？", response: "我先撤回合并操作，等材料对照完再说。" },
+  H13: { author: "只画眼前色", text: "今天看到什么颜色，就一定是刚做好的颜色。", challenge: "你把现在的外观直接当成制作时的样子，材料核对过了吗？", response: "那我先放下笔，等保护介绍里的依据。" },
+  H14: { author: "全城作息表", text: "只要一条街很热闹，就能替全城安排营业时间。", challenge: "一处的记述能代表所有街区和店铺吗？先把范围找出来。", response: "好，我先不替整座城排班，等地名和时段对上。" },
 };
 
 type Scenario = { prompt: string; options: { text: string; feedback: string }[] };
