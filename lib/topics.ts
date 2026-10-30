@@ -8,7 +8,7 @@ type ContentSetOptions = { expectedCount?: number };
 
 /**
  * 校验失败时抛出带字段路径的 ZodError 或带话题 ID 的完整性错误。
- * 默认按当前题目数量校验连续排名；expectedCount=8 时启用首发数量及 4:4 校验。
+ * 默认按当前题目数量校验连续排名；8/12/16 条阶段均检查真假均衡。
  * pending/rejected 是合法审核状态；本模块不将其自动升级为 reviewed。
  */
 export function validateContentSet(
@@ -49,11 +49,12 @@ export function validateContentSet(
     if (!ranks.has(rank)) errors.push(`rank 必须从 1 连续排列，缺少 ${rank}`);
   }
 
-  if (expectedCount === 8) {
+  if (expectedCount !== undefined && [8, 12, 16].includes(expectedCount)) {
     const trueCount = parsedTopics.filter((topic) => topic.isTrue).length;
     const falseCount = parsedTopics.length - trueCount;
-    if (trueCount !== 4 || falseCount !== 4) {
-      errors.push(`首发真假比例必须为 4:4，实际为 ${trueCount}:${falseCount}`);
+    const half = expectedCount / 2;
+    if (trueCount !== half || falseCount !== half) {
+      errors.push(`真假比例必须为 ${half}:${half}，实际为 ${trueCount}:${falseCount}`);
     }
   }
 

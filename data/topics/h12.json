@@ -1,0 +1,137 @@
+{
+  "id": "H12",
+  "rank": 12,
+  "format": "poll",
+  "category": "兵书辨名",
+  "tags": [
+    "银雀山",
+    "兵书辨名",
+    "对比投票"
+  ],
+  "title": "#兵书书名撞车？《孙子兵法》与《孙膑兵法》投一票#",
+  "coverUrl": "/covers/h12.svg",
+  "coverAlt": "两部兵书书名对照与投票条图形",
+  "author": {
+    "name": "兵书对照读书会",
+    "bio": "书名对照｜先投直觉，再看证据。",
+    "avatarUrl": "/avatars/reader.svg",
+    "fictitious": true
+  },
+  "body": "读书会把两个书名摆到同一张投票卡上，评论区立刻分成凭名字猜和准备找资料的两队。看起来相近的名字，到底能不能直接画上等号？先投下你的直觉，再把这份直觉带去查证。票面比例只供围观，不替你作历史判断；真正该问的是两部书各有什么材料支持，别让热闹的票数替证据抢答。",
+  "simulatedHeat": 480000,
+  "simulatedLikes": 10000,
+  "simulatedComments": 860,
+  "simulatedReposts": 380,
+  "simulatedBookmarks": 2040,
+  "comments": [
+    {
+      "id": "H12-C01",
+      "author": "前排等资料",
+      "avatar": "/avatars/spectator.svg",
+      "role": "spectator",
+      "text": "我投票时很果断，轮到解释理由时突然开始翻书。",
+      "simulatedLikes": 520
+    },
+    {
+      "id": "H12-C02",
+      "author": "慢读课代表",
+      "avatar": "/avatars/reader.svg",
+      "role": "history_nerd",
+      "text": "书名相近只是问题的起点，出土材料的说明值得逐项核对。",
+      "simulatedLikes": 483
+    },
+    {
+      "id": "H12-C03",
+      "author": "热度值班员",
+      "avatar": "/avatars/hype.svg",
+      "role": "troll",
+      "text": "投票卡已经摆好，标题党的手这次也得等证据。",
+      "simulatedLikes": 446
+    },
+    {
+      "id": "H12-C04",
+      "author": "街巷围观客",
+      "avatar": "/avatars/changan.svg",
+      "role": "in_world",
+      "text": "本读书网友先把书签夹好，免得对照时翻错位置。",
+      "simulatedLikes": 409
+    },
+    {
+      "id": "H12-C05",
+      "author": "上下文观察员",
+      "avatar": "/avatars/reader.svg",
+      "role": "history_nerd",
+      "text": "先分清材料说的是书名、抄写时期还是成书年代，别混在一起。",
+      "simulatedLikes": 372
+    },
+    {
+      "id": "H12-C06",
+      "author": "收藏夹管理员",
+      "avatar": "/avatars/spectator.svg",
+      "role": "spectator",
+      "text": "比例出来以后我更想查了，原来我的直觉也需要参考资料。",
+      "simulatedLikes": 335
+    },
+    {
+      "id": "H12-C07",
+      "author": "书签借我用用",
+      "avatar": "/avatars/changan.svg",
+      "role": "in_world",
+      "text": "同桌讨论可以热闹，书架上的标签还是得认真看。",
+      "simulatedLikes": 298
+    },
+    {
+      "id": "H12-C08",
+      "author": "标题排版中",
+      "avatar": "/avatars/hype.svg",
+      "role": "troll",
+      "text": "读书会今日热度由问号承包，结论请走查证通道。",
+      "simulatedLikes": 261
+    }
+  ],
+  "claim": "《孙子兵法》和《孙膑兵法》其实是同一部书。",
+  "isTrue": false,
+  "reveal": {
+    "verdictHeadline": "同出土的两部兵书，不能画等号。",
+    "shortExplanation": "人民网转载大众日报报道，1972 年临沂银雀山汉墓出土竹简。中国国家博物馆说明，与《孙子兵法》同出土的还有《孙膑兵法》，证实了孙武、孙膑各有兵法传世的记载，两书不是同一部书。",
+    "detailedExplanation": "中国国家博物馆介绍，《孙子兵法》简有三百多枚，是《吴孙子》十三篇足本，并有佚书四篇；同出土的还有《孙膑兵法》。人民网转载大众日报文章介绍，《汉书·艺文志》著录《吴孙子》《齐孙子》，唐宋以来或有人认为兵法为孙膑所著，而两书同时发掘使长期存在的疑问得到解决。本题只据此说明两部兵书分别存在，不扩展具体成书年代或其他删定说。",
+    "correctedClaim": "1972 年银雀山汉墓同时出土《孙子兵法》与《孙膑兵法》竹简，证实两部兵书各自传世。",
+    "funFact": "国博说明竹简抄成于西汉文、景至武帝初期。这里说的是竹简抄写时期，不能直接当作两部兵书的具体成书年代。"
+  },
+  "sourceIds": [
+    "S-H12-01",
+    "S-H12-02"
+  ],
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "书名相近就足以证明两书是同一部书，不必核对出土材料。",
+      "isBest": false,
+      "feedback": "不能用书名相近代替证据；同出土的两部兵书需要分别看待。"
+    },
+    {
+      "id": "B",
+      "text": "竹简的抄写时期就是两部兵书唯一确定的成书年代。",
+      "isBest": false,
+      "feedback": "来源说明的是竹简抄写时期，不能直接替换成兵书成书年代。"
+    },
+    {
+      "id": "C",
+      "text": "1972 年银雀山汉墓同时出土《孙子兵法》与《孙膑兵法》竹简，证实两部兵书各自传世。",
+      "isBest": true,
+      "feedback": "这个版本将结论限定在给定来源支持的范围，并保留必要的文献归属。"
+    }
+  ],
+  "aiFacts": [
+    "[S-H12-01] 国博介绍，《孙子兵法》竹简抄成于西汉文、景至武帝初期；相关简三百多枚，是《吴孙子》十三篇足本，并有佚书四篇。",
+    "[S-H12-01] 与《孙子兵法》同出土的还有《孙膑兵法》，国博称这证实了《史记—孙武吴起列传》关于孙武仕吴、孙膑仕齐，各有兵法传世的记载。",
+    "[S-H12-02] 人民网转载大众日报文章介绍，1972 年临沂银雀山两座汉墓出土竹简，《孙子兵法》《孙膑兵法》同时发掘。",
+    "[S-H12-02] 文章介绍《汉书·艺文志》著录《吴孙子》《齐孙子》，唐宋以来或以为兵法为孙膑所著，两书同时发掘使长期存在的疑问得到解决。"
+  ],
+  "aiLimitations": [
+    "只说明两书各自传世，不展开曹操删定说，不补两书具体成书年代。",
+    "竹简抄写时期与兵书成书年代要分开；投票为预制比例，只在本机记录选择，不作为史实依据或判题输入。"
+  ],
+  "reviewStatus": "pending",
+  "assetLicense": "原创 SVG，艺术创作·非史料；许可与待审记录见 docs/ASSET_LICENSES.md。"
+}

@@ -44,6 +44,7 @@ export type RewriteOption = z.infer<typeof RewriteOptionSchema>;
 export const HotTopicSchema = z.strictObject({
   id: nonEmptyText,
   rank: z.number().int().positive(),
+  format: z.enum(["post", "news", "moments", "chat", "poll"]).optional(),
   category: nonEmptyText,
   tags: z.array(nonEmptyText),
   title: nonEmptyText,

@@ -1,0 +1,137 @@
+{
+  "id": "H10",
+  "rank": 10,
+  "format": "moments",
+  "category": "印刷手记",
+  "tags": [
+    "胶泥活字",
+    "毕昇",
+    "朋友圈"
+  ],
+  "title": "#朋友圈晒出胶泥小字块：毕昇这条动态该点赞吗？#",
+  "coverUrl": "/covers/h10.svg",
+  "coverAlt": "胶泥活字主题的字块与朋友圈配图格",
+  "author": {
+    "name": "活版手作观察员",
+    "bio": "手作动态｜配图先发，工艺慢慢查。",
+    "avatarUrl": "/avatars/reader.svg",
+    "fictitious": true
+  },
+  "body": "朋友圈今天被胶泥小字块刷屏了：配图格一摆，点赞区先热闹起来，评论却追着问这条手作动态到底有什么来头。别光顾着夸排版，也别把一张图当成全部工艺说明。材料是什么、字块怎样处理、记载又出自哪里，都值得放大看看。本观察员先把滤镜关掉，留出位置给资料，等查清楚再认真按下这个赞。",
+  "simulatedHeat": 500000,
+  "simulatedLikes": 11000,
+  "simulatedComments": 900,
+  "simulatedReposts": 400,
+  "simulatedBookmarks": 2100,
+  "comments": [
+    {
+      "id": "H10-C01",
+      "author": "前排等资料",
+      "avatar": "/avatars/spectator.svg",
+      "role": "spectator",
+      "text": "这张配图格看起来很适合收藏，我的手工进度还停在找桌面。",
+      "simulatedLikes": 520
+    },
+    {
+      "id": "H10-C02",
+      "author": "慢读课代表",
+      "avatar": "/avatars/reader.svg",
+      "role": "history_nerd",
+      "text": "材料与处理方法要回到文字记载逐项看，不能让滤镜替工艺作证。",
+      "simulatedLikes": 483
+    },
+    {
+      "id": "H10-C03",
+      "author": "热度值班员",
+      "avatar": "/avatars/hype.svg",
+      "role": "troll",
+      "text": "点赞区就位！谁也别催我交手作作业。",
+      "simulatedLikes": 446
+    },
+    {
+      "id": "H10-C04",
+      "author": "街巷围观客",
+      "avatar": "/avatars/changan.svg",
+      "role": "in_world",
+      "text": "本手作网友先把桌面腾出来，免得小字块找不到位置。",
+      "simulatedLikes": 409
+    },
+    {
+      "id": "H10-C05",
+      "author": "上下文观察员",
+      "avatar": "/avatars/reader.svg",
+      "role": "history_nerd",
+      "text": "可以从《梦溪笔谈》的相关记述找线索，先看它具体怎么说。",
+      "simulatedLikes": 372
+    },
+    {
+      "id": "H10-C06",
+      "author": "收藏夹管理员",
+      "avatar": "/avatars/spectator.svg",
+      "role": "spectator",
+      "text": "收藏夹又收下了一项我看完就觉得自己会了的手艺。",
+      "simulatedLikes": 335
+    },
+    {
+      "id": "H10-C07",
+      "author": "书签借我用用",
+      "avatar": "/avatars/changan.svg",
+      "role": "in_world",
+      "text": "排版可以慢一点，别把我的围观名额排没了。",
+      "simulatedLikes": 298
+    },
+    {
+      "id": "H10-C08",
+      "author": "标题排版中",
+      "avatar": "/avatars/hype.svg",
+      "role": "troll",
+      "text": "封面很忙，评论很热，我的查证进度还在加载。",
+      "simulatedLikes": 261
+    }
+  ],
+  "claim": "北宋时期，平民毕昇发明了用胶泥刻字的活字印刷（活版）。",
+  "isTrue": true,
+  "reveal": {
+    "verdictHeadline": "胶泥刻字、火烧令坚，记载在这里。",
+    "shortExplanation": "沈括《梦溪笔谈》卷十八记载，庆历年间“有布衣畢昇，又為活版”，其法用胶泥刻字，每字为一印，火烧令坚。中国古籍保护网李致忠文也据此介绍宋代泥活字的发明。",
+    "detailedExplanation": "本题依据《梦溪笔谈》关于毕昇活版的记述：胶泥刻字，薄如钱唇，每字为一印，火烧令坚。中国古籍保护网李致忠文说明，最早记载毕昇发明泥活字的书是沈括的《梦溪笔谈》，并转录卷十八原文。结论限定于这段文献记载，不加入跨地区的发明时间比较，也不补毕昇生卒细节。",
+    "correctedClaim": "据沈括《梦溪笔谈》，北宋庆历年间布衣毕昇以胶泥刻字、火烧令坚，制成活版。",
+    "funFact": "《梦溪笔谈》这一段用“布衣”称毕昇；原文的“每字為一印”，让材料和字印都成为可以逐项核对的线索。"
+  },
+  "sourceIds": [
+    "S-H10-01",
+    "S-H10-02"
+  ],
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "这条材料足以排出所有地区活字印刷发明的先后名次。",
+      "isBest": false,
+      "feedback": "给定核心证据是毕昇胶泥活字的记述，不应扩大为跨地区发明排名。"
+    },
+    {
+      "id": "B",
+      "text": "《梦溪笔谈》没有记下字印的材料，也没有提到火烧处理。",
+      "isBest": false,
+      "feedback": "原文明确记载胶泥刻字和火烧令坚，不能删掉这些信息。"
+    },
+    {
+      "id": "C",
+      "text": "据沈括《梦溪笔谈》，北宋庆历年间布衣毕昇以胶泥刻字、火烧令坚，制成活版。",
+      "isBest": true,
+      "feedback": "这个版本将结论限定在给定来源支持的范围，并保留必要的文献归属。"
+    }
+  ],
+  "aiFacts": [
+    "[S-H10-01] 沈括《梦溪笔谈》卷十八记：“慶曆中，有布衣畢昇，又為活版。”",
+    "[S-H10-01] 原文记其法用胶泥刻字，薄如钱唇，每字为一印，火烧令坚。",
+    "[S-H10-02] 中国古籍保护网李致忠文称，活字印刷术发明于宋代，最早记载毕昇发明泥活字的书是沈括的《梦溪笔谈》。",
+    "[S-H10-02] 该文转录《梦溪笔谈》卷十八的胶泥活字记述，转录中人名写作“毕升”。"
+  ],
+  "aiLimitations": [
+    "依据给定文献说明胶泥活字，不采用“比谷腾堡早约400年”的比较，不补毕昇卒年。",
+    "维基文库作“畢昇”，第二来源转录作“毕升”；异体写法待人工核对，不据此拆成不同人物。"
+  ],
+  "reviewStatus": "pending",
+  "assetLicense": "原创 SVG，艺术创作·非史料；许可与待审记录见 docs/ASSET_LICENSES.md。"
+}

@@ -75,7 +75,7 @@ describe("贴纸墙与本机进度展示", () => {
   });
 
   it("题库增加时总数动态变化，空题库进度条仍有效", () => {
-    const { rerender } = render(<StickerWall stickers={[...stickers, getSticker("H09")]} />);
+    const { rerender } = render(<StickerWall stickers={[...stickers, getSticker("H13")]} />);
     expect(screen.getByRole("status").textContent).toBe(`已查证 0/${topics.length + 1}`);
     expect(screen.getByRole("list", { name: "贴纸收藏" }).children).toHaveLength(topics.length + 1);
     rerender(<StickerWall stickers={[]} />);

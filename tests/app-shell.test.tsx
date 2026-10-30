@@ -54,7 +54,7 @@ describe("移动端共用壳层", () => {
   it.each([TrendingPage, DiscoverPage])("列表页移除标签，保留话题、统计和来源阅读入口：%s", (Page) => {
     render(<AppShell>{Page()}</AppShell>);
     expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
-    expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(8);
+    expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(12);
     expect(screen.getByText(/热度 1,286,400|点赞 35,600/)).toBeTruthy();
   });
 });

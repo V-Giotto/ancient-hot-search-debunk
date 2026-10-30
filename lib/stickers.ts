@@ -10,6 +10,10 @@ const themes: Record<string, { name: string; mark: string }> = {
   H06: { name: "器物手记", mark: "器" },
   H07: { name: "球场手记", mark: "球" },
   H08: { name: "晨间手记", mark: "晨" },
+  H09: { name: "守望手记", mark: "望" },
+  H10: { name: "活版手记", mark: "印" },
+  H11: { name: "语录手记", mark: "言" },
+  H12: { name: "兵书手记", mark: "书" },
 };
 
 export function getSticker(topicId: string): Sticker {

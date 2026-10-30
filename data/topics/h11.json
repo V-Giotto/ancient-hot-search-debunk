@@ -1,0 +1,138 @@
+{
+  "id": "H11",
+  "rank": 11,
+  "format": "chat",
+  "category": "语录查证",
+  "tags": [
+    "论语",
+    "以德报怨",
+    "群聊转发"
+  ],
+  "title": "#群聊语录刷屏：“以德报怨”真是孔子的主张？#",
+  "coverUrl": "/covers/h11.svg",
+  "coverAlt": "语录核对主题的聊天气泡与问号",
+  "author": {
+    "name": "语录转发核对组",
+    "bio": "群聊搬运｜转发之前，先认清谁在说话。",
+    "avatarUrl": "/avatars/reader.svg",
+    "fictitious": true
+  },
+  "body": "群里又收到一张处世语录卡，署名很熟悉，转发语气也很笃定，大家已经开始用它劝人了。核对组先把聊天气泡留在这里：这句话在原文里是谁说的，是提问还是回答，后面还有没有别的话？别让截图的裁切替你完成阅读，也别拿点赞数当出处。先找回对话上下文，再决定这张语录卡该不该继续转发。",
+  "simulatedHeat": 490000,
+  "simulatedLikes": 10500,
+  "simulatedComments": 880,
+  "simulatedReposts": 390,
+  "simulatedBookmarks": 2070,
+  "comments": [
+    {
+      "id": "H11-C01",
+      "author": "前排等资料",
+      "avatar": "/avatars/spectator.svg",
+      "role": "spectator",
+      "text": "群聊里每个人都在劝人，我先申请一个只看不转的座位。",
+      "simulatedLikes": 520
+    },
+    {
+      "id": "H11-C02",
+      "author": "慢读课代表",
+      "avatar": "/avatars/reader.svg",
+      "role": "history_nerd",
+      "text": "先认清哪句是提问、哪句是回答，语录卡的裁切范围也要查。",
+      "simulatedLikes": 483
+    },
+    {
+      "id": "H11-C03",
+      "author": "热度值班员",
+      "avatar": "/avatars/hype.svg",
+      "role": "troll",
+      "text": "转发文案写好了，出处这一栏怎么突然这么难填？",
+      "simulatedLikes": 446
+    },
+    {
+      "id": "H11-C04",
+      "author": "街巷围观客",
+      "avatar": "/avatars/changan.svg",
+      "role": "in_world",
+      "text": "本群慢读网友上线，先把气泡里的话读完再接龙。",
+      "simulatedLikes": 409
+    },
+    {
+      "id": "H11-C05",
+      "author": "上下文观察员",
+      "avatar": "/avatars/reader.svg",
+      "role": "history_nerd",
+      "text": "《论语·宪问》的上下文值得核对，别只摘下孤零零的一句。",
+      "simulatedLikes": 372
+    },
+    {
+      "id": "H11-C06",
+      "author": "收藏夹管理员",
+      "avatar": "/avatars/spectator.svg",
+      "role": "spectator",
+      "text": "我刚想转给朋友，朋友已经把同一张图转给我了。",
+      "simulatedLikes": 335
+    },
+    {
+      "id": "H11-C07",
+      "author": "书签借我用用",
+      "avatar": "/avatars/changan.svg",
+      "role": "in_world",
+      "text": "群聊气泡挤得下短句，未必挤得下全部上下文。",
+      "simulatedLikes": 298
+    },
+    {
+      "id": "H11-C08",
+      "author": "标题排版中",
+      "avatar": "/avatars/hype.svg",
+      "role": "troll",
+      "text": "先暂停转发接力，我的标题还没拿到资料区的通行证。",
+      "simulatedLikes": 261
+    }
+  ],
+  "claim": "“以德报怨”是孔子主张的处世原则。",
+  "isTrue": false,
+  "reveal": {
+    "verdictHeadline": "传世本的回答是“以直报怨”。",
+    "shortExplanation": "传世《论语·宪问》作“以直报怨，以德报德”。《论语注疏》卷十四中，“以德报怨，何如”是他人的提问，孔子先反问“何以报德”，再作上述回答；不能把提问直接当成孔子的主张。",
+    "detailedExplanation": "何晏注、邢昺疏《论语注疏》卷十四保留这一问答，疏称“此章論酬恩報怨之法也”。中央纪委国家监委网站文章也解释孔子不主张“以德报怨”，而主张“以直报怨”“以德报德”。本题以传世文本作判定，不把“直”的释义展开为单一定义，也不将某种学术异读替换成正文结论。",
+    "correctedClaim": "传世《论语·宪问》中，孔子回应“以德报怨”时主张“以直报怨，以德报德”。",
+    "funFact": "延伸与局限：有学者（吴昊亨，2023 年吉林大学博士论文）据楚简中“直”可表{德}的现象，提出“以直报怨”应读为“以德报怨”。这仅为学术异读，不作本题结论；传世本仍作“以直报怨”，“直”的释义有分歧。"
+  },
+  "sourceIds": [
+    "S-H11-01",
+    "S-H11-02",
+    "S-H11-03"
+  ],
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "只要一句话在《论语》中出现，就能直接当成孔子赞成的主张。",
+      "isBest": false,
+      "feedback": "问答中的说话者和语气必须分清，提问出现不等于孔子赞成。"
+    },
+    {
+      "id": "B",
+      "text": "传世《论语·宪问》中，孔子回应“以德报怨”时主张“以直报怨，以德报德”。",
+      "isBest": true,
+      "feedback": "这个版本将结论限定在给定来源支持的范围，并保留必要的文献归属。"
+    },
+    {
+      "id": "C",
+      "text": "这段话对“直”的意思只有一种没有分歧的解释。",
+      "isBest": false,
+      "feedback": "本题依据传世文本判断说话关系，不把有分歧的释义说成唯一解释。"
+    }
+  ],
+  "aiFacts": [
+    "[S-H11-01] 传世《论语注疏》卷十四的问答是他人问以德报怨如何，孔子反问何以报德，回答以直报怨、以德报德。",
+    "[S-H11-01] 该处疏称“此章論酬恩報怨之法也”。本题依据传世本作“以直报怨”，不把提问当成孔子主张。",
+    "[S-H11-02] 中央纪委国家监委网站《孔子对“以德报怨”怎么看？》解释，孔子不主张“以德报怨”，而是主张“以直报怨”“以德报德”。",
+    "[S-H11-03] 教育部《成语典》“以德报怨”条引《论语·宪问》这一问答，并注典故或见于《老子》第六三章。"
+  ],
+  "aiLimitations": [
+    "本题结论限于传世《论语·宪问》的问答，明确传世本作“以直报怨”；“直”的释义有分歧，不展开为单一定义。",
+    "有学者（吴昊亨，2023 年吉林大学博士论文）据楚简中“直”可表{德}的现象，提出“以直报怨”应读为“以德报怨”；仅作学术异读与局限，不作结论，不将该论文列为来源。"
+  ],
+  "reviewStatus": "pending",
+  "assetLicense": "原创 SVG，艺术创作·非史料；许可与待审记录见 docs/ASSET_LICENSES.md。"
+}

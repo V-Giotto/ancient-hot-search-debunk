@@ -22,7 +22,7 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     expect(() => validateContentSet([], [], { expectedCount: 0 })).not.toThrow();
   });
 
-  it("接受字段完整的单条 pending 话题，不要求凑满八条", () => {
+  it("接受字段完整的单条 pending 话题，不要求凑满十二条", () => {
     expect(() => validateContentSet([makeTopic()], sources, { expectedCount: 1 })).not.toThrow();
   });
 
@@ -138,37 +138,40 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     expect(() => validateContentSet([topic], sources)).not.toThrow();
   });
 
-  it("按 8 条真实题目启用 expectedCount=8 与真假 4:4 校验", () => {
+  it("按 12 条真实题目启用 expectedCount=12 与真假 6:6 校验", () => {
     const topics = getAllTopics();
-    expect(() => validateContentSet(topics, sourceIndex, { expectedCount: 8 })).not.toThrow();
-    expect(topics.filter((topic) => !topic.isTrue).map((topic) => topic.id)).toEqual(["H01", "H03", "H05", "H07"]);
-    expect(topics.filter((topic) => topic.isTrue).map((topic) => topic.id)).toEqual(["H02", "H04", "H06", "H08"]);
+    expect(() => validateContentSet(topics, sourceIndex, { expectedCount: 12 })).not.toThrow();
+    expect(topics.filter((topic) => !topic.isTrue).map((topic) => topic.id)).toEqual(["H01", "H03", "H05", "H07", "H11", "H12"]);
+    expect(topics.filter((topic) => topic.isTrue).map((topic) => topic.id)).toEqual(["H02", "H04", "H06", "H08", "H09", "H10"]);
   });
 
-  it("真实题库缺项或破坏 4:4 时校验失败", () => {
+  it("真实题库缺项或破坏 6:6 时校验失败", () => {
     const topics = getAllTopics();
-    expect(() => validateContentSet(topics.slice(0, 7), sourceIndex, { expectedCount: 8 })).toThrow(/题目数量应为 8/);
+    expect(() => validateContentSet(topics.slice(0, 11), sourceIndex, { expectedCount: 12 })).toThrow(/题目数量应为 12/);
     const unbalanced = topics.map((topic) => topic.id === "H06" ? { ...topic, isTrue: false } : topic);
-    expect(() => validateContentSet(unbalanced, sourceIndex, { expectedCount: 8 })).toThrow(/真假比例必须为 4:4/);
+    expect(() => validateContentSet(unbalanced, sourceIndex, { expectedCount: 12 })).toThrow(/真假比例必须为 6:6/);
   });
 
-  it("阶段4补充第二来源后仍为 H01–H08，排名连续，题目及来源全部 pending 且没有审核签名", () => {
+  it("阶段6扩至 H01–H12，排名连续，题目及来源全部 pending 且没有审核签名", () => {
     const topics = getAllTopics();
     expect(topics.map((topic) => [topic.id, topic.rank, topic.isTrue])).toEqual([
       ["H01", 1, false], ["H02", 2, true], ["H03", 3, false], ["H04", 4, true],
       ["H05", 5, false], ["H06", 6, true], ["H07", 7, false], ["H08", 8, true],
+      ["H09", 9, true], ["H10", 10, true], ["H11", 11, false], ["H12", 12, false],
     ]);
     expect(topics.every((topic) => topic.reviewStatus === "pending")).toBe(true);
     expect(sourceIndex.map((source) => source.id)).toEqual([
       "S-H01-01", "S-H01-02", "S-H02-01", "S-H02-02", "S-H02-03",
       "S-H03-01", "S-H03-02", "S-H03-03", "S-H04-01", "S-H04-02", "S-H04-03",
       "S-H05-01", "S-H05-02", "S-H06-01", "S-H06-02", "S-H07-01", "S-H07-02", "S-H08-01", "S-H08-02",
+      "S-H09-01", "S-H09-02", "S-H10-01", "S-H10-02", "S-H11-01", "S-H11-02", "S-H11-03", "S-H12-01", "S-H12-02",
     ]);
     const locators: Record<string, string> = {
       "S-H01-02": "卷二百二十四·與李十二白同尋範十隱居",
       "S-H02-01": "卷三·马行街铺席",
       "S-H02-02": "卷二·饮食果子",
       "S-H07-02": "卷六十九·苏秦列传·说齐宣王",
+      "S-H09-01": "卷三·防火", "S-H10-01": "卷十八", "S-H11-01": "卷十四·宪问",
     };
     for (const source of sourceIndex) {
       expect(source.status).toBe("pending");
@@ -187,6 +190,10 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     { id: "H06", best: "A", sources: ["S-H06-01", "S-H06-02"], corrected: "战国已有可借助冰块冷却酒饮的冰鉴等器具，不等于电冰箱。" },
     { id: "H07", best: "C", sources: ["S-H07-01", "S-H07-02"], corrected: "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。" },
     { id: "H08", best: "B", sources: ["S-H08-01", "S-H08-02"], corrected: "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。" },
+    { id: "H09", best: "A", sources: ["S-H09-01", "S-H09-02"], corrected: "北宋东京设望火楼瞭望火情，楼下驻军并备救火器具，遇火由军兵扑救。" },
+    { id: "H10", best: "C", sources: ["S-H10-01", "S-H10-02"], corrected: "据沈括《梦溪笔谈》，北宋庆历年间布衣毕昇以胶泥刻字、火烧令坚，制成活版。" },
+    { id: "H11", best: "B", sources: ["S-H11-01", "S-H11-02", "S-H11-03"], corrected: "传世《论语·宪问》中，孔子回应“以德报怨”时主张“以直报怨，以德报德”。" },
+    { id: "H12", best: "C", sources: ["S-H12-01", "S-H12-02"], corrected: "1972 年银雀山汉墓同时出土《孙子兵法》与《孙膑兵法》竹简，证实两部兵书各自传世。" },
   ])("$id 保持文案模板、八条四角色评论、指定改写及本题事实来源前缀", ({ id, best, sources, corrected }) => {
     const topic = getAllTopics().find((topic) => topic.id === id)!;
     expect(topic.author.fictitious).toBe(true);
@@ -233,17 +240,17 @@ describe("validateContentSet：当前题目的完整性规则", () => {
 
 });
 
-describe("validateContentSet：expectedCount=8 的首发校验（仅内存 fixture）", () => {
-  it("接受恰好 8 条且真假 4:4", () => {
-    expect(() => validateContentSet(makeTopics(8, 4), sources, { expectedCount: 8 })).not.toThrow();
+describe("validateContentSet：expectedCount=12 的扩容校验（仅内存 fixture）", () => {
+  it("接受恰好 12 条且真假 6:6", () => {
+    expect(() => validateContentSet(makeTopics(12, 6), sources, { expectedCount: 12 })).not.toThrow();
   });
 
-  it.each([0, 7, 9])("拒绝 %i 条题目", (count) => {
-    expect(() => validateContentSet(makeTopics(count), sources, { expectedCount: 8 })).toThrow(/题目数量应为 8/);
+  it.each([0, 11, 13])("拒绝 %i 条题目", (count) => {
+    expect(() => validateContentSet(makeTopics(count), sources, { expectedCount: 12 })).toThrow(/题目数量应为 12/);
   });
 
-  it.each([0, 3, 5, 8])("拒绝 8 条中 %i 真、其余假的比例", (trueCount) => {
-    expect(() => validateContentSet(makeTopics(8, trueCount), sources, { expectedCount: 8 })).toThrow(/真假比例必须为 4:4/);
+  it.each([0, 5, 7, 12])("拒绝 12 条中 %i 真、其余假的比例", (trueCount) => {
+    expect(() => validateContentSet(makeTopics(12, trueCount), sources, { expectedCount: 12 })).toThrow(/真假比例必须为 6:6/);
   });
 
   it("其他 expectedCount 也检查数量", () => {
@@ -313,5 +320,37 @@ describe("7.3 的类型及 Zod 字段约束", () => {
     expect(progress.selectedRewriteOptionId).toBe("C");
     expect(TopicProgressSchema.safeParse({ topicId: "TEST-1" }).success).toBe(false);
     expect(TopicProgressSchema.safeParse({ topicId: "TEST-1", revealed: "false" }).success).toBe(false);
+  });
+});
+
+describe("阶段6的形式与史实边界", () => {
+  it("旧题缺省 post，新题依次为 news/moments/chat/poll，公开题面保留 format", () => {
+    const topics = getAllTopics();
+    expect(topics.slice(0, 8).every((topic) => topic.format === undefined)).toBe(true);
+    expect(topics.slice(8).map((topic) => topic.format)).toEqual(["news", "moments", "chat", "poll"]);
+    for (const topic of topics) expect(toPublicTopic(topic).format).toBe(topic.format);
+    expect(HotTopicSchema.safeParse(makeTopic({ format: "video" as never })).success).toBe(false);
+    expect(HotTopicSchema.parse(makeTopic({ format: "post" })).format).toBe("post");
+  });
+
+  it("原文字形差异及传世本/异读被记录，异读不混入事实卡或来源", () => {
+    const [h09, h10, h11, h12] = getAllTopics().slice(8);
+    expect(h09.aiFacts.join("")).toContain("酒子");
+    expect(h09.aiLimitations.join("")).toContain("洒子");
+    expect(h10.aiLimitations.join("")).toContain("毕升");
+    expect(h11.reveal.shortExplanation).toContain("传世");
+    expect(h11.reveal.shortExplanation).toContain("以直报怨");
+    expect(h11.reveal.funFact).toContain("吴昊亨");
+    expect(h11.aiLimitations.join("")).toContain("仅作学术异读");
+    expect(h11.aiFacts.join("")).not.toContain("吴昊亨");
+    expect(sourceIndex.filter((source) => source.id.startsWith("S-H11-"))).toHaveLength(3);
+    expect(JSON.stringify(sourceIndex)).not.toMatch(/論語\/憲問第十四|吴昊亨/);
+    expect(h12.aiLimitations.join("")).toContain("抄写时期");
+    for (const topic of [h09, h10, h11, h12]) {
+      for (const comment of topic.comments) {
+        expect(comment.text).not.toContain(topic.reveal.correctedClaim);
+        expect(comment.text).not.toMatch(/查证属实|谣言退散|核心主张为[真假]|1972|以直报怨|火烧令坚/);
+      }
+    }
   });
 });

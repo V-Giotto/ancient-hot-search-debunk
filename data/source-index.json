@@ -188,5 +188,95 @@
     "locator": "",
     "kind": "museum",
     "status": "pending"
+  },
+  {
+    "id": "S-H09-01",
+    "title": "孟元老《东京梦华录》卷三·防火",
+    "organization": "维基文库",
+    "url": "https://zh.wikisource.org/wiki/東京夢華錄/卷三",
+    "supports": "高处砖砌望火楼，楼上有人卓望；楼下官屋屯驻军兵百余人，备救火器具；遇火马军奔报，各领军级扑灭，不劳百姓。raw 页面器具名作“酒子”。",
+    "locator": "卷三·防火",
+    "kind": "primary",
+    "status": "pending"
+  },
+  {
+    "id": "S-H09-02",
+    "title": "周乾《望火楼：中国古代消防站》（2024-01-19）",
+    "organization": "人民周刊网转载科技日报",
+    "url": "https://www.peopleweekly.cn/html/2024/wenshi_0119/193664.html",
+    "supports": "介绍北宋汴京高处设望火楼、楼上专人瞭望，楼下屯潜火兵上百人，配备桶、洒子、麻搭等器具；解释“潜火”即防火之意。作者周乾称望火楼“是我国古代较早的消防站”，须保留归属。",
+    "locator": "",
+    "kind": "public_culture",
+    "status": "pending"
+  },
+  {
+    "id": "S-H10-01",
+    "title": "沈括《梦溪笔谈》卷十八",
+    "organization": "维基文库",
+    "url": "https://zh.wikisource.org/wiki/夢溪筆談/卷18",
+    "supports": "“慶曆中，有布衣畢昇，又為活版。其法用膠泥刻字，薄如錢唇，每字為一印，火燒令堅。”支持毕昇胶泥活字的记述。",
+    "locator": "卷十八",
+    "kind": "primary",
+    "status": "pending"
+  },
+  {
+    "id": "S-H10-02",
+    "title": "李致忠《小知识│何谓活字印刷术？》",
+    "organization": "中国古籍保护网（国家古籍保护中心）",
+    "url": "https://www.nlc.cn/pcab/zlyj/zlyj_djsh/20190418_177776.shtml",
+    "supports": "介绍活字印刷术发明于宋代，最早记载毕昇发明泥活字的书是沈括《梦溪笔谈》，转录卷十八原文，人名转录作“毕升”。",
+    "locator": "",
+    "kind": "academic",
+    "status": "pending"
+  },
+  {
+    "id": "S-H11-01",
+    "title": "何晏注、邢昺疏《论语注疏》卷十四",
+    "organization": "维基文库",
+    "url": "https://zh.wikisource.org/wiki/論語註疏/卷14",
+    "supports": "“或曰：以德報怨，何如？子曰：何以報德？以直報怨，以德報德。”疏：“此章論酬恩報怨之法也。”支持传世本作“以直报怨”。",
+    "locator": "卷十四·宪问",
+    "kind": "primary",
+    "status": "pending"
+  },
+  {
+    "id": "S-H11-02",
+    "title": "孔子对“以德报怨”怎么看？",
+    "organization": "中央纪委国家监委网站",
+    "url": "https://m.ccdi.gov.cn/content/45/bc/3189.html",
+    "supports": "解释孔子不主张“以德报怨”，而主张“以直报怨”“以德报德”。",
+    "locator": "",
+    "kind": "public_culture",
+    "status": "pending"
+  },
+  {
+    "id": "S-H11-03",
+    "title": "教育部《成语典》“以德报怨”条",
+    "organization": "教育部《成语典》",
+    "url": "https://dict.idioms.moe.edu.tw/idiomView.jsp?ID=-601",
+    "supports": "引《论语·宪问》问答，孔子回答“以直报怨，以德报德”；注典故或见于《老子》第六三章。",
+    "locator": "",
+    "kind": "academic",
+    "status": "pending"
+  },
+  {
+    "id": "S-H12-01",
+    "title": "银雀山《孙子兵法》竹简",
+    "organization": "中国国家博物馆",
+    "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202108/t20210806_250983.shtml",
+    "supports": "竹简抄成于西汉文、景至武帝初期；《孙子兵法》简三百多枚，为《吴孙子》十三篇足本并有佚书四篇；同出土的还有《孙膑兵法》，证实孙武仕吴、孙膑仕齐，各有兵法传世的记载。",
+    "locator": "",
+    "kind": "museum",
+    "status": "pending"
+  },
+  {
+    "id": "S-H12-02",
+    "title": "山东“银雀山汉墓竹简”：含“孙子兵法”“孙膑兵法”（2015-03-13）",
+    "organization": "人民网转载大众日报",
+    "url": "http://culture.people.com.cn/n/2015/0313/c172318-26689128.html",
+    "supports": "1972 年临沂银雀山两座汉墓出土竹简；《汉书·艺文志》著录《吴孙子》《齐孙子》；唐宋以来或以为兵法为孙膑所著，两书同时发掘使长期疑问得到解决。",
+    "locator": "",
+    "kind": "public_culture",
+    "status": "pending"
   }
 ]

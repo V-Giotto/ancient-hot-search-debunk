@@ -9,7 +9,7 @@ import { chromium } from "playwright";
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
 const port = process.env.E2E_PORT || "3123";
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
-const output = path.resolve("artifacts/stage-5");
+const output = path.resolve("artifacts/stage-6");
 const screenshots = path.join(output, "screenshots");
 const scenarios = [
   { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 2 },
@@ -20,6 +20,10 @@ const scenarios = [
   { id: "H06", answer: true, best: "A", wrong: "B", sourceCount: 2 },
   { id: "H07", answer: false, best: "C", wrong: "A", sourceCount: 2 },
   { id: "H08", answer: true, best: "B", wrong: "A", sourceCount: 2 },
+  { id: "H09", answer: true, best: "A", wrong: "B", sourceCount: 2, format: "news" },
+  { id: "H10", answer: true, best: "C", wrong: "A", sourceCount: 2, format: "moments" },
+  { id: "H11", answer: false, best: "B", wrong: "A", sourceCount: 3, format: "chat" },
+  { id: "H12", answer: false, best: "C", wrong: "A", sourceCount: 2, format: "poll" },
 ];
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 await mkdir(output, { recursive: true });
@@ -303,6 +307,7 @@ try {
   await focusVisible(page.locator(":focus"));
 
   const flows = [];
+  const formatChecks = [];
   for (const scenario of scenarios) {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     const { id, answer, best, wrong, sourceCount } = scenario;
@@ -327,7 +332,29 @@ try {
     await visible(page.getByLabel("互动统计"));
     await visible(page.getByLabel("互动统计").getByText(topic.simulatedLikes.toLocaleString("zh-CN"), { exact: true }));
     assert.ok(topic.comments.every((comment) => !comment.text.includes(topic.reveal.correctedClaim) && !/核心主张为[真假]|查证属实|谣言退散|正确(?:答案|选项)[：:]/.test(comment.text)), `${id} 评论直接泄漏结论`);
-    await mobileGeometry(page, `${id} 初始帖子与判题区`);
+    const initialGeometry = await mobileGeometry(page, `${id} 初始帖子与判题区`);
+    assert.equal(await page.locator("article[data-format]").getAttribute("data-format"), scenario.format || "post");
+    if (scenario.format) {
+      formatChecks.push({ id, format: scenario.format, ...initialGeometry });
+      await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
+      await screenshotAt(page, page.locator("main"), `post-${id}-top-390x844.png`);
+    }
+    if (id === "H12") {
+      const poll = page.getByRole("region", { name: "直觉投票", exact: true });
+      assert.equal(await poll.getByText("42%", { exact: true }).count(), 0);
+      assert.equal(await poll.getByText("58%", { exact: true }).count(), 0);
+      const savedBeforeVote = await page.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
+      const verdictCallsBeforeVote = verdictCalls;
+      // 投与后续判题相反的直觉，确认投票不会输入判题或解锁贴纸。
+      await poll.getByRole("button", { name: "直觉：同一部书", exact: true }).click();
+      await visible(poll.getByText("42%", { exact: true }));
+      await visible(poll.getByText("58%", { exact: true }));
+      assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:poll:v1:H12")), "same");
+      assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), savedBeforeVote);
+      assert.equal(verdictCalls, verdictCallsBeforeVote);
+      assert.ok(await page.getByRole("button", { name: "提交判断", exact: true }).isDisabled());
+      formatChecks.push({ id, format: "poll", ...(await mobileGeometry(page, "H12 投票后固定比例与原判题区")), pollSavedSeparately: true });
+    }
     if (id === "H03") {
       await screenshotAt(page, page.locator("main"), "post-H03-top-390x844.png");
       await screenshotAt(page, page.locator(".task-panel"), "post-H03-task-390x844.png");
@@ -382,6 +409,7 @@ try {
     assert.equal(await page.getByText("待人工审核", { exact: true }).count(), sourceCount);
     await mobileGeometry(page, `${id} 揭晓与展开来源`);
     if (id === "H03") await revealScreenshot(page, "post-H03-reveal-390x844.png");
+    if (id === "H11") await revealScreenshot(page, "post-H11-reveal-390x844.png");
     const links = await page.locator('a[target="_blank"]').evaluateAll((nodes) => nodes.map((node) => ({ href: node.href, rel: node.rel })));
     assert.deepEqual(links.map((link) => link.href), topic.sourceIds.map((sourceId) => new URL(sourceIndex.find((source) => source.id === sourceId).url).href));
     assert.ok(links.every((link) => link.rel.includes("noopener")));
@@ -439,6 +467,13 @@ try {
     await page.reload();
     await visible(page.getByText("重温本条 · 已恢复上次答案，不重复累计。", { exact: true }));
     assert.equal(verdictCalls, callsBefore + 2);
+    if (id === "H12") {
+      const poll = page.getByRole("region", { name: "直觉投票", exact: true });
+      await visible(poll.getByText("42%", { exact: true }));
+      await visible(poll.getByText("58%", { exact: true }));
+      assert.ok(await poll.getByRole("button", { pressed: true }).textContent().then((text) => text.includes("同一部书")));
+      assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:poll:v1:H12")), "same");
+    }
     assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
     await visible(page.getByText("改写正确，这样说更准确。", { exact: true }));
     await page.emulateMedia({ reducedMotion: "reduce" });
@@ -491,6 +526,14 @@ try {
       }
       const scenario = scenarios.find(({ id }) => route === `/post/${id}`);
       if (scenario) {
+        if (scenario.format) assert.equal(await mobile.locator("article[data-format]").getAttribute("data-format"), scenario.format);
+        if (scenario.id === "H12") {
+          const poll = mobile.getByRole("region", { name: "直觉投票", exact: true });
+          await poll.getByRole("button", { name: "直觉：两部书", exact: true }).click();
+          await visible(poll.getByText("42%", { exact: true }));
+          await visible(poll.getByText("58%", { exact: true }));
+          geometry.push(await mobileGeometry(mobile, "H12 移动端投票后"));
+        }
         await mobile.getByRole("button", { name: /展开更多评论/ }).click();
         await mobileGeometry(mobile, `${route} 评论展开`);
         await mobile.getByRole("radio", { name: scenario.answer ? "是真的" : "是假的", exact: true }).check();
@@ -548,7 +591,7 @@ try {
   assert.equal(await page.locator('.shell-sticky-rail, .shell-right-rail, canvas, [class*="qr" i], [id*="qr" i]').count(), 0);
   await page.screenshot({ path: path.join(screenshots, "trending-desktop-1440x900.png"), animations: "disabled" });
   await page.goto(`${baseURL}/discover`);
-  assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), 8);
+  assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), scenarios.length);
   const discoverLinks = await page.locator('[aria-label="发现话题"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   assert.deepEqual(discoverLinks, scenarios.map(({ id }) => `/post/${id}`));
   const columns = await page.locator('[aria-label="发现话题"]').evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(" ").length);
@@ -582,7 +625,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "H03", answer: "false" }) })).status, 400);
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
-  const summary = { passed: true, flow: "首页 → trending → H01–H08 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、提交后 1/N、贴纸解锁回帖、刷新恢复、重温去重、清除归零；答错也解锁；八题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、提交后 1/N、贴纸解锁回帖、刷新恢复、重温去重、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

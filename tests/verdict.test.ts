@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { getTopicById } from "@/lib/topics";
+import { getAllTopics, getTopicById } from "@/lib/topics";
 import { toPublicTopic } from "@/lib/public-topic";
 import { judgeAnswer } from "@/lib/verdict";
 
@@ -13,12 +13,12 @@ describe("judgeAnswer：只以服务端真值判题", () => {
     expect(judgeAnswer(getTopicById("H03")!, answer)).toEqual({ isTrue: false, isCorrect: !answer });
   });
 
-  it("初始客户端题面显式排除答案、来源、改写与事实卡", () => {
-    const safe = toPublicTopic(getTopicById("H03")!);
+  it.each(getAllTopics())("$id 初始客户端题面显式排除答案、来源、改写与事实卡", (topic) => {
+    const safe = toPublicTopic(topic);
     const serialized = JSON.stringify(safe);
     for (const field of ["isTrue", "reveal", "sourceIds", "sources", "rewriteOptions", "isBest", "feedback", "aiFacts", "aiLimitations"]) {
       expect(serialized).not.toContain(`"${field}"`);
     }
-    expect(safe.claim).toBe("唐代中国已经使用原产美洲的辣椒进行调味。");
+    expect(safe.claim).toBe(topic.claim);
   });
 });
