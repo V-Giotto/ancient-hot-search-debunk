@@ -7,6 +7,7 @@ import { EmptyState } from "@/components/shell/EmptyState";
 import type { PublicTopic } from "@/lib/public-topic";
 import { trendingTag, trendingTagClass } from "@/lib/trending-tag";
 import { StatusIcon, type StatusIconName } from "@/components/social/StatusIcon";
+import { MobileBriefing } from "@/components/shell/RightRail";
 
 const tagIcons: Record<ReturnType<typeof trendingTag>, StatusIconName> = { 爆: "burst", 热: "flame", 新: "spark" };
 
@@ -14,7 +15,7 @@ export type TrendingTopic = Pick<PublicTopic,
   "id" | "rank" | "category" | "title" | "simulatedHeat" | "coverUrl" | "coverAlt"
 >;
 
-export function TrendingBoard({ topics }: { topics: readonly TrendingTopic[] }) {
+export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.id) }: { topics: readonly TrendingTopic[]; topicIds?: readonly string[] }) {
   const [category, setCategory] = useState<string | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const id = useId();
@@ -71,13 +72,14 @@ export function TrendingBoard({ topics }: { topics: readonly TrendingTopic[] }) 
       </div>
 
       <div className="trending-progress">
-        <CollectionProgress topicIds={topics.map((topic) => topic.id)} compact />
+        <CollectionProgress topicIds={topicIds} compact />
       </div>
+      <MobileBriefing />
 
       <section role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-tab-${selectedIndex}`}>
         <div className="trending-list-heading">
-          <h2>{category ?? "全站热搜"}</h2>
-          <p aria-live="polite" aria-atomic="true">{filteredTopics.length} 条话题 · 按热度排序</p>
+          <h2>{category ?? "热点快讯"}</h2>
+          <p aria-live="polite" aria-atomic="true">{filteredTopics.length} 条快讯 · 按热度排序</p>
         </div>
         {topics.length === 0 ? <EmptyState /> : (
           <ol aria-label="热搜排行" className="trending-list">
@@ -89,7 +91,7 @@ export function TrendingBoard({ topics }: { topics: readonly TrendingTopic[] }) 
                     <span aria-label={`第 ${topic.rank} 名`} data-testid="trending-rank" className={`trending-rank trending-rank-${topic.rank <= 3 ? topic.rank : "rest"}`}>{topic.rank}</span>
                     <div className="trending-copy">
                       <h3>{topic.title}</h3>
-                      <p>{(topic.simulatedHeat / 10000).toLocaleString("zh-CN", { maximumFractionDigits: 1 })} 万热度</p>
+                      <p><span className="news-category">{topic.category}</span> · {(topic.simulatedHeat / 10000).toLocaleString("zh-CN", { maximumFractionDigits: 1 })} 万热度</p>
                     </div>
                     <div className="trending-media">
                       <span data-testid="trending-tag" className={`trending-tag ${trendingTagClass[tag]}`}><StatusIcon name={tagIcons[tag]} size={12} /><span>{tag}</span></span>

@@ -18,6 +18,7 @@ export function makeTopic(overrides: Partial<HotTopic> = {}): HotTopic {
   return {
     id: "TEST-1",
     rank: 1,
+    module: "trending",
     category: "合成测试",
     tags: ["测试"],
     title: "合成测试话题，非历史内容",

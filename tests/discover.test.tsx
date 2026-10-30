@@ -7,6 +7,15 @@ import { DiscoverFeed } from "@/components/discover/DiscoverFeed";
 afterEach(cleanup);
 
 describe("发现页", () => {
+  it("实际发现页仅有发现题目，无匹配时仍能前往热榜第一条", () => {
+    render(DiscoverPage());
+    const firstTrending = getAllTopics().find((topic) => topic.module === "trending")!;
+    const briefing = screen.getByRole("complementary", { name: "页内公告与守则" });
+    expect(briefing.compareDocumentPosition(screen.getByRole("list", { name: "发现话题" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    fireEvent.change(screen.getByRole("searchbox", { name: "筛选话题" }), { target: { value: "无匹配的关键词" } });
+    expect(screen.getByRole("link", { name: "从热榜第 1 条开始" }).getAttribute("href")).toBe(`/post/${firstTrending.id}`);
+  });
+
   it("筛选无结果时引导到全榜第 1 条，清除后恢复完整列表", () => {
     const topics = getAllTopics().toReversed();
     render(<DiscoverFeed topics={topics} />);
@@ -37,7 +46,7 @@ describe("发现页", () => {
 
   it("完整题库卡片链接相同帖子，封面/两行标题/作者与原创心形统计各一份", () => {
     render(DiscoverPage());
-    const topics = getAllTopics();
+    const topics = getAllTopics().filter((topic) => topic.module === "discover");
     const list = screen.getByRole("list", { name: "发现话题" });
     const cards = within(list).getAllByRole("listitem");
     expect(cards).toHaveLength(topics.length);
@@ -46,7 +55,7 @@ describe("发现页", () => {
       const link = within(card).getByRole("link");
       expect(link.getAttribute("href")).toBe(`/post/${topic.id}`);
       expect(card.querySelector(".discover-cover")!.getAttribute("src")).toBe(topic.coverUrl);
-      expect(within(card).getByRole("heading").textContent).toBe(topic.title.replaceAll("#", "").replace("家人们谁懂啊！", ""));
+      expect(within(card).getByRole("heading").textContent).toBe(topic.title);
       expect(card.querySelector(".discover-author")!.textContent).toBe(topic.author.name);
       expect(card.querySelector(".discover-likes")!.getAttribute("title")).toBe(topic.simulatedLikes.toLocaleString("zh-CN"));
       expect(card.querySelector('svg[data-social-icon="like"]')).toBeTruthy();

@@ -1,6 +1,7 @@
 {
   "id": "H09",
   "rank": 9,
+  "module": "trending",
   "format": "news",
   "category": "城市守望",
   "tags": [
@@ -8,7 +9,7 @@
     "东京快讯",
     "防火"
   ],
-  "title": "#东京望火楼冲上热搜：楼下也有救火配置？#",
+  "title": "东京望火楼冲上热搜：楼下也有救火配置？",
   "coverUrl": "/covers/h09.svg",
   "coverAlt": "望火楼主题的观察窗、警讯线与问号图形",
   "author": {

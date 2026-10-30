@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { MobileBriefing } from "@/components/shell/RightRail";
 import { AppShell } from "@/components/shell/AppShell";
 import TrendingPage from "@/app/trending/page";
 import DiscoverPage from "@/app/discover/page";
@@ -38,6 +39,16 @@ describe("AppShell 内容模式提示", () => {
 });
 
 describe("移动端共用壳层", () => {
+  it("左右侧栏是手机列的同级元素，移动公告位于列表之前", () => {
+    const { container } = render(TrendingPage());
+    const frame = container.querySelector(".app-layout")!;
+    expect([...frame.children].map((node) => node.className)).toEqual(["desktop-rail left-rail", "app-shell", "desktop-rail right-rail"]);
+    const main = screen.getByRole("main");
+    const briefing = within(main).getByRole("complementary", { name: "页内公告与守则" });
+    expect(briefing.compareDocumentPosition(within(main).getByRole("list", { name: "热搜排行" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(main.lastElementChild).not.toBe(briefing);
+  });
+
   it.each([
     [DiscoverPage, "发现"], [StickersPage, "贴纸档案"], [NotFound, "页面未找到"],
   ] as const)("%s 使用返回与页面标题的紧凑顶栏", (Page, title) => {
@@ -62,13 +73,13 @@ describe("移动端共用壳层", () => {
 
   it.each(["/trending", "/discover", "/stickers", "/post/H03", "/missing"])("%s 保留三 Tab 与主内容内可展开的公告、守则", (pathname) => {
     route.pathname = pathname;
-    render(<AppShell><h1>页面内容</h1></AppShell>);
+    render(<AppShell><MobileBriefing /><h1>页面内容</h1></AppShell>);
     const navigation = screen.getByRole("navigation", { name: "主导航" });
     const links = within(navigation).getAllByRole("link");
     expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["▧贴纸", "/stickers"]]);
     for (const link of links) expect(link.getAttribute("aria-current")).toBe(pathname === link.getAttribute("href") ? "page" : null);
     const main = screen.getByRole("main");
-    const information = within(main).getByRole("complementary", { name: "辟谣局信息" });
+    const information = within(main).getByRole("complementary", { name: "页内公告与守则" });
     for (const title of ["辟谣局公告", "今天的吃瓜守则"]) {
       const summary = within(information).getByText(title);
       const details = summary.closest("details")!;
@@ -85,8 +96,8 @@ describe("移动端共用壳层", () => {
   it.each([TrendingPage, DiscoverPage])("列表页移除标签，保留话题、统计和来源阅读入口：%s", (Page) => {
     render(Page());
     expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
-    expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(12);
-    if (Page === DiscoverPage) expect(screen.getByTitle("35,600").textContent).toContain("3.6万");
-    else expect(screen.getByText("128.6 万热度")).toBeTruthy();
+    expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(6);
+    if (Page === DiscoverPage) expect(screen.getByRole("list", { name: "发现话题" })).toBeTruthy();
+    else expect(screen.getByText(/128\.6 万热度/)).toBeTruthy();
   });
 });

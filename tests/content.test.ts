@@ -197,8 +197,8 @@ describe("validateContentSet：当前题目的完整性规则", () => {
   ])("$id 保持文案模板、八条四角色评论、指定改写及本题事实来源前缀", ({ id, best, sources, corrected }) => {
     const topic = getAllTopics().find((topic) => topic.id === id)!;
     expect(topic.author.fictitious).toBe(true);
-    expect([...topic.title].length).toBeGreaterThanOrEqual(20);
-    expect([...topic.title].length).toBeLessThanOrEqual(45);
+    expect([...topic.title].length).toBeGreaterThanOrEqual(18);
+    expect([...topic.title].length).toBeLessThanOrEqual(43);
     expect([...topic.body].length).toBeGreaterThanOrEqual(80);
     expect([...topic.body].length).toBeLessThanOrEqual(150);
     expect(topic.comments).toHaveLength(8);
@@ -345,9 +345,51 @@ describe("7.3 的类型及 Zod 字段约束", () => {
 });
 
 describe("阶段6的形式与史实边界", () => {
-  it("全部标题使用紧贴正文的成对 #，无混用或重复的句末标点", () => {
+  it("每题只归属一个模块，各六题且各三真三假，公开题面保留归属", () => {
+    const topics = getAllTopics();
+    for (const module of ["trending", "discover"] as const) {
+      const members = topics.filter((topic) => topic.module === module);
+      expect(members).toHaveLength(6);
+      expect(members.filter((topic) => topic.isTrue)).toHaveLength(3);
+      expect(members.every((topic) => toPublicTopic(topic).module === module)).toBe(true);
+    }
+    expect(HotTopicSchema.safeParse({ ...makeTopic(), module: "other" }).success).toBe(false);
+    const { module: _module, ...missing } = makeTopic();
+    expect(HotTopicSchema.safeParse(missing).success).toBe(false);
+  });
+
+  it("发现回复仅使用指定围观语气，作者身份一致，楼中楼父节点完整", () => {
+    const allowed = new Set([
+      "来了来了，评论我看到了！先一起围观，别急着替我下结论。",
+      "收到，前排的椅子搬好了，等大家一起看完再聊。",
+      "这楼先留着，等你看完回来接着聊。",
+    ]);
     for (const topic of getAllTopics()) {
-      expect(topic.title).toMatch(/^#[^#\s].*[^#\s]#$/);
+      const comment = topic.comments[0];
+      const replies = comment.replies ?? [];
+      if (topic.module === "trending") { expect(replies).toHaveLength(0); continue; }
+      expect(replies).toHaveLength(3);
+      expect(replies.map((reply) => reply.author)).toEqual([topic.author.name, comment.author, topic.author.name]);
+      const ids = new Set([comment.id]);
+      for (const reply of replies) {
+        expect(ids.has(reply.id)).toBe(false);
+        expect(ids.has(reply.replyTo)).toBe(true);
+        expect(allowed.has(reply.text)).toBe(true);
+        ids.add(reply.id);
+      }
+    }
+  });
+
+  it.each(["missing", "cycle", "duplicate"])("拒绝无效回复线程：%s", (kind) => {
+    const topic = makeTopic();
+    topic.comments[0].replies = [{ id: kind === "duplicate" ? "COMMENT-1" : "R1", replyTo: kind === "missing" ? "UNKNOWN" : kind === "cycle" ? "R1" : "COMMENT-1", author: "测试网友", text: "围观中" }];
+    expect(() => validateContentSet([topic], [makeSource()])).toThrow(/回复线程/);
+  });
+
+  it("全部标题不含 #，无首尾空白或重复的句末标点", () => {
+    for (const topic of getAllTopics()) {
+      expect(topic.title).not.toContain("#");
+      expect(topic.title).toBe(topic.title.trim());
       expect(topic.title).not.toMatch(/\s#|#\s|[！？，。]{2,}/);
     }
   });

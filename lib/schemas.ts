@@ -23,6 +23,15 @@ export const SourceSchema = z.strictObject({
 });
 export type Source = z.infer<typeof SourceSchema>;
 
+export const CommentReplySchema = z.strictObject({
+  id: nonEmptyText,
+  replyTo: nonEmptyText,
+  author: nonEmptyText,
+  avatar: z.string().optional(),
+  text: nonEmptyText,
+});
+export type CommentReply = z.infer<typeof CommentReplySchema>;
+
 export const CommentSchema = z.strictObject({
   id: nonEmptyText,
   author: nonEmptyText,
@@ -33,6 +42,7 @@ export const CommentSchema = z.strictObject({
   simulatedReplies: simulatedCount.optional(),
   simulatedReposts: simulatedCount.optional(),
   simulatedViews: simulatedCount.optional(),
+  replies: z.array(CommentReplySchema).optional(),
 });
 export type Comment = z.infer<typeof CommentSchema>;
 
@@ -47,6 +57,7 @@ export type RewriteOption = z.infer<typeof RewriteOptionSchema>;
 export const HotTopicSchema = z.strictObject({
   id: nonEmptyText,
   rank: z.number().int().positive(),
+  module: z.enum(["trending", "discover"]),
   format: z.enum(["post", "news", "moments", "chat", "poll"]).optional(),
   category: nonEmptyText,
   tags: z.array(nonEmptyText),

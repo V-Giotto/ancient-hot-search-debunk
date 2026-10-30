@@ -1,9 +1,10 @@
 {
   "id": "H06",
   "rank": 6,
+  "module": "discover",
   "category": "科技文物",
   "tags": ["青铜冰鉴", "冰饮开箱", "古代器物"],
-  "title": "#战国冰饮开箱引围观：青铜器也能给酒饮降温？#",
+  "title": "战国冰饮开箱引围观：青铜器也能给酒饮降温？",
   "coverUrl": "/covers/h06.svg",
   "coverAlt": "青铜套器与冰饮开箱贴纸插画",
   "author": {
@@ -21,7 +22,11 @@
   "simulatedReposts": 620,
   "simulatedBookmarks": 2670,
   "comments": [
-    { "id": "H06-C01", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "开箱还没开始，我已经把空杯子拿来了。围观能附赠一点凉快吗？", "simulatedLikes": 473, "simulatedReplies": 7, "simulatedReposts": 6, "simulatedViews": 3990 },
+    { "id": "H06-C01", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "开箱还没开始，我已经把空杯子拿来了。围观能附赠一点凉快吗？", "simulatedLikes": 473, "simulatedReplies": 7, "simulatedReposts": 6, "simulatedViews": 3990, "replies": [
+      {"id": "H06-C01-R1", "replyTo": "H06-C01", "author": "楚地贵族生活家", "avatar": "/avatars/changan.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
+      {"id": "H06-C01-R2", "replyTo": "H06-C01-R1", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
+      {"id": "H06-C01-R3", "replyTo": "H06-C01-R2", "author": "楚地贵族生活家", "avatar": "/avatars/changan.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+    ] },
     { "id": "H06-C02", "author": "结构图先别滑走", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "先把盛酒的位置和器物之间的空间分开看，别只盯着开箱标签。", "simulatedLikes": 604, "simulatedReplies": 8, "simulatedReposts": 4, "simulatedViews": 4968 },
     { "id": "H06-C03", "author": "开箱标题批发部", "avatar": "/avatars/hype.svg", "role": "troll", "text": "封面排面给满，标题热度拉高。至于杯子，评论区请自备！", "simulatedLikes": 218, "simulatedReplies": 9, "simulatedReposts": 2, "simulatedViews": 2327 },
     { "id": "H06-C04", "author": "楚地宴席围观员", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本宴席网友先申请坐下，主家的开箱话题比我的杯子还抢镜。", "simulatedLikes": 315, "simulatedReplies": 10, "simulatedReposts": 0, "simulatedViews": 3067 },

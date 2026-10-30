@@ -6,7 +6,8 @@ import { saveProgress } from "@/lib/progress";
 import { getAllTopics } from "@/lib/topics";
 import { trendingTag, trendingTagClass } from "@/lib/trending-tag";
 
-const topics = getAllTopics();
+const allTopics = getAllTopics();
+const topics = allTopics.filter((topic) => topic.module === "trending").map((topic, index) => ({ ...topic, rank: index + 1 }));
 const categories = [...new Set(topics.map((topic) => topic.category))];
 const ranking = () => screen.getByRole("list", { name: "热搜排行" });
 
@@ -26,8 +27,7 @@ describe("移动端热榜", () => {
     render(TrendingPage());
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("古代热搜辟谣局");
     expect(screen.getByText("让古人上热搜，让你来辟谣。")).toBeTruthy();
-    expect(screen.getByText("128.6 万热度")).toBeTruthy();
-    expect(screen.getByText("50 万热度")).toBeTruthy();
+    expect(screen.getByText(/128\.6 万热度/)).toBeTruthy();
     const rows = within(ranking()).getAllByRole("listitem");
     expect(rows).toHaveLength(topics.length);
     rows.forEach((row, index) => {
@@ -65,8 +65,8 @@ describe("移动端热榜", () => {
       expect(within(ranking()).getAllByRole("link").map((link) => link.getAttribute("href"))).toEqual(expected.map((topic) => `/post/${topic.id}`));
       expect(within(ranking()).getAllByTestId("trending-rank").map((rank) => rank.textContent)).toEqual(expected.map((topic) => String(topic.rank)));
       expect(within(ranking()).getAllByTestId("trending-tag").map((tag) => tag.textContent)).toEqual(expected.map((topic) => trendingTag(topic.rank, topics.length)));
-      expect(screen.getByRole("status").textContent).toBe(`已查证 1/${topics.length}`);
-      expect(screen.getByRole("progressbar").getAttribute("max")).toBe(String(topics.length));
+      expect(screen.getByRole("status").textContent).toBe(`已查证 1/${allTopics.length}`);
+      expect(screen.getByRole("progressbar").getAttribute("max")).toBe(String(allTopics.length));
       expect(screen.getByRole("link", { name: "贴纸墙 →" }).getAttribute("href")).toBe("/stickers");
     }
     fireEvent.click(tabs[0]);

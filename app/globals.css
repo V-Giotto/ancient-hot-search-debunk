@@ -286,3 +286,49 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
     scroll-behavior: auto !important;
   }
 }
+
+/* 宽屏保留居中手机列，两侧为独立的阅读辅助区。 */
+.desktop-rail { display: none; }
+.mobile-briefing { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: start; margin-block: 10px 14px; }
+.mobile-briefing details { min-width: 0; border: 1px solid #d6ad7240; border-radius: 10px; background: #fffaf3; padding-inline: 10px; }
+.mobile-briefing summary { font-size: 11px; white-space: nowrap; }
+.briefing-text { color: #6e695f; font-size: 13px; line-height: 1.9; }
+.mobile-briefing .briefing-text { padding-block: 4px 12px; font-size: 12px; }
+.briefing-rules { display: grid; gap: 18px; margin-top: 20px; color: #625c53; font-size: 13px; line-height: 1.9; }
+.briefing-rules li { display: flex; gap: 10px; }
+.briefing-rules li > span { flex-shrink: 0; color: #997747; font-size: 11px; font-variant-numeric: tabular-nums; }
+.mobile-briefing .briefing-rules { margin-top: 4px; padding-bottom: 12px; gap: 10px; font-size: 12px; }
+.trending-page > .mobile-briefing { margin: 6px 16px 0; }
+.news-category { color: #8a6c43; }
+.news-masthead { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-block: 20px 14px; }
+.news-masthead > span:first-child { font-size: 22px; font-weight: 800; letter-spacing: .12em; }
+.news-masthead > span:last-child { font-size: 10px; color: var(--muted); }
+.news-article { border-top: 3px solid #b33f39; border-radius: 4px 4px 14px 14px; }
+.news-article .post-title { font-size: 22px; line-height: 1.65; }
+.author-badge { display: inline-block; margin-left: 6px; padding: 1px 5px; border: 1px solid #e84e4833; border-radius: 4px; background: #e84e480d; color: #b33f39; font-size: 10px; font-weight: 600; vertical-align: middle; }
+.comments-panel { scroll-margin-top: calc(var(--shell-header-height) + 8px); }
+.comments-context { margin-bottom: 16px; color: #9b6940; font-size: 11px; }
+.comments-context > span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+.reply-thread { margin-top: 14px; padding: 12px 0 0 12px; border-left: 2px solid #d6ad7240; }
+.reply-thread > li + li { margin-top: 16px; }
+.reply-thread .author-avatar { width: 28px; height: 28px; }
+.reply-thread .author-name { font-size: 11px; }
+.reply-thread .author-meta { font-size: 10px; }
+.reply-text { margin-top: 8px; font-size: 13px; line-height: 1.9; }
+.reply-target { color: #8a6c43; font-size: 11px; }
+
+@media (min-width: 1024px) {
+  .app-layout { display: grid; grid-template-columns: minmax(0, 260px) 390px minmax(0, 260px); align-items: start; gap: 32px; max-width: 974px; margin-inline: auto; padding-inline: 0; }
+  .app-shell { margin: 0; }
+  .desktop-rail { display: block; position: sticky; top: 40px; min-width: 0; padding-top: 0; margin-top: 48px; }
+  .mobile-briefing { display: none; }
+  .rail-eyebrow { margin-bottom: 18px; color: #8a7760; font-size: 11px; letter-spacing: .16em; }
+  .rail-card { padding: 24px 20px; border: 1px solid #d6ad724d; border-top: 3px solid #d6ad72; border-radius: 4px 4px 14px 14px; background: #ffffffa6; box-shadow: 0 6px 28px #5e422304; }
+  .rail-card h2 { margin-block: 12px 16px; font-size: 19px; font-weight: 700; letter-spacing: .03em; }
+  .rail-number { color: #a88c67; font-size: 9px; letter-spacing: .16em; }
+  .rail-process { display: flex; justify-content: space-between; gap: 6px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #d6ad7233; color: #94764e; font-size: 11px; }
+  .rail-note { margin: 16px 4px 0; color: #8c8579; font-size: 11px; line-height: 1.9; }
+  .rail-stickers { display: flex; justify-content: space-between; gap: 8px; margin-top: 20px; padding: 16px; border: 1px solid #d6ad723b; border-radius: 12px; background: #ede5d866; color: #8f563a; }
+  .rail-stickers strong { display: block; font-size: 13px; font-weight: 650; }
+  .rail-stickers small { display: block; margin-top: 4px; color: #8c8579; font-size: 11px; }
+}

@@ -12,7 +12,7 @@ const port = process.env.E2E_PORT || "3123";
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
 const output = path.resolve("artifacts/stage-6");
 const screenshots = path.join(output, "screenshots");
-const reviewDir = process.env.E2E_REVIEW_DIR;
+const reviewDir = process.env.E2E_REVIEW_DIR || "/workspace/iter1";
 const scenarios = [
   { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 2 },
   { id: "H02", answer: true, best: "C", wrong: "A", sourceCount: 3 },
@@ -29,7 +29,13 @@ const scenarios = [
 ];
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 const { version: packageVersion } = JSON.parse(await readFile("package.json", "utf8"));
-const trendingTopics = await Promise.all(scenarios.map(({ id }) => readFile(`data/topics/${id.toLowerCase()}.json`, "utf8").then(JSON.parse)));
+const allTopics = await Promise.all(scenarios.map(({ id }) => readFile(`data/topics/${id.toLowerCase()}.json`, "utf8").then(JSON.parse)));
+const trendingTopics = allTopics.filter((topic) => topic.module === "trending").map((topic, index) => ({ ...topic, rank: index + 1 }));
+const discoverTopics = allTopics.filter((topic) => topic.module === "discover");
+const postPageTitle = (topic) => `${topic.module === "trending" ? "热搜 · 快讯" : "发现 · 帖子"} ${topic.id}`;
+assert.equal(trendingTopics.length, 6);
+assert.equal(discoverTopics.length, 6);
+for (const topics of [trendingTopics, discoverTopics]) assert.equal(topics.filter((topic) => topic.isTrue).length, 3);
 await mkdir(output, { recursive: true });
 await mkdir(screenshots, { recursive: true });
 if (reviewDir) await mkdir(reviewDir, { recursive: true });
@@ -168,7 +174,7 @@ async function discoverEmptyChecks(page, geometry) {
   geometry.push(await mobileGeometry(page, "发现页筛选无结果"));
   await page.getByRole("button", { name: "清除筛选", exact: true }).click();
   assert.equal(await search.inputValue(), "");
-  assert.equal(await page.getByRole("list", { name: "发现话题", exact: true }).getByRole("listitem").count(), scenarios.length);
+  assert.equal(await page.getByRole("list", { name: "发现话题", exact: true }).getByRole("listitem").count(), discoverTopics.length);
   assert.equal(await start.count(), 0);
   await search.fill("没有匹配话题的关键词");
   await start.click();
@@ -251,6 +257,44 @@ async function noDisclaimerLabels(page) {
   assert.doesNotMatch(displayed, /虚构|架空|模拟|非史料|只是创作|只是梗|非实物复原|仅作戏仿|不是历史人物原话|现代类比，不等于古代原貌|拟人账号/, `页面残留免责声明标签：${page.url()}`);
 }
 
+async function noHashtagTitles(page) {
+  const titles = await page.locator('h1, h2, h3, .comments-context > span').allTextContents();
+  titles.push(await page.title());
+  for (const title of titles) assert.doesNotMatch(title, /#/, `标题仍带 #：${title}`);
+  for (const value of await page.locator('meta[property="og:title"], meta[name="twitter:title"]').evaluateAll((nodes) => nodes.map((node) => node.content))) assert.doesNotMatch(value, /#/);
+}
+
+async function mobileBriefingChecks(page) {
+  const briefing = page.getByRole("complementary", { name: "页内公告与守则", exact: true, includeHidden: true });
+  const followingContent = page.locator('.trending-list, #discover-results, .task-panel').first();
+  if (await followingContent.count()) assert.equal(await briefing.count(), 1, `热榜、发现和帖子必须保留页内公告：${page.url()}`);
+  if (!await briefing.count()) return null;
+  if (page.viewportSize().width >= 1024) { assert.equal(await briefing.isVisible(), false); return null; }
+  await visible(briefing);
+  assert.deepEqual(await briefing.locator("summary").allTextContents(), ["辟谣局公告", "今天的吃瓜守则"]);
+  assert.equal(await page.locator(".desktop-rail:visible").count(), 0);
+  const position = await briefing.evaluate((node) => ({ top: node.getBoundingClientRect().top + window.scrollY, bottom: node.getBoundingClientRect().bottom + window.scrollY, pageBottom: document.documentElement.scrollHeight }));
+  assert.ok(await briefing.evaluate((node) => Boolean(node.compareDocumentPosition(document.querySelector('.trending-list, #discover-results, .task-panel')) & Node.DOCUMENT_POSITION_FOLLOWING)), `移动端公告必须位于榜单、发现列表或判题区之前：${page.url()}`);
+  assert.ok(position.bottom < position.pageBottom - 100, "移动端公告不能放在页面最底部");
+  return position;
+}
+
+async function desktopRailChecks(page) {
+  const shell = await page.locator(".app-shell").boundingBox();
+  const left = page.getByRole("complementary", { name: "辟谣局公告侧栏", exact: true });
+  const right = page.getByRole("complementary", { name: "今天的吃瓜守则侧栏", exact: true });
+  await visible(left);
+  await visible(right);
+  const boxes = { left: await left.boundingBox(), right: await right.boundingBox() };
+  assert.ok(boxes.left.x + boxes.left.width < shell.x && boxes.right.x > shell.x + shell.width, "左右侧栏必须分别位于居中手机列两侧");
+  for (const box of Object.values(boxes)) assert.ok(box.y >= 0 && box.y + box.height < page.viewportSize().height, "侧栏必须在宽屏首屏完整可见");
+  assert.equal(await left.getByRole("heading", { name: "辟谣局公告", exact: true }).count(), 1);
+  assert.equal(await right.getByRole("heading", { name: "今天的吃瓜守则", exact: true }).count(), 1);
+  assert.equal(await page.locator(".mobile-briefing:visible").count(), 0);
+  await noOverflow(page);
+  return boxes;
+}
+
 async function focused(locator) {
   assert.ok(await locator.evaluate((node) => node === document.activeElement), "键盘焦点位置不正确");
 }
@@ -264,6 +308,8 @@ async function mobileGeometry(page, state) {
   await visible(page.locator(".app-shell"));
   await noOverflow(page);
   await noDisclaimerLabels(page);
+  await noHashtagTitles(page);
+  const briefing = await mobileBriefingChecks(page);
   const small = await page.evaluate(() => {
     const root = document.querySelector("dialog[open]") || document;
     return [...root.querySelectorAll('a[href], button, input, textarea, summary')].flatMap((node) => {
@@ -281,7 +327,7 @@ async function mobileGeometry(page, state) {
     const tabs = await page.getByRole("navigation", { name: "主导航", exact: true }).boundingBox();
     assert.ok(Math.abs(tabs.y + tabs.height - viewport.height) < 1 && Math.abs(tabs.width - shell.width) < 1, "底部导航未固定在手机列底部");
   }
-  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px" };
+  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px", briefing, noHashtagTitles: true };
 }
 
 async function coverGeometry(page, route) {
@@ -302,7 +348,7 @@ async function coverGeometry(page, route) {
       titleLineClamp: getComputedStyle(heading).webkitLineClamp,
     };
   }));
-  assert.equal(covers.length, scenarios.length, `${route} 封面数量不正确`);
+  assert.equal(covers.length, route === "/trending" ? trendingTopics.length : discoverTopics.length, `${route} 封面数量不正确`);
   for (const cover of covers) {
     assert.ok(cover.loaded && cover.contained && !cover.titleHorizontalOverflow, `${route} 封面未加载、越界或标题横向溢出`);
     assert.ok(Math.abs(cover.width / cover.height - 16 / 9) < 0.01, `${route} 封面未保持 16:9`);
@@ -358,24 +404,38 @@ async function discoverChecks(page) {
 
 async function postSocialChecks(page, topic) {
   const article = page.locator("article[data-format]");
-  const header = article.locator(".author-row").first();
-  await visible(header.locator(".author-handle"));
-  assert.match(await header.locator(".author-handle").textContent(), /^@[a-z_]{3,20}$/);
-  assert.equal(await header.locator(".author-handle").textContent(), topic.author.handle);
+  assert.equal(await article.getAttribute("data-module"), topic.module);
   const sections = await article.evaluate((node) => [...node.children].map((child) => child.getAttribute("data-post-section")));
-  assert.deepEqual(sections, ["author", "format", "title", "body", "cover", "stats"], "五种形式必须使用同一骨架顺序");
+  assert.deepEqual(sections, [topic.module === "trending" ? "masthead" : "author", "format", "title", "body", "cover", "stats"]);
+  if (topic.module === "discover") {
+    const header = article.locator(".author-row").first();
+    await visible(header.locator(".author-handle"));
+    assert.equal(await header.locator(".author-handle").textContent(), topic.author.handle);
+    assert.match(topic.author.handle, /^@[a-z_]{3,20}$/);
+    assert.equal(await header.locator(".author-badge").textContent(), "作者");
+    assert.match(await header.locator(".author-time").textContent(), /^\d+(分钟|小时|天)$/);
+    assert.ok(await header.evaluate((node) => node.closest("article").firstElementChild.contains(node) && getComputedStyle(node.querySelector(".author-avatar")).borderRadius === "50%"));
+    const replies = topic.comments[0].replies;
+    assert.ok(replies.length >= 3);
+    for (const reply of replies) {
+      const node = page.locator(`[data-reply-id="${reply.id}"]`);
+      assert.equal(await node.getAttribute("data-reply-to"), reply.replyTo);
+      assert.ok((await node.locator(":scope > .reply-text").textContent()).includes(reply.text));
+      assert.equal(await node.locator(":scope > .author-row .author-badge").count(), reply.author === topic.author.name ? 1 : 0);
+      const parent = await node.evaluate((node) => node.parentElement.parentElement.getAttribute("data-reply-id"));
+      assert.equal(parent, reply.replyTo === topic.comments[0].id ? null : reply.replyTo);
+    }
+  } else {
+    assert.equal(await article.locator(".author-row").count(), 0, "快讯头部不使用个人作者行");
+    assert.ok((await article.locator(".news-masthead").textContent()).includes("热点快讯"));
+    assert.equal(await page.locator("[data-reply-id]").count(), 0);
+  }
   assert.equal(await article.locator("h1").count(), 1);
   assert.equal(await article.locator(".post-body").count(), 1);
   assert.equal(await article.locator(".post-cover").count(), 1);
   assert.equal(await article.locator(".social-stats").count(), 1);
   assert.equal(await article.locator('[data-post-section="body"] .post-cover').count(), 0);
-  assert.ok(await article.locator(".post-body").evaluate((node) => node.closest('[data-post-section="body"]') !== null));
-  assert.equal(await page.locator("#post-comments .author-handle").count(), 0, "评论不再生成随机 handle");
-  assert.match(await header.locator(".author-time").textContent(), /^\d+(分钟|小时|天)$/);
-  assert.ok(await header.evaluate((node) => {
-    const article = node.closest("article");
-    return article.firstElementChild.contains(node) && getComputedStyle(node.querySelector(".author-avatar")).borderRadius === "50%";
-  }), "全部 format 必须以同样的圆形头像作者行开头");
+  assert.equal(await page.locator("#post-comments .author-handle").count(), 0);
   const stats = page.getByLabel("互动统计", { exact: true });
   assert.deepEqual(await stats.locator("dt").allTextContents(), ["回复", "转发", "点赞", "浏览"]);
   assert.deepEqual(await stats.locator("dd").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("aria-label"))), [topic.simulatedComments, topic.simulatedReposts, topic.simulatedLikes, topic.simulatedViews].map((count) => count.toLocaleString("zh-CN")));
@@ -386,14 +446,14 @@ async function postSocialChecks(page, topic) {
       pointer: getComputedStyle(node).cursor === "pointer" };
   }));
   for (const row of rows) assert.ok(row.icons === 4 && row.interactive === 0 && !row.overflow && row.oneRow && !row.pointer, "帖子/评论统计必须为单行只读展示");
-  assert.equal(await page.locator("#post-comments > li .author-row").count(), await page.locator("#post-comments > li").count());
+  assert.equal(await page.locator("#post-comments > li > .author-row").count(), await page.locator("#post-comments > li").count());
   const cover = article.locator(".post-cover img").first();
   await cover.evaluate((image) => image.decode());
   assert.ok(await cover.evaluate((image) => {
     const box = image.getBoundingClientRect();
     return Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight) < 0.01 && getComputedStyle(image).objectFit === "contain" && parseFloat(getComputedStyle(image).borderRadius) >= 10;
   }), "帖子封面应圆角、保持原比例完整显示");
-  return { header: "圆形头像、昵称、数据中的可读 handle、静态相对时间", sections, statisticRows: rows.length, noninteractive: true };
+  return { module: topic.module, header: topic.module === "trending" ? "快讯通报头部" : "个人作者行与作者回复线程", sections, statisticRows: rows.length, noninteractive: true };
 }
 
 async function trendingChecks(page, keyboard = false) {
@@ -442,12 +502,12 @@ async function trendingChecks(page, keyboard = false) {
     assert.deepEqual(await list.getByTestId("trending-rank").allTextContents(), expected.map(({ rank }) => String(rank)), "筛选必须保留全榜名次");
     assert.deepEqual(await list.getByTestId("trending-tag").allTextContents(), expected.map(({ rank }) => tagFor(rank)), "筛选必须保留全榜标签");
     assert.equal(await page.getByRole("status").textContent(), progressBefore, "分类筛选不应改变本机进度");
-    assert.equal(await page.getByRole("progressbar", { name: "已查证题目", exact: true }).getAttribute("max"), String(trendingTopics.length));
+    assert.equal(await page.getByRole("progressbar", { name: "已查证题目", exact: true }).getAttribute("max"), String(allTopics.length));
     await noOverflow(page);
   }
   const all = tabs.getByRole("tab", { name: "全部", exact: true });
   await all.click();
-  assert.equal(await list.getByRole("listitem").count(), scenarios.length);
+  assert.equal(await list.getByRole("listitem").count(), trendingTopics.length);
   if (keyboard) {
     await all.focus();
     for (const [key, name] of [["ArrowRight", categories[0]], ["ArrowLeft", "全部"], ["ArrowLeft", categories.at(-1)], ["ArrowRight", "全部"], ["End", categories.at(-1)], ["Home", "全部"]]) {
@@ -568,9 +628,8 @@ async function screenshotAt(page, locator, filename) {
 }
 
 async function bottomNavigationAtEnd(page) {
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  const info = page.getByRole("complementary", { name: "辟谣局信息", exact: true });
-  const box = await info.boundingBox();
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  const box = await page.getByRole("main").boundingBox();
   const nav = page.getByRole("navigation", { name: "主导航", exact: true });
   const navBox = await nav.boundingBox();
   assert.ok(box.y + box.height <= navBox.y, "底部 Tab 遮挡页面末尾内容");
@@ -786,7 +845,7 @@ try {
   if (!process.env.E2E_BASE_URL) assert.equal(await page.getByRole("contentinfo", { name: "预览构建信息" }).count(), 0);
   await collectionCount(page, 0);
   const trendingLinks = await page.locator('[aria-label="热搜排行"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
-  assert.deepEqual(trendingLinks, scenarios.map(({ id }) => `/post/${id}`));
+  assert.deepEqual(trendingLinks, trendingTopics.map(({ id }) => `/post/${id}`));
   await noOverflow(page);
   await mobileGeometry(page, "热搜榜");
   const trending = await trendingChecks(page, true);
@@ -794,7 +853,7 @@ try {
   await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
   await page.screenshot({ path: path.join(screenshots, "trending-390x844.png"), animations: "disabled" });
   await page.screenshot({ path: path.join(screenshots, "v0.7.0-trending-390x844.png"), animations: "disabled" });
-  await versionScreenshot(page, "trending");
+  await versionScreenshot(page, "trending", packageVersion);
   await page.keyboard.press("Tab");
   await focusVisible(page.locator(":focus"));
 
@@ -813,11 +872,11 @@ try {
     }
     await writeFile(path.join(output, `${id}-initial-post.html`), initialHtml);
 
-    await page.goto(`${baseURL}/trending`);
-    await page.locator(`[aria-label="热搜排行"] a[href="/post/${id}"]`).click();
+    await page.goto(`${baseURL}/${topic.module === "trending" ? "trending" : "discover"}`);
+    await page.locator(`[aria-label="${topic.module === "trending" ? "热搜排行" : "发现话题"}"] a[href="/post/${id}"]`).click();
     await page.waitForURL(`**/post/${id}`);
     await visible(page.getByRole("heading", { name: topic.title, exact: true }));
-    await visible(page.getByText(topic.author.name, { exact: true }));
+    if (topic.module === "discover") await visible(page.locator("article .author-row"));
     await visible(page.getByText(topic.body, { exact: true }));
     await visible(page.getByText(topic.claim, { exact: true }));
     assert.equal(await page.getByRole("radio").count(), 2);
@@ -825,13 +884,18 @@ try {
     await visible(page.getByLabel("互动统计").getByLabel(topic.simulatedLikes.toLocaleString("zh-CN"), { exact: true }));
     assert.ok(topic.comments.every((comment) => !comment.text.includes(topic.reveal.correctedClaim) && !/核心主张为[真假]|查证属实|谣言退散|正确(?:答案|选项)[：:]/.test(comment.text)), `${id} 评论直接泄漏结论`);
     const initialGeometry = await mobileGeometry(page, `${id} 初始帖子与判题区`);
-    initialGeometry.header = await compactHeaderChecks(page, `帖子 ${id}`);
+    initialGeometry.header = await compactHeaderChecks(page, postPageTitle(topic));
     initialGeometry.social = await postSocialChecks(page, topic);
-    assert.equal(await page.locator("article[data-format]").getAttribute("data-format"), scenario.format || "post");
+    assert.equal(await page.locator("article[data-format]").getAttribute("data-format"), topic.module === "trending" ? "news" : scenario.format || "post");
     if (scenario.format) {
       formatChecks.push({ id, format: scenario.format, ...initialGeometry });
       await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
       await screenshotAt(page, page.locator("main"), `post-${id}-top-390x844.png`);
+    }
+    if (id === "H05") {
+      await page.locator(".comments-panel").scrollIntoViewIfNeeded();
+      await page.locator(".comments-panel").evaluate((node) => node.scrollIntoView({ block: "start", behavior: "instant" }));
+      await versionScreenshot(page, "discover-post", packageVersion, { scrollToTop: false });
     }
     if (id === "H09") await versionScreenshot(page, "H09", packageVersion);
     if (id === "H12") {
@@ -1031,7 +1095,7 @@ try {
       if (route.includes("DOES-NOT-EXIST") || route === "/missing-page") assert.equal(response.status(), 404);
       const pageGeometry = await mobileGeometry(mobile, route);
       if (route !== "/trending") {
-        const title = response.status() === 404 ? "页面未找到" : route === "/discover" ? "发现" : route === "/stickers" ? "贴纸档案" : `帖子 ${route.split("/").at(-1)}`;
+        const title = response.status() === 404 ? "页面未找到" : route === "/discover" ? "发现" : route === "/stickers" ? "贴纸档案" : postPageTitle(allTopics.find(({ id }) => id === route.split("/").at(-1)));
         pageGeometry.header = await compactHeaderChecks(mobile, title);
       }
       await mobile.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
@@ -1043,10 +1107,10 @@ try {
       if (route === "/trending") {
         pageGeometry.trending = await trendingChecks(mobile);
         pageGeometry.trending.density = await trendingDensityChecks(mobile);
-        await mobile.getByText("辟谣局公告", { exact: true }).click();
-        await visible(mobile.getByText(/提交后可查看结论与来源/));
-        await mobile.getByText("今天的吃瓜守则", { exact: true }).click();
-        await visible(mobile.getByText("标题可以有梗，结论要看证据。", { exact: false }));
+        await mobile.locator(".mobile-briefing").getByText("辟谣局公告", { exact: true }).click();
+        await visible(mobile.locator(".mobile-briefing").getByText(/提交后可查看结论与来源/));
+        await mobile.locator(".mobile-briefing").getByText("今天的吃瓜守则", { exact: true }).click();
+        await visible(mobile.locator(".mobile-briefing").getByText("标题可以有梗，结论要看证据。", { exact: false }));
         await mobileGeometry(mobile, "页内公告/守则展开");
       }
       if (route === "/discover") {
@@ -1061,7 +1125,7 @@ try {
       }
       const scenario = scenarios.find(({ id }) => route === `/post/${id}`);
       if (scenario) {
-        const topic = trendingTopics.find(({ id }) => id === scenario.id);
+        const topic = allTopics.find(({ id }) => id === scenario.id);
         pageGeometry.social = await postSocialChecks(mobile, topic);
         if (scenario.format) assert.equal(await mobile.locator("article[data-format]").getAttribute("data-format"), scenario.format);
         if (scenario.id === "H12") {
@@ -1133,14 +1197,23 @@ try {
   const desktopShell = await page.locator(".app-shell").boundingBox();
   assert.equal(desktopShell.width, 390);
   assert.equal(desktopShell.x, (1440 - 390) / 2);
-  assert.equal(await page.locator('.shell-sticky-rail, .shell-right-rail, canvas, [class*="qr" i], [id*="qr" i]').count(), 0);
+  const desktopRails = await desktopRailChecks(page);
+  assert.equal(await page.locator('canvas, [class*="qr" i], [id*="qr" i]').count(), 0);
   await page.screenshot({ path: path.join(screenshots, "trending-desktop-1440x900.png"), animations: "disabled" });
+  const desktopScreenshot = `v${packageVersion}-desktop-1440x900.png`;
+  await page.screenshot({ path: path.join(screenshots, desktopScreenshot), animations: "disabled" });
+  await copyFile(path.join(screenshots, desktopScreenshot), path.join(reviewDir, desktopScreenshot));
+  for (const width of [1023, 1024]) {
+    await page.setViewportSize({ width, height: 900 });
+    if (width < 1024) await mobileBriefingChecks(page); else await desktopRailChecks(page);
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(`${baseURL}/discover`);
-  assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), scenarios.length);
+  assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), discoverTopics.length);
   const discoverLinks = await page.locator('[aria-label="发现话题"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
-  assert.deepEqual(discoverLinks, scenarios.map(({ id }) => `/post/${id}`));
+  assert.deepEqual(discoverLinks, discoverTopics.map(({ id }) => `/post/${id}`));
   await discoverChecks(page);
-  for (const { id } of scenarios) {
+  for (const { id } of discoverTopics) {
     await page.goto(`${baseURL}/discover`);
     await page.locator(`[aria-label="发现话题"] a[href="/post/${id}"]`).click();
     await page.waitForURL(`**/post/${id}`);
@@ -1172,7 +1245,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, buildId, previewBuild, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；刷新不跳转；独立本机存储，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, buildId, previewBuild, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；刷新不跳转；独立本机存储，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true }, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

@@ -6,6 +6,7 @@ import { toPublicTopic } from "@/lib/public-topic";
 import { getAllTopics } from "@/lib/topics";
 import { PROGRESS_KEY } from "@/lib/progress";
 import { compactCount, postRelativeTime } from "@/lib/social-display";
+import { generateMetadata } from "@/app/post/[id]/page";
 
 const topics = getAllTopics();
 const poll = toPublicTopic(topics.find(({ id }) => id === "H12")!);
@@ -18,27 +19,38 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe("按 format 选择帖子模板", () => {
+  it.each(topics)("$id 页面 metadata 使用无井号的原题标题", async (topic) => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ id: topic.id }) });
+    expect(metadata.title).toBe(topic.title);
+    expect(metadata.title).not.toMatch(/^#|#$/);
+  });
+
   it.each(topics)("$id 渲染对应模板、唯一标题/正文、统计与原判题入口", (topic) => {
     const { container } = render(<PostExperience topic={toPublicTopic(topic)} topicIds={topics.map((topic) => topic.id)} />);
     expect(screen.queryByRole("navigation", { name: "面包屑" })).toBeNull();
-    expect(container.querySelector("article")?.getAttribute("data-format")).toBe(topic.format ?? "post");
+    expect(container.querySelector("article")?.getAttribute("data-format")).toBe(topic.module === "trending" ? "news" : topic.format ?? "post");
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(topic.title);
     expect(screen.getByText(topic.body, { exact: true })).toBeTruthy();
     expect(screen.getByLabelText("互动统计").textContent).toContain(compactCount(topic.simulatedLikes));
     const article = container.querySelector("article")!;
-    expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual(["author", "format", "title", "body", "cover", "stats"]);
-    expect(article.querySelectorAll(".author-row")).toHaveLength(1);
+    expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual([topic.module === "trending" ? "masthead" : "author", "format", "title", "body", "cover", "stats"]);
+    expect(article.querySelectorAll(".author-row")).toHaveLength(topic.module === "discover" ? 1 : 0);
     expect(article.querySelectorAll("h1")).toHaveLength(1);
     expect(article.querySelectorAll(".post-cover")).toHaveLength(1);
     expect(article.querySelectorAll(".social-stats")).toHaveLength(1);
     expect(article.querySelector('[data-post-section="format"]')!.textContent?.trim()).toBeTruthy();
     expect(article.querySelector('[data-post-section="body"]')!.textContent).toContain(topic.body);
     expect(article.querySelector('[data-post-section="body"]')!.querySelector(".post-cover")).toBeNull();
-    const author = article.querySelector(".author-row")!;
-    expect(article.firstElementChild!.contains(author)).toBe(true);
-    expect(author.querySelector(".author-handle")!.textContent).toBe(topic.author.handle);
-    expect(topic.author.handle).toMatch(/^@[a-z_]{3,20}$/);
-    expect(author.textContent).toContain(postRelativeTime(topic.rank));
+    if (topic.module === "discover") {
+      const author = article.querySelector(".author-row")!;
+      expect(article.firstElementChild!.contains(author)).toBe(true);
+      expect(author.querySelector(".author-handle")!.textContent).toBe(topic.author.handle);
+      expect(author.querySelector(".author-badge")!.textContent).toBe("作者");
+      expect(author.textContent).toContain(postRelativeTime(topic.rank));
+    } else {
+      expect(article.querySelector(".news-masthead")!.textContent).toContain("热点快讯");
+      expect(article.querySelector(".author-handle")).toBeNull();
+    }
     const stats = screen.getByLabelText("互动统计");
     expect([...stats.querySelectorAll("dt")].map((node) => node.textContent)).toEqual(["回复", "转发", "点赞", "浏览"]);
     expect([...stats.querySelectorAll("dd")].map((node) => node.getAttribute("aria-label"))).toEqual([topic.simulatedComments, topic.simulatedReposts, topic.simulatedLikes, topic.simulatedViews].map((count) => count.toLocaleString("zh-CN")));
@@ -49,9 +61,21 @@ describe("按 format 选择帖子模板", () => {
     expect(comment.querySelector(".author-handle")).toBeNull();
     expect(article.compareDocumentPosition(comment) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(comment.querySelectorAll("dl svg")).toHaveLength(4);
+    expect(comment.querySelectorAll("[data-reply-id]")).toHaveLength(topic.module === "discover" ? 3 : 0);
+    if (topic.module === "discover") {
+      for (const reply of topic.comments[0].replies!) {
+        const node = comment.querySelector(`[data-reply-id="${reply.id}"]`)!;
+        expect(node.getAttribute("data-reply-to")).toBe(reply.replyTo);
+        expect(node.parentElement!.parentElement!.getAttribute("data-reply-id")).toBe(reply.replyTo === topic.comments[0].id ? null : reply.replyTo);
+        expect(node.querySelector(":scope > .author-row .author-badge")?.textContent).toBe(reply.author === topic.author.name ? "作者" : undefined);
+      }
+    }
     expect(comment.querySelector('button, a, [role="button"], [tabindex]')).toBeNull();
     expect(screen.getByRole("heading", { name: "这条主张，你信吗？" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "提交判断" })).toBeTruthy();
+    const briefing = screen.getByRole("complementary", { name: "页内公告与守则" });
+    expect(briefing.compareDocumentPosition(container.querySelector(".task-panel")!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByRole("link", { name: /← 返回.*继续围观/ }).getAttribute("href")).toBe(`/${topic.module}`);
     expect(container.querySelectorAll("#post-comments")).toHaveLength(1);
     expect(container.querySelectorAll("#post-comments > li")).toHaveLength(4);
     fireEvent.click(screen.getByRole("button", { name: /展开更多评论/ }));

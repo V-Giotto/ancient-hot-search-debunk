@@ -1,6 +1,7 @@
 {
   "id": "H10",
   "rank": 10,
+  "module": "discover",
   "format": "moments",
   "category": "印刷手记",
   "tags": [
@@ -8,7 +9,7 @@
     "毕昇",
     "朋友圈"
   ],
-  "title": "#毕昇胶泥字块刷屏：手作区这是开大了？#",
+  "title": "毕昇胶泥字块刷屏：手作区这是开大了？",
   "coverUrl": "/covers/h10.svg",
   "coverAlt": "胶泥活字主题的字块与朋友圈配图格",
   "author": {
@@ -32,8 +33,11 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "眼睛说会了，解释说你先别急，收藏夹说又是我来兜底。",
-      "simulatedLikes": 520, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4731
-    },
+      "simulatedLikes": 520, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4731, "replies": [
+      {"id": "H10-C01-R1", "replyTo": "H10-C01", "author": "活版手作观察员", "avatar": "/avatars/reader.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
+      {"id": "H10-C01-R2", "replyTo": "H10-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
+      {"id": "H10-C01-R3", "replyTo": "H10-C01-R2", "author": "活版手作观察员", "avatar": "/avatars/reader.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+    ] },
     {
       "id": "H10-C02",
       "author": "慢读课代表",

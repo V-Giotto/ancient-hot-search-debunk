@@ -1,9 +1,10 @@
 {
   "id": "H08",
   "rank": 8,
+  "module": "discover",
   "category": "古代日常",
   "tags": ["唐代牙刷柄", "晨间Routine", "器物与日常"],
-  "title": "#大唐晨间Routine刷屏：牙刷柄也有植毛孔？#",
+  "title": "大唐晨间Routine刷屏：牙刷柄也有植毛孔？",
   "coverUrl": "/covers/h08.svg",
   "coverAlt": "唐风角色与带孔骨柄示意卡插画",
   "author": {
@@ -21,7 +22,11 @@
   "simulatedReposts": 520,
   "simulatedBookmarks": 2510,
   "comments": [
-    { "id": "H08-C01", "author": "今日也想早起", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "晨间清单已经收藏，闹钟响的时候能不能也帮我打开这条帖子？", "simulatedLikes": 456, "simulatedReplies": 9, "simulatedReposts": 0, "simulatedViews": 4077 },
+    { "id": "H08-C01", "author": "今日也想早起", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "晨间清单已经收藏，闹钟响的时候能不能也帮我打开这条帖子？", "simulatedLikes": 456, "simulatedReplies": 9, "simulatedReposts": 0, "simulatedViews": 4077, "replies": [
+      {"id": "H08-C01-R1", "replyTo": "H08-C01", "author": "大唐晨间Routine研究所", "avatar": "/avatars/changan.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
+      {"id": "H08-C01-R2", "replyTo": "H08-C01-R1", "author": "今日也想早起", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
+      {"id": "H08-C01-R3", "replyTo": "H08-C01-R2", "author": "大唐晨间Routine研究所", "avatar": "/avatars/changan.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+    ] },
     { "id": "H08-C02", "author": "器物档案慢读员", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "示意图只能帮助提问，年代和结构还得回到器物介绍里核对。", "simulatedLikes": 596, "simulatedReplies": 10, "simulatedReposts": 0, "simulatedViews": 5118 },
     { "id": "H08-C03", "author": "精致标题营业中", "avatar": "/avatars/hype.svg", "role": "troll", "text": "精致人设先别塌，我的晨间话题封面还在排版！", "simulatedLikes": 204, "simulatedReplies": 11, "simulatedReposts": 0, "simulatedViews": 2435 },
     { "id": "H08-C04", "author": "大唐赖床候补", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本网友申请把晨间流程整体往后挪一会儿，先围观再起床。", "simulatedLikes": 332, "simulatedReplies": 12, "simulatedReposts": 0, "simulatedViews": 3392 },

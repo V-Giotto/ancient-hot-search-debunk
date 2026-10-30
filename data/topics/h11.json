@@ -1,6 +1,7 @@
 {
   "id": "H11",
   "rank": 11,
+  "module": "discover",
   "format": "chat",
   "category": "语录查证",
   "tags": [
@@ -8,7 +9,7 @@
     "以德报怨",
     "群聊转发"
   ],
-  "title": "#群聊又转“以德报怨”：孔子真这么说？#",
+  "title": "群聊又转“以德报怨”：孔子真这么说？",
   "coverUrl": "/covers/h11.svg",
   "coverAlt": "语录核对主题的聊天气泡与问号",
   "author": {
@@ -32,8 +33,11 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "刚准备转给朋友，朋友已经转给我了，这群聊是开了循环播放吗。",
-      "simulatedLikes": 520, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4834
-    },
+      "simulatedLikes": 520, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4834, "replies": [
+      {"id": "H11-C01-R1", "replyTo": "H11-C01", "author": "语录转发核对组", "avatar": "/avatars/reader.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
+      {"id": "H11-C01-R2", "replyTo": "H11-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
+      {"id": "H11-C01-R3", "replyTo": "H11-C01-R2", "author": "语录转发核对组", "avatar": "/avatars/reader.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+    ] },
     {
       "id": "H11-C02",
       "author": "慢读课代表",

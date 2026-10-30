@@ -40,6 +40,16 @@ export function validateContentSet(
     topicIds.add(topic.id);
     ranks.add(topic.rank);
 
+    for (const comment of topic.comments) {
+      const replyIds = new Set([comment.id]);
+      for (const reply of comment.replies ?? []) {
+        if (replyIds.has(reply.id) || !replyIds.has(reply.replyTo)) {
+          errors.push(`${topic.id} 的回复线程必须使用唯一 id 并指向本线程已存在的评论或回复`);
+        }
+        replyIds.add(reply.id);
+      }
+    }
+
     for (const sourceId of topic.sourceIds) {
       if (!sourceIds.has(sourceId)) errors.push(`${topic.id} 的 sourceId 不存在：${sourceId}`);
     }
