@@ -296,6 +296,11 @@ describe("7.3 的类型及 Zod 字段约束", () => {
     expect(CommentSchema.safeParse({ ...comment, role: "admin" }).success).toBe(false);
     expect(CommentSchema.safeParse({ ...comment, simulatedLikes: -1 }).success).toBe(false);
     expect(HotTopicSchema.safeParse(makeTopic({ simulatedHeat: 1.5 })).success).toBe(false);
+    expect(HotTopicSchema.safeParse(makeTopic({ simulatedViews: -1 })).success).toBe(false);
+    for (const field of ["simulatedReplies", "simulatedReposts", "simulatedViews"]) {
+      expect(CommentSchema.safeParse({ ...comment, [field]: -1 }).success).toBe(false);
+      expect(CommentSchema.safeParse({ ...comment, [field]: 1.5 }).success).toBe(false);
+    }
   });
 
   it("架空账号标识必须为 true，isTrue 不接受字符串", () => {

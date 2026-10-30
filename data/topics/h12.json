@@ -19,6 +19,7 @@
   },
   "body": "读书会把两个书名摆到同一张投票卡上，评论区立刻分成凭名字猜和准备找资料的两队。看起来相近的名字，到底能不能直接画上等号？先投下你的直觉，再把这份直觉带去查证。票面比例只供围观，不替你作历史判断；真正该问的是两部书各有什么材料支持，别让热闹的票数替证据抢答。",
   "simulatedHeat": 480000,
+  "simulatedViews": 790160,
   "simulatedLikes": 10000,
   "simulatedComments": 860,
   "simulatedReposts": 380,
@@ -30,7 +31,7 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "我投票时很果断，轮到解释理由时突然开始翻书。",
-      "simulatedLikes": 520
+      "simulatedLikes": 520, "simulatedReplies": 13, "simulatedReposts": 4, "simulatedViews": 4937
     },
     {
       "id": "H12-C02",
@@ -38,7 +39,7 @@
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
       "text": "书名相近只是问题的起点，出土材料的说明值得逐项核对。",
-      "simulatedLikes": 483
+      "simulatedLikes": 483, "simulatedReplies": 14, "simulatedReposts": 0, "simulatedViews": 4739
     },
     {
       "id": "H12-C03",
@@ -46,7 +47,7 @@
       "avatar": "/avatars/hype.svg",
       "role": "troll",
       "text": "投票卡已经摆好，标题党的手这次也得等证据。",
-      "simulatedLikes": 446
+      "simulatedLikes": 446, "simulatedReplies": 15, "simulatedReposts": 4, "simulatedViews": 4541
     },
     {
       "id": "H12-C04",
@@ -54,7 +55,7 @@
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
       "text": "本读书网友先把书签夹好，免得对照时翻错位置。",
-      "simulatedLikes": 409
+      "simulatedLikes": 409, "simulatedReplies": 16, "simulatedReposts": 0, "simulatedViews": 4343
     },
     {
       "id": "H12-C05",
@@ -62,7 +63,7 @@
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
       "text": "先分清材料说的是书名、抄写时期还是成书年代，别混在一起。",
-      "simulatedLikes": 372
+      "simulatedLikes": 372, "simulatedReplies": 17, "simulatedReposts": 4, "simulatedViews": 4145
     },
     {
       "id": "H12-C06",
@@ -70,7 +71,7 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "比例出来以后我更想查了，原来我的直觉也需要参考资料。",
-      "simulatedLikes": 335
+      "simulatedLikes": 335, "simulatedReplies": 18, "simulatedReposts": 0, "simulatedViews": 3947
     },
     {
       "id": "H12-C07",
@@ -78,7 +79,7 @@
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
       "text": "同桌讨论可以热闹，书架上的标签还是得认真看。",
-      "simulatedLikes": 298
+      "simulatedLikes": 298, "simulatedReplies": 0, "simulatedReposts": 4, "simulatedViews": 3749
     },
     {
       "id": "H12-C08",
@@ -86,7 +87,7 @@
       "avatar": "/avatars/hype.svg",
       "role": "troll",
       "text": "读书会今日热度由问号承包，结论请走查证通道。",
-      "simulatedLikes": 261
+      "simulatedLikes": 261, "simulatedReplies": 1, "simulatedReposts": 0, "simulatedViews": 3551
     }
   ],
   "claim": "《孙子兵法》和《孙膑兵法》其实是同一部书。",

@@ -30,7 +30,7 @@ export function Poll({ topic }: { topic: PublicTopic }) {
   }
 
   return <article data-format="poll" className="overflow-hidden rounded-2xl border border-ink/7 bg-card">
-    <div className="p-5"><p className="eyebrow">读书会 · 对比投票</p><Author topic={topic} /><Title topic={topic} />
+    <div className="p-5"><Author topic={topic} /><p className="eyebrow mt-5">读书会 · 对比投票</p><Title topic={topic} />
       <div className="mt-5 grid grid-cols-2 gap-2 text-center text-sm font-bold"><p className="rounded-xl bg-gold/15 p-4">《孙子兵法》</p><p className="rounded-xl bg-[#426b58]/10 p-4">《孙膑兵法》</p></div>
       <section aria-label="直觉投票" className="mt-4 rounded-xl border border-ink/10 p-4">
         <h2 className="font-bold">先投直觉，再查证</h2>

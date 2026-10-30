@@ -19,6 +19,7 @@
   },
   "body": "群里又收到一张处世语录卡，署名很熟悉，转发语气也很笃定，大家已经开始用它劝人了。核对组先把聊天气泡留在这里：这句话在原文里是谁说的，是提问还是回答，后面还有没有别的话？别让截图的裁切替你完成阅读，也别拿点赞数当出处。先找回对话上下文，再决定这张语录卡该不该继续转发。",
   "simulatedHeat": 490000,
+  "simulatedViews": 853330,
   "simulatedLikes": 10500,
   "simulatedComments": 880,
   "simulatedReposts": 390,
@@ -30,7 +31,7 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "群聊里每个人都在劝人，我先申请一个只看不转的座位。",
-      "simulatedLikes": 520
+      "simulatedLikes": 520, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4834
     },
     {
       "id": "H11-C02",
@@ -38,7 +39,7 @@
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
       "text": "先认清哪句是提问、哪句是回答，语录卡的裁切范围也要查。",
-      "simulatedLikes": 483
+      "simulatedLikes": 483, "simulatedReplies": 13, "simulatedReposts": 6, "simulatedViews": 4636
     },
     {
       "id": "H11-C03",
@@ -46,7 +47,7 @@
       "avatar": "/avatars/hype.svg",
       "role": "troll",
       "text": "转发文案写好了，出处这一栏怎么突然这么难填？",
-      "simulatedLikes": 446
+      "simulatedLikes": 446, "simulatedReplies": 14, "simulatedReposts": 1, "simulatedViews": 4438
     },
     {
       "id": "H11-C04",
@@ -54,7 +55,7 @@
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
       "text": "本群慢读网友上线，先把气泡里的话读完再接龙。",
-      "simulatedLikes": 409
+      "simulatedLikes": 409, "simulatedReplies": 15, "simulatedReposts": 4, "simulatedViews": 4240
     },
     {
       "id": "H11-C05",
@@ -62,7 +63,7 @@
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
       "text": "《论语·宪问》的上下文值得核对，别只摘下孤零零的一句。",
-      "simulatedLikes": 372
+      "simulatedLikes": 372, "simulatedReplies": 16, "simulatedReposts": 7, "simulatedViews": 4042
     },
     {
       "id": "H11-C06",
@@ -70,7 +71,7 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "我刚想转给朋友，朋友已经把同一张图转给我了。",
-      "simulatedLikes": 335
+      "simulatedLikes": 335, "simulatedReplies": 17, "simulatedReposts": 2, "simulatedViews": 3844
     },
     {
       "id": "H11-C07",
@@ -78,7 +79,7 @@
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
       "text": "群聊气泡挤得下短句，未必挤得下全部上下文。",
-      "simulatedLikes": 298
+      "simulatedLikes": 298, "simulatedReplies": 18, "simulatedReposts": 5, "simulatedViews": 3646
     },
     {
       "id": "H11-C08",
@@ -86,7 +87,7 @@
       "avatar": "/avatars/hype.svg",
       "role": "troll",
       "text": "先暂停转发接力，我的标题还没拿到资料区的通行证。",
-      "simulatedLikes": 261
+      "simulatedLikes": 261, "simulatedReplies": 0, "simulatedReposts": 0, "simulatedViews": 3448
     }
   ],
   "claim": "“以德报怨”是孔子主张的处世原则。",

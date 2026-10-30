@@ -30,6 +30,9 @@ export const CommentSchema = z.strictObject({
   role: z.enum(["spectator", "troll", "history_nerd", "in_world"]),
   text: nonEmptyText,
   simulatedLikes: simulatedCount,
+  simulatedReplies: simulatedCount.optional(),
+  simulatedReposts: simulatedCount.optional(),
+  simulatedViews: simulatedCount.optional(),
 });
 export type Comment = z.infer<typeof CommentSchema>;
 
@@ -58,6 +61,7 @@ export const HotTopicSchema = z.strictObject({
   }),
   body: nonEmptyText,
   simulatedHeat: simulatedCount,
+  simulatedViews: simulatedCount,
   simulatedLikes: simulatedCount,
   simulatedComments: simulatedCount,
   simulatedReposts: simulatedCount,

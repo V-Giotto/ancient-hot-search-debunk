@@ -101,13 +101,83 @@ async function coverGeometry(page, route) {
     assert.ok(cover.loaded && cover.contained && !cover.titleHorizontalOverflow, `${route} 封面未加载、越界或标题横向溢出`);
     assert.ok(Math.abs(cover.width / cover.height - 16 / 9) < 0.01, `${route} 封面未保持 16:9`);
     assert.equal(cover.objectFit, "contain", `${route} 封面应完整展示，避免裁切内嵌标题`);
+    assert.equal(cover.titleLineClamp, "2", `${route} 标题必须最多两行`);
+    assert.ok(cover.titleHeight <= cover.titleLineHeight * 2 + 1, `${route} 标题超过两行`);
     if (route === "/trending") {
       assert.ok(cover.width >= 88 && cover.width <= 112, "热搜榜缩略图宽度应为 88–112px");
       assert.equal(cover.titleLineClamp, "2", "热榜标题必须最多两行");
       assert.ok(cover.titleHeight <= cover.titleLineHeight * 2 + 1, "热榜标题超过两行");
-    } else assert.ok(!cover.titleClipped, "发现页标题被裁切");
+    }
   }
   return covers;
+}
+
+async function discoverChecks(page) {
+  const layout = await page.getByRole("list", { name: "发现话题", exact: true }).evaluate((list) => {
+    const cards = [...list.children];
+    const rows = cards.map((card) => {
+      const box = card.getBoundingClientRect();
+      const byline = card.querySelector(".discover-byline");
+      const likes = byline.querySelector(".discover-likes").getBoundingClientRect();
+      const author = byline.querySelector(".discover-author").getBoundingClientRect();
+      const avatar = byline.querySelector("img");
+      return { x: box.x, y: box.y, bottom: box.bottom, width: box.width, breakInside: getComputedStyle(card).breakInside,
+        avatarRound: getComputedStyle(avatar).borderRadius === "50%", likesRight: likes.left >= author.right,
+        bylineContained: byline.scrollWidth <= byline.clientWidth,
+        likeIcon: byline.querySelectorAll('svg[data-social-icon="like"]').length,
+        links: card.querySelectorAll("a").length, buttons: card.querySelectorAll('button, [role="button"]').length };
+    });
+    // 用一行短标题验证卡片高度由内容决定，下一张紧跟，不受另一列行高约束。
+    const title = cards[0].querySelector("h2");
+    const original = title.textContent;
+    title.textContent = "街巷见闻";
+    const first = cards[0].getBoundingClientRect();
+    const next = cards[1].getBoundingClientRect();
+    const naturalGap = next.top - first.bottom;
+    title.textContent = original;
+    return { columns: getComputedStyle(list).columnCount, rows, naturalGap };
+  });
+  assert.equal(layout.columns, "2", "发现页必须为两列瀑布流");
+  assert.equal(new Set(layout.rows.map(({ x }) => x)).size, 2);
+  assert.ok(Math.abs(layout.naturalGap - 10) < 1, "瀑布流应根据卡片实际高度连续排列");
+  for (const card of layout.rows) {
+    assert.equal(card.breakInside, "avoid");
+    assert.ok(card.avatarRound && card.likesRight && card.bylineContained, "发现卡片作者/点赞行越界或头像不圆");
+    assert.equal(card.likeIcon, 1);
+    assert.equal(card.links, 1);
+    assert.equal(card.buttons, 0);
+  }
+  return layout;
+}
+
+async function postSocialChecks(page, topic) {
+  const article = page.locator("article[data-format]");
+  const header = article.locator(".author-row").first();
+  await visible(header.locator(".author-handle"));
+  assert.match(await header.locator(".author-handle").textContent(), /^@guwen_[a-z0-9]+$/);
+  assert.match(await header.locator(".author-time").textContent(), /^\d+(分钟|小时|天)$/);
+  assert.ok(await header.evaluate((node) => {
+    const article = node.closest("article");
+    return article.firstElementChild.contains(node) && getComputedStyle(node.querySelector(".author-avatar")).borderRadius === "50%";
+  }), "全部 format 必须以同样的圆形头像作者行开头");
+  const stats = page.getByLabel("互动统计", { exact: true });
+  assert.deepEqual(await stats.locator("dt").allTextContents(), ["回复", "转发", "点赞", "浏览"]);
+  assert.deepEqual(await stats.locator("dd").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("aria-label"))), [topic.simulatedComments, topic.simulatedReposts, topic.simulatedLikes, topic.simulatedViews].map((count) => count.toLocaleString("zh-CN")));
+  const rows = await page.locator(".social-stats").evaluateAll((nodes) => nodes.map((node) => {
+    const boxes = [...node.children].map((child) => child.getBoundingClientRect());
+    return { icons: node.querySelectorAll("svg").length, interactive: node.querySelectorAll('button, a, [role="button"], [tabindex], [onclick]').length,
+      overflow: node.scrollWidth > node.clientWidth, oneRow: boxes.every((box) => Math.abs(box.y - boxes[0].y) < 1),
+      pointer: getComputedStyle(node).cursor === "pointer" };
+  }));
+  for (const row of rows) assert.ok(row.icons === 4 && row.interactive === 0 && !row.overflow && row.oneRow && !row.pointer, "帖子/评论统计必须为单行只读展示");
+  assert.equal(await page.locator("#post-comments > li .author-row").count(), await page.locator("#post-comments > li").count());
+  const cover = article.locator(".post-cover img").first();
+  await cover.evaluate((image) => image.decode());
+  assert.ok(await cover.evaluate((image) => {
+    const box = image.getBoundingClientRect();
+    return Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight) < 0.01 && getComputedStyle(image).objectFit === "contain" && parseFloat(getComputedStyle(image).borderRadius) >= 10;
+  }), "帖子封面应圆角、保持原比例完整显示");
+  return { header: "圆形头像、昵称、派生 handle、静态相对时间", statisticRows: rows.length, noninteractive: true };
 }
 
 async function trendingChecks(page, keyboard = false) {
@@ -414,9 +484,10 @@ try {
     await visible(page.getByText(topic.claim, { exact: true }));
     assert.equal(await page.getByRole("radio").count(), 2);
     await visible(page.getByLabel("互动统计"));
-    await visible(page.getByLabel("互动统计").getByText(topic.simulatedLikes.toLocaleString("zh-CN"), { exact: true }));
+    await visible(page.getByLabel("互动统计").getByLabel(topic.simulatedLikes.toLocaleString("zh-CN"), { exact: true }));
     assert.ok(topic.comments.every((comment) => !comment.text.includes(topic.reveal.correctedClaim) && !/核心主张为[真假]|查证属实|谣言退散|正确(?:答案|选项)[：:]/.test(comment.text)), `${id} 评论直接泄漏结论`);
     const initialGeometry = await mobileGeometry(page, `${id} 初始帖子与判题区`);
+    initialGeometry.social = await postSocialChecks(page, topic);
     assert.equal(await page.locator("article[data-format]").getAttribute("data-format"), scenario.format || "post");
     if (scenario.format) {
       formatChecks.push({ id, format: scenario.format, ...initialGeometry });
@@ -441,6 +512,7 @@ try {
     }
     if (id === "H03") {
       await screenshotAt(page, page.locator("main"), "post-H03-top-390x844.png");
+      await screenshotAt(page, page.locator("article[data-format]"), "v0.8.0-post-390x844.png");
       await screenshotAt(page, page.locator(".task-panel"), "post-H03-task-390x844.png");
     }
     const callsBefore = verdictCalls;
@@ -607,11 +679,18 @@ try {
         await mobileGeometry(mobile, "页内公告/守则展开");
       }
       if (route === "/discover") {
-        assert.equal(await mobile.locator('[aria-label="发现话题"]').evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(" ").length), 2);
-        if (viewport.width === 390) await screenshotAt(mobile, mobile.locator("main"), "discover-390x844.png");
+        pageGeometry.masonry = await discoverChecks(mobile);
+        if (viewport.width === 390) {
+          await mobile.waitForLoadState("networkidle");
+          await screenshotAt(mobile, mobile.locator("main"), "discover-390x844.png");
+          await mobile.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+          await mobile.screenshot({ path: path.join(screenshots, "v0.8.0-discover-390x844.png"), animations: "disabled" });
+        }
       }
       const scenario = scenarios.find(({ id }) => route === `/post/${id}`);
       if (scenario) {
+        const topic = trendingTopics.find(({ id }) => id === scenario.id);
+        pageGeometry.social = await postSocialChecks(mobile, topic);
         if (scenario.format) assert.equal(await mobile.locator("article[data-format]").getAttribute("data-format"), scenario.format);
         if (scenario.id === "H12") {
           const poll = mobile.getByRole("region", { name: "直觉投票", exact: true });
@@ -621,6 +700,7 @@ try {
           geometry.push(await mobileGeometry(mobile, "H12 移动端投票后"));
         }
         await mobile.getByRole("button", { name: /展开更多评论/ }).click();
+        await postSocialChecks(mobile, topic);
         await mobileGeometry(mobile, `${route} 评论展开`);
         await mobile.getByRole("radio", { name: scenario.answer ? "是真的" : "是假的", exact: true }).check();
         if (scenario.id === "H03") await mobile.emulateMedia({ reducedMotion: "reduce" });
@@ -680,8 +760,7 @@ try {
   assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), scenarios.length);
   const discoverLinks = await page.locator('[aria-label="发现话题"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   assert.deepEqual(discoverLinks, scenarios.map(({ id }) => `/post/${id}`));
-  const columns = await page.locator('[aria-label="发现话题"]').evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(" ").length);
-  assert.equal(columns, 2);
+  await discoverChecks(page);
   for (const { id } of scenarios) {
     await page.goto(`${baseURL}/discover`);
     await page.locator(`[aria-label="发现话题"] a[href="/post/${id}"]`).click();

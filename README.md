@@ -4,6 +4,8 @@
 
 ## 当前阶段
 
+v0.8.0：发现页采用双列 CSS columns 瀑布流，封面完整显示、标题最多两行，底部为头像/作者与心形点赞数。全部帖子模板和评论共用圆形头像、派生原创 handle、静态相对时间，以及回复/转发/点赞/浏览四项只读统计；不引入伪交互，沿用项目色板和原创素材。新截图为 `artifacts/stage-6/screenshots/v0.8.0-discover-390x844.png` 与 `v0.8.0-post-390x844.png`。
+
 阶段 6：题库已扩至 12 条（6 真 6 假），H09–H12 引入快讯、朋友圈、群聊与对比投票四种形式。移动端优先，基准 `390×844`，适配 `375×667`、`430×932`；固定底部热搜榜/发现 Tab，公告与守则移入页内折叠，桌面端仅显示居中的 390px 手机列（最大 430px），不设侧栏或额外展示区。保留现有配色、字体、卡片、焦点管理和减少动态效果支持。结果见 [QA 报告](docs/QA_REPORT.md)，产品依据为 [任务书](docs/任务书.md)。
 
 阶段4已补充 H01/H05/H07/H08 的第二来源；本轮新增九条指定来源并补齐逐题人工审核清单。全部 12 条题目和 28 条来源继续保持 `pending`。
@@ -75,7 +77,7 @@ npm run build
 CHROME_PATH=/usr/bin/google-chrome npm run test:e2e
 ```
 
-脚本自动启动生产服务（默认端口 3123），使用 Playwright 与系统 Chrome；`CHROME_PATH` 可指定其他浏览器，`E2E_PORT` 可改端口，`E2E_BASE_URL` 可接已有服务。三个手机视口均检查热榜、双列发现、全部十二题、两种 404，以及判题/揭晓/展开来源/改写/AI/弹窗状态：`scrollWidth <= clientWidth`、触控范围宽高 ≥44px（radio 按关联 label）、底部导航无遮挡。390×844 完成十二题真实判题、来源、改写、PNG 下载及刷新恢复，另验答错可揭晓；H03 在三尺寸下载均为 1200×675。保留首次 HTML 无答案、PNG 非空与无裁切、焦点循环/返回、减少动态效果，并检查一次 1440×900 居中 390px 列。AI 加载、503、重试和超长回答仅用浏览器 mock 检查布局，不调用模型。结果与下载在忽略的 `artifacts/stage-6/`，`screenshots/` 含 16 张 390×844 状态截图（包括 H09–H12 顶部及 H11 揭晓）和 1 张桌面截图。
+脚本自动启动生产服务（默认端口 3123），使用 Playwright 与系统 Chrome；`CHROME_PATH` 可指定其他浏览器，`E2E_PORT` 可改端口，`E2E_BASE_URL` 可接已有服务。三个手机视口均检查热榜、双列发现、全部十二题、两种 404，以及判题/揭晓/展开来源/改写/AI/弹窗状态：`scrollWidth <= clientWidth`、触控范围宽高 ≥44px（radio 按关联 label）、底部导航无遮挡。390×844 完成十二题真实判题、来源、改写、PNG 下载及刷新恢复，另验答错可揭晓；H03 在三尺寸下载均为 1200×675。保留首次 HTML 无答案、PNG 非空与无裁切、焦点循环/返回、减少动态效果，并检查一次 1440×900 居中 390px 列。AI 加载、503、重试和超长回答仅用浏览器 mock 检查布局，不调用模型。结果与下载在忽略的 `artifacts/stage-6/`，`screenshots/` 包含手机及桌面状态截图（包括 H09–H12 顶部、H11 揭晓及 v0.8.0 发现页/帖子）。
 
 ## 数据约定
 
@@ -84,7 +86,7 @@ CHROME_PATH=/usr/bin/google-chrome npm run test:e2e
 - `getAllTopics()` 校验并按 rank 升序返回，`getTopicById(id)` 对未知 ID 返回 `undefined`，页面调用 `notFound()`；`getSourcesForTopic(topic)` 按 `sourceIds` 顺序返回来源。
 - `validateContentSet(topics, sources, { expectedCount })` 校验失败时抛错。默认按当前题目数量检查从 1 开始的连续排名；显式传入 `expectedCount: 12` 时额外要求总数为 12 且真假 6:6（8/16 条阶段也检查均衡）。
 - 当前加载器按已有题目数量校验，允许空题库与 `pending` 的开发预览。正式发布前仍须完成任务书中的人工审核与仅发布 `reviewed` 题目的要求；结构校验不代表史实已审核或引用语义已匹配。
-- `simulatedReposts`、`simulatedBookmarks` 补齐转发和收藏统计，与点赞、评论一样只作预制数字展示；UI 不附加虚构/模拟标签。
+- `simulatedViews` 为独立的预制浏览数；帖子统计行展示回复/转发/点赞/浏览，`simulatedBookmarks` 继续保留在数据中。评论可含 `simulatedReplies`、`simulatedReposts`、`simulatedViews`，旧数据缺省时展示 0。全部统计只读，UI 不附加虚构/模拟标签。
 - `public/covers/`、`public/avatars/` 存放 H01–H12 原创封面与复用的原创头像；`public/decorations/` 继续预留。使用系统中文无衬线字体，不提交字体文件。
 
 ## 本机贴纸与完成度

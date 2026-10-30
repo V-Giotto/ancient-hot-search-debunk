@@ -4,8 +4,9 @@ import { Author, Body, Cover, Stats, Tags, Title } from "./Shared";
 
 export function Moments({ topic }: { topic: PublicTopic }) {
   return <article data-format="moments" className="overflow-hidden rounded-2xl border border-ink/7 bg-card">
+    <div className="p-5"><Author topic={topic} /></div>
     <div className="border-b border-ink/7 bg-gold/10 px-5 py-3 text-sm font-bold">朋友圈 · 手作动态</div>
-    <div className="p-5"><Author topic={topic} /><Title topic={topic} /><Body topic={topic} />
+    <div className="p-5 pt-0"><Title topic={topic} /><Body topic={topic} />
       <div aria-label="朋友圈配图格" className="mt-5 grid grid-cols-2 gap-2 overflow-hidden rounded-xl">
         <div className="col-span-2"><Cover topic={topic} /></div>
         <div className="bg-gold/15 p-4 text-center"><span className="text-3xl font-bold text-[#7d5b32]">字</span><p className="mt-2 text-xs text-muted">材料，放大看看</p></div>

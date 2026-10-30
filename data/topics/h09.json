@@ -19,6 +19,7 @@
   },
   "body": "街巷快讯插播：一条关于望火楼的消息正在转发，配图里高处的观察窗成了评论区焦点。有人盯着楼上，有人追问楼下，播报员的提词卡已经快被问号挤满。先别急着把熟悉的现代名称贴上去，也别只凭一个楼名脑补整套安排。把消息拆成瞭望、人员和器具，带着问题去查证，再决定这条快讯该怎么转。",
   "simulatedHeat": 510000,
+  "simulatedViews": 979670,
   "simulatedLikes": 11500,
   "simulatedComments": 920,
   "simulatedReposts": 410,
@@ -30,7 +31,7 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "播报员先喝口水，我的转发键已经被问号按住了。",
-      "simulatedLikes": 520
+      "simulatedLikes": 520, "simulatedReplies": 10, "simulatedReposts": 1, "simulatedViews": 4628
     },
     {
       "id": "H09-C02",
@@ -38,7 +39,7 @@
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
       "text": "把消息中的瞭望、驻军、器具分开核对，别让一个楼名包办所有解释。",
-      "simulatedLikes": 483
+      "simulatedLikes": 483, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4430
     },
     {
       "id": "H09-C03",
@@ -46,7 +47,7 @@
       "avatar": "/avatars/hype.svg",
       "role": "troll",
       "text": "快讯封面已排好，结论等你们查完再上！",
-      "simulatedLikes": 446
+      "simulatedLikes": 446, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4232
     },
     {
       "id": "H09-C04",
@@ -54,7 +55,7 @@
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
       "text": "本街巷网友申请靠后围观，别让我挡住播报员。",
-      "simulatedLikes": 409
+      "simulatedLikes": 409, "simulatedReplies": 13, "simulatedReposts": 4, "simulatedViews": 4034
     },
     {
       "id": "H09-C05",
@@ -62,7 +63,7 @@
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
       "text": "《东京梦华录》的防火记述值得对照，先读上下文再选。",
-      "simulatedLikes": 372
+      "simulatedLikes": 372, "simulatedReplies": 14, "simulatedReposts": 5, "simulatedViews": 3836
     },
     {
       "id": "H09-C06",
@@ -70,7 +71,7 @@
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
       "text": "楼上楼下都有人提问，评论区比我家消息群还忙。",
-      "simulatedLikes": 335
+      "simulatedLikes": 335, "simulatedReplies": 15, "simulatedReposts": 6, "simulatedViews": 3638
     },
     {
       "id": "H09-C07",
@@ -78,7 +79,7 @@
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
       "text": "提词卡借我看看，我只负责给问号排队。",
-      "simulatedLikes": 298
+      "simulatedLikes": 298, "simulatedReplies": 16, "simulatedReposts": 7, "simulatedViews": 3440
     },
     {
       "id": "H09-C08",
@@ -86,7 +87,7 @@
       "avatar": "/avatars/hype.svg",
       "role": "troll",
       "text": "热度我来盯，资料请课代表接力。",
-      "simulatedLikes": 261
+      "simulatedLikes": 261, "simulatedReplies": 17, "simulatedReposts": 0, "simulatedViews": 3242
     }
   ],
   "claim": "北宋都城东京设有望火楼瞭望火情，楼下驻有专门救火的军兵并备有救火器具。",

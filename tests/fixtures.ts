@@ -31,6 +31,7 @@ export function makeTopic(overrides: Partial<HotTopic> = {}): HotTopic {
     },
     body: "合成测试正文，不包含历史断言。",
     simulatedHeat: 100,
+    simulatedViews: 120,
     simulatedLikes: 10,
     simulatedComments: 6,
     simulatedReposts: 2,

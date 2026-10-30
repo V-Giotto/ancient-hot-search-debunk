@@ -11,6 +11,7 @@ import { toPublicTopic } from "@/lib/public-topic";
 import { HotTopicSchema, SourceSchema } from "@/lib/schemas";
 import { PROGRESS_KEY, readProgress, saveProgress } from "@/lib/progress";
 import type { VerdictResult } from "@/lib/verdict";
+import { compactCount } from "@/lib/social-display";
 
 const topic = HotTopicSchema.parse(h03);
 const publicTopic = toPublicTopic(topic);
@@ -39,7 +40,7 @@ describe("真假判断与揭晓", () => {
   it("帖子与评论保留数字，移除账号、图注和互动免责声明", () => {
     const { container } = render(<PostExperience topic={publicTopic} />);
     expect(container.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
-    expect(screen.getByLabelText("互动统计").textContent).toContain(topic.simulatedLikes.toLocaleString("zh-CN"));
+    expect(screen.getByLabelText("互动统计").textContent).toContain(compactCount(topic.simulatedLikes));
     expect(container.querySelector("figcaption")).toBeNull();
     expect(container.querySelectorAll("img").length).toBeGreaterThan(0);
     for (const image of container.querySelectorAll("img")) expect(image.alt).not.toMatch(/虚构|架空|非史料/);

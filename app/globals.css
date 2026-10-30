@@ -95,10 +95,43 @@ main :is(a, button, summary, textarea) {
 button, input, textarea, summary, a { -webkit-tap-highlight-color: transparent; }
 a, button, summary { transition: color 180ms, background-color 180ms, border-color 180ms; }
 [aria-label="热搜排行"] > li > a:hover { background: var(--background); }
-[aria-label="发现话题"] > li { box-shadow: 0 3px 14px #26252c04; transition: box-shadow 220ms, transform 220ms; }
-[aria-label="发现话题"] > li:hover { box-shadow: 0 8px 24px #26252c0c; transform: translateY(-3px); }
-[aria-label="发现话题"] > li > a { overflow: visible; }
-[aria-label="发现话题"] > li > a > img { border-radius: 15px 15px 0 0; }
+.discover-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 20px; }
+.discover-heading .eyebrow { margin-bottom: 4px; font-size: 10px; }
+.discover-heading h1 { font-size: 21px; font-weight: 750; letter-spacing: 0.025em; }
+.discover-heading > a { flex-shrink: 0; color: #b33f39; font-size: 11px; }
+.discover-masonry { column-count: 2; column-gap: 10px; }
+.discover-card { break-inside: avoid; margin-bottom: 10px; border: 1px solid #26252c0a; border-radius: 12px; background: var(--card); box-shadow: 0 3px 14px #26252c04; }
+.discover-card > a { display: block; min-width: 0; border-radius: inherit; }
+.discover-card > a:hover h2 { color: #b33f39; }
+.discover-cover { display: block; width: 100%; height: auto; object-fit: contain; border-radius: 11px 11px 0 0; background: var(--background); }
+.discover-copy { padding: 10px 9px 12px; }
+.discover-copy h2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 13px; font-weight: 650; line-height: 1.6; }
+.discover-byline { display: flex; align-items: center; gap: 4px; margin-top: 12px; color: var(--muted); font-size: 10px; }
+.discover-byline > img { width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; }
+.discover-author { min-width: 0; flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.discover-likes { display: inline-flex; flex-shrink: 0; align-items: center; gap: 2px; font-variant-numeric: tabular-nums; }
+.discover-likes svg { width: 15px; height: 15px; }
+.author-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.author-avatar { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; object-fit: cover; }
+.author-initial { display: flex; align-items: center; justify-content: center; background: var(--background); color: #b33f39; font-weight: 700; }
+.author-identity { min-width: 0; flex: 1; }
+.author-name { font-size: 14px; font-weight: 700; line-height: 1.5; }
+.author-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.author-handle { overflow-wrap: anywhere; }
+.author-time { white-space: nowrap; }
+.post-title { margin-top: 18px; font-size: 19px; font-weight: 750; line-height: 1.7; }
+.post-body { margin-top: 12px; font-size: 14px; line-height: 1.95; white-space: pre-wrap; }
+.post-cover { overflow: hidden; border-radius: 12px; }
+.post-cover > img { display: block; width: 100%; height: auto; object-fit: contain; border-radius: inherit; }
+.social-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: 8px; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.social-stat { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.social-stat:last-child { justify-content: flex-end; }
+.social-stat dt { display: flex; flex-shrink: 0; }
+.social-stat svg { width: 18px; height: 18px; }
+.social-stat dd { white-space: nowrap; }
+.comment-row .author-avatar { width: 36px; height: 36px; }
+.comment-row .author-name { font-size: 13px; }
+.comment-row .author-meta { font-size: 10px; }
 .answer-option:has(input:focus-visible) { outline: 3px solid #b33f39; outline-offset: 4px; }
 .answer-option, .rewrite-option { transition: background-color 180ms, border-color 180ms; }
 .reveal-panel { animation: panel-enter 280ms ease-out both; }
