@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useEffect, useRef, useState } from "react";
 import type { PublicTopic } from "@/lib/public-topic";
 import type { VerdictResult } from "@/lib/verdict";
@@ -77,7 +79,7 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
     <dialog ref={dialogRef} aria-labelledby="card-dialog-title" onKeyDown={trapFocus} onCancel={(event) => { event.preventDefault(); onClose(); }} onClick={(event) => { if (event.target === event.currentTarget) onClose(); }} className="check-card-dialog">
       <div className="mb-5 flex items-center justify-between gap-4">
         <div><h2 id="card-dialog-title" className="text-lg font-bold">查证卡预览</h2><p className="mt-1 text-xs text-muted">1200 × 675 · PNG</p></div>
-        <button ref={closeButtonRef} type="button" onClick={onClose} className="secondary-button">关闭预览</button>
+        <button ref={closeButtonRef} type="button" onClick={onClose} className="secondary-button"><PixelIcon name="close" size={16} />关闭预览</button>
       </div>
       <div ref={previewRef} className="relative aspect-video w-full overflow-hidden rounded-xl border border-ink/10">
         <div style={{ width: 1200, height: 675, transform: `scale(${scale})`, transformOrigin: "top left" }}>
@@ -88,7 +90,7 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
             </div>
             <h3 style={{ fontSize: 37, lineHeight: 1.45, margin: "22px 0 15px", fontWeight: 800 }}>{topic.title}</h3>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `2px solid ${result.isTrue ? "#426b58" : "#c3433d"}`, color: result.isTrue ? "#426b58" : "#c3433d", padding: "6px 18px", borderRadius: 5, fontSize: 27, fontWeight: 800 }}><StatusIcon name={result.isTrue ? "verified" : "refuted"} size={28} />{result.isTrue ? "查证属实" : "谣言退散"}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `2px solid ${result.isTrue ? "#426b58" : "#c3433d"}`, color: result.isTrue ? "#426b58" : "#c3433d", padding: "6px 18px", borderRadius: 5, fontSize: 27, fontWeight: 800 }}><StatusIcon name={result.isTrue ? "verified" : "refuted"} size={32} />{result.isTrue ? "查证属实" : "谣言退散"}</span>
               <strong style={{ fontSize: 24 }}>查证结果：{result.isTrue ? "真" : "假"}</strong>
             </div>
             <div style={{ background: "#fff", borderLeft: "5px solid #d6ad72", padding: "16px 22px", fontSize: 27, fontWeight: 650, lineHeight: 1.65 }}>{result.reveal.correctedClaim}</div>

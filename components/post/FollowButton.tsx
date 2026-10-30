@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useEffect, useState } from "react";
 
 export function FollowButton({ handle, name }: { handle: string; name: string }) {
@@ -18,5 +20,5 @@ export function FollowButton({ handle, name }: { handle: string; name: string })
     catch { /* 不影响判题与贴纸。 */ }
   }
 
-  return <button type="button" className="follow-button" aria-label={`关注${name}`} aria-pressed={following} onClick={toggle}>{following ? "已关注" : "+ 关注"}</button>;
+  return <button type="button" className="follow-button" aria-label={`关注${name}`} aria-pressed={following} onClick={toggle}><PixelIcon name={following ? "check" : "follow"} size={16} />{following ? "已关注" : "关注"}</button>;
 }

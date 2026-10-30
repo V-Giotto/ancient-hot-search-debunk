@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useId, useRef, type KeyboardEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { StickerWall } from "@/components/stickers/StickerWall";
@@ -41,7 +43,7 @@ export function MeTabs({ stickers, firstTopicId, topics }: { stickers: Sticker[]
       {tabs.map((tab, index) => <button key={tab.id} ref={(node) => { tabRefs.current[index] = node; }}
         type="button" role="tab" id={`${id}-tab-${tab.id}`} aria-controls={`${id}-panel-${tab.id}`}
         aria-selected={selected === tab.id} tabIndex={selected === tab.id ? 0 : -1}
-        onClick={() => select(index)} onKeyDown={(event) => handleKey(event, index)}>{tab.label}</button>)}
+        onClick={() => select(index)} onKeyDown={(event) => handleKey(event, index)}><PixelIcon name={tab.id === "stickers" ? "stickers" : "bookmark"} size={16} />{tab.label}</button>)}
     </div>
     <section role="tabpanel" id={`${id}-panel-stickers`} aria-labelledby={`${id}-tab-stickers`} hidden={selected !== "stickers"} tabIndex={0} className="me-panel">
       <h2>查证贴纸墙</h2>

@@ -75,7 +75,7 @@ describe("移动端共用壳层", () => {
     render(<AppShell><h1>页面内容</h1></AppShell>);
     const navigation = screen.getByRole("navigation", { name: "主导航" });
     const links = within(navigation).getAllByRole("link");
-    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["好友", "/friends"], ["▧我的", "/me"]]);
+    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["热搜榜", "/trending"], ["发现", "/discover"], ["好友", "/friends"], ["我的", "/me"]]);
     expect(within(navigation).queryByRole("link", { name: "贴纸" })).toBeNull();
     expect(document.querySelectorAll('a[href="/stickers"]')).toHaveLength(0);
     for (const link of links) expect(link.getAttribute("aria-current")).toBe(pathname === link.getAttribute("href") || pathname.startsWith(`${link.getAttribute("href")}/`) ? "page" : null);

@@ -1,3 +1,5 @@
+
+import { PixelIcon } from "@/components/pixel/PixelIcon";
 import type { FriendProfile } from "@/lib/friend-schema";
 import type { PublicTopic } from "@/lib/public-topic";
 import { Post } from "./Post";
@@ -28,7 +30,7 @@ export function PostFormat({ topic, friends = [] }: { topic: PublicTopic; friend
     <div data-post-section="format" className="post-format-bar"><span className="flex flex-wrap items-center gap-2"><span>{label}</span><EraChip topic={topic} /></span><span>{description}</span></div>
     <div data-post-section="title"><Title topic={topic} /></div>
     <div data-post-section="cover"><Cover topic={topic} /></div>
-    <div data-post-section="body"><Template key={topic.id} topic={topic} /><p className="post-invitation"><span aria-hidden="true">💬</span> 我先留个问号，你怎么看？</p><Tags topic={topic} /></div>
+    <div data-post-section="body"><Template key={topic.id} topic={topic} /><p className="post-invitation"><PixelIcon name="reply" size={16} /> 我先留个问号，你怎么看？</p><Tags topic={topic} /></div>
     <div data-post-section="actions" className="post-statistics"><PostActions topic={topic} friends={friends} /></div>
   </article>;
 }

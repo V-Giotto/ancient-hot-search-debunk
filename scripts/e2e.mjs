@@ -98,6 +98,142 @@ async function versionScreenshot(page, name, version = "0.10.0", { scrollToTop =
   if (reviewDir) await copyFile(target, path.join(reviewDir, filename));
 }
 
+const pixelUIRecords = [];
+const pixelIconNames = new Set();
+
+async function pixelSourceChecks() {
+  const files = [];
+  for (const folder of ["components", "app"]) {
+    for (const name of await readdir(folder, { recursive: true })) {
+      if (!name.endsWith(".tsx")) continue;
+      const file = path.join(folder, name);
+      const source = await readFile(file, "utf8");
+      if (!file.startsWith("components/pixel/")) assert.doesNotMatch(source, /<svg\b/, `${file} 残留旧 SVG`);
+      assert.doesNotMatch(source, /[←→↗↘↙↖↑↓▶▼▲◀⌄⌃✕♥♡★☆🔥👀💬🔗🔍➜↩✔✓✖◫▧]/u, `${file} 残留字符图标`);
+      files.push(file);
+    }
+  }
+  return { scannedFiles: files.length, legacySvg: 0, unicodeIcons: 0 };
+}
+
+async function pixelUIAudit(page, state) {
+  const result = await page.evaluate(() => {
+    const svgs = [...document.querySelectorAll("svg")];
+    const invalid = [];
+    const names = [];
+    for (const svg of svgs) {
+      const name = svg.getAttribute("data-pixel-icon") || svg.getAttribute("data-pixel-sticker");
+      if (!name || svg.getAttribute("shape-rendering") !== "crispEdges" || svg.getAttribute("aria-hidden") !== "true" || svg.getAttribute("focusable") !== "false") invalid.push({ name, reason: "旧 SVG / 像素或 aria 属性缺失" });
+      if (!svg.checkVisibility()) continue;
+      if (svg.hasAttribute("data-pixel-icon")) names.push(name);
+      const box = svg.getBoundingClientRect(), grid = svg.viewBox.baseVal;
+      // The 1200×675 export canvas is intentionally zoomed as a whole in its preview.
+      // Verify its native SVG dimensions; normal UI is checked at actual screen size.
+      const exportPreview = svg.closest('[data-testid="check-card"]');
+      const style = getComputedStyle(svg);
+      const sx = (exportPreview ? parseFloat(style.width) : box.width) / grid.width;
+      const sy = (exportPreview ? parseFloat(style.height) : box.height) / grid.height;
+      if (Math.abs(sx - Math.round(sx)) > .01 || Math.abs(sy - sx) > .01) invalid.push({ name, reason: "非整数倍缩放", width: box.width, height: box.height, grid: grid.width });
+      if (svg.hasAttribute("data-pixel-icon") && svg.getAttribute("fill") !== "currentColor") invalid.push({ name, reason: "未继承状态色" });
+      if (svg.querySelector("circle, ellipse, line, polyline, image, text")) invalid.push({ name, reason: "非手绘像素几何" });
+    }
+    return { svgCount: svgs.length, names, invalid };
+  });
+  assert.ok(result.svgCount >= 4, `${state} 四个导航像素图标应存在`);
+  assert.deepEqual(result.invalid, [], `${state} 像素 SVG 检查失败`);
+  for (const name of result.names) pixelIconNames.add(name);
+  pixelUIRecords.push({ state, viewport: page.viewportSize(), svgCount: result.svgCount });
+}
+
+async function pixelInteractionChecks(browser, errors) {
+  const source = await pixelSourceChecks();
+  const records = [];
+  for (const viewport of [{ width: 390, height: 844 }, { width: 375, height: 667 }, { width: 430, height: 932 }]) {
+    const context = await browser.newContext({ viewport, isMobile: true, hasTouch: true });
+    try {
+      const page = await context.newPage();
+      page.on("pageerror", (error) => errors.push(error.message));
+      page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
+      await page.goto(`${baseURL}/trending`);
+      await visible(page.locator(".trending-hero"));
+      await mobileGeometry(page, "像素导航初始态");
+      assert.deepEqual(await page.locator(".bottom-tabs [data-pixel-icon]").evaluateAll((nodes) => nodes.map((node) => node.dataset.pixelIcon)), ["trending", "discover", "friends", "me"]);
+      if (viewport.width === 390) await versionScreenshot(page, "tabbar", packageVersion);
+      // Unlock by the real deterministic verdict endpoint; no AI request or seeded storage.
+      for (const [id, answer] of [["H01", false], ["H02", true]]) {
+        await page.goto(`${baseURL}/post/${id}`);
+        await page.getByRole("radio", { name: answer ? "是真的" : "是假的", exact: true }).check();
+        await page.getByRole("button", { name: "提交判断", exact: true }).click();
+        await visible(page.locator(".sticker-earned [data-sticker-state=unlocked]"));
+      }
+      await page.goto(`${baseURL}/me?tab=stickers`);
+      await page.waitForFunction(() => document.querySelectorAll('[data-sticker-id][data-unlocked="true"]').length === 2);
+      assert.equal(await page.locator("[data-sticker-state=unlocked]").count(), 2);
+      assert.equal(await page.locator("[data-sticker-state=locked] [data-pixel-question]").count(), 10);
+      assert.equal(await page.locator("[data-sticker-state=unlocked] [data-pixel-question]").count(), 0);
+      await mobileGeometry(page, "像素贴纸二枚解锁十枚锁定");
+      if (viewport.width === 390) {
+        await page.evaluate(() => window.scrollTo({ top: 144, behavior: "instant" }));
+        const question = page.locator('[data-sticker-state=locked] [data-pixel-question]').first();
+        const box = await question.boundingBox(), tabs = await page.locator(".bottom-tabs").boundingBox();
+        assert.ok(box.y > 48 && box.y + box.height < tabs.y, "贴纸截图应露出锁定问号");
+        await versionScreenshot(page, "stickers", packageVersion, { scrollToTop: false });
+      }
+      await page.goto(`${baseURL}/post/H05`);
+      const actions = page.getByRole("group", { name: "帖子互动", exact: true });
+      for (const [label, icon, cls] of [["点赞", "like", "is-liked"], ["收藏", "bookmark", "is-saved"]]) {
+        const button = actions.getByRole("button", { name: label, exact: true });
+        assert.equal(await button.locator(`[data-pixel-icon="${icon}"]`).count(), 1);
+        await button.click();
+        assert.equal(await button.getAttribute("aria-pressed"), "true");
+        assert.ok((await button.getAttribute("class")).includes(cls));
+        assert.equal(await button.locator(`[data-pixel-icon="${icon}Filled"].pixel-icon-selected`).count(), 1);
+      }
+      // Measure the final selected palette after the existing 180ms color transition.
+      await page.waitForFunction(() => {
+        const saved = document.querySelector('.post-actions .is-saved');
+        return saved && getComputedStyle(saved).backgroundColor === "rgb(42, 27, 94)" && getComputedStyle(saved).color === "rgb(166, 226, 46)";
+      });
+      const contrasts = await actions.locator('[aria-pressed="true"]').evaluateAll((nodes) => nodes.map((node) => {
+        const luminance = (color) => {
+          const channels = color.match(/[\d.]+/g).slice(0, 3).map((n) => { const c = Number(n) / 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; });
+          return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+        };
+        const css = getComputedStyle(node), fg = luminance(css.color), bg = luminance(css.backgroundColor);
+        return { label: node.getAttribute("aria-label"), foreground: css.color, background: css.backgroundColor, ratio: (Math.max(fg, bg) + .05) / (Math.min(fg, bg) + .05) };
+      }));
+      for (const contrast of contrasts) assert.ok(contrast.ratio >= 4.5, `${contrast.label} 选中态文字/图形对比度不足: ${JSON.stringify(contrast)}`);
+      await mobileGeometry(page, "像素点赞与收藏实心选中态");
+      if (viewport.width === 390) {
+        await actions.evaluate((node) => window.scrollTo({ top: window.scrollY + node.getBoundingClientRect().top - innerHeight * .60, behavior: "instant" }));
+        const box = await actions.boundingBox(), tabs = await page.locator(".bottom-tabs").boundingBox();
+        assert.ok(box.y > 48 && box.y + box.height < tabs.y, "截图须完整显示操作栏");
+        await versionScreenshot(page, "post-actions", packageVersion, { scrollToTop: false });
+      }
+      for (const [label, icon, cls] of [["点赞", "like", "is-liked"], ["收藏", "bookmark", "is-saved"]]) {
+        const button = actions.getByRole("button", { name: label, exact: true });
+        await button.click();
+        assert.equal(await button.getAttribute("aria-pressed"), "false");
+        assert.ok(!(await button.getAttribute("class")).includes(cls));
+        assert.equal(await button.locator(`[data-pixel-icon="${icon}"]`).count(), 1);
+      }
+      await actions.getByRole("button", { name: "转发", exact: true }).click();
+      const sheet = page.getByRole("dialog", { name: "转发给好友" });
+      assert.equal(await sheet.locator('[data-pixel-icon="copy"]').count(), 1);
+      assert.equal(await sheet.locator('[data-pixel-icon="close"]').count(), 1);
+      await mobileGeometry(page, "像素转发弹层");
+      await sheet.getByRole("button", { name: "关闭转发弹层" }).click();
+      for (const route of ["/discover", "/friends", "/friends/libai", "/friends/dufu"]) {
+        await page.goto(`${baseURL}${route}`);
+        await visible(page.locator(".shell-header"));
+        await mobileGeometry(page, `像素入口 ${route}`);
+      }
+      records.push({ viewport, unlocked: 2, locked: 10, contrasts });
+    } finally { await context.close(); }
+  }
+  return { source, records, realAiCalls: 0, screenshots: ["post-actions", "stickers", "tabbar"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-390x844.png`)) };
+}
+
 async function firstLoadChecks(browser, errors) {
   // 从构建内容识别导出库独立 chunk，避免把文件名散列写死。
   const chunkDir = ".next/static/chunks";
@@ -381,7 +517,7 @@ async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false 
       stampSize: parseFloat(getComputedStyle(stamp).fontSize), stampCentered: Math.abs(stampBox.left + stampBox.width / 2 - rowBox.left - rowBox.width / 2) < 0.5,
       stampText: stamp.textContent, feedbackClass: feedback.className,
       stampIcon: stamp.querySelector('svg[aria-hidden="true"]').getAttribute("data-status-icon"),
-      icon: feedback.querySelector('[aria-hidden="true"]').textContent,
+      icon: feedback.querySelector("[data-pixel-icon]").getAttribute("data-pixel-icon"),
       feedbackColor: getComputedStyle(feedback).color, feedbackBackground: getComputedStyle(feedback).backgroundColor,
       order: [...panel.querySelectorAll(".verdict-stamp-row, .verdict-feedback, .corrected-claim")].map((node) => node.classList[0]),
       details: [...panel.querySelectorAll("details")].map((node) => node.open),
@@ -400,7 +536,7 @@ async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false 
   assert.match(layout.stampText, new RegExp(`核心主张为${isTrue ? "真" : "假"}`));
   assert.equal(layout.stampIcon, isTrue ? "verified" : "refuted");
   assert.ok(layout.feedbackClass.includes(correct ? "feedback-correct" : "feedback-incorrect"));
-  assert.equal(layout.icon, correct ? "✓" : "✕");
+  assert.equal(layout.icon, correct ? "check" : "close");
   assert.equal(layout.feedbackColor, correct ? "rgb(52, 88, 68)" : "rgb(162, 51, 46)");
   assert.notEqual(layout.feedbackBackground, "rgba(0, 0, 0, 0)");
   assert.deepEqual(layout.order, ["verdict-stamp-row", "verdict-feedback", "corrected-claim"]);
@@ -417,7 +553,7 @@ async function earnedSticker(page, id, count) {
   assert.equal(await sticker.getAttribute("aria-atomic"), "true");
   await visible(sticker.getByText(new RegExp(`^获得贴纸：.+ · 已查证 ${count}/${scenarios.length}$`)));
   if (id === "H03") await visible(sticker.getByText(`获得贴纸：饭局手记 · 已查证 ${count}/${scenarios.length}`, { exact: true }));
-  assert.equal(await sticker.getByRole("link", { name: "去贴纸墙 →", exact: true }).getAttribute("href"), "/me?tab=stickers");
+  assert.equal(await sticker.getByRole("link", { name: "去贴纸墙", exact: true }).getAttribute("href"), "/me?tab=stickers");
   assert.equal(await page.locator(".reveal-panel .sticker-earned").count(), 1);
 }
 
@@ -525,6 +661,7 @@ async function meFlow(page, viewport, geometry) {
   await page.waitForURL("**/me");
   await compactHeaderChecks(page, "我的");
   const tablist = page.getByRole("tablist", { name: "我的内容", exact: true });
+  await visible(tablist);
   const stickers = tablist.getByRole("tab", { name: "贴纸", exact: true });
   const favorites = tablist.getByRole("tab", { name: "收藏", exact: true });
   assert.deepEqual(await tablist.getByRole("tab").allTextContents(), ["贴纸", "收藏"]);
@@ -785,6 +922,7 @@ async function focusVisible(locator) {
 async function mobileGeometry(page, state) {
   await visible(page.locator(".app-shell"));
   await noOverflow(page);
+  await pixelUIAudit(page, state);
   await navigationChecks(page);
   await noDisclaimerLabels(page);
   await noHashtagTitles(page);
@@ -910,7 +1048,7 @@ async function postSocialChecks(page, topic) {
     assert.equal(await actions.getByRole("button").count(), 3);
     for (const name of ["点赞", "收藏"]) assert.equal(await actions.getByRole("button", { name, exact: true }).count(), 1);
     assert.equal(await actions.getByRole("button", { name: /^转发/ }).count(), 1);
-    assert.match(await article.innerText(), /\p{Extended_Pictographic}/u);
+    assert.equal(await article.locator('.post-invitation [data-pixel-icon="reply"]').count(), 1);
     for (const reply of topic.comments[0].replies) {
       const node = page.locator(`[data-reply-id="${reply.id}"]`);
       assert.equal(await node.getAttribute("data-reply-to"), reply.replyTo);
@@ -1051,7 +1189,7 @@ async function trendingChecks(page, keyboard = false) {
     await page.keyboard.press("Space");
     assert.equal(await all.getAttribute("aria-selected"), "true");
     await page.keyboard.press("Tab");
-    await focused(page.getByRole("link", { name: "我的 →", exact: true }));
+    await focused(page.getByRole("main").getByRole("link", { name: "我的", exact: true }));
     await page.keyboard.press("Shift+Tab");
     await focused(all);
   }
@@ -1075,7 +1213,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   const stickers = page.getByRole("list", { name: "贴纸收藏", exact: true });
   await page.goto(`${baseURL}/trending`);
   await collectionCount(page, 0);
-  await page.getByRole("main").getByRole("link", { name: "我的 →", exact: true }).click();
+  await page.getByRole("main").getByRole("link", { name: "我的", exact: true }).click();
   await page.waitForURL("**/me");
   await collectionCount(page, 0);
   assert.equal(await stickers.locator(":scope > li").count(), scenarios.length);
@@ -1108,7 +1246,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await revealSummaryChecks(page, { correct: true, isTrue: false, firstScreen: viewport.width === 390 });
   await earnedSticker(page, "H03", 1);
   if (viewport.width === 390) await page.screenshot({ path: path.join(screenshots, "v0.9.0-reveal-390x844.png"), animations: "disabled" });
-  await page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }).click();
+  await page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙", exact: true }).click();
   await page.waitForURL("**/me?tab=stickers");
   await collectionCount(page, 1);
   assert.equal(await start.count(), 0, "已有贴纸时不应出现空态引导");
@@ -1126,7 +1264,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   assert.equal(await stickers.locator('[data-unlocked="false"]').count(), scenarios.length - 1);
   const unlocked = stickers.locator('[data-sticker-id="H03"]');
   assert.equal(await unlocked.getAttribute("data-unlocked"), "true");
-  await visible(unlocked.getByText("已收藏 · 重新挑战 →", { exact: true }));
+  await visible(unlocked.getByText("已收藏 · 重新挑战", { exact: true }));
   geometry.push(await mobileGeometry(page, "贴纸墙解锁一枚"));
   if (viewport.width === 390) await page.screenshot({ path: path.join(screenshots, "stickers-390x844.png"), animations: "disabled" });
   await unlocked.getByRole("link").click();
@@ -1396,6 +1534,7 @@ try {
   page.on("pageerror", (error) => errors.push(error.message));
   const performanceChecks = await firstLoadChecks(browser, errors);
   const pixelAssets = await pixelAssetChecks(browser, errors);
+  const pixelUI = await pixelInteractionChecks(browser, errors);
   const exportChunkLoads = new Set();
   page.on("request", (request) => {
     const pathname = new URL(request.url()).pathname;
@@ -1524,8 +1663,8 @@ try {
       await focused(page.getByRole("link", { name: "问问 AI", exact: true }));
       await focusVisible(page.getByRole("link", { name: "问问 AI", exact: true }));
       await page.keyboard.press("Tab");
-      await focused(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }));
-      await focusVisible(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }));
+      await focused(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙", exact: true }));
+      await focusVisible(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙", exact: true }));
       await page.keyboard.press("Tab");
       await focused(page.getByText("为什么", { exact: true }));
       await focusVisible(page.getByText("为什么", { exact: true }));
@@ -1624,7 +1763,7 @@ try {
     assert.equal(progress.selectedAnswer, answer);
     assert.equal(progress.selectedRewriteOptionId, undefined, "改写只存本次页面状态");
     // 经所属模块离开再进入，随后刷新，均不自动请求揭晓或恢复任何交互。
-    await page.getByRole("link", { name: /← 返回.*继续/ }).click();
+    await page.getByRole("link", { name: /返回.*继续/ }).click();
     await page.waitForURL(`**/${topic.module}`);
     await page.locator(`[aria-label="${topic.module === "trending" ? "热搜排行" : "发现话题"}"] a[href="/post/${id}"]`).click();
     await page.waitForURL(`**/post/${id}`);
@@ -1861,7 +2000,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道；无 emoji 或楼层评论；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/emoji/楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道；无 emoji 或楼层评论；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/emoji/楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   const eraDetails = geometry.filter((record) => record.eraChip);
   assert.equal(eraDetails.length, allTopics.length * 3, "十二题的年代 chip 须在三种手机视口全部通过");
   summary.era = { detailChecks: eraDetails.length, h12FirstScreenChecks: eraDetails.filter((record) => record.eraChip.firstScreen).length, screenshot: path.join(reviewDir, `v${packageVersion}-era-390x844.png`) };

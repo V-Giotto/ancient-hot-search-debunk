@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useEffect, useRef, useState } from "react";
 import { AskPanel } from "@/components/ai/AskPanel";
 import { readCollectionProgress, saveProgress } from "@/lib/progress";
@@ -100,10 +102,10 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
         <fieldset disabled={locked} className="mt-6">
           <legend className="sr-only">判断主张真假</legend>
           <div className="grid grid-cols-2 gap-3">
-            {[{ value: true, label: "是真的", mark: "真" }, { value: false, label: "是假的", mark: "假" }].map((option) => (
+            {[{ value: true, label: "是真的" }, { value: false, label: "是假的" }].map((option) => (
               <label key={option.label} className={`answer-option ${answer === option.value ? "answer-selected" : ""} ${locked ? "cursor-default" : "cursor-pointer"}`}>
                 <input type="radio" name={`answer-${topic.id}`} value={String(option.value)} checked={answer === option.value} onChange={() => setAnswer(option.value)} />
-                <span className="text-xl font-bold" aria-hidden="true">{option.mark}</span><span>{option.label}</span>
+                <PixelIcon name={option.value ? "verified" : "refuted"} size={24} /><span>{option.label}</span>
               </label>
             ))}
           </div>
@@ -126,7 +128,7 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
                 ? `获得贴纸：${getSticker(topic.id).name} · 已查证 ${earnedProgress.completed}/${earnedProgress.total}`
                 : `${getSticker(topic.id).name} · 已收藏`}</p>
               {storageFailed && <p className="text-xs text-muted">本次已解锁，存储不可用时刷新可能丢失。</p>}
-              <Link href="/me?tab=stickers" className="text-xs text-accent hover:underline">去贴纸墙 →</Link>
+              <Link href="/me?tab=stickers" className="text-xs text-accent hover:underline">去贴纸墙 <PixelIcon name="arrowRight" size={16} /></Link>
             </div>
           </section>
         </VerdictReveal>

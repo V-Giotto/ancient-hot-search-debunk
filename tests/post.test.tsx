@@ -80,7 +80,7 @@ describe("真假判断与揭晓", () => {
     expect(sticker.textContent).toContain(`获得贴纸：饭局手记 · 已查证 1/${topicIds.length}`);
     expect(sticker.getAttribute("aria-live")).toBe("polite");
     expect(sticker.getAttribute("aria-atomic")).toBe("true");
-    expect(within(sticker).getByRole("link", { name: "去贴纸墙 →" }).getAttribute("href")).toBe("/me?tab=stickers");
+    expect(within(sticker).getByRole("link", { name: "去贴纸墙" }).getAttribute("href")).toBe("/me?tab=stickers");
     expect(screen.getByRole("region", { name: topic.reveal.verdictHeadline }).contains(sticker)).toBe(true);
   });
 
@@ -220,7 +220,7 @@ describe("真假判断与揭晓", () => {
     expect(order).toEqual(["verdict-stamp-row", "verdict-feedback", "corrected-claim"]);
     const feedback = reveal.querySelector(".verdict-feedback")!;
     expect(feedback.classList.contains("feedback-correct")).toBe(true);
-    expect(feedback.querySelector('[aria-hidden="true"]')?.textContent).toBe("✓");
+    expect(feedback.querySelector('[data-pixel-icon="check"]')?.getAttribute("aria-hidden")).toBe("true");
     const details = [...reveal.querySelectorAll("details")];
     expect(details).toHaveLength(3);
     expect(details.every((section) => !section.open)).toBe(true);

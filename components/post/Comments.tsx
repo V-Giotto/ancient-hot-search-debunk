@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useState } from "react";
 import type { Comment, CommentReply } from "@/lib/schemas";
 import { commentRelativeTime } from "@/lib/social-display";
@@ -38,7 +40,7 @@ export function Comments({ comments, author = "", title }: { comments: Comment[]
         ))}
       </ul>
       <button type="button" aria-expanded={expanded} aria-controls="post-comments" onClick={() => setExpanded(!expanded)} className="secondary-button w-full">
-        {expanded ? "收起评论" : `展开更多评论（还有 ${comments.length - 4} 条）`}
+        <PixelIcon name={expanded ? "collapse" : "expand"} size={16} />{expanded ? "收起评论" : `展开更多评论（还有 ${comments.length - 4} 条）`}
       </button>
     </section>
   );

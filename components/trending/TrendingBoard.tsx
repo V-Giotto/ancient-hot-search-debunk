@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import Link from "next/link";
 import { CollectionProgress } from "@/components/progress/CollectionProgress";
@@ -45,12 +47,7 @@ export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.i
     <div className="trending-page">
       <header className="trending-hero">
         <div aria-hidden="true" className="trending-pattern">
-          <svg viewBox="0 0 160 160" fill="none">
-            <circle cx="80" cy="80" r="68" />
-            <circle cx="80" cy="80" r="54" strokeDasharray="2 7" />
-            <path d="M80 18 142 80 80 142 18 80Z M80 42 118 80 80 118 42 80Z M66 80h28M80 66v28" />
-            <path d="M5 32h20V12M135 148v-20h20" />
-          </svg>
+          <PixelIcon name="spark" size={32} />
         </div>
         <p className="trending-eyebrow"><span aria-hidden="true" />跨朝代 · 热点档案</p>
         <h1>古代热搜辟谣局</h1>
@@ -95,10 +92,10 @@ export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.i
                       <h3>{topic.title}</h3>
                       <p className="trending-byline"><span>{topic.outlet}</span><time dateTime={topic.publishedAt}>{newsTimestamp(topic.publishedAt).slice(11)}</time></p>
                       <p className="trending-lead">{topic.lead}</p>
-                      {(state[topic.id]?.liked || state[topic.id]?.saved) && <span className="list-social-state">{state[topic.id]?.liked && <span><SocialIcon name="like" />已赞</span>}{state[topic.id]?.saved && <span><SocialIcon name="bookmark" />已收藏</span>}</span>}
+                      {(state[topic.id]?.liked || state[topic.id]?.saved) && <span className="list-social-state">{state[topic.id]?.liked && <span><SocialIcon name="like" size={16} filled />已赞</span>}{state[topic.id]?.saved && <span><SocialIcon name="bookmark" size={16} filled />已收藏</span>}</span>}
                     </div>
                     <div className="trending-media">
-                      <span data-testid="trending-tag" className={`trending-tag trending-tag-${({ 爆: "burst", 热: "hot", 新: "new" })[tag]} ${trendingTagClass[tag]}`}><StatusIcon name={tagIcons[tag]} size={12} /><span>{tag}</span></span>
+                      <span data-testid="trending-tag" className={`trending-tag trending-tag-${({ 爆: "burst", 热: "hot", 新: "new" })[tag]} ${trendingTagClass[tag]}`}><StatusIcon name={tagIcons[tag]} size={16} /><span>{tag}</span></span>
                       <img src={topic.coverUrl} alt={topic.coverAlt} width={96} height={54} className="trending-thumbnail" />
                       <span className="trending-heat">{(topic.simulatedHeat / 10000).toLocaleString("zh-CN", { maximumFractionDigits: 1 })} 万热度</span>
                     </div>
@@ -109,7 +106,7 @@ export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.i
           </ol>
         )}
       </section>
-      <Link href="/discover" className="trending-discover">去发现页逛逛 <span aria-hidden="true">→</span></Link>
+      <Link href="/discover" className="trending-discover">去发现页逛逛 <PixelIcon name="arrowRight" size={16} /></Link>
     </div>
   );
 }

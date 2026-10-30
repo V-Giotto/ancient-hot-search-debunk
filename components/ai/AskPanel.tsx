@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useEffect, useRef, useState } from "react";
 import {
   AskResponseSchema, HISTORY_CONTENT_MAX_LENGTH, HISTORY_MAX_LENGTH, QUESTION_MAX_LENGTH,
@@ -96,7 +98,7 @@ export function AskPanel({ topicId, reviewStatus, sources }: { topicId: string; 
                 {ids.length > 0 && <ul className="mt-3 space-y-2" aria-label="本条回答引用">
                   {ids.map((id) => {
                     const source = allowedSources.find((item) => item.id === id)!;
-                    return <li key={id}><a href={source.url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">{source.title} ↗</a></li>;
+                    return <li key={id}><a href={source.url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">{source.title} <PixelIcon name="external" size={16} /></a></li>;
                   })}
                 </ul>}
               </div>

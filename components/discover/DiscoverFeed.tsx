@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import { useState } from "react";
 import Link from "next/link";
 import type { PublicTopic } from "@/lib/public-topic";
@@ -22,9 +24,9 @@ export function DiscoverFeed({ topics, firstTrendingTopicId = topics.find((topic
 
   return <>
     <form role="search" aria-label="筛选发现话题" className="discover-search" onSubmit={(event) => event.preventDefault()}>
-      <label htmlFor="discover-query" className="text-sm font-semibold">筛选话题</label>
+      <label htmlFor="discover-query" className="text-sm font-semibold"><PixelIcon name="search" size={16} /> 筛选话题</label>
       <input id="discover-query" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索标题、分类或作者" aria-controls="discover-results" />
-      {query && <button type="button" className="secondary-button" onClick={() => setQuery("")}>清除筛选</button>}
+      {query && <button type="button" className="secondary-button" onClick={() => setQuery("")}><PixelIcon name="close" size={16} />清除筛选</button>}
     </form>
     <p role="status" aria-live="polite" aria-atomic="true" className="mb-3 text-xs text-muted">{filtered.length} 条话题</p>
     <div id="discover-results">
@@ -41,9 +43,9 @@ export function DiscoverFeed({ topics, firstTrendingTopicId = topics.find((topic
               <div className="discover-byline">
                 <img src={topic.author.avatarUrl} alt={`${topic.author.name}头像`} width={22} height={22} />
                 <span className="discover-author" title={topic.author.name}>{topic.author.name}</span>
-                <span className={`discover-likes ${state[topic.id]?.liked ? "is-liked" : ""}`} title={interactionCount(topic.simulatedLikes, Boolean(state[topic.id]?.liked)).toLocaleString("zh-CN")} aria-label={`${state[topic.id]?.liked ? "已赞，" : ""}${interactionCount(topic.simulatedLikes, Boolean(state[topic.id]?.liked)).toLocaleString("zh-CN")} 人点赞`}><SocialIcon name="like" />{compactCount(topic.simulatedLikes)}{state[topic.id]?.liked && <em>+1</em>}</span>
+                <span className={`discover-likes ${state[topic.id]?.liked ? "is-liked" : ""}`} title={interactionCount(topic.simulatedLikes, Boolean(state[topic.id]?.liked)).toLocaleString("zh-CN")} aria-label={`${state[topic.id]?.liked ? "已赞，" : ""}${interactionCount(topic.simulatedLikes, Boolean(state[topic.id]?.liked)).toLocaleString("zh-CN")} 人点赞`}><SocialIcon name="like" size={16} filled={Boolean(state[topic.id]?.liked)} />{compactCount(topic.simulatedLikes)}{state[topic.id]?.liked && <em>+1</em>}</span>
               </div>
-              {state[topic.id]?.saved && <span className="list-social-state"><span><SocialIcon name="bookmark" />已收藏</span></span>}
+              {state[topic.id]?.saved && <span className="list-social-state"><span><SocialIcon name="bookmark" size={16} filled />已收藏</span></span>}
             </div>
           </Link>
         </li>)}

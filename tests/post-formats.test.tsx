@@ -57,7 +57,7 @@ describe("按 format 选择帖子模板", () => {
       expect(author.querySelector(".author-handle")!.textContent).toBe(topic.author.handle);
       expect(author.querySelector(".author-badge")!.textContent).toBe("作者");
       expect(author.textContent).toContain(postRelativeTime(topic.rank));
-      expect(article.textContent).toMatch(/\p{Extended_Pictographic}/u);
+      expect(article.querySelector('.post-invitation [data-pixel-icon="reply"]')?.getAttribute("aria-hidden")).toBe("true");
       expect(within(article).getByRole("button", { name: `关注${topic.author.name}` })).toBeTruthy();
       const actions = within(article).getByRole("group", { name: "帖子互动" });
       expect(within(actions).getByRole("button", { name: "点赞" }).textContent).toContain(compactCount(topic.simulatedLikes));
@@ -81,7 +81,7 @@ describe("按 format 选择帖子模板", () => {
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
     expect(container.querySelector(".mobile-briefing")).toBeNull();
     expect(container.textContent).not.toMatch(/辟谣局公告|今天的吃瓜守则/);
-    expect(screen.getByRole("link", { name: /← 返回.*继续/ }).getAttribute("href")).toBe(`/${topic.module}`);
+    expect(screen.getByRole("link", { name: /返回.*继续/ }).getAttribute("href")).toBe(`/${topic.module}`);
     expect(container.textContent).not.toContain(topic.reveal.correctedClaim);
     expect(container.textContent).not.toMatch(/架空|模拟|艺术创作|非史料/);
     expect(fetch).not.toHaveBeenCalled();

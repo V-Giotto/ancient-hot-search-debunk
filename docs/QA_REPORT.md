@@ -1,6 +1,6 @@
 # QA 报告
 
-最新结果为文末“v0.19.0 像素风封面与头像”；前文各阶段的 pending、409、未签名及人设待细化均为当时验收状态，不代表当前实现。现有 12 题与 28 条来源均已审；H07、H12 年代及 H07 准确表述由 Giotto 审核，其余十题年代、六项人设事实使用条目及两位好友年代仍待 Giotto 审核。
+最新结果为文末“v0.20.0 像素风贴纸与 UI 图标”；前文各阶段的 pending、409、未签名及人设待细化均为当时验收状态，不代表当前实现。现有 12 题与 28 条来源均已审；H07、H12 年代及 H07 准确表述由 Giotto 审核，其余十题年代、六项人设事实使用条目及两位好友年代仍待 Giotto 审核。
 
 验收日期：2026-10-29。范围仅为现有 H03 的真实 AI 追问与 AskPanel；题目、来源与审核状态保持原样，其余七条未开发。
 
@@ -712,3 +712,43 @@ Zod 严格要求 `rumorEra`、`coreContext`、`evidenceEra` 非空，`eraReview`
 - [好友列表](/workspace/iter1/v0.19.0-friends-390x844.png)：杜甫与李白图片头像、简介及底部四 Tab 正常。
 
 根包与锁文件顶层/根包均为 **0.19.0**。逐题比对 HEAD：除了 cover/avatar 路径与 assetLicense，其余内容、coverAlt 和 reviewStatus 完全一致；data/source-index.json 与 HEAD 逐字节一致。本轮未调用真实 AI、未打印或记录密钥，未 commit、tag 或 push。
+
+
+## v0.20.0 像素风贴纸与 UI 图标（2026-10-30）
+
+全站像素风改版第二步。新增统一 `components/pixel/PixelIcon.tsx`，手绘 16×16 矩形组合为单一整数 path；16／20／24／32px 分别将边界吸附到整数坐标，采用 crispEdges 和 currentColor。SocialIcon／StatusIcon 复用同一系统；底部四 Tab、社交统计、点赞／收藏空心与实心、关注、爆／热／新、返回／外链／方向按钮、发送／清空／复制／搜索、展开／折叠、关闭及真假印章均已迁移。components／app 的 47 个 TSX 静态检查只允许像素组件创建 SVG；旧 SVG 与 Unicode 图标残留均为 0。浏览器在 434 个页面／交互状态中检查 SVG 标识、crispEdges、aria、currentColor 与整数倍尺寸，记录 31 种实际渲染的操作／状态图标。
+
+十二枚贴纸改为原创手绘 32×32 多色像素 SVG，依次为诗人、食盒、火锅、铜钱纸、彩釉陶、冰鉴、蹴鞠、牙刷柄、望火楼、活字块、聊天气泡、竹简；贴纸墙按 2 倍显示、获得反馈按 1 倍显示。锁定仅绘制灰色剪影和像素问号，无题目答案或结论文本。ASSET_LICENSES 已登记创作方式、题材与边界；人工素材审核为待 Giotto 审核。另生成全解锁长图用于逐枚视觉复核：`artifacts/stage-6/pixel-stickers-all-unlocked.png`（仅复核图使用隔离浏览器存储；三张指定截图中的两枚贴纸由真实判题流程解锁）。
+
+布局与热搜冷色／发现暖色保持；按钮、贴纸卡与底栏增加像素描边。已赞为红色实心，已收藏为深紫底亮绿实心，浏览器等待现有颜色过渡结束后实测点赞 **6.23:1**、收藏 **9.56:1**，均超过 4.5:1。aria-label／aria-hidden／aria-pressed、计数朗读、模态与键盘行为继续验证，触控区宽高 ≥44px。印章保留 600ms 时长与减少动态效果支持，改为无旋转／缩放的阶梯显现，以保持像素边界。1200×675 查证卡预览沿用整卡缩放，图标按其原始 32px 尺寸验收；实际 PNG 仍为原始画布尺寸。
+
+| 命令／检查 | 结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 26 个文件、808 项全部通过；新像素测试 87 项，AI 上游全部 mock |
+| `npm run build` | 通过；BUILD_ID `fe188125-9062-4b2b-8b79-4f2d14ba34bf`；构建进程显式无 AI key |
+| `CHROME_PATH=/usr/bin/google-chrome npm run test:e2e` | 通过；12 题完整流程、255 项布局检查、23 项桌面／边界检查；390×844、375×667、430×932 与 1440×900；浏览器运行错误 0 |
+| 像素专项 | 三手机视口四 Tab 图形、点赞／收藏空心／实心来回切换与视觉类、选中色对比度、2 枚已解锁／10 枚锁定贴纸、复制／关闭／发送／清空等图标全部通过；整数尺寸、无旧 SVG、无横向溢出及 ≥44px 触控通过 |
+| 既有功能回归 | 十二题判题、揭晓／来源、改写、真实 1200×675 PNG 下载、重玩与贴纸去重、点赞收藏持久化、我的子标签、转发／复制、两位好友 mock／离线、焦点与 formal／preview 无配置回归通过；19 张 WebP 与图片 CLS／导出兼容继续通过 |
+| `node --check scripts/e2e.mjs`、`git diff --check` | 通过 |
+| 内容边界与版本 | 12 题及来源索引共 13 个 JSON 与 HEAD 逐字节一致；根包与锁文件顶层／根包均为 0.20.0 |
+
+首屏 JS 沿用 v0.19.0 的生产实测基线；每路由 390×844 新会话、禁用 HTTP 缓存，以 ResourceTiming encodedBodySize 计量全部外部 JS（含自动预取）。本版增加图标与贴纸代码，但全部路由仍低于 **300,000 B** 预算，html-to-image 仍只在点击下载后加载。
+
+| 路由 | v0.19.0 压缩 JS | v0.20.0 压缩 JS | 变化 |
+| --- | --- | --- | --- |
+| `/trending` | 176,209 B | 176,568 B | +359 B |
+| `/discover` | 141,696 B | 142,482 B | +786 B |
+| `/me` | 175,675 B | 177,871 B | +2,196 B |
+| `/me?tab=favorites` | 175,675 B | 177,871 B | +2,196 B |
+| `/post/H12` | 185,935 B | 187,962 B | +2,027 B |
+
+对比数据为 `artifacts/stage-6/v0.20.0-js-comparison.json`，完整结果为 `artifacts/stage-6/result.json`；其中 pixelUI 记录检索、页面审核、实际颜色／对比度及截图，performance 记录各路由资源明细。
+
+三张指定截图均为 **390×844**，已打开复核，与 `artifacts/stage-6/screenshots/` 同名副本逐字节一致：
+
+- [帖子操作栏：点赞／收藏已选，转发可见](/workspace/iter1/v0.20.0-post-actions-390x844.png)。
+- [我的·贴纸墙：2 枚已解锁，10 枚锁定；画面同时露出彩色贴纸和锁定问号](/workspace/iter1/v0.20.0-stickers-390x844.png)。
+- [首页与四个像素 Tab](/workspace/iter1/v0.20.0-tabbar-390x844.png)。
+
+本版不新增史实；单测 mock、E2E formal／preview 进程显式无 key，成功／错误 AI 状态使用 mock，真实 AI 调用 **0** 次；未打印或记录密钥，未 commit、tag 或 push。

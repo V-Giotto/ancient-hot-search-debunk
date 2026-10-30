@@ -1,3 +1,5 @@
+
+import { PixelIcon } from "@/components/pixel/PixelIcon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { NavRail } from "./NavRail";
@@ -12,7 +14,7 @@ export function AppShell({ children, title, backHref = "/trending", backLabel = 
         跳到主要内容
       </a>
       {title && <header className="shell-header">
-        <Link href={backHref} aria-label={backLabel} className="shell-back"><span aria-hidden="true">←</span></Link>
+        <Link href={backHref} aria-label={backLabel} className="shell-back"><PixelIcon name="back" size={24} /></Link>
         <p className="shell-page-title">{title}</p>
       </header>}
       <div className="shell-content px-4 pt-4">

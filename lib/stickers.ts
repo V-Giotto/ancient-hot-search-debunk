@@ -1,4 +1,4 @@
-/** 原创主题文字徽记；名称只描述题材，不包含史实结论。 */
+/** 原创主题贴纸元数据；名称只描述题材，不包含史实结论。 */
 export type Sticker = { id: string; name: string; mark: string };
 
 const themes: Record<string, { name: string; mark: string }> = {

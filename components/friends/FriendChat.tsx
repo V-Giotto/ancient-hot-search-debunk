@@ -1,5 +1,7 @@
 "use client";
 
+import { PixelIcon } from "@/components/pixel/PixelIcon";
+
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { FriendProfile } from "@/lib/friend-schema";
@@ -120,7 +122,7 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
   }
   function bubble(message: StoredChatEntry, key: string | number) {
     if (message.role === "share") return <li key={key} className="chat-message chat-message-user chat-share-message">
-      <span className="chat-self-avatar">我</span><div className="chat-message-copy"><Link className="chat-share-card" href={`/post/${message.topic.id}`} aria-label={`分享卡片：${message.topic.title}`}><span><SocialIcon name="repost" />分享 · {message.topic.module === "trending" ? "热搜" : "发现"}</span><strong>{message.topic.title}</strong><small>打开原帖 →</small></Link>
+      <span className="chat-self-avatar">我</span><div className="chat-message-copy"><Link className="chat-share-card" href={`/post/${message.topic.id}`} aria-label={`分享卡片：${message.topic.title}`}><span><SocialIcon name="repost" size={16} />分享 · {message.topic.module === "trending" ? "热搜" : "发现"}</span><strong>{message.topic.title}</strong><small>打开原帖 <PixelIcon name="arrowRight" size={16} /></small></Link>
         {message.status === "offline" && <p className="chat-share-status" role="status">好友暂时不在线</p>}
         {message.status === "failed" && <p className="chat-share-status" role="status">暂时没能收到好友的回复</p>}
         {((message.status === "offline" || message.status === "failed") || (message.status === "pending" && sharing !== message.id)) && <button type="button" className="secondary-button" disabled={Boolean(pending || sharing)} onClick={() => void replyToShare(message)}>请好友再看看</button>}
@@ -134,7 +136,7 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
   return <section className="friend-chat" aria-labelledby="friend-chat-heading">
     <div className="chat-profile"><FriendAvatar friend={friend} /><div><h1 id="friend-chat-heading">{friend.name}</h1><p>{friend.bio}</p></div></div>
     <p className="chat-role-note">这是角色扮演，史实以给定资料为准。</p>
-    <div className="chat-session-tools"><p>闲谈保存在本机 · 最多 {CHAT_STORAGE_MAX_ENTRIES} 条</p><button type="button" className="secondary-button" onClick={clear} disabled={!messages.length && !busy}>清空对话</button></div>
+    <div className="chat-session-tools"><p>闲谈保存在本机 · 最多 {CHAT_STORAGE_MAX_ENTRIES} 条</p><button type="button" className="secondary-button" onClick={clear} disabled={!messages.length && !busy}><PixelIcon name="trash" size={16} />清空对话</button></div>
     <div className="chat-transcript" role="log" aria-label={`与${friend.name}的对话`} aria-live="polite" aria-relevant="additions text">
       <ol>{bubble({ role: "assistant", content: friend.greeting }, "greeting")}{messages.map((message, index) => bubble(message, index))}{pending && bubble({ role: "user", content: pending }, "pending")}</ol>
       {busy && <p className="chat-waiting" role="status">{friend.name}正在回信…</p>}
@@ -144,7 +146,7 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
     <form className="chat-composer" aria-label="发送消息" onSubmit={(event) => void send(event)}>
       <div className="chat-composer-label"><label htmlFor="chat-message">写给{friend.name}</label><span id="chat-message-count">{draft.length}/{CHAT_MESSAGE_MAX_LENGTH}</span></div>
       <div className="chat-composer-fields"><textarea id="chat-message" value={draft} onChange={(event) => setDraft(event.target.value)} maxLength={CHAT_MESSAGE_MAX_LENGTH} disabled={busy} rows={2} placeholder="想说什么，慢慢写…" aria-describedby="chat-message-count" />
-        <button type="submit" disabled={!draft.trim() || busy} aria-label="发送消息"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="m5 15 7-8 7 8M12 7v14M5 3h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg><span>发送</span></button>
+        <button type="submit" disabled={!draft.trim() || busy} aria-label="发送消息"><PixelIcon name="send" /><span>发送</span></button>
       </div>
     </form>
   </section>;
