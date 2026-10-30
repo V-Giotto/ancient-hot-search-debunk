@@ -23,6 +23,19 @@ export function findUnsupportedChatQuotes(reply: string, friend: Friend, sources
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+function hasMixedPersonaSelfReferences(reply: string, friend: Friend): boolean {
+  // 我／吾沿用原保守检查。新自称只匹配明确主语，避免把月光、余下、明亮当自称。
+  let narration = reply;
+  for (const pattern of quotePatterns()) narration = narration.replace(pattern, " ");
+  const references = new Set<string>();
+  for (const self of ["我", "吾", "某", "朕", "余", "丘", "光", "亮", "本汗", "守仁", "逸少", "羲之", "易安", "东坡", "老夫", "李太白"]) {
+    const subject = new RegExp(`(?:^|[，。！？；：,.!?;:\\n）)]|此事|听说|听闻|据说|交与|与|给|问|对|向|陪|听)\\s*${escapeRegExp(self)}(?=$|[，。！？；：、\\s]|不|也|亦|愿|想|听|记|知|敢|曾|未|能|会|可|来|去|与|是|有|无|还|只|便|先|再|在|替|今|这|那|的|一|倒|看|说|问|听|送|觉|正|喜|此|方|亲|同|赞|陪|今日|今日)`, "u");
+    if (subject.test(narration)) references.add(self);
+  }
+  // 甫是原有兼容自称，不影响我／吾规范化；其余人物的不同自称不混用。
+  return references.size > 1 || [...references].some((self) => !friend.persona.selfReference.includes(self) && !(friend.id === "dufu" && self === "吾"));
+}
+
 /** 只替换可确认的少数方主语自称；平票、引文、书名或复合词保持原文以触发重试。 */
 export function normalizeChatSelfReferences(reply: string, friend: Friend): string {
   const count = (self: string) => [...reply.matchAll(new RegExp(self, "gu"))].length;
@@ -67,7 +80,7 @@ export function findChatOutputViolations(reply: string, friend: Friend, sources:
   for (const match of narration.matchAll(selfNarration)) personaFragments.add(match[0]);
 
   const missingEraMarker = Boolean(topicEra && isLaterEra(topicEra, friend.era) && !/听说|听闻|耳闻|据说|后世|身后/u.test(reply));
-  const mixedSelfReferences = reply.includes("我") && reply.includes("吾");
+  const mixedSelfReferences = (reply.includes("我") && reply.includes("吾")) || hasMixedPersonaSelfReferences(reply, friend);
   return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments], missingEraMarker, mixedSelfReferences };
 }
 

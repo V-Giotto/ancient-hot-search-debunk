@@ -482,7 +482,7 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .share-sheet header p { color: var(--muted); font-size: 11px; letter-spacing: .1em; }
 .share-sheet h2 { font-size: 21px; font-weight: 750; margin-top: 3px; }
 .share-topic-title { margin: 18px 0; padding: 12px 14px; background: var(--background); border-left: 3px solid var(--gold); font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
-.share-friends { display: grid; gap: 8px; }
+.share-friends { display: grid; gap: 8px; max-height: clamp(128px, 32dvh, 300px); overflow-y: auto; overscroll-behavior: contain; }
 .share-friends a { display: flex; align-items: center; gap: 12px; min-height: 64px; border: 1px solid #d6ad7240; border-radius: 14px; padding: 8px 12px; }
 .share-friends a > span:last-child { margin-left: auto; color: var(--muted); }
 .share-friends .friend-avatar { width: 44px; height: 44px; }
@@ -491,6 +491,13 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .share-sheet [role="status"] { font-size: 12px; line-height: 1.7; margin-top: 8px; }
 .me-page h1 { font-size: 26px; font-weight: 800; }
 .me-intro { margin: 8px 0 24px; font-size: 13px; line-height: 1.8; color: var(--muted); }
+.me-friends { margin-bottom: 20px; border: 1px solid #d6ad7255; border-radius: 14px; background: var(--card); }
+.me-friends summary { display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 8px 12px; cursor: pointer; font-size: 14px; }
+.me-friends summary > span:last-child { margin-left: auto; color: var(--muted); font-size: 11px; }
+.me-friends-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0 12px 12px; }
+.me-friends-grid a { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 44px; min-height: 88px; padding: 8px 2px; border-radius: 8px; font-size: 13px; }
+.me-friends-grid a:hover { background: #eee9df; }
+.me-friends-grid .friend-avatar { width: 48px; height: 48px; }
 .me-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid #d6ad7255; border-radius: 14px; background: #ede5d866; }
 .me-tabs button { min-width: 44px; min-height: 48px; border-radius: 10px; font-size: 14px; font-weight: 650; color: var(--muted); cursor: pointer; }
 .me-tabs button[aria-selected="true"] { background: var(--card); color: var(--accent); box-shadow: 0 2px 8px #26252c08; }

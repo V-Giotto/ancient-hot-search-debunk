@@ -20,7 +20,7 @@ describe("结构化时代与先后比较", () => {
     }
   });
   it.each([
-    undefined, null, "唐代", {}, { label: "宋代", order: 5 }, { label: "唐代" },
+    undefined, null, "唐代", {}, { label: "未知朝代", order: 5 }, { label: "唐代" },
     { order: 4 }, { label: "唐代", order: 0 }, { label: "唐代", order: -1 },
     { label: "唐代", order: 4.5 }, { label: "唐代", order: "4" }, { label: "唐代", order: 5 },
     { label: "唐代", order: 4, birthYear: 1 },

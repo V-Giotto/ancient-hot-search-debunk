@@ -11,20 +11,21 @@ const sources: Source[] = JSON.parse(readFileSync("data/source-index.json", "utf
 const friend = getFriendById("libai")!;
 
 describe("好友数据与 reviewed 来源", () => {
-  it("按目录自动加载李白、杜甫；所有数据通过 Zod 校验并仅引用已审来源", () => {
+  it("按指定顺序加载十三位好友；所有数据通过 Zod 校验并仅引用已审来源", () => {
     const files = readdirSync("data/friends").filter((file) => file.endsWith(".json"));
-    expect(getAllFriends()).toHaveLength(files.length);
+    expect(getAllFriends()).toHaveLength(13);
+    expect(files).toHaveLength(13);
     expect(getAllFriends().map((entry) => entry.name)).toEqual(expect.arrayContaining(["李白", "杜甫"]));
     for (const entry of getAllFriends()) {
       expect(FriendSchema.parse(entry)).toEqual(entry);
-      expect(entry.era).toEqual({ label: "唐代", order: 4 });
+      expect(entry.personaReview).toEqual({ status: "pending", reviewer: "Giotto" });
       expect(getFriendSources(entry).map((source) => source.id).sort()).toEqual([...entry.sourceIds].sort());
       expect(getFriendSources(entry).every((source) => source.status === "reviewed")).toBe(true);
     }
     expect(getFriendById("missing")).toBeUndefined();
   });
   it.each([
-    { name: " " }, { id: "../libai" }, { greeting: "" }, { sourceIds: [] },
+    { name: " " }, { id: "../libai" }, { greeting: "" }, { sourceIds: [" "] },
     { sourceIds: ["S-H01-01", "S-H01-01"] }, { persona: [] }, { persona: [" "] },
     { avatar: { ...friend.avatar, paper: "url(secret)" } },
     { avatar: { ...friend.avatar, motif: "external-image" } }, { unexpected: true },
@@ -34,7 +35,7 @@ describe("好友数据与 reviewed 来源", () => {
   ])("非法好友数据被拒绝：%j", (override) => {
     expect(() => validateFriends([{ ...friend, ...override }], sources)).toThrow();
   });
-  it.each(["selfReference", "personality", "speakingStyle", "relationships", "era", "habits", "taboos"])("结构化人设必填且非空：%s", (field) => {
+  it.each(["identity", "selfReference", "personality", "speakingStyle", "era", "habits", "chatRules", "taboos", "examples"])("结构化人设必填且非空：%s", (field) => {
     for (const value of [undefined, null, "", [], [" "]]) {
       expect(FriendSchema.safeParse({ ...friend, persona: { ...friend.persona, [field]: value } }).success).toBe(false);
     }
@@ -50,10 +51,10 @@ describe("好友数据与 reviewed 来源", () => {
   });
   it("两位好友有各自的自称、性格、谈话习惯与彼此关系", () => {
     const dufu = getFriendById("dufu")!;
-    expect(friend.persona.selfReference).toEqual(["吾", "我"]);
-    expect(dufu.persona.selfReference).toEqual(["甫", "我"]);
+    expect(friend.persona.selfReference).toEqual(["某", "我", "李太白", "吾"]);
+    expect(dufu.persona.selfReference).toEqual(["某", "甫", "我"]);
     expect(friend.persona.personality.join()).toContain("豪放洒脱");
-    expect(friend.persona.speakingStyle.join()).toContain("酒、月与游历");
+    expect(friend.persona.speakingStyle.join()).toContain("诗意");
     expect(dufu.persona.personality.join()).toContain("忧国忧民");
     expect(friend.persona.relationships[0].friendId).toBe(dufu.id);
     expect(dufu.persona.relationships[0].friendId).toBe(friend.id);

@@ -328,7 +328,7 @@ describe("分享话题的服务端白名单", () => {
   it("分享题不能解锁其他题引文；违规仍重试并按角色兜底", async () => {
     fetchMock.mockResolvedValue(result("吾记得《不在合并白名单中的诗题》。"));
     const response = await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02" }));
-    expect(await response.json()).toEqual({ reply: "吾身后之事，只是耳闻，不敢多说。" });
+    expect(await response.json()).toEqual({ reply: getChatSafeReply(getFriendById("libai")!, { label: "北宋", order: 5 }) });
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(outgoing(1).messages.at(-1).content).toContain("unsupportedQuotes");
   });
@@ -349,7 +349,7 @@ describe("分享题审核与混合来源", () => {
     vi.spyOn(topicData, "getSourcesForTopic").mockReturnValue(sources);
     fetchMock.mockResolvedValue(result("吾记得《未审来源0》。"));
     const response = await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02" }));
-    expect(await response.json()).toEqual({ reply: "吾身后之事，只是耳闻，不敢多说。" });
+    expect(await response.json()).toEqual({ reply: getChatSafeReply(getFriendById("libai")!, { label: "北宋", order: 5 }) });
     expect(fetchMock).toHaveBeenCalledTimes(2);
     const context = outgoing().messages[1].content;
     expect(context).not.toContain("未审独有片段0"); expect(context).not.toContain("未审独有片段1");
@@ -388,7 +388,7 @@ describe("自称混用先规范化，再共用一次重试预算", () => {
     fetchMock.mockResolvedValueOnce(result("吾不敢说，吾也记不清。我记不真切。"))
       .mockResolvedValueOnce(result("听说吾不敢说，吾也记不清。我记不真切。‘未审引文’。"));
     const response = await POST(request({ friendId: "libai", sharedTopicId: "H02", message: "看看" }));
-    expect(await response.json()).toEqual({ reply: "吾身后之事，只是耳闻，不敢多说。" });
+    expect(await response.json()).toEqual({ reply: getChatSafeReply(getFriendById("libai")!, { label: "北宋", order: 5 }) });
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(outgoing(1).messages.at(-1).content).toContain('"missingEraMarker":true');
   });
@@ -447,12 +447,12 @@ describe("晚于好友时代的分享与讨论", () => {
     const [first, second] = order.split("→") as (keyof typeof outputs)[];
     fetchMock.mockResolvedValueOnce(outputs[first]()).mockResolvedValueOnce(outputs[second]());
     const response = await POST(request({ friendId: "libai", sharedTopicId: "H02", message: "看看" }));
-    expect(await response.json()).toEqual({ reply: "吾身后之事，只是耳闻，不敢多说。" });
+    expect(await response.json()).toEqual({ reply: getChatSafeReply(getFriendById("libai")!, { label: "北宋", order: 5 }) });
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(outgoing(1).messages.at(-1).content).toContain("绝不以亲历或同时代口吻叙述");
   });
   it("三类违规在同一轮进入纠正提示，修复后通过", async () => {
-    const valid = "吾身后之事，只是耳闻，不敢多说。";
+    const valid = getChatSafeReply(getFriendById("libai")!, { label: "北宋", order: 5 });
     fetchMock.mockResolvedValueOnce(result("资料里李白说‘不存在的引文’。")).mockResolvedValueOnce(result(valid));
     const response = await POST(request({ friendId: "libai", sharedTopicId: "H02", message: "看看" }));
     expect(await response.json()).toEqual({ reply: valid });
@@ -464,7 +464,7 @@ describe("晚于好友时代的分享与讨论", () => {
     const logs = [vi.spyOn(console, "log"), vi.spyOn(console, "info"), vi.spyOn(console, "warn"), vi.spyOn(console, "error")];
     fetchMock.mockResolvedValueOnce(result("此事甫不敢妄言。")).mockRejectedValueOnce(new Error(TEST_KEY));
     const response = await POST(request({ friendId: "dufu", sharedTopicId: "H10", message: "看看" }));
-    expect(await response.json()).toEqual({ reply: "甫身后之事，只是耳闻，不敢多说。" });
+    expect(await response.json()).toEqual({ reply: getChatSafeReply(getFriendById("dufu")!, { label: "北宋", order: 5 }) });
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(logs.every((spy) => spy.mock.calls.length === 0)).toBe(true);
   });

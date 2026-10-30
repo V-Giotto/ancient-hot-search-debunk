@@ -28,7 +28,7 @@ function loadFriends(): { friends: Friend[]; sources: Source[] } {
     if (file !== `${friend.id}.json`) throw new Error(`好友文件名须与 ID 一致：${file}`);
     return friend;
   });
-  return { friends: validateFriends(friends, sources), sources };
+  return { friends: validateFriends(friends, sources).sort((a, b) => a.displayOrder - b.displayOrder || a.id.localeCompare(b.id)), sources };
 }
 
 export function getAllFriends(): Friend[] { return loadFriends().friends; }
