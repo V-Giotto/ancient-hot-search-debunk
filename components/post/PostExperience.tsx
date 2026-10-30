@@ -9,8 +9,10 @@ import type { PublicTopic } from "@/lib/public-topic";
 import { Comments } from "./Comments";
 import { VerdictTask } from "./VerdictTask";
 import { PostFormat } from "./formats";
+import type { RelatedEntry } from "@/lib/feed";
+import { SameTopic } from "./SameTopic";
 
-export function PostExperience({ topic, topicIds, friends = [] }: { topic: PublicTopic; topicIds: readonly string[]; friends?: readonly FriendProfile[] }) {
+export function PostExperience({ topic, topicIds, friends = [], relatedEntries = [] }: { topic: PublicTopic; topicIds: readonly string[]; friends?: readonly FriendProfile[]; relatedEntries?: readonly RelatedEntry[] }) {
   const [attempt, setAttempt] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const focusTaskRef = useRef(false);
@@ -48,6 +50,7 @@ export function PostExperience({ topic, topicIds, friends = [] }: { topic: Publi
       <PostFormat topic={topic} friends={friends} />
       <Comments comments={topic.comments} author={topic.author.name} title={topic.title} module={topic.module} />
       <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} collectedTopics={collectedTopics.current} />
+      <SameTopic entries={relatedEntries} />
       <Link href={topic.module === "trending" ? "/trending" : "/discover"} className="inline-block py-2 text-sm text-accent hover:underline"><PixelIcon name="back" size={16} /> 返回{topic.module === "trending" ? "热搜榜，继续阅读" : "发现，继续围观"}</Link>
     </div>
   );

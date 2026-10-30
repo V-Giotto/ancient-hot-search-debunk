@@ -2,6 +2,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { afterEach, describe, expect, it } from "vitest";
 import DiscoverPage from "@/app/discover/page";
 import { getAllTopics } from "@/lib/topics";
+import { getAllFeedEntries } from "@/lib/feed";
 import { DiscoverFeed } from "@/components/discover/DiscoverFeed";
 
 afterEach(cleanup);
@@ -44,7 +45,7 @@ describe("发现页", () => {
 
   it("完整题库卡片链接相同帖子，封面/两行标题/作者与原创心形统计各一份", () => {
     render(DiscoverPage());
-    const topics = getAllTopics().filter((topic) => topic.module === "discover");
+    const topics = getAllFeedEntries().filter((topic) => topic.module === "discover");
     const list = screen.getByRole("list", { name: "发现话题" });
     const cards = within(list).getAllByRole("listitem");
     expect(cards).toHaveLength(topics.length);
@@ -59,7 +60,7 @@ describe("发现页", () => {
       expect(card.querySelector('svg[data-social-icon="like"]')).toBeTruthy();
       expect(within(card).queryByRole("button")).toBeNull();
       expect(within(card).getAllByRole("img")).toHaveLength(2);
-      expect(card.textContent).not.toContain(topic.reveal.correctedClaim);
+      expect(card.textContent).not.toContain(getAllTopics().find(({ id }) => id === topic.topicId)!.reveal.correctedClaim);
     });
   });
 

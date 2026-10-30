@@ -2,14 +2,14 @@
 import { PixelIcon } from "@/components/pixel/PixelIcon";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllTopics } from "@/lib/topics";
+import { getAllFeedEntries } from "@/lib/feed";
 import { DiscoverFeed } from "@/components/discover/DiscoverFeed";
 import { AppShell } from "@/components/shell/AppShell";
 
 export const metadata: Metadata = { title: "发现" };
 
 export default function DiscoverPage() {
-  const allTopics = getAllTopics();
+  const allTopics = getAllFeedEntries();
   const topics = allTopics.filter((topic) => topic.module === "discover").map(({ id, rank, title, category, tags, author, coverUrl, coverAlt, simulatedLikes }) => ({ id, rank, title, category, tags, author, coverUrl, coverAlt, simulatedLikes }));
 
   return (

@@ -507,3 +507,12 @@ details[open] > summary .details-collapse { display: inline-block; }
 [aria-label="贴纸收藏"] > li { border: 2px solid #6a587d; border-radius: 4px; background: #fbf6e9; }
 [aria-label="贴纸收藏"] > li[data-unlocked="false"] { border-color: #c6becd; background: #f1eef2; }
 [aria-label="贴纸收藏"] > li a { align-items: center; border-radius: 2px; }
+
+.same-topic { scroll-margin-top: 64px; }
+.same-topic ul { margin-top: 12px; }
+.same-topic li + li { border-top: 1px solid #26252c12; }
+.same-topic a { display: flex; align-items: center; gap: 12px; min-height: 80px; padding: 12px 0; }
+.same-topic img { width: 80px; height: 45px; flex-shrink: 0; object-fit: cover; image-rendering: pixelated; }
+.same-topic a > span { min-width: 0; flex: 1; }
+.same-topic small { display: block; color: var(--color-muted); font-size: 11px; margin-bottom: 4px; }
+.same-topic strong { display: block; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }

@@ -134,7 +134,7 @@ describe("真假判断与揭晓", () => {
 
   it("合成真题显示查证属实（不新增正式题目）", async () => {
     vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => result({ isTrue: true }) } as Response);
-    render(<VerdictTask topic={{ ...publicTopic, id: "SYNTHETIC-TRUE", claim: "合成真题主张" }} topicIds={["SYNTHETIC-TRUE"]} />);
+    render(<VerdictTask topic={{ ...publicTopic, id: "SYNTHETIC-TRUE", topicId: "SYNTHETIC-TRUE", claim: "合成真题主张" }} topicIds={["SYNTHETIC-TRUE"]} />);
     fireEvent.click(screen.getByRole("radio", { name: "是真的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("查证属实")).toBeTruthy();

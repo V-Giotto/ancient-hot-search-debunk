@@ -27,6 +27,7 @@ async function requestVerdict(topicId: string, answer: boolean, signal: AbortSig
 export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
   topic: PublicTopic; topicIds: readonly string[]; onReplay?: () => void; collectedTopics?: Set<string>;
 }) {
+  const topicId = topic.topicId;
   const collectionProgress = useCollectionProgress(topicIds);
   const [answer, setAnswer] = useState<boolean>();
   const [result, setResult] = useState<VerdictResult>();
@@ -64,21 +65,21 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
     setBusy(true);
     setError("");
     try {
-      const data = await requestVerdict(topic.id, answer, controller.signal);
+      const data = await requestVerdict(topicId, answer, controller.signal);
       if (controller.signal.aborted) return;
       focusRevealRef.current = true;
       setResult(data);
       const collection = readCollectionProgress(topicIds);
       const collected = collectedTopics ?? localCollectionRef.current;
-      const firstUnlock = !collection.completedIds.includes(topic.id) && !collected.has(topic.id);
+      const firstUnlock = !collection.completedIds.includes(topicId) && !collected.has(topicId);
       // 兼容旧版已揭晓记录，但不恢复答案/改写；选题和重玩不覆盖持久收集。
-      if (!collection.completedIds.includes(topic.id)) {
-        const saved = saveProgress({ topicId: topic.id, selectedAnswer: answer, submittedAt: new Date().toISOString(), revealed: true });
+      if (!collection.completedIds.includes(topicId)) {
+        const saved = saveProgress({ topicId: topicId, selectedAnswer: answer, submittedAt: new Date().toISOString(), revealed: true });
         setStorageFailed(!saved);
-        if (saved) collected.delete(topic.id);
-        else collected.add(topic.id);
+        if (saved) collected.delete(topicId);
+        else collected.add(topicId);
       }
-      setEarnedProgress({ completed: new Set([...collection.completedIds, ...collected, topic.id].filter((id) => topicIds.includes(id))).size, total: collection.total, firstUnlock });
+      setEarnedProgress({ completed: new Set([...collection.completedIds, ...collected, topicId].filter((id) => topicIds.includes(id))).size, total: collection.total, firstUnlock });
     } catch {
       if (!controller.signal.aborted) setError("判题暂时不可用，请重试。你的选择仍然保留。");
     } finally {
@@ -94,9 +95,9 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
   return (
     <>
       <section className="panel task-panel" aria-labelledby="task-heading">
-        <p className="eyebrow">辟谣局任务 / {topic.id}</p>
+        <p className="eyebrow">辟谣局任务 / {topicId}</p>
         <h2 id="task-heading" tabIndex={-1} className="text-xl font-bold">这条主张，你信吗？</h2>
-        {collectionProgress?.completedIds.includes(topic.id) && <p className="mt-2 text-xs text-muted">贴纸已收藏 · 已查证 {collectionProgress.completedIds.length}/{collectionProgress.total}，重玩不重复累计。</p>}
+        {collectionProgress?.completedIds.includes(topicId) && <p className="mt-2 text-xs text-muted">贴纸已收藏 · 已查证 {collectionProgress.completedIds.length}/{collectionProgress.total}，重玩不重复累计。</p>}
         <p className="mt-4 text-lg leading-8 font-semibold">{topic.claim}</p>
         <p className="mt-3 text-sm text-muted">只判断这一条史实主张。提交前可以改选，揭晓后可再玩一次。</p>
         <fieldset disabled={locked} className="mt-6">
@@ -104,7 +105,7 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
           <div className="grid grid-cols-2 gap-3">
             {[{ value: true, label: "是真的" }, { value: false, label: "是假的" }].map((option) => (
               <label key={option.label} className={`answer-option ${answer === option.value ? "answer-selected" : ""} ${locked ? "cursor-default" : "cursor-pointer"}`}>
-                <input type="radio" name={`answer-${topic.id}`} value={String(option.value)} checked={answer === option.value} onChange={() => setAnswer(option.value)} />
+                <input type="radio" name={`answer-${topicId}`} value={String(option.value)} checked={answer === option.value} onChange={() => setAnswer(option.value)} />
                 <PixelIcon name={option.value ? "verified" : "refuted"} size={24} /><span>{option.label}</span>
               </label>
             ))}
@@ -122,18 +123,18 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
       {result && <>
         <VerdictReveal result={result} headingRef={revealHeadingRef}>
           <section className="sticker-earned" aria-label="本题贴纸" aria-live="polite" aria-atomic="true">
-            <StickerBadge sticker={getSticker(topic.id)} unlocked />
+            <StickerBadge sticker={getSticker(topicId)} unlocked />
             <div className="min-w-0 flex-1">
               <p className="text-xs leading-6 font-semibold">{earnedProgress?.firstUnlock
-                ? `获得贴纸：${getSticker(topic.id).name} · 已查证 ${earnedProgress.completed}/${earnedProgress.total}`
-                : `${getSticker(topic.id).name} · 已收藏`}</p>
+                ? `获得贴纸：${getSticker(topicId).name} · 已查证 ${earnedProgress.completed}/${earnedProgress.total}`
+                : `${getSticker(topicId).name} · 已收藏`}</p>
               {storageFailed && <p className="text-xs text-muted">本次已解锁，存储不可用时刷新可能丢失。</p>}
               <Link href="/me?tab=stickers" className="text-xs text-accent hover:underline">去贴纸墙 <PixelIcon name="arrowRight" size={16} /></Link>
             </div>
           </section>
         </VerdictReveal>
         {onReplay && <button type="button" className="secondary-button" onClick={onReplay}>再玩一次</button>}
-        <AskPanel key={topic.id} topicId={topic.id} reviewStatus={topic.reviewStatus} sources={result.sources} />
+        <AskPanel key={topicId} topicId={topicId} reviewStatus={topic.reviewStatus} sources={result.sources} />
         <RewriteExercise options={result.rewriteOptions} selectedId={rewriteId} onSelect={setRewriteId} />
         <section className="panel flex flex-wrap items-center justify-between gap-5">
           <div><h2 className="font-bold">把这次查证带走</h2><p className="mt-2 text-sm text-muted">生成一张有结论、有来源的查证卡。</p></div>

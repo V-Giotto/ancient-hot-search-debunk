@@ -31,12 +31,13 @@ const displayConstraints = JSON.parse(await readFile("tests/fixtures/display-con
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 const { version: packageVersion } = JSON.parse(await readFile("package.json", "utf8"));
 const allTopics = await Promise.all(scenarios.map(({ id }) => readFile(`data/topics/${id.toLowerCase()}.json`, "utf8").then(JSON.parse)));
-const trendingTopics = allTopics.filter((topic) => topic.module === "trending").map((topic, index) => ({ ...topic, rank: index + 1 }));
-const discoverTopics = allTopics.filter((topic) => topic.module === "discover");
+const feedEntries = (await Promise.all(["trending", "discover"].map(async (module) => JSON.parse(await readFile(`data/feed/${module}.json`, "utf8"))))).flat().map((entry) => ({ ...allTopics.find(({ id }) => id === entry.topicId), ...entry }));
+const trendingTopics = feedEntries.filter((entry) => entry.module === "trending");
+const discoverTopics = feedEntries.filter((entry) => entry.module === "discover");
 const postPageTitle = (topic) => `${topic.module === "trending" ? "热搜 · 报道" : "发现 · 帖子"} ${topic.id}`;
-assert.equal(trendingTopics.length, 6);
-assert.equal(discoverTopics.length, 6);
-for (const topics of [trendingTopics, discoverTopics]) assert.equal(topics.filter((topic) => topic.isTrue).length, 3);
+assert.equal(trendingTopics.length, 18);
+assert.equal(discoverTopics.length, 24);
+assert.equal(new Set(feedEntries.map(({ topicId }) => topicId)).size, 12);
 await mkdir(output, { recursive: true });
 await mkdir(screenshots, { recursive: true });
 if (reviewDir) await mkdir(reviewDir, { recursive: true });
@@ -272,12 +273,12 @@ async function firstLoadChecks(browser, errors) {
 async function pixelAssetChecks(browser, errors) {
   const friends = await Promise.all(["libai", "dufu"].map(async (id) => JSON.parse(await readFile(`data/friends/${id}.json`, "utf8"))));
   const paths = [...new Set([
-    ...allTopics.flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl, ...topic.comments.flatMap((comment) => [comment.avatar, ...(comment.replies ?? []).map((reply) => reply.avatar)])]),
+    ...feedEntries.flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl, ...topic.comments.flatMap((comment) => [comment.avatar, ...(comment.replies ?? []).map((reply) => reply.avatar)])]),
     ...friends.map((friend) => friend.avatarUrl),
   ])].sort();
-  assert.equal(paths.length, 19);
+  assert.equal(paths.length, 49);
   const assets = await Promise.all(paths.map(async (asset) => {
-    assert.match(asset, /^\/(covers|avatars|friends)\/[\w-]+\.webp$/);
+    assert.match(asset, /^\/(covers(?:\/feed)?|avatars|friends)\/[\w-]+\.webp$/);
     const response = await fetch(`${baseURL}${asset}`);
     assert.equal(response.status, 200, `${asset} 应加载成功`);
     assert.match(response.headers.get("content-type"), /^image\/webp/);
@@ -344,7 +345,7 @@ async function pixelAssetChecks(browser, errors) {
     } finally { await context.close(); }
   }
   assert.deepEqual(failures, [], "出现图片 404 或加载失败");
-  assert.deepEqual([...decoded].sort(), paths, "十九张 WebP 须全部通过浏览器解码");
+  assert.deepEqual([...decoded].sort(), paths, "全部 49 张 WebP 须通过浏览器解码");
   // 现有查证卡没有封面；单独验证同版本 html-to-image 的 SVG foreignObject 可内嵌 WebP。
   const exportContext = await browser.newContext();
   let webpExport;
@@ -1043,7 +1044,8 @@ async function postSocialChecks(page, topic) {
     const header = article.locator(".author-row").first();
     assert.equal(await header.locator(".author-handle").textContent(), topic.author.handle);
     assert.equal(await header.locator(".author-badge").textContent(), "作者");
-    assert.match(await header.locator(".author-time").textContent(), /^\d+(分钟|小时|天)$/);
+    const entry = feedEntries.find(({ id }) => id === topic.id);
+    assert.equal(await header.locator(".author-time").textContent(), entry.publishedAt.slice(0, 16).replace("T", " "));
     assert.ok(await header.evaluate((node) => node.closest("article").firstElementChild.contains(node) && getComputedStyle(node.querySelector(".author-avatar")).borderRadius === "50%"));
     assert.equal(await article.getByRole("button", { name: `关注${topic.author.name}`, exact: true }).count(), 1);
     const actions = article.getByRole("group", { name: "帖子互动" });
@@ -1415,7 +1417,7 @@ async function previewBuildChecks(buildId) {
   await new Promise((resolve) => probe.close(resolve));
   const previewURL = `http://127.0.0.1:${previewPort}`;
   const previewServer = spawn(process.execPath, ["scripts/check-port.mjs", "--start", "-H", "127.0.0.1", "-p", String(previewPort)], {
-    env: { ...process.env, CONTENT_MODE: "preview", AI_API_KEY: "" }, stdio: ["ignore", "pipe", "pipe"],
+    env: { ...process.env, CONTENT_MODE: "preview", AI_API_KEY: "", AI_BASE_URL: "http://127.0.0.1:9" }, stdio: ["ignore", "pipe", "pipe"],
   });
   for (const stream of [previewServer.stdout, previewServer.stderr]) stream.on("data", (data) => { serverLog += data.toString(); });
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
@@ -1519,12 +1521,145 @@ async function sampledColors(page, png) {
   }, png.toString("base64"));
 }
 
+async function feedExpansionChecks(browser, errors) {
+  const added = feedEntries.filter(({ id }) => /^[TP]/.test(id));
+  assert.equal(added.length, 30);
+  const initialHtml = [];
+  for (const entry of added) {
+    const html = await (await fetch(`${baseURL}/post/${entry.id}`)).text();
+    for (const field of ["isTrue", "isCorrect", "reveal", "sources", "sourceIds", "rewriteOptions", "isBest", "feedback", "aiFacts", "aiLimitations", "eraReview"]) {
+      assert.ok(!html.includes(`"${field}"`) && !html.includes(`\\"${field}\\"`), `${entry.id} 首次 HTML 泄漏 ${field}`);
+    }
+    assert.ok(!html.includes(entry.reveal.correctedClaim));
+    initialHtml.push(entry.id);
+  }
+  const flows = [], geometry = [], social = [];
+  for (const viewport of [{ width: 390, height: 844 }, { width: 375, height: 667 }, { width: 430, height: 932 }]) {
+    const context = await browser.newContext({ viewport, isMobile: true, hasTouch: true, reducedMotion: "reduce", acceptDownloads: true });
+    try {
+      const page = await context.newPage();
+      page.on("pageerror", (error) => errors.push(error.message));
+      const aiRequests = [];
+      await page.route("**/api/ask", async (route) => {
+        aiRequests.push(route.request().postDataJSON());
+        await route.fulfill({ json: { answer: "仅用于验证信息流题目映射的测试回复。", citedSourceIds: [], grounded: false } });
+      });
+      await page.goto(`${baseURL}/discover`);
+      assert.equal(await page.locator(".discover-card").count(), 24);
+      if (viewport.width === 390) await versionScreenshot(page, "discover", packageVersion);
+      await page.getByRole("searchbox", { name: "筛选话题", exact: true }).fill(added.find(({ id }) => id === "P01").author.name);
+      assert.deepEqual(await page.locator(".discover-card a").evaluateAll((links) => links.map((link) => link.getAttribute("href"))), ["/post/P01"]);
+      await page.getByRole("button", { name: "清除筛选", exact: true }).click();
+      geometry.push(await mobileGeometry(page, "24 条发现内容与搜索"));
+      const completed = new Set();
+      for (const entry of added) {
+        await page.goto(`${baseURL}/post/${entry.id}`);
+        await freshPost(page, { poll: entry.format === "poll" });
+        await visible(page.getByRole("heading", { level: 1, name: entry.title, exact: true }));
+        assert.equal(await page.locator("article[data-format]").getAttribute("data-format"), entry.module === "trending" ? "news" : entry.format);
+        const related = page.getByRole("list", { name: "同话题推荐", exact: true });
+        const expected = feedEntries.filter((other) => other.topicId === entry.topicId && other.id !== entry.id);
+        assert.deepEqual(await related.getByRole("link").evaluateAll((links) => links.map((link) => link.getAttribute("href"))), expected.map(({ id }) => `/post/${id}`));
+        await page.getByRole("button", { name: /展开更多评论/ }).click();
+        assert.equal(await page.locator("#post-comments > li").count(), 6);
+        const copy = (await page.locator(".post-title, .post-body, .news-lead, .news-related, .comments-panel").allTextContents()).join("\n");
+        for (const word of displayConstraints.answerKeywords[entry.topicId]) assert.ok(!copy.includes(word), `${entry.id} 提前揭晓 ${word}`);
+        geometry.push(await mobileGeometry(page, `${entry.id} 新内容与同话题`));
+        if (entry.id === "T01" && viewport.width === 390) {
+          await versionScreenshot(page, "post-T01", packageVersion);
+          await page.locator(".same-topic").evaluate((node) => node.scrollIntoView({ block: "start", behavior: "instant" }));
+          await versionScreenshot(page, "same-topic", packageVersion, { scrollToTop: false });
+        }
+        if (["T01", "P01"].includes(entry.id)) {
+          assert.equal(await page.getByRole("button", { name: "点赞", exact: true }).getAttribute("aria-pressed"), "false");
+          await page.getByRole("button", { name: "收藏", exact: true }).click();
+          if (entry.id === "T01") await page.getByRole("button", { name: "点赞", exact: true }).click();
+        }
+        const before = completed.size;
+        const answer = entry.id === "P01" ? !entry.isTrue : entry.isTrue;
+        await page.getByRole("radio", { name: answer ? "是真的" : "是假的", exact: true }).check();
+        const responseReady = page.waitForResponse((response) => response.url().endsWith("/api/verdict"));
+        await page.getByRole("button", { name: "提交判断", exact: true }).click();
+        const response = await responseReady;
+        assert.equal(response.status(), 200);
+        assert.deepEqual(response.request().postDataJSON(), { topicId: entry.topicId, answer });
+        const result = await response.json();
+        assert.deepEqual(result.reveal, entry.reveal);
+        assert.deepEqual(result.rewriteOptions, entry.rewriteOptions);
+        assert.deepEqual(result.sources.map(({ id }) => id), entry.sourceIds);
+        await visible(page.getByText(entry.isTrue ? "查证属实" : "谣言退散", { exact: true }));
+        completed.add(entry.topicId);
+        const progress = await page.evaluate(() => JSON.parse(localStorage.getItem("ahsd:progress:v1")));
+        assert.deepEqual(Object.keys(progress).sort(), [...completed].sort());
+        assert.equal(await page.getByRole("region", { name: "本题贴纸", exact: true }).getByText(/获得贴纸：/).count(), completed.size > before ? 1 : 0);
+        await page.getByRole("button", { name: new RegExp(`^${entry.rewriteOptions.find(({ isBest }) => isBest).id} `) }).click();
+        await visible(page.getByText("改写正确，这样说更准确。", { exact: true }));
+        await page.getByRole("textbox", { name: "向值班史官提问", exact: true }).fill("这条主张的依据是什么？");
+        await page.getByRole("button", { name: "发送问题", exact: true }).click();
+        await visible(page.getByText("仅用于验证信息流题目映射的测试回复。", { exact: true }));
+        assert.equal(aiRequests.at(-1).topicId, entry.topicId);
+        if (["T01", "P01"].includes(entry.id) && viewport.width === 390) {
+          await page.getByRole("button", { name: "生成查证卡", exact: true }).click();
+          const pendingDownload = page.waitForEvent("download");
+          await page.getByRole("button", { name: "下载 PNG", exact: true }).click();
+          const download = await pendingDownload;
+          assert.equal(download.suggestedFilename(), `${entry.id}-查证卡.png`);
+          const file = path.join(output, `${entry.id}-查证卡.png`);
+          await download.saveAs(file);
+          const png = await readFile(file);
+          assert.equal(png.readUInt32BE(16), 1200);
+          assert.equal(png.readUInt32BE(20), 675);
+          await page.getByRole("button", { name: "关闭预览", exact: true }).click();
+        }
+        if (["T01", "P01", "P18"].includes(entry.id)) {
+          const saved = await page.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
+          await page.reload();
+          await freshPost(page, { poll: entry.format === "poll" });
+          assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
+        }
+        flows.push({ id: entry.id, topicId: entry.topicId, viewport, revealed: true, deduplicated: true, rewrite: true, aiRequestMapped: true });
+      }
+      await page.goto(`${baseURL}/me?tab=favorites`);
+      const favorites = page.getByRole("list", { name: "我的收藏", exact: true });
+      await visible(favorites);
+      assert.deepEqual(await favorites.getByRole("link").evaluateAll((links) => links.map((link) => link.getAttribute("href"))), ["/post/T01", "/post/P01"]);
+      await favorites.locator('a[href="/post/T01"]').click();
+      await page.waitForURL((url) => url.pathname === "/post/T01");
+      await freshPost(page);
+      assert.equal(await page.getByRole("button", { name: "点赞", exact: true }).getAttribute("aria-pressed"), "true");
+      await page.getByRole("list", { name: "同话题推荐", exact: true }).locator('a[href="/post/P01"]').click();
+      await page.waitForURL((url) => url.pathname === "/post/P01");
+      await freshPost(page);
+      assert.equal(await page.getByRole("button", { name: "点赞", exact: true }).getAttribute("aria-pressed"), "false");
+      await page.goBack();
+      await page.waitForURL((url) => url.pathname === "/post/T01");
+      await freshPost(page);
+      await page.getByRole("button", { name: /^转发/ }).click();
+      assert.equal(await page.getByLabel("把这条见闻分享给朋友", { exact: true }).inputValue(), `${baseURL}/post/T01`);
+      const chatReady = page.waitForRequest((request) => request.url().endsWith("/api/chat"));
+      if (process.env.E2E_BASE_URL) await page.route("**/api/chat", (route) => route.fulfill({ status: 503, json: { error: "offline" } }));
+      await page.getByRole("link", { name: "转发给李白", exact: true }).click();
+      assert.equal((await chatReady).postDataJSON().sharedTopicId, "H01");
+      await visible(page.getByText("好友暂时不在线", { exact: true }));
+      assert.equal(await page.locator(".chat-share-card").getAttribute("href"), "/post/T01");
+      await page.reload();
+      await visible(page.locator(".chat-share-card"));
+      assert.equal(await page.locator(".chat-share-card").count(), 1);
+      social.push({ viewport, favoritesByEntryId: true, likesIndependent: true, shareLinksToEntry: true, friendContextByTopicId: true });
+      assert.equal(completed.size, 12);
+      await page.goto(`${baseURL}/trending`);
+      await collectionCount(page, 12);
+    } finally { await context.close(); }
+  }
+  return { initialHtml, flows, geometry, social, realAiCalls: 0, screenshots: ["trending", "discover", "post-T01", "same-topic"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-390x844.png`)) };
+}
+
 try {
   const buildId = (await readFile(".next/BUILD_ID", "utf8")).trim();
   let serverStartError;
   if (!process.env.E2E_BASE_URL) {
     await requireFreePort();
-    server = spawn(process.execPath, ["scripts/check-port.mjs", "--start", "--hostname", "127.0.0.1", "--port", port], { env: { ...process.env, CONTENT_MODE: "formal", AI_API_KEY: "" }, stdio: ["ignore", "pipe", "pipe"] });
+    server = spawn(process.execPath, ["scripts/check-port.mjs", "--start", "--hostname", "127.0.0.1", "--port", port], { env: { ...process.env, CONTENT_MODE: "formal", AI_API_KEY: "", AI_BASE_URL: "http://127.0.0.1:9" }, stdio: ["ignore", "pipe", "pipe"] });
     server.once("error", (error) => { serverStartError = error; });
     for (const stream of [server.stdout, server.stderr]) stream.on("data", (data) => { serverLog += data.toString(); });
   }
@@ -1547,6 +1682,7 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  const feedExpansion = await feedExpansionChecks(browser, errors);
   const performanceChecks = await firstLoadChecks(browser, errors);
   const pixelAssets = await pixelAssetChecks(browser, errors);
   const pixelUI = await pixelInteractionChecks(browser, errors);
@@ -2021,7 +2157,8 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/只读读者评论与作者回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/只读评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  assert.deepEqual(errors, [], "新增信息流浏览器出现运行错误");
+  const summary = { passed: true, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "6:6", feedEntries: 42, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/只读读者评论与作者回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/只读评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   const eraDetails = geometry.filter((record) => record.eraChip);
   summary.displayContent = {
     version: packageVersion,

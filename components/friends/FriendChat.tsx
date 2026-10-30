@@ -46,7 +46,7 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
     try {
       const response = await fetch("/api/chat", {
         method: "POST", headers: { "Content-Type": "application/json" }, signal: controller.signal,
-        body: JSON.stringify({ friendId: friend.id, sharedTopicId: card.topic.id, message: "我分享了这条见闻，你怎么看？", history: history(messagesRef.current) }),
+        body: JSON.stringify({ friendId: friend.id, sharedTopicId: card.topic.topicId ?? card.topic.id, message: "我分享了这条见闻，你怎么看？", history: history(messagesRef.current) }),
       });
       if (controller.signal.aborted) return;
       if (!response.ok) { shareStatus(card.id, response.status === 503 ? "offline" : "failed"); return; }
@@ -97,7 +97,7 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
     try {
       const response = await fetch("/api/chat", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ friendId: friend.id, message, history: history(messagesRef.current), ...(shared?.role === "share" ? { sharedTopicId: shared.topic.id } : {}) }),
+        body: JSON.stringify({ friendId: friend.id, message, history: history(messagesRef.current), ...(shared?.role === "share" ? { sharedTopicId: shared.topic.topicId ?? shared.topic.id } : {}) }),
         signal: controller.signal,
       });
       if (!response.ok) {

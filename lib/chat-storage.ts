@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ChatHistoryEntrySchema, type ChatHistoryEntry } from "./chat-contract";
 export const CHAT_STORAGE_MAX_ENTRIES = 60;
 export const chatStorageKey = (friendId: string) => `ahsd:chat:v1:${friendId}`;
-export const SharedTopicSchema = z.strictObject({ id: z.string().regex(/^H\d{2,3}$/), title: z.string().min(1).max(200), module: z.enum(["trending", "discover"]) });
+export const SharedTopicSchema = z.strictObject({ id: z.string().regex(/^(?:H\d{2,3}|T(?:0[1-9]|1[0-2])|P(?:0[1-9]|1[0-8]))$/), topicId: z.string().regex(/^H\d{2,3}$/).optional(), title: z.string().min(1).max(200), module: z.enum(["trending", "discover"]) });
 export type SharedTopic = z.infer<typeof SharedTopicSchema>;
 const ShareEntrySchema = z.strictObject({ role: z.literal("share"), id: z.string().min(1).max(100), topic: SharedTopicSchema, status: z.enum(["pending", "offline", "answered", "failed"]) });
 export type ShareEntry = z.infer<typeof ShareEntrySchema>;

@@ -1,5 +1,44 @@
 # 原创素材登记
 
+## v0.22.0 · 30 张新增信息流封面（2026-10-30）
+
+下表均登记为 **AI 生成像素封面，待 Giotto 审核**。图片由用户安排的另一个进程生成并放入 `public/covers/feed/`，本次实现只接入路径和校验，没有生成、重编码、裁切或改动这些文件。生成工具/模型及逐图原始提示词未随本任务提供，由素材提供方补录；不推定工具名称或许可证。均作为原创视觉创作登记，无真实 logo/品牌或真实 App 界面，不作为馆藏图片、历史人物肖像、交游关系、器物形制或历史复原证据。素材审核独立于十二题与二十八条来源的既有 reviewed 状态。
+
+| 文件 | 关联主题 | 属性 | 审核状态 |
+| --- | --- | --- | --- |
+| `public/covers/feed/t01.webp` | H01 · T01 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t02.webp` | H02 · T02 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t03.webp` | H03 · T03 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t04.webp` | H04 · T04 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t05.webp` | H05 · T05 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t06.webp` | H06 · T06 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t07.webp` | H07 · T07 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t08.webp` | H08 · T08 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t09.webp` | H09 · T09 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t10.webp` | H10 · T10 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t11.webp` | H11 · T11 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/t12.webp` | H12 · T12 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p01.webp` | H01 · P01 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p02.webp` | H01 · P02 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p03.webp` | H02 · P03 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p04.webp` | H02 · P04 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p05.webp` | H03 · P05 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p06.webp` | H03 · P06 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p07.webp` | H04 · P07 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p08.webp` | H04 · P08 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p09.webp` | H05 · P09 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p10.webp` | H06 · P10 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p11.webp` | H07 · P11 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p12.webp` | H07 · P12 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p13.webp` | H08 · P13 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p14.webp` | H09 · P14 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p15.webp` | H09 · P15 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p16.webp` | H10 · P16 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p17.webp` | H11 · P17 | AI 生成像素封面 | 待 Giotto 审核 |
+| `public/covers/feed/p18.webp` | H12 · P18 | AI 生成像素封面 | 待 Giotto 审核 |
+
+全部 30 张为 1200×675 WebP。自动化检查全文件存在与 WebP 容器，浏览器验收 HTTP 200、解码、原比例和布局；这些技术检查不代替人工素材审核。
+
 ## v0.20.0 像素风贴纸与 UI 图标（2026-10-30）
 
 本版新增素材均为 **本仓库原创手绘像素 SVG**，作者／工具：Codex 直接编写整数网格矢量代码；未使用图像生成服务、外部图标库、图标字体、第三方图片或真实 App／品牌图标。创作说明：沿用既有像素封面中的深紫 `#2a1b5e`、紫色云、亮绿 `#a6e22e`、米色 `#f5e9cc`、暖肤色与粗描边，仅抽象表达操作或题材。人工素材审核状态：**待 Giotto 审核**；本登记不代替人工审核。

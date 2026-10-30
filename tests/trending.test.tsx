@@ -4,10 +4,11 @@ import TrendingPage from "@/app/trending/page";
 import { TrendingBoard } from "@/components/trending/TrendingBoard";
 import { saveProgress } from "@/lib/progress";
 import { getAllTopics } from "@/lib/topics";
+import { getAllFeedEntries } from "@/lib/feed";
 import { trendingTag, trendingTagClass } from "@/lib/trending-tag";
 
 const allTopics = getAllTopics();
-const topics = allTopics.filter((topic) => topic.module === "trending").map((topic, index) => ({ ...topic, rank: index + 1 }));
+const topics = getAllFeedEntries().filter((topic) => topic.module === "trending");
 const categories = [...new Set(topics.map((topic) => topic.category))];
 const ranking = () => screen.getByRole("list", { name: "热搜排行" });
 

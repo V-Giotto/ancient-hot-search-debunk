@@ -1,0 +1,2186 @@
+[
+  {
+    "category": "文人八卦",
+    "tags": [
+      "李白杜甫",
+      "诗坛交游",
+      "古诗里的线索"
+    ],
+    "title": "李白杜甫被传从未线下见面",
+    "coverUrl": "/covers/h01.webp",
+    "coverAlt": "两位诗人头像之间横着红色断线与问号的插画",
+    "author": {
+      "name": "诗坛八卦搬运工",
+      "handle": "@shitan_bagua",
+      "bio": "诗坛资讯号｜标题先打问号，证据还在路上。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "诗坛今天出现了一条颇具争议的说法：李白和杜甫其实从来没有见过面。有人觉得两位诗人只是在作品里遥相欣赏，也有人提醒，不能把缺少聊天记录当成没有见面的证据。至于二人的真实交往，不能靠想象中的“好友列表”判断，得看诗文里究竟留下了什么。",
+    "news": {
+      "outlet": "诗路采闻社",
+      "lead": "诗坛两位重量级人物被传“从未见过面”。网友翻出交游诗句，追问这条传言究竟从何而来。",
+      "publishedAt": "2026-10-30T09:20:00+08:00",
+      "related": [
+        "没有合照、没有聊天记录，能否用来判断古人的交游？",
+        "《与李十二白同寻范十隐居》成为读者准备对照的诗文线索。"
+      ]
+    },
+    "simulatedHeat": 1286400,
+    "simulatedViews": 1485030,
+    "simulatedLikes": 35600,
+    "simulatedComments": 2480,
+    "simulatedReposts": 1260,
+    "simulatedBookmarks": 4100,
+    "comments": [
+      {
+        "id": "H01-C01",
+        "author": "只看标题的路人",
+        "avatar": "/avatars/changan.webp",
+        "role": "troll",
+        "text": "我原本真以为两位只是隔着诗集互相欣赏，毕竟没见过合照。",
+        "simulatedLikes": 735,
+        "simulatedReplies": 2,
+        "simulatedReposts": 1,
+        "simulatedViews": 5309,
+        "replies": [
+          {
+            "id": "H01-C01-R1",
+            "replyTo": "H01-C01",
+            "author": "诗仙超话管理员",
+            "avatar": "/avatars/spectator.webp",
+            "text": "拿合照当门槛，是不是把今天的相册习惯带进唐诗了？"
+          },
+          {
+            "id": "H01-C01-R2",
+            "replyTo": "H01-C01-R1",
+            "author": "诗坛八卦搬运工",
+            "avatar": "/avatars/hype.webp",
+            "text": "先把《与李十二白同寻范十隐居》放在旁边对读，关系图稍后再画。"
+          },
+          {
+            "id": "H01-C01-R3",
+            "replyTo": "H01-C01-R2",
+            "author": "只看标题的路人",
+            "avatar": "/avatars/changan.webp",
+            "text": "好，我先撤掉合照这一栏，诗集阅读量突然增加了。"
+          }
+        ]
+      },
+      {
+        "id": "H01-C02",
+        "author": "诗仙超话管理员",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "不是，谁给两位诗人填的“从未面基”申请表？合照这个要求也太难了。",
+        "simulatedLikes": 526,
+        "simulatedReplies": 3,
+        "simulatedReposts": 2,
+        "simulatedViews": 3907
+      },
+      {
+        "id": "H01-C03",
+        "author": "杜诗收藏家",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "《与李十二白同寻范十隐居》这个标题值得先读一遍，正文也别跳过。",
+        "simulatedLikes": 689,
+        "simulatedReplies": 4,
+        "simulatedReposts": 3,
+        "simulatedViews": 5109
+      },
+      {
+        "id": "H01-C04",
+        "author": "诗集翻到一半",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "这种级别的诗坛八卦，居然把我的唐诗选本从书架请下来了。",
+        "simulatedLikes": 281,
+        "simulatedReplies": 5,
+        "simulatedReposts": 4,
+        "simulatedViews": 2314
+      },
+      {
+        "id": "H01-C05",
+        "author": "洛阳同城网友",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "别光猜关系，我想先把洛阳这条线索对上，再画诗人关系图。",
+        "simulatedLikes": 314,
+        "simulatedReplies": 6,
+        "simulatedReposts": 5,
+        "simulatedViews": 2606
+      },
+      {
+        "id": "H01-C06",
+        "author": "关系图重画中",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "“从未”管的是全部交往，不能只挑一段时间来看吧？",
+        "simulatedLikes": 472,
+        "simulatedReplies": 7,
+        "simulatedReposts": 6,
+        "simulatedViews": 3773
+      }
+    ],
+    "id": "H01",
+    "topicId": "H01",
+    "module": "trending",
+    "rank": 1,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:20:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代生活",
+    "tags": [
+      "汴京生活",
+      "打工人午饭",
+      "代买送食"
+    ],
+    "title": "汴京打工人已经不想自己做饭了",
+    "coverUrl": "/covers/h02.webp",
+    "coverAlt": "街头提食盒人物与带问号的订单进度卡插画",
+    "author": {
+      "name": "汴京探店阿宋",
+      "handle": "@bianjing_asong",
+      "bio": "探店博主｜饭可以先惦记，结论得慢慢查。",
+      "avatarUrl": "/avatars/changan.webp",
+      "fictitious": true
+    },
+    "body": "今天的汴京美食话题有点出乎意料：有人说，在宋代城市生活，吃饭并不一定要自己下厨，街头可以购买现成的饭食，也可能请人代买送来。不少网友瞬间产生共鸣。但“买饭”“跑腿”和今天的外卖平台究竟是不是一回事，仍然需要分清。古人的午饭，真能这样解决吗？",
+    "news": {
+      "outlet": "街巷采闻社",
+      "lead": "一则有关宋代城市购食、代买送食的讨论走红。现代网友发现，古人可能也有“懒得开火”的烦恼。",
+      "publishedAt": "2026-10-30T09:25:00+08:00",
+      "related": [
+        "买现成饭、请人代买、平台点餐，讨论里混在一起的三个场景。",
+        "《东京梦华录》成为读者查找城市饮食线索的起点。"
+      ]
+    },
+    "simulatedHeat": 1125800,
+    "simulatedViews": 1421860,
+    "simulatedLikes": 31800,
+    "simulatedComments": 2160,
+    "simulatedReposts": 1050,
+    "simulatedBookmarks": 3800,
+    "comments": [
+      {
+        "id": "H02-C01",
+        "author": "汴京吃货",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "这说法我愿意信，懒得开火的心情隔着多少年都能懂。",
+        "simulatedLikes": 672,
+        "simulatedReplies": 3,
+        "simulatedReposts": 2,
+        "simulatedViews": 4971,
+        "replies": [
+          {
+            "id": "H02-C01-R1",
+            "replyTo": "H02-C01",
+            "author": "严谨的吃货",
+            "avatar": "/avatars/hype.webp",
+            "text": "懒得开火我也懂，不过愿望归愿望，有没有这种服务还得看材料吧？"
+          },
+          {
+            "id": "H02-C01-R2",
+            "replyTo": "H02-C01-R1",
+            "author": "汴京探店阿宋",
+            "avatar": "/avatars/changan.webp",
+            "text": "对，先分清要核对哪种服务，再看《东京梦华录》，别把今天的点餐流程搬过去。"
+          },
+          {
+            "id": "H02-C01-R3",
+            "replyTo": "H02-C01-R2",
+            "author": "汴京吃货",
+            "avatar": "/avatars/changan.webp",
+            "text": "那我先不研究怎么点，继续研究想吃什么。"
+          }
+        ]
+      },
+      {
+        "id": "H02-C02",
+        "author": "没手机怎么点",
+        "avatar": "/avatars/reader.webp",
+        "role": "troll",
+        "text": "宋代又没手机，我第一反应是不太可能。",
+        "simulatedLikes": 731,
+        "simulatedReplies": 4,
+        "simulatedReposts": 4,
+        "simulatedViews": 5445
+      },
+      {
+        "id": "H02-C03",
+        "author": "严谨的吃货",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "《东京梦华录》可以对照着读；有人代买和手机下单得分开问。",
+        "simulatedLikes": 259,
+        "simulatedReplies": 5,
+        "simulatedReposts": 6,
+        "simulatedViews": 2202
+      },
+      {
+        "id": "H02-C04",
+        "author": "午饭困难户",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "不管什么朝代，到了饭点还是那个问题：吃什么？",
+        "simulatedLikes": 486,
+        "simulatedReplies": 6,
+        "simulatedReposts": 0,
+        "simulatedViews": 3852
+      },
+      {
+        "id": "H02-C05",
+        "author": "今天不想生火",
+        "avatar": "/avatars/reader.webp",
+        "role": "in_world",
+        "text": "我唯一关心的是，能不能坐着把饭等来，锅已经洗干净收好了。",
+        "simulatedLikes": 618,
+        "simulatedReplies": 7,
+        "simulatedReposts": 2,
+        "simulatedViews": 4837
+      },
+      {
+        "id": "H02-C06",
+        "author": "不想洗碗的人",
+        "avatar": "/avatars/changan.webp",
+        "role": "spectator",
+        "text": "大家的午饭想得很周全，我还停在吃完谁洗碗。",
+        "simulatedLikes": 304,
+        "simulatedReplies": 8,
+        "simulatedReposts": 4,
+        "simulatedViews": 2700
+      }
+    ],
+    "id": "H02",
+    "topicId": "H02",
+    "module": "trending",
+    "rank": 2,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:25:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代美食",
+    "tags": [
+      "大唐美食",
+      "配料表",
+      "辛辣味"
+    ],
+    "title": "唐朝火锅里的红辣椒，配料表经得起查吗",
+    "coverUrl": "/covers/h03.webp",
+    "coverAlt": "唐风角色围观一锅夸张红汤的插画",
+    "author": {
+      "name": "长安吃货观察局",
+      "handle": "@changan_chihuo",
+      "bio": "跨时空饭局观察员｜今天这锅，评论区先尝。",
+      "avatarUrl": "/avatars/changan.webp",
+      "fictitious": true
+    },
+    "body": "一张号称还原唐代宴席的美食图在网上流传，锅里红彤彤的一片，看得人直流口水。眼尖的网友却问了一个问题：唐朝人真的能用上我们今天熟悉的辣椒吗？有人认为古人既然能吃辣，就一定有辣椒；也有人表示，辛辣味并不只有这一种来源。这次恐怕得先查配料，再决定是否开吃。",
+    "news": {
+      "outlet": "街巷采闻社",
+      "lead": "一张配有鲜红辣椒的“大唐美食图”引出争论：锅里看着够香，配料的年代能不能对得上？",
+      "publishedAt": "2026-10-30T09:30:00+08:00",
+      "related": [
+        "看起来红、尝起来辣，能不能据此认定具体食材？",
+        "美食图的配料表与食材年代，读者准备分开核对。"
+      ]
+    },
+    "simulatedHeat": 982600,
+    "simulatedViews": 1358690,
+    "simulatedLikes": 26800,
+    "simulatedComments": 1836,
+    "simulatedReposts": 820,
+    "simulatedBookmarks": 3200,
+    "comments": [
+      {
+        "id": "H03-C01",
+        "author": "见辣就想吃",
+        "avatar": "/avatars/pepper.webp",
+        "role": "troll",
+        "text": "我原本觉得古人能吃辣，锅里放辣椒应该也说得通吧？",
+        "simulatedLikes": 628,
+        "simulatedReplies": 4,
+        "simulatedReposts": 3,
+        "simulatedViews": 4766,
+        "replies": [
+          {
+            "id": "H03-C01-R1",
+            "replyTo": "H03-C01",
+            "author": "长安吃货",
+            "avatar": "/avatars/changan.webp",
+            "text": "你把“能吃辣”和“有这种辣椒”连成一件事了，中间是不是还差一步？"
+          },
+          {
+            "id": "H03-C01-R2",
+            "replyTo": "H03-C01-R1",
+            "author": "长安吃货观察局",
+            "avatar": "/avatars/changan.webp",
+            "text": "对，这次查的是美洲辣椒当时是否传入，别让红汤的颜色替配料作证。"
+          },
+          {
+            "id": "H03-C01-R3",
+            "replyTo": "H03-C01-R2",
+            "author": "见辣就想吃",
+            "avatar": "/avatars/pepper.webp",
+            "text": "明白了，我的食欲暂时不能担任审核员。"
+          }
+        ]
+      },
+      {
+        "id": "H03-C02",
+        "author": "长安吃货",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "没辣椒能不能吃辣？先把这个问题说清楚，我筷子都举起来了。",
+        "simulatedLikes": 412,
+        "simulatedReplies": 5,
+        "simulatedReposts": 6,
+        "simulatedViews": 3315
+      },
+      {
+        "id": "H03-C03",
+        "author": "配料表阅读员",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "先分清胡椒、花椒和这次问的美洲辣椒，再查各自的材料，别只看一个“辣”字。",
+        "simulatedLikes": 593,
+        "simulatedReplies": 6,
+        "simulatedReposts": 1,
+        "simulatedViews": 4643
+      },
+      {
+        "id": "H03-C04",
+        "author": "现代火锅爱好者",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我以为是美食测评，没想到筷子还没落下，配料表先被传阅了。",
+        "simulatedLikes": 287,
+        "simulatedReplies": 7,
+        "simulatedReposts": 4,
+        "simulatedViews": 2562
+      },
+      {
+        "id": "H03-C05",
+        "author": "花椒本人",
+        "avatar": "/avatars/hype.webp",
+        "role": "in_world",
+        "text": "一说辛辣味就只喊辣椒，这个讨论能不能给别的调料也留个位子？",
+        "simulatedLikes": 165,
+        "simulatedReplies": 8,
+        "simulatedReposts": 7,
+        "simulatedViews": 1769
+      },
+      {
+        "id": "H03-C06",
+        "author": "只负责涮菜",
+        "avatar": "/avatars/reader.webp",
+        "role": "spectator",
+        "text": "香归香，“大唐同款”这几个字我还想多问一句。",
+        "simulatedLikes": 381,
+        "simulatedReplies": 9,
+        "simulatedReposts": 2,
+        "simulatedViews": 3342
+      }
+    ],
+    "id": "H03",
+    "topicId": "H03",
+    "module": "trending",
+    "rank": 3,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:30:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代商业",
+    "tags": [
+      "北宋交子",
+      "古代财经",
+      "纸与信用"
+    ],
+    "title": "四川商人开始拿一张纸谈生意了",
+    "coverUrl": "/covers/h04.webp",
+    "coverAlt": "古代商人面对写有纸币时代问号的财经资讯卡插画",
+    "author": {
+      "name": "汴京财经观察",
+      "handle": "@bianjing_caijing",
+      "bio": "财经资讯号｜钱袋的重量，由评论区共同承担。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "“带一大串钱出门”和“带一张纸出门”，如果都能用于交易，你会选哪个？最近，一则关于北宋四川交子的说法让人好奇。有人觉得纸张轻便得不可思议，也有人质疑：一张纸凭什么能代表钱？先别急着套用今天的支付习惯，值得查证的是交子如何出现，以及民间与官府分别扮演了什么角色。",
+    "news": {
+      "outlet": "纸上经纬社",
+      "lead": "一张纸也能代表财富？有关北宋交子的讨论走红，读者最关心的是：凭什么相信这张纸？",
+      "publishedAt": "2026-10-30T09:35:00+08:00",
+      "related": [
+        "“带着轻便”和“别人愿意收”，是读者分别追问的两件事。",
+        "民间交子与官交子的时间线，不能在转述时揉成一步。"
+      ]
+    },
+    "simulatedHeat": 856400,
+    "simulatedViews": 1295520,
+    "simulatedLikes": 23700,
+    "simulatedComments": 1620,
+    "simulatedReposts": 760,
+    "simulatedBookmarks": 2950,
+    "comments": [
+      {
+        "id": "H04-C01",
+        "author": "铜钱搬运工",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "如果是真的，我的肩膀第一个表示支持，纸听着就轻。",
+        "simulatedLikes": 583,
+        "simulatedReplies": 5,
+        "simulatedReposts": 4,
+        "simulatedViews": 4554,
+        "replies": [
+          {
+            "id": "H04-C01-R1",
+            "replyTo": "H04-C01",
+            "author": "蜀地行商",
+            "avatar": "/avatars/reader.webp",
+            "text": "肩膀同意可不算交易凭据，收不收还得另想。"
+          },
+          {
+            "id": "H04-C01-R2",
+            "replyTo": "H04-C01-R1",
+            "author": "汴京财经观察",
+            "avatar": "/avatars/hype.webp",
+            "text": "就沿着这个问题看：民间怎样使用、官府怎样管理，时间线分别核对。"
+          },
+          {
+            "id": "H04-C01-R3",
+            "replyTo": "H04-C01-R2",
+            "author": "铜钱搬运工",
+            "avatar": "/avatars/changan.webp",
+            "text": "行，肩膀暂时只负责提议，不负责担保。"
+          }
+        ]
+      },
+      {
+        "id": "H04-C02",
+        "author": "蜀地行商",
+        "avatar": "/avatars/reader.webp",
+        "role": "troll",
+        "text": "轻归轻，一张纸递过来，凭什么让我认？我先打个问号。",
+        "simulatedLikes": 648,
+        "simulatedReplies": 6,
+        "simulatedReposts": 0,
+        "simulatedViews": 5070
+      },
+      {
+        "id": "H04-C03",
+        "author": "历史财经博主",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "民间交子和官交子的时间线得分开看，别把两个阶段混成一次发明。",
+        "simulatedLikes": 367,
+        "simulatedReplies": 7,
+        "simulatedReposts": 4,
+        "simulatedViews": 3164
+      },
+      {
+        "id": "H04-C04",
+        "author": "余额不足",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "大家忙着讨论钱怎么带，我的问题是先得有钱。",
+        "simulatedLikes": 201,
+        "simulatedReplies": 8,
+        "simulatedReposts": 0,
+        "simulatedViews": 2063
+      },
+      {
+        "id": "H04-C05",
+        "author": "钱袋打结中",
+        "avatar": "/avatars/reader.webp",
+        "role": "in_world",
+        "text": "我还在想出门带哪只袋子，你们已经讨论要不要带袋子了。",
+        "simulatedLikes": 592,
+        "simulatedReplies": 9,
+        "simulatedReposts": 4,
+        "simulatedViews": 4861
+      },
+      {
+        "id": "H04-C06",
+        "author": "收款前再想想",
+        "avatar": "/avatars/changan.webp",
+        "role": "history_nerd",
+        "text": "我更想核对的不是纸多轻，而是这张纸为什么会被接受。",
+        "simulatedLikes": 286,
+        "simulatedReplies": 10,
+        "simulatedReposts": 0,
+        "simulatedViews": 2780
+      }
+    ],
+    "id": "H04",
+    "topicId": "H04",
+    "module": "trending",
+    "rank": 4,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:35:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代体育",
+    "tags": [
+      "蹴鞠",
+      "体育史",
+      "起源署名"
+    ],
+    "title": "宋代蹴鞠申请足球起源独家署名",
+    "coverUrl": "/covers/h07.webp",
+    "coverAlt": "蹴鞠场景与首创争议体育资讯卡插画",
+    "author": {
+      "name": "宋代蹴鞠第一资讯",
+      "handle": "@songdai_cuju",
+      "bio": "体育资讯号｜首创申请先排队，证据材料请带齐。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "宋代蹴鞠的话题又热起来了。有人看到相关活动十分热闹，便提出“蹴鞠就是宋代发明的”。这下评论区不服了：一项运动在某个时代很流行，就能说明它在那个时代才诞生吗？球场上的表现可以看热闹，起源问题却需要认真核对文字记载。该给谁署名，不能只凭印象投票。",
+    "news": {
+      "outlet": "街巷采闻社",
+      "lead": "宋代蹴鞠的高人气让起源署名成了争论焦点：玩得热闹，能不能直接算作发明者？",
+      "publishedAt": "2026-10-30T09:40:00+08:00",
+      "related": [
+        "热闹程度与起源年代，读者要求分成两个问题。",
+        "“始创”需要怎样的材料，不能靠球迷人数投票。"
+      ]
+    },
+    "simulatedHeat": 682100,
+    "simulatedViews": 1106010,
+    "simulatedLikes": 17460,
+    "simulatedComments": 1260,
+    "simulatedReposts": 570,
+    "simulatedBookmarks": 2230,
+    "comments": [
+      {
+        "id": "H07-C01",
+        "author": "宋代球迷前排",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "宋代蹴鞠这么有名，我以前真就顺手把起源也填了宋代。",
+        "simulatedLikes": 438,
+        "simulatedReplies": 8,
+        "simulatedReposts": 7,
+        "simulatedViews": 3848,
+        "replies": [
+          {
+            "id": "H07-C01-R1",
+            "replyTo": "H07-C01",
+            "author": "历史裁判",
+            "avatar": "/avatars/reader.webp",
+            "text": "你这一填，从人气栏直接跳到了发明栏，中间的依据呢？"
+          },
+          {
+            "id": "H07-C01-R2",
+            "replyTo": "H07-C01-R1",
+            "author": "宋代蹴鞠第一资讯",
+            "avatar": "/avatars/hype.webp",
+            "text": "先把《史记·苏秦列传》放进阅读清单，按记载核对，别让热度代填年代。"
+          },
+          {
+            "id": "H07-C01-R3",
+            "replyTo": "H07-C01-R2",
+            "author": "宋代球迷前排",
+            "avatar": "/avatars/spectator.webp",
+            "text": "那我先收起签字笔，等材料也进场。"
+          }
+        ]
+      },
+      {
+        "id": "H07-C02",
+        "author": "历史裁判",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "这里判的是“始创”，不是“哪个朝代玩得热闹”，两个栏目别串了。",
+        "simulatedLikes": 612,
+        "simulatedReplies": 9,
+        "simulatedReposts": 6,
+        "simulatedViews": 5127
+      },
+      {
+        "id": "H07-C03",
+        "author": "时间线球迷",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "《史记·苏秦列传》可以加入核对清单，先读原文，再排时间线。",
+        "simulatedLikes": 209,
+        "simulatedReplies": 10,
+        "simulatedReposts": 5,
+        "simulatedViews": 2367
+      },
+      {
+        "id": "H07-C04",
+        "author": "球场吃瓜群众",
+        "avatar": "/avatars/changan.webp",
+        "role": "spectator",
+        "text": "球赛没开踢，起源之争先打满了加时赛。",
+        "simulatedLikes": 327,
+        "simulatedReplies": 11,
+        "simulatedReposts": 4,
+        "simulatedViews": 3254
+      },
+      {
+        "id": "H07-C05",
+        "author": "宋代蹴鞠爱好者",
+        "avatar": "/avatars/reader.webp",
+        "role": "in_world",
+        "text": "我喜欢球赛，但署名这事还是想看材料，不能只靠我嗓门大。",
+        "simulatedLikes": 558,
+        "simulatedReplies": 12,
+        "simulatedReposts": 3,
+        "simulatedViews": 4932
+      },
+      {
+        "id": "H07-C06",
+        "author": "看台最后一排",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "“有名”这张票我有，“始创”那张谁给补个检票规则？",
+        "simulatedLikes": 281,
+        "simulatedReplies": 13,
+        "simulatedReposts": 2,
+        "simulatedViews": 3054
+      }
+    ],
+    "id": "H07",
+    "topicId": "H07",
+    "module": "trending",
+    "rank": 5,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:40:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "城市守望",
+    "tags": [
+      "北宋东京",
+      "望火楼",
+      "城市防火"
+    ],
+    "title": "北宋东京的防火配置有多专业",
+    "coverUrl": "/covers/h09.webp",
+    "coverAlt": "望火楼主题的观察窗、警讯线与问号图形",
+    "author": {
+      "name": "东京街巷快讯",
+      "handle": "@dongjing_kuaixun",
+      "bio": "街巷播报｜快讯先到，依据随后查。",
+      "avatarUrl": "/avatars/reader.webp",
+      "fictitious": true
+    },
+    "body": "没有现代通讯设备，古代城市发现火情后该怎么办？最近，北宋东京的望火楼受到关注。有人以为它只是一个居高望远的地方，也有人提出：光靠站得高、看得远，还不足以完成救火。楼上是否有人值守？楼下又有哪些人员和器具？这些细节决定了它究竟是不是一套有组织的防火安排。",
+    "news": {
+      "outlet": "街巷采闻社",
+      "lead": "读者讨论古代城市如何应对火情，一座名叫“望火楼”的建筑进入视野：楼上楼下分别做什么？",
+      "publishedAt": "2026-10-30T09:45:00+08:00",
+      "related": [
+        "从楼名猜用途之后，楼下的人员与器具成了新的问题。",
+        "《东京梦华录》的防火记载，读者准备逐项对照。"
+      ]
+    },
+    "simulatedHeat": 510000,
+    "simulatedViews": 979670,
+    "simulatedLikes": 11500,
+    "simulatedComments": 920,
+    "simulatedReposts": 410,
+    "simulatedBookmarks": 2130,
+    "comments": [
+      {
+        "id": "H09-C01",
+        "author": "楼名理解满分",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "叫望火楼，我猜就是站高点看火情，后面的事大概另说？",
+        "simulatedLikes": 520,
+        "simulatedReplies": 10,
+        "simulatedReposts": 1,
+        "simulatedViews": 4628,
+        "replies": [
+          {
+            "id": "H09-C01-R1",
+            "replyTo": "H09-C01",
+            "author": "东京街巷居民",
+            "avatar": "/avatars/reader.webp",
+            "text": "你只安排了看见，那看见以后谁来处理，这一步还空着呢。"
+          },
+          {
+            "id": "H09-C01-R2",
+            "replyTo": "H09-C01-R1",
+            "author": "东京街巷快讯",
+            "avatar": "/avatars/reader.webp",
+            "text": "这个空白留给记载回答，先读《东京梦华录》的防火一段，把人员和器具分别找出来。"
+          },
+          {
+            "id": "H09-C01-R3",
+            "replyTo": "H09-C01-R2",
+            "author": "楼名理解满分",
+            "avatar": "/avatars/spectator.webp",
+            "text": "好，楼名阅读满分撤回，全文阅读准备开始。"
+          }
+        ]
+      },
+      {
+        "id": "H09-C02",
+        "author": "东京街巷居民",
+        "avatar": "/avatars/reader.webp",
+        "role": "in_world",
+        "text": "发现火情之后谁去救？总不能只负责站在楼上喊吧。",
+        "simulatedLikes": 483,
+        "simulatedReplies": 11,
+        "simulatedReposts": 2,
+        "simulatedViews": 4430
+      },
+      {
+        "id": "H09-C03",
+        "author": "古籍检索员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "《东京梦华录》里有值得核对的细节，别只看示意图，楼上楼下分开读。",
+        "simulatedLikes": 446,
+        "simulatedReplies": 12,
+        "simulatedReposts": 3,
+        "simulatedViews": 4232
+      },
+      {
+        "id": "H09-C04",
+        "author": "建筑爱好者",
+        "avatar": "/avatars/changan.webp",
+        "role": "spectator",
+        "text": "这个楼名我记住了，但现在更想知道楼下是什么。",
+        "simulatedLikes": 409,
+        "simulatedReplies": 13,
+        "simulatedReposts": 4,
+        "simulatedViews": 4034
+      },
+      {
+        "id": "H09-C05",
+        "author": "现代消防观察员",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "古今条件不同，发现火情和组织处置得分别看，别直接套今天的体系。",
+        "simulatedLikes": 372,
+        "simulatedReplies": 14,
+        "simulatedReposts": 5,
+        "simulatedViews": 3836
+      },
+      {
+        "id": "H09-C06",
+        "author": "东京散步中",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "本来想认一座楼，结果带着一张楼层功能表回来了。",
+        "simulatedLikes": 335,
+        "simulatedReplies": 15,
+        "simulatedReposts": 6,
+        "simulatedViews": 3638
+      }
+    ],
+    "id": "H09",
+    "topicId": "H09",
+    "module": "trending",
+    "rank": 6,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:45:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "文人八卦",
+    "tags": [
+      "李白杜甫",
+      "诗坛交游",
+      "热点追踪"
+    ],
+    "title": "杜甫诗里的李白关系线索被翻出来了",
+    "coverUrl": "/covers/feed/t01.webp",
+    "coverAlt": "杜甫诗里的李白关系线索被翻出来了的原创像素插画",
+    "author": {
+      "name": "诗文采闻社",
+      "handle": "@verse_desk",
+      "bio": "关注李白杜甫，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "李白与杜甫究竟有没有线下交往？这次讨论把诗集也翻开了。有人拿没有合照说事，也有人认为交游诗文更值得关注。关系图先放一边，诗里留下的线索能支持到哪一步，才是这次要问的问题。",
+    "news": {
+      "outlet": "诗文采闻社",
+      "lead": "李白与杜甫究竟有没有线下交往？这次讨论把诗集也翻开了。",
+      "publishedAt": "2026-10-30T09:01:00+08:00",
+      "related": [
+        "关系图画得再漂亮，也不能替诗文作证吧。",
+        "想把诗题和正文放在一起读，别只截几个字。"
+      ]
+    },
+    "simulatedHeat": 490000,
+    "simulatedViews": 47630,
+    "simulatedLikes": 2253,
+    "simulatedComments": 79,
+    "simulatedReposts": 84,
+    "simulatedBookmarks": 137,
+    "comments": [
+      {
+        "id": "T01-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/changan.webp",
+        "role": "spectator",
+        "text": "没合照就能写“从未”？这个判断我有点犹豫。",
+        "simulatedLikes": 84,
+        "replies": [
+          {
+            "id": "T01-R1",
+            "replyTo": "T01-C1",
+            "author": "诗文采闻社",
+            "avatar": "/avatars/hype.webp",
+            "text": "没有合照这条理由，大家愿意接受吗？"
+          },
+          {
+            "id": "T01-R2",
+            "replyTo": "T01-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/hype.webp",
+            "text": "合照没找到，待阅读清单倒是变长了。"
+          }
+        ]
+      },
+      {
+        "id": "T01-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "关系图画得再漂亮，也不能替诗文作证吧。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "T01-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/reader.webp",
+        "role": "spectator",
+        "text": "本来想看友情瓜，结果书架先被我翻乱了。",
+        "simulatedLikes": 60
+      },
+      {
+        "id": "T01-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/hype.webp",
+        "role": "in_world",
+        "text": "想把诗题和正文放在一起读，别只截几个字。",
+        "simulatedLikes": 48
+      },
+      {
+        "id": "T01-C5",
+        "author": "杜诗收藏家",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "《与李十二白同寻范十隐居》这个标题值得先读一遍，正文也别跳过。",
+        "simulatedLikes": 689,
+        "simulatedReplies": 4,
+        "simulatedReposts": 3,
+        "simulatedViews": 5109
+      },
+      {
+        "id": "T01-C6",
+        "author": "关系图重画中",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "“从未”管的是全部交往，不能只挑一段时间来看吧？",
+        "simulatedLikes": 472,
+        "simulatedReplies": 7,
+        "simulatedReposts": 6,
+        "simulatedViews": 3773
+      }
+    ],
+    "id": "T01",
+    "topicId": "H01",
+    "module": "trending",
+    "rank": 7,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:01:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代生活",
+    "tags": [
+      "汴京生活",
+      "打工人午饭",
+      "热点追踪"
+    ],
+    "title": "宋代跑腿服务究竟能送什么",
+    "coverUrl": "/covers/feed/t02.webp",
+    "coverAlt": "宋代跑腿服务究竟能送什么的原创像素插画",
+    "author": {
+      "name": "街巷食讯",
+      "handle": "@meal_desk",
+      "bio": "关注汴京生活，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/changan.webp",
+      "fictitious": true
+    },
+    "body": "汴京午饭话题多了一个词语之争：购买现成饭食、请人代买与现代外卖平台，能不能都塞进“外卖”两个字？有人只想解决吃饭问题，有人担心类比越说越远。先划清这次判断的服务范围，再读材料。",
+    "news": {
+      "outlet": "街巷食讯",
+      "lead": "汴京午饭话题多了一个词语之争：购买现成饭食、请人代买与现代外卖平台，能不能都塞进“外卖”两个字？有人只想解决吃饭问题，有人担心类比越说越远。",
+      "publishedAt": "2026-10-30T09:02:00+08:00",
+      "related": [
+        "只问有没有代买，别顺手把配送平台也带进去。",
+        "谁能把买现成饭和请人帮忙买分开列？"
+      ]
+    },
+    "simulatedHeat": 479000,
+    "simulatedViews": 47260,
+    "simulatedLikes": 2206,
+    "simulatedComments": 82,
+    "simulatedReposts": 88,
+    "simulatedBookmarks": 144,
+    "comments": [
+      {
+        "id": "T02-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/changan.webp",
+        "role": "spectator",
+        "text": "我一听“外卖”就想到下单界面，可能想得太远了。",
+        "simulatedLikes": 85,
+        "replies": [
+          {
+            "id": "T02-R1",
+            "replyTo": "T02-C1",
+            "author": "街巷食讯",
+            "avatar": "/avatars/changan.webp",
+            "text": "先把你脑海里的“外卖”拆开看看。"
+          },
+          {
+            "id": "T02-R2",
+            "replyTo": "T02-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/spectator.webp",
+            "text": "菜单还没定，词语定义先开会了。"
+          }
+        ]
+      },
+      {
+        "id": "T02-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "只问有没有代买，别顺手把配送平台也带进去。",
+        "simulatedLikes": 73
+      },
+      {
+        "id": "T02-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "饭还没吃到，讨论用词已经饱了。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "T02-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "谁能把买现成饭和请人帮忙买分开列？",
+        "simulatedLikes": 49
+      },
+      {
+        "id": "T02-C5",
+        "author": "严谨的吃货",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "《东京梦华录》可以对照着读；有人代买和手机下单得分开问。",
+        "simulatedLikes": 259,
+        "simulatedReplies": 5,
+        "simulatedReposts": 6,
+        "simulatedViews": 2202
+      },
+      {
+        "id": "T02-C6",
+        "author": "不想洗碗的人",
+        "avatar": "/avatars/changan.webp",
+        "role": "spectator",
+        "text": "大家的午饭想得很周全，我还停在吃完谁洗碗。",
+        "simulatedLikes": 304,
+        "simulatedReplies": 8,
+        "simulatedReposts": 4,
+        "simulatedViews": 2700
+      }
+    ],
+    "id": "T02",
+    "topicId": "H02",
+    "module": "trending",
+    "rank": 8,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:02:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代美食",
+    "tags": [
+      "大唐美食",
+      "配料表",
+      "热点追踪"
+    ],
+    "title": "一张唐朝红汤图被美食博主质疑",
+    "coverUrl": "/covers/feed/t03.webp",
+    "coverAlt": "一张唐朝红汤图被美食博主质疑的原创像素插画",
+    "author": {
+      "name": "食材核对台",
+      "handle": "@spice_desk",
+      "bio": "关注大唐美食，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/changan.webp",
+      "fictitious": true
+    },
+    "body": "一张配着红汤的“大唐同款”美食图，把讨论带到了配料表。看起来红、吃起来辣，是否就能证明里面用了美洲辣椒？讨论者把胡椒、花椒与辣椒分开，准备逐项核对。图片可以勾起食欲，判断食材年代还得读材料。",
+    "news": {
+      "outlet": "食材核对台",
+      "lead": "一张配着红汤的“大唐同款”美食图，把讨论带到了配料表。",
+      "publishedAt": "2026-10-30T09:03:00+08:00",
+      "related": [
+        "颜色能说明用的究竟是哪种调料吗？",
+        "“辛辣味”和“美洲辣椒”得放在两个问题里问。"
+      ]
+    },
+    "simulatedHeat": 468000,
+    "simulatedViews": 46890,
+    "simulatedLikes": 2159,
+    "simulatedComments": 85,
+    "simulatedReposts": 92,
+    "simulatedBookmarks": 151,
+    "comments": [
+      {
+        "id": "T03-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/pepper.webp",
+        "role": "spectator",
+        "text": "图一红，我就默认它是辣椒了，这步是不是跳快了？",
+        "simulatedLikes": 86,
+        "replies": [
+          {
+            "id": "T03-R1",
+            "replyTo": "T03-C1",
+            "author": "食材核对台",
+            "avatar": "/avatars/changan.webp",
+            "text": "别急着把红色直接换算成配料。"
+          },
+          {
+            "id": "T03-R2",
+            "replyTo": "T03-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/spectator.webp",
+            "text": "这锅菜还没动，配料表已经翻面了。"
+          }
+        ]
+      },
+      {
+        "id": "T03-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/changan.webp",
+        "role": "history_nerd",
+        "text": "颜色能说明用的究竟是哪种调料吗？",
+        "simulatedLikes": 74
+      },
+      {
+        "id": "T03-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/reader.webp",
+        "role": "spectator",
+        "text": "我负责举筷子，你们负责审配料表。",
+        "simulatedLikes": 62
+      },
+      {
+        "id": "T03-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "“辛辣味”和“美洲辣椒”得放在两个问题里问。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "T03-C5",
+        "author": "配料表阅读员",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "先分清胡椒、花椒和这次问的美洲辣椒，再查各自的材料，别只看一个“辣”字。",
+        "simulatedLikes": 593,
+        "simulatedReplies": 6,
+        "simulatedReposts": 1,
+        "simulatedViews": 4643
+      },
+      {
+        "id": "T03-C6",
+        "author": "只负责涮菜",
+        "avatar": "/avatars/reader.webp",
+        "role": "spectator",
+        "text": "香归香，“大唐同款”这几个字我还想多问一句。",
+        "simulatedLikes": 381,
+        "simulatedReplies": 9,
+        "simulatedReposts": 2,
+        "simulatedViews": 3342
+      }
+    ],
+    "id": "T03",
+    "topicId": "H03",
+    "module": "trending",
+    "rank": 9,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:03:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代商业",
+    "tags": [
+      "北宋交子",
+      "古代财经",
+      "热点追踪"
+    ],
+    "title": "一张纸为什么能被当作钱",
+    "coverUrl": "/covers/feed/t04.webp",
+    "coverAlt": "一张纸为什么能被当作钱的原创像素插画",
+    "author": {
+      "name": "钱袋观察报",
+      "handle": "@paper_desk",
+      "bio": "关注北宋交子，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "北宋交子的讨论从“纸有多轻”转到了“凭什么接受”。民间交子与官交子之间是什么关系，不能只凭一张封面想象。有人觉得先要看发行管理，有人想从日常交易读起。讨论的起点仍是：北宋时期是否已经出现交子纸币？",
+    "news": {
+      "outlet": "钱袋观察报",
+      "lead": "北宋交子的讨论从“纸有多轻”转到了“凭什么接受”。",
+      "publishedAt": "2026-10-30T09:04:00+08:00",
+      "related": [
+        "一张纸的故事，不能只讲纸本身吧。",
+        "民间使用和官府发行得分开读。"
+      ]
+    },
+    "simulatedHeat": 457000,
+    "simulatedViews": 46520,
+    "simulatedLikes": 2112,
+    "simulatedComments": 88,
+    "simulatedReposts": 96,
+    "simulatedBookmarks": 158,
+    "comments": [
+      {
+        "id": "T04-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/changan.webp",
+        "role": "spectator",
+        "text": "我看重的不是轻，而是别人肯不肯收。",
+        "simulatedLikes": 87,
+        "replies": [
+          {
+            "id": "T04-R1",
+            "replyTo": "T04-C1",
+            "author": "钱袋观察报",
+            "avatar": "/avatars/hype.webp",
+            "text": "收不收这一步，确实比纸多轻更值得问。"
+          },
+          {
+            "id": "T04-R2",
+            "replyTo": "T04-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/hype.webp",
+            "text": "钱包减重申请先放着，材料还得看。"
+          }
+        ]
+      },
+      {
+        "id": "T04-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "一张纸的故事，不能只讲纸本身吧。",
+        "simulatedLikes": 75
+      },
+      {
+        "id": "T04-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我的钱袋已经提前准备休息了。",
+        "simulatedLikes": 63
+      },
+      {
+        "id": "T04-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/hype.webp",
+        "role": "in_world",
+        "text": "民间使用和官府发行得分开读。",
+        "simulatedLikes": 51
+      },
+      {
+        "id": "T04-C5",
+        "author": "历史财经博主",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "民间交子和官交子的时间线得分开看，别把两个阶段混成一次发明。",
+        "simulatedLikes": 367,
+        "simulatedReplies": 7,
+        "simulatedReposts": 4,
+        "simulatedViews": 3164
+      },
+      {
+        "id": "T04-C6",
+        "author": "收款前再想想",
+        "avatar": "/avatars/changan.webp",
+        "role": "history_nerd",
+        "text": "我更想核对的不是纸多轻，而是这张纸为什么会被接受。",
+        "simulatedLikes": 286,
+        "simulatedReplies": 10,
+        "simulatedReposts": 0,
+        "simulatedViews": 2780
+      }
+    ],
+    "id": "T04",
+    "topicId": "H04",
+    "module": "trending",
+    "rank": 10,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:04:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "科技文物",
+    "tags": [
+      "唐三彩",
+      "博物馆日常",
+      "热点追踪"
+    ],
+    "title": "唐三彩名字里的三引发配色争议",
+    "coverUrl": "/covers/feed/t05.webp",
+    "coverAlt": "唐三彩名字里的三引发配色争议的原创像素插画",
+    "author": {
+      "name": "器物观察报",
+      "handle": "@glaze_desk",
+      "bio": "关注唐三彩，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/pepper.webp",
+      "fictitious": true
+    },
+    "body": "围绕唐三彩，讨论者分成了按名字数颜色和先读器物介绍两边。“三”究竟是数量上限，还是不能这样理解？单件器物与整个类别也被放到了一起比较。先别忙着替调色盘限额，这次只核对釉色说法。",
+    "simulatedHeat": 446000,
+    "simulatedViews": 46150,
+    "simulatedLikes": 2065,
+    "simulatedComments": 91,
+    "simulatedReposts": 100,
+    "simulatedBookmarks": 165,
+    "comments": [
+      {
+        "id": "T05-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我会先猜三种，毕竟名字看起来很直白。",
+        "simulatedLikes": 88,
+        "replies": [
+          {
+            "id": "T05-R1",
+            "replyTo": "T05-C1",
+            "author": "器物观察报",
+            "avatar": "/avatars/pepper.webp",
+            "text": "按名字猜很直觉，能不能作证还得另看。"
+          },
+          {
+            "id": "T05-R2",
+            "replyTo": "T05-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "我先把计数器放下，去找说明。"
+          }
+        ]
+      },
+      {
+        "id": "T05-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "给整个类别定上限，光看名字够吗？",
+        "simulatedLikes": 76
+      },
+      {
+        "id": "T05-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "调色盘还没打开，就收到限额通知了。",
+        "simulatedLikes": 64
+      },
+      {
+        "id": "T05-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "数一件和数整个类别，是不是两种算法？",
+        "simulatedLikes": 52
+      },
+      {
+        "id": "T05-C5",
+        "author": "器物说明书",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "国博和故宫的器物介绍都可以对照着看，先读说明，再回来数。",
+        "simulatedLikes": 196,
+        "simulatedReplies": 8,
+        "simulatedReposts": 7,
+        "simulatedViews": 2070
+      },
+      {
+        "id": "T05-C6",
+        "author": "颜色还没数完",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "数的是名字、单件器物，还是整个类别？大家先统一题目吧。",
+        "simulatedLikes": 279,
+        "simulatedReplies": 11,
+        "simulatedReposts": 6,
+        "simulatedViews": 2834
+      }
+    ],
+    "id": "T05",
+    "topicId": "H05",
+    "module": "trending",
+    "rank": 11,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:05:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending",
+    "news": {
+      "outlet": "器物观察报",
+      "lead": "围绕唐三彩，讨论者分成了按名字数颜色和先读器物介绍两边。",
+      "publishedAt": "2026-10-30T09:05:00+08:00",
+      "related": [
+        "给整个类别定上限，光看名字够吗？",
+        "数一件和数整个类别，是不是两种算法？"
+      ]
+    }
+  },
+  {
+    "category": "科技文物",
+    "tags": [
+      "战国生活",
+      "青铜冰鉴",
+      "热点追踪"
+    ],
+    "title": "战国青铜器的内部结构让人看懵了",
+    "coverUrl": "/covers/feed/t06.webp",
+    "coverAlt": "战国青铜器的内部结构让人看懵了的原创像素插画",
+    "author": {
+      "name": "器物拆解台",
+      "handle": "@bronze_desk",
+      "bio": "关注战国生活，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/changan.webp",
+      "fictitious": true
+    },
+    "body": "一件青铜套器让围观者把视线转到了内部：外面一层，里面还有器物，中间的空间有什么用？有人只看外形，有人想把酒饮与降温的线索合起来看。器物用途不能靠昵称定下来，先从构造提出问题。",
+    "simulatedHeat": 435000,
+    "simulatedViews": 45780,
+    "simulatedLikes": 2018,
+    "simulatedComments": 94,
+    "simulatedReposts": 104,
+    "simulatedBookmarks": 172,
+    "comments": [
+      {
+        "id": "T06-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "套着放就一定是为了降温吗？我想看解释。",
+        "simulatedLikes": 89,
+        "replies": [
+          {
+            "id": "T06-R1",
+            "replyTo": "T06-C1",
+            "author": "器物拆解台",
+            "avatar": "/avatars/changan.webp",
+            "text": "猜用途前，先说说你注意到哪处结构。"
+          },
+          {
+            "id": "T06-R2",
+            "replyTo": "T06-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "我的观察成果目前只有“里面还有一个”。"
+          }
+        ]
+      },
+      {
+        "id": "T06-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "外形看懂了，里面留空的理由还没懂。",
+        "simulatedLikes": 77
+      },
+      {
+        "id": "T06-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "我家的收纳盒也想来参加猜谜。",
+        "simulatedLikes": 65
+      },
+      {
+        "id": "T06-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "别一看到“冰箱”类比就开始找电线。",
+        "simulatedLikes": 53
+      },
+      {
+        "id": "T06-C5",
+        "author": "冷饮爱好者",
+        "avatar": "/avatars/hype.webp",
+        "role": "in_world",
+        "text": "如果和降温有关，冰块放哪里，酒又放哪里？我想先找张结构图。",
+        "simulatedLikes": 218,
+        "simulatedReplies": 9,
+        "simulatedReposts": 2,
+        "simulatedViews": 2327
+      },
+      {
+        "id": "T06-C6",
+        "author": "不想给它插电",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "看到“冰箱”两个字就想找电线，这个习惯得先停一下。",
+        "simulatedLikes": 289,
+        "simulatedReplies": 12,
+        "simulatedReposts": 4,
+        "simulatedViews": 3007
+      }
+    ],
+    "id": "T06",
+    "topicId": "H06",
+    "module": "trending",
+    "rank": 12,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:06:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending",
+    "news": {
+      "outlet": "器物拆解台",
+      "lead": "一件青铜套器让围观者把视线转到了内部：外面一层，里面还有器物，中间的空间有什么用？有人只看外形，有人想把酒饮与降温的线索合起来看。",
+      "publishedAt": "2026-10-30T09:06:00+08:00",
+      "related": [
+        "外形看懂了，里面留空的理由还没懂。",
+        "别一看到“冰箱”类比就开始找电线。"
+      ]
+    }
+  },
+  {
+    "category": "古代体育",
+    "tags": [
+      "蹴鞠",
+      "体育史",
+      "热点追踪"
+    ],
+    "title": "蹴鞠起源之争不能只看宋代球迷",
+    "coverUrl": "/covers/feed/t07.webp",
+    "coverAlt": "蹴鞠起源之争不能只看宋代球迷的原创像素插画",
+    "author": {
+      "name": "球场采闻社",
+      "handle": "@ball_desk",
+      "bio": "关注蹴鞠，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "宋代蹴鞠受到关注，起源问题也被带进了讨论。某个时代玩得热闹，是否足以证明它就是起点？一边关注流行程度，一边想查文字记载，双方其实在回答不同的问题。这次先把“始创”单独拿出来判断。",
+    "news": {
+      "outlet": "球场采闻社",
+      "lead": "宋代蹴鞠受到关注，起源问题也被带进了讨论。",
+      "publishedAt": "2026-10-30T09:07:00+08:00",
+      "related": [
+        "流行和始创放同一栏，会不会弄混？",
+        "先问材料记了什么，再问该怎么排时间线。"
+      ]
+    },
+    "simulatedHeat": 424000,
+    "simulatedViews": 45410,
+    "simulatedLikes": 1971,
+    "simulatedComments": 97,
+    "simulatedReposts": 108,
+    "simulatedBookmarks": 179,
+    "comments": [
+      {
+        "id": "T07-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "宋代太有名了，我以前直接把起源也填了这里。",
+        "simulatedLikes": 90,
+        "replies": [
+          {
+            "id": "T07-R1",
+            "replyTo": "T07-C1",
+            "author": "球场采闻社",
+            "avatar": "/avatars/hype.webp",
+            "text": "这次核对的是起点，喜欢哪个时代可以另外聊。"
+          },
+          {
+            "id": "T07-R2",
+            "replyTo": "T07-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "看球之前先把表头填对，收到。"
+          }
+        ]
+      },
+      {
+        "id": "T07-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "流行和始创放同一栏，会不会弄混？",
+        "simulatedLikes": 78
+      },
+      {
+        "id": "T07-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "比赛还没开，起源争论已经进了加时。",
+        "simulatedLikes": 66
+      },
+      {
+        "id": "T07-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "先问材料记了什么，再问该怎么排时间线。",
+        "simulatedLikes": 54
+      },
+      {
+        "id": "T07-C5",
+        "author": "时间线球迷",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "《史记·苏秦列传》可以加入核对清单，先读原文，再排时间线。",
+        "simulatedLikes": 209,
+        "simulatedReplies": 10,
+        "simulatedReposts": 5,
+        "simulatedViews": 2367
+      },
+      {
+        "id": "T07-C6",
+        "author": "看台最后一排",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "“有名”这张票我有，“始创”那张谁给补个检票规则？",
+        "simulatedLikes": 281,
+        "simulatedReplies": 13,
+        "simulatedReposts": 2,
+        "simulatedViews": 3054
+      }
+    ],
+    "id": "T07",
+    "topicId": "H07",
+    "module": "trending",
+    "rank": 13,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:07:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "古代日常",
+    "tags": [
+      "唐代日常",
+      "牙刷考古",
+      "热点追踪"
+    ],
+    "title": "唐代牙刷柄上的小孔究竟有什么用",
+    "coverUrl": "/covers/feed/t08.webp",
+    "coverAlt": "唐代牙刷柄上的小孔究竟有什么用的原创像素插画",
+    "author": {
+      "name": "日常器物报",
+      "handle": "@handle_desk",
+      "bio": "关注唐代日常，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/changan.webp",
+      "fictitious": true
+    },
+    "body": "唐代骨制器物上的整齐小孔引起好奇：孔有什么用，器物能支持怎样的生活判断？有人从这件东西想到整个时代的日常习惯，也有人提醒先确认器物用途。存在与普及，是这次阅读材料时需要分开问的两件事。",
+    "simulatedHeat": 413000,
+    "simulatedViews": 45040,
+    "simulatedLikes": 1924,
+    "simulatedComments": 100,
+    "simulatedReposts": 112,
+    "simulatedBookmarks": 186,
+    "comments": [
+      {
+        "id": "T08-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "看到小孔就认成牙刷，是不是还差一段说明？",
+        "simulatedLikes": 91,
+        "replies": [
+          {
+            "id": "T08-R1",
+            "replyTo": "T08-C1",
+            "author": "日常器物报",
+            "avatar": "/avatars/changan.webp",
+            "text": "先别急着替整个时代安排晨间打卡。"
+          },
+          {
+            "id": "T08-R2",
+            "replyTo": "T08-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "我的打卡尚且不稳定，先不替别人安排了。"
+          }
+        ]
+      },
+      {
+        "id": "T08-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "一件器物怎么推到人人日常？这个跨度有点大。",
+        "simulatedLikes": 79
+      },
+      {
+        "id": "T08-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "我开始盯着自己的牙刷柄看了。",
+        "simulatedLikes": 67
+      },
+      {
+        "id": "T08-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "先确认用途，再问使用范围，顺序别倒过来。",
+        "simulatedLikes": 55
+      },
+      {
+        "id": "T08-C5",
+        "author": "认真研究小孔",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "成都中医药大学博物馆有器物资料，小孔用途这一项我想先对上。",
+        "simulatedLikes": 204,
+        "simulatedReplies": 11,
+        "simulatedReposts": 0,
+        "simulatedViews": 2435
+      },
+      {
+        "id": "T08-C6",
+        "author": "牙杯还没摆好",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "大家讨论到唐代了，我今天的起床进度还没跟上。",
+        "simulatedLikes": 287,
+        "simulatedReplies": 14,
+        "simulatedReposts": 0,
+        "simulatedViews": 3199
+      }
+    ],
+    "id": "T08",
+    "topicId": "H08",
+    "module": "trending",
+    "rank": 14,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:08:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending",
+    "news": {
+      "outlet": "日常器物报",
+      "lead": "唐代骨制器物上的整齐小孔引起好奇：孔有什么用，器物能支持怎样的生活判断？有人从这件东西想到整个时代的日常习惯，也有人提醒先确认器物用途。",
+      "publishedAt": "2026-10-30T09:08:00+08:00",
+      "related": [
+        "一件器物怎么推到人人日常？这个跨度有点大。",
+        "先确认用途，再问使用范围，顺序别倒过来。"
+      ]
+    }
+  },
+  {
+    "category": "城市守望",
+    "tags": [
+      "北宋东京",
+      "望火楼",
+      "热点追踪"
+    ],
+    "title": "古代城市救火靠谁上场",
+    "coverUrl": "/covers/feed/t09.webp",
+    "coverAlt": "古代城市救火靠谁上场的原创像素插画",
+    "author": {
+      "name": "街巷应急报",
+      "handle": "@tower_desk",
+      "bio": "关注北宋东京，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/reader.webp",
+      "fictitious": true
+    },
+    "body": "北宋东京望火楼的讨论里，一个问题被反复提起：看见火情以后，谁来处理？只盯着楼顶，很容易忽略人员和器具的安排。楼上与楼下怎样联系起来，应该从现有记载核对，不能直接套入现代消防体系。",
+    "news": {
+      "outlet": "街巷应急报",
+      "lead": "北宋东京望火楼的讨论里，一个问题被反复提起：看见火情以后，谁来处理？只盯着楼顶，很容易忽略人员和器具的安排。",
+      "publishedAt": "2026-10-30T09:09:00+08:00",
+      "related": [
+        "名字里只有“望”，楼下情况也该问问。",
+        "先找人员和器具的线索，再谈整套安排。"
+      ]
+    },
+    "simulatedHeat": 402000,
+    "simulatedViews": 44670,
+    "simulatedLikes": 1877,
+    "simulatedComments": 103,
+    "simulatedReposts": 116,
+    "simulatedBookmarks": 193,
+    "comments": [
+      {
+        "id": "T09-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "站得高能看见，接下来该谁上场？",
+        "simulatedLikes": 92,
+        "replies": [
+          {
+            "id": "T09-R1",
+            "replyTo": "T09-C1",
+            "author": "街巷应急报",
+            "avatar": "/avatars/reader.webp",
+            "text": "发现之后怎么办，正是这次想接着问的。"
+          },
+          {
+            "id": "T09-R2",
+            "replyTo": "T09-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "我先把观察点从屋顶往下挪一挪。"
+          }
+        ]
+      },
+      {
+        "id": "T09-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "名字里只有“望”，楼下情况也该问问。",
+        "simulatedLikes": 80
+      },
+      {
+        "id": "T09-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "建筑图看到楼顶，我的疑问还在楼下。",
+        "simulatedLikes": 68
+      },
+      {
+        "id": "T09-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "先找人员和器具的线索，再谈整套安排。",
+        "simulatedLikes": 56
+      },
+      {
+        "id": "T09-C5",
+        "author": "古籍检索员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "《东京梦华录》里有值得核对的细节，别只看示意图，楼上楼下分开读。",
+        "simulatedLikes": 446,
+        "simulatedReplies": 12,
+        "simulatedReposts": 3,
+        "simulatedViews": 4232
+      },
+      {
+        "id": "T09-C6",
+        "author": "东京散步中",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "本来想认一座楼，结果带着一张楼层功能表回来了。",
+        "simulatedLikes": 335,
+        "simulatedReplies": 15,
+        "simulatedReposts": 6,
+        "simulatedViews": 3638
+      }
+    ],
+    "id": "T09",
+    "topicId": "H09",
+    "module": "trending",
+    "rank": 15,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:09:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "category": "印刷手记",
+    "tags": [
+      "活字印刷",
+      "宋代科技",
+      "热点追踪"
+    ],
+    "title": "毕昇的胶泥字块究竟怎么排版",
+    "coverUrl": "/covers/feed/t10.webp",
+    "coverAlt": "毕昇的胶泥字块究竟怎么排版的原创像素插画",
+    "author": {
+      "name": "手作采闻社",
+      "handle": "@type_desk",
+      "bio": "关注活字印刷，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/reader.webp",
+      "fictitious": true
+    },
+    "body": "活字话题进入手作讨论：一个字一个字制作之后，怎样组合成版？有人觉得麻烦，有人看重重新组合的思路。制作与排版不能用想象补全，讨论者准备先读《梦溪笔谈》的既有记载，再回到这条北宋胶泥活字主张。",
+    "simulatedHeat": 391000,
+    "simulatedViews": 44300,
+    "simulatedLikes": 1830,
+    "simulatedComments": 106,
+    "simulatedReposts": 120,
+    "simulatedBookmarks": 200,
+    "comments": [
+      {
+        "id": "T10-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "一个字一块，我光想收纳就开始头疼。",
+        "simulatedLikes": 93,
+        "replies": [
+          {
+            "id": "T10-R1",
+            "replyTo": "T10-C1",
+            "author": "手作采闻社",
+            "avatar": "/avatars/reader.webp",
+            "text": "手作前先把步骤读明白，问题可以逐个记。"
+          },
+          {
+            "id": "T10-R2",
+            "replyTo": "T10-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "我的动手进度暂时是拿出了笔记本。"
+          }
+        ]
+      },
+      {
+        "id": "T10-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "觉得麻烦能不能作为判断它不存在的理由？",
+        "simulatedLikes": 81
+      },
+      {
+        "id": "T10-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "改稿的人听到重新组合，精神了一下。",
+        "simulatedLikes": 69
+      },
+      {
+        "id": "T10-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "工艺步骤最好对着记载看，别靠想象接龙。",
+        "simulatedLikes": 57
+      },
+      {
+        "id": "T10-C5",
+        "author": "读过梦溪笔谈",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "别急着脑补整套工厂流程，沈括《梦溪笔谈》的记载可以先看。",
+        "simulatedLikes": 446,
+        "simulatedReplies": 13,
+        "simulatedReposts": 6,
+        "simulatedViews": 4335
+      },
+      {
+        "id": "T10-C6",
+        "author": "印版观察中",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "制作和排版到底怎么衔接？我想把这两步分开读，先不猜工艺。",
+        "simulatedLikes": 335,
+        "simulatedReplies": 16,
+        "simulatedReposts": 4,
+        "simulatedViews": 3741
+      }
+    ],
+    "id": "T10",
+    "topicId": "H10",
+    "module": "trending",
+    "rank": 16,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:10:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending",
+    "news": {
+      "outlet": "手作采闻社",
+      "lead": "活字话题进入手作讨论：一个字一个字制作之后，怎样组合成版？有人觉得麻烦，有人看重重新组合的思路。",
+      "publishedAt": "2026-10-30T09:10:00+08:00",
+      "related": [
+        "觉得麻烦能不能作为判断它不存在的理由？",
+        "工艺步骤最好对着记载看，别靠想象接龙。"
+      ]
+    }
+  },
+  {
+    "category": "语录查证",
+    "tags": [
+      "孔子语录",
+      "论语",
+      "热点追踪"
+    ],
+    "title": "以德报怨到底是谁说的",
+    "coverUrl": "/covers/feed/t11.webp",
+    "coverAlt": "以德报怨到底是谁说的的原创像素插画",
+    "author": {
+      "name": "语句核对台",
+      "handle": "@quote_desk",
+      "bio": "关注孔子语录，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/reader.webp",
+      "fictitious": true
+    },
+    "body": "一句“以德报怨”被放进孔子语录讨论后，大家开始追问：提问者与回答者会不会被弄混？只截一句话，署名看起来很整齐，上下文却可能丢了。先读《论语·宪问》的完整问答，再判断这张语录卡的说法。",
+    "simulatedHeat": 380000,
+    "simulatedViews": 43930,
+    "simulatedLikes": 1783,
+    "simulatedComments": 109,
+    "simulatedReposts": 124,
+    "simulatedBookmarks": 207,
+    "comments": [
+      {
+        "id": "T11-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "看到署名我就想收藏，出处反而没往下看。",
+        "simulatedLikes": 94,
+        "replies": [
+          {
+            "id": "T11-R1",
+            "replyTo": "T11-C1",
+            "author": "语句核对台",
+            "avatar": "/avatars/reader.webp",
+            "text": "先把上下文找齐，署名这步可以慢一点。"
+          },
+          {
+            "id": "T11-R2",
+            "replyTo": "T11-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "收藏按钮忍住了，先把原文打开。"
+          }
+        ]
+      },
+      {
+        "id": "T11-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "提问和回答不分，光留金句够吗？",
+        "simulatedLikes": 82
+      },
+      {
+        "id": "T11-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "相册里的语录卡突然都需要回访了。",
+        "simulatedLikes": 70
+      },
+      {
+        "id": "T11-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "把问句和答句放一起，才知道谁在说话。",
+        "simulatedLikes": 58
+      },
+      {
+        "id": "T11-C5",
+        "author": "原文搬运员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "先看《论语·宪问》的“或曰”，再往下读回答，把说话的人分清。",
+        "simulatedLikes": 446,
+        "simulatedReplies": 14,
+        "simulatedReposts": 1,
+        "simulatedViews": 4438
+      },
+      {
+        "id": "T11-C6",
+        "author": "上下文别裁掉",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "问句和答句能不能放在同一张图里？我不想来回翻相册找半句话。",
+        "simulatedLikes": 335,
+        "simulatedReplies": 17,
+        "simulatedReposts": 2,
+        "simulatedViews": 3844
+      }
+    ],
+    "id": "T11",
+    "topicId": "H11",
+    "module": "trending",
+    "rank": 17,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:11:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending",
+    "news": {
+      "outlet": "语句核对台",
+      "lead": "一句“以德报怨”被放进孔子语录讨论后，大家开始追问：提问者与回答者会不会被弄混？只截一句话，署名看起来很整齐，上下文却可能丢了。",
+      "publishedAt": "2026-10-30T09:11:00+08:00",
+      "related": [
+        "提问和回答不分，光留金句够吗？",
+        "把问句和答句放一起，才知道谁在说话。"
+      ]
+    }
+  },
+  {
+    "category": "兵书辨名",
+    "tags": [
+      "孙子兵法",
+      "孙膑兵法",
+      "热点追踪"
+    ],
+    "title": "孙子兵法孙膑兵法被合并书单",
+    "coverUrl": "/covers/feed/t12.webp",
+    "coverAlt": "孙子兵法孙膑兵法被合并书单的原创像素插画",
+    "author": {
+      "name": "书页采闻社",
+      "handle": "@books_desk",
+      "bio": "关注孙子兵法，把阅读中的问号记下来。",
+      "avatarUrl": "/avatars/reader.webp",
+      "fictitious": true
+    },
+    "body": "两部名字相近的兵书让书单整理犯了难：《孙子兵法》与《孙膑兵法》，能凭名字认成同一部吗？有人想先合并条目，有人提出核对银雀山汉墓竹简的资料。书名相似只是讨论起点，判断关系还需要材料。",
+    "simulatedHeat": 369000,
+    "simulatedViews": 43560,
+    "simulatedLikes": 1736,
+    "simulatedComments": 112,
+    "simulatedReposts": 128,
+    "simulatedBookmarks": 214,
+    "comments": [
+      {
+        "id": "T12-C1",
+        "author": "读到这里想一想",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "名字挨着看，我真的差点直接合并。",
+        "simulatedLikes": 95,
+        "replies": [
+          {
+            "id": "T12-R1",
+            "replyTo": "T12-C1",
+            "author": "书页采闻社",
+            "avatar": "/avatars/reader.webp",
+            "text": "合并之前，多留一步核对的空间。"
+          },
+          {
+            "id": "T12-R2",
+            "replyTo": "T12-R1",
+            "author": "路过留张书签",
+            "avatar": "/avatars/changan.webp",
+            "text": "书单先存草稿，省得重新拆开。"
+          }
+        ]
+      },
+      {
+        "id": "T12-C2",
+        "author": "先别急着下结论",
+        "avatar": "/avatars/reader.webp",
+        "role": "history_nerd",
+        "text": "书名像，不等于可以跳过材料吧。",
+        "simulatedLikes": 83
+      },
+      {
+        "id": "T12-C3",
+        "author": "路过留张书签",
+        "avatar": "/avatars/hype.webp",
+        "role": "spectator",
+        "text": "阅读目标还没开始，合并按钮先亮了。",
+        "simulatedLikes": 71
+      },
+      {
+        "id": "T12-C4",
+        "author": "问题记在纸上",
+        "avatar": "/avatars/changan.webp",
+        "role": "in_world",
+        "text": "先保留两条书名，再把对应资料摆在一起。",
+        "simulatedLikes": 59
+      },
+      {
+        "id": "T12-C5",
+        "author": "竹简研究爱好者",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "银雀山汉墓竹简是一条可以追下去的线索，先看材料，再决定书单怎么排。",
+        "simulatedLikes": 446,
+        "simulatedReplies": 15,
+        "simulatedReposts": 4,
+        "simulatedViews": 4541
+      },
+      {
+        "id": "T12-C6",
+        "author": "慢慢读完再说",
+        "avatar": "/avatars/spectator.webp",
+        "role": "history_nerd",
+        "text": "我想把两份书名对应的材料放在一起核对，投票理由先留空。",
+        "simulatedLikes": 335,
+        "simulatedReplies": 18,
+        "simulatedReposts": 0,
+        "simulatedViews": 3947
+      }
+    ],
+    "id": "T12",
+    "topicId": "H12",
+    "module": "trending",
+    "rank": 18,
+    "format": "news",
+    "publishedAt": "2026-10-30T09:12:00+08:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending",
+    "news": {
+      "outlet": "书页采闻社",
+      "lead": "两部名字相近的兵书让书单整理犯了难：《孙子兵法》与《孙膑兵法》，能凭名字认成同一部吗？有人想先合并条目，有人提出核对银雀山汉墓竹简的资料。",
+      "publishedAt": "2026-10-30T09:12:00+08:00",
+      "related": [
+        "书名像，不等于可以跳过材料吧。",
+        "先保留两条书名，再把对应资料摆在一起。"
+      ]
+    }
+  }
+]

@@ -5,11 +5,11 @@ export type PublicTopic = Pick<HotTopic,
   "id" | "era" | "rank" | "module" | "format" | "category" | "tags" | "title" | "coverUrl" | "coverAlt" |
   "author" | "body" | "news" | "simulatedHeat" | "simulatedViews" | "simulatedLikes" | "simulatedComments" |
   "simulatedReposts" | "simulatedBookmarks" | "comments" | "claim" | "reviewStatus"
->;
+> & { topicId: string; publishedAt?: string };
 
 export function toPublicTopic(topic: HotTopic): PublicTopic {
   return {
-    id: topic.id, era: topic.era, rank: topic.rank, module: topic.module, category: topic.category, tags: topic.tags,
+    id: topic.id, topicId: topic.id, era: topic.era, rank: topic.rank, module: topic.module, category: topic.category, tags: topic.tags,
     ...(topic.format ? { format: topic.format } : {}),
     title: topic.title, coverUrl: topic.coverUrl, coverAlt: topic.coverAlt,
     author: topic.author, body: topic.body, simulatedHeat: topic.simulatedHeat,

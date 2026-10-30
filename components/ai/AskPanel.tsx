@@ -10,12 +10,7 @@ import {
 import type { HotTopic, Source } from "@/lib/schemas";
 import { getContentReviewStatus } from "@/lib/review-status";
 import { validateSourceIds } from "@/lib/source-guard";
-
-const PRESET_QUESTIONS = [
-  "唐朝人到底用什么调料获得辛辣味？",
-  "胡椒和辣椒是一回事吗？",
-  "你凭什么说辣椒是明代才传入？",
-];
+import { getAskPrompts } from "@/lib/ask-prompts";
 
 const ERROR_MESSAGES: Record<number, string> = {
   400: "请输入 1–500 字的问题。",
@@ -80,7 +75,7 @@ export function AskPanel({ topicId, reviewStatus, sources }: { topicId: string; 
       <h2 id="ask-heading" tabIndex={-1} className="text-xl font-bold">这条热搜，还想问什么？</h2>
       <p className="mt-3 text-sm leading-7 text-muted">围绕本条资料继续追问。AI 生成，可能有误，以史料为准。</p>
       <div className="mt-5 grid gap-2" aria-label="预设问题">
-        {PRESET_QUESTIONS.map((question) => (
+        {getAskPrompts(topicId).map((question) => (
           <button key={question} type="button" className="secondary-button w-full justify-start text-left disabled:opacity-50" disabled={busy} onClick={() => void send(question)}>{question}</button>
         ))}
       </div>

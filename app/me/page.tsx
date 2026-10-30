@@ -4,6 +4,7 @@ import { AppShell } from "@/components/shell/AppShell";
 import { MeTabs } from "@/components/me/MeTabs";
 import { getSticker } from "@/lib/stickers";
 import { getAllTopics } from "@/lib/topics";
+import { getAllFeedEntries } from "@/lib/feed";
 
 export const metadata: Metadata = { title: "我的" };
 
@@ -14,7 +15,7 @@ export default function MePage() {
       <MeTabs
         stickers={topics.map((topic) => getSticker(topic.id))}
         firstTopicId={topics.find((topic) => topic.rank === 1)?.id}
-        topics={topics.map(({ id, title, module }) => ({ id, title, module }))}
+        topics={getAllFeedEntries().map(({ id, title, module }) => ({ id, title, module }))}
       />
     </Suspense>
   </div></AppShell>;

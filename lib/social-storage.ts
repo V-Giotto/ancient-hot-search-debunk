@@ -12,7 +12,7 @@ export function parseSocialStorage(raw: string | null): SocialState {
     if (!isRecord(value) || (value.version !== undefined && value.version !== 0 && value.version !== 1)) return {};
     const topics = value.version === undefined ? value : value.topics;
     if (!isRecord(topics)) return {};
-    return Object.fromEntries(Object.entries(topics).filter(([id, entry]) => /^H\d{2,3}$/.test(id) && isRecord(entry))
+    return Object.fromEntries(Object.entries(topics).filter(([id, entry]) => /^(?:H\d{2,3}|T(?:0[1-9]|1[0-2])|P(?:0[1-9]|1[0-8]))$/.test(id) && isRecord(entry))
       .slice(0, 200).map(([id, entry]) => {
         const item = entry as Record<string, unknown>;
         return [id, { liked: item.liked === true, saved: item.saved === true || (value.version !== 1 && item.bookmarked === true) }];
