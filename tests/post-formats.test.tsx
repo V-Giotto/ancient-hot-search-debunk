@@ -97,8 +97,8 @@ describe("按 format 选择帖子模板", () => {
   });
 });
 
-describe("本机直觉投票与判题隔离", () => {
-  it.each(["same", "different"])("投 %s 后才显示多数/少数倾向文字条，锁定选择，刷新恢复且不改变判题进度", (choice) => {
+describe("本次页面直觉投票与判题隔离", () => {
+  it.each(["same", "different"])("投 %s 后显示倾向并锁定，本次选择不存本机，重进可重新投票", (choice) => {
     localStorage.setItem(PROGRESS_KEY, '{"existing":"unchanged"}');
     const before = localStorage.getItem(PROGRESS_KEY);
     const { unmount } = render(<PostFormat topic={poll} />);
@@ -109,19 +109,20 @@ describe("本机直觉投票与判题隔离", () => {
     expect(screen.getByText("少数倾向")).toBeTruthy();
     expect(screen.getByText("多数倾向")).toBeTruthy();
     expect(section.textContent).not.toMatch(/\d+%/);
-    expect(localStorage.getItem(pollKey)).toBe(choice);
+    expect(localStorage.getItem(pollKey)).toBeNull();
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
     expect(fetch).not.toHaveBeenCalled();
     for (const button of within(section).getAllByRole("button")) expect(button).toHaveProperty("disabled", true);
     unmount();
     render(<PostFormat topic={poll} />);
-    expect(screen.getByRole("button", { pressed: true }).textContent).toContain(choice === "same" ? "同一部书" : "两部书");
-    expect(screen.getByText("少数倾向")).toBeTruthy();
-    expect(screen.getByText("多数倾向")).toBeTruthy();
+    expect(screen.queryByRole("button", { pressed: true })).toBeNull();
+    expect(screen.queryByText("少数倾向")).toBeNull();
+    expect(screen.queryByText("多数倾向")).toBeNull();
+    expect(screen.getAllByRole("button").every((button) => !button.hasAttribute("disabled"))).toBe(true);
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
   });
 
-  it.each([false, true])("主动投票滚动并聚焦原判题区，减少动态效果=%s；恢复不跳转", (reducedMotion) => {
+  it.each([false, true])("主动投票滚动并聚焦原判题区，减少动态效果=%s；重进清空且不跳转", (reducedMotion) => {
     vi.stubGlobal("matchMedia", vi.fn().mockReturnValue({ matches: reducedMotion }));
     const props = { topic: poll, topicIds: topics.map(({ id }) => id) };
     const { unmount } = render(<PostExperience {...props} />);
@@ -138,16 +139,17 @@ describe("本机直觉投票与判题隔离", () => {
     unmount();
     const initialFocus = document.activeElement;
     render(<PostExperience {...props} />);
-    expect(screen.getByText("多数倾向")).toBeTruthy();
+    expect(screen.queryByText("多数倾向")).toBeNull();
     expect(document.activeElement).toBe(initialFocus);
     expect(scroll).toHaveBeenCalledTimes(1);
   });
 
-  it.each(["garbage", "null", '"same"'])("忽略损坏/非法存储 %s", (stored) => {
+  it.each(["same", "different", "garbage", "null", '"same"'])("忽略旧版有效/损坏投票记录 %s，不删除或恢复旧状态", (stored) => {
     localStorage.setItem(pollKey, stored);
     render(<PostFormat topic={poll} />);
     expect(screen.queryByText("少数倾向")).toBeNull();
     expect(screen.getByRole("button", { name: "直觉：同一部书" })).toHaveProperty("disabled", false);
+    expect(localStorage.getItem(pollKey)).toBe(stored);
   });
 
   it("存储读取或写入失败时仍可投票且不发网络请求", () => {
@@ -156,7 +158,7 @@ describe("本机直觉投票与判题隔离", () => {
     render(<PostFormat topic={poll} />);
     fireEvent.click(screen.getByRole("button", { name: "直觉：两部书" }));
     expect(screen.getByText("多数倾向")).toBeTruthy();
-    expect(screen.getByText(/本机存储不可用/)).toBeTruthy();
+    expect(screen.queryByText(/本机存储不可用/)).toBeNull();
     expect(fetch).not.toHaveBeenCalled();
   });
 });

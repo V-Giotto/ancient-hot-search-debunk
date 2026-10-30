@@ -15,7 +15,7 @@ export default function StickersPage() {
       <div className="mb-6">
         <p className="mb-2 text-xs font-medium tracking-widest text-accent">贴纸档案</p>
         <h1 className="text-2xl leading-snug font-bold">查证贴纸墙</h1>
-        <p className="mt-3 text-sm leading-6 text-muted">每查证一条，留下一枚主题贴纸。答对答错都能收集，点击已解锁贴纸可重温帖子。</p>
+        <p className="mt-3 text-sm leading-6 text-muted">每查证一条，留下一枚主题贴纸。答对答错都能收集，点击已收藏贴纸可重新挑战，进度不重复累计。</p>
       </div>
       <StickerWall stickers={stickers} firstTopicId={topics.find((topic) => topic.rank === 1)?.id} />
     </AppShell>

@@ -42,7 +42,7 @@ describe("贴纸墙与本机进度展示", () => {
     expect(within(wall).getAllByRole("link")).toHaveLength(1);
     const link = within(wall).getByRole("link", { name: /饭局手记/ });
     expect(link.getAttribute("href")).toBe("/post/H03");
-    expect(link.textContent).toContain("已解锁");
+    expect(link.textContent).toContain("已收藏 · 重新挑战");
     act(() => { saveProgress({ topicId: "H03", selectedAnswer: false, revealed: true, selectedRewriteOptionId: "C" }); });
     expect(screen.getAllByRole("status").map((node) => node.textContent)).toEqual([`已查证 1/${topics.length}`, `已查证 1/${topics.length}`]);
     cleanup();

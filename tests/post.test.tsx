@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { Activity, useState } from "react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import h03 from "@/data/topics/h03.json";
 import sources from "@/data/source-index.json";
@@ -9,7 +9,7 @@ import { VerdictTask } from "@/components/post/VerdictTask";
 import { PostExperience } from "@/components/post/PostExperience";
 import { toPublicTopic } from "@/lib/public-topic";
 import { HotTopicSchema, SourceSchema } from "@/lib/schemas";
-import { PROGRESS_KEY, readProgress, saveProgress } from "@/lib/progress";
+import { PROGRESS_KEY, readCollectionProgress, readProgress, saveProgress } from "@/lib/progress";
 import type { VerdictResult } from "@/lib/verdict";
 import { compactCount } from "@/lib/social-display";
 import { getAllTopics } from "@/lib/topics";
@@ -142,18 +142,39 @@ describe("真假判断与揭晓", () => {
     expect(screen.queryByText("谣言退散")).toBeNull();
   });
 
-  it("刷新时用保存的 false 再请求接口，恢复改写并保持原提交时间", async () => {
-    saveProgress({ topicId: "H03", selectedAnswer: false, submittedAt: "2026-10-29T12:00:00Z", revealed: true, selectedRewriteOptionId: "C" });
+  it.each([false, true])("旧版答案 %s 与改写只用于识别收藏，进入不恢复 UI，改选及重答不改写收集记录", async (selectedAnswer) => {
+    saveProgress({ topicId: "H03", selectedAnswer, submittedAt: "2026-10-29T12:00:00Z", revealed: true, selectedRewriteOptionId: "C" });
     const before = localStorage.getItem(PROGRESS_KEY);
     render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
-    expect(await screen.findByText("重温本条 · 已恢复上次答案，不重复累计。")).toBeTruthy();
-    expect(fetch).toHaveBeenCalledWith("/api/verdict", expect.objectContaining({ body: JSON.stringify({ topicId: "H03", answer: false }) }));
-    expect(screen.getByText("改写正确，这样说更准确。")).toBeTruthy();
+    expect(fetch).not.toHaveBeenCalled();
+    for (const radio of screen.getAllByRole("radio")) expect(radio).toHaveProperty("checked", false);
+    expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+    expect(screen.queryByText("谣言退散")).toBeNull();
+    expect(screen.queryByText("改写正确，这样说更准确。")).toBeNull();
+    expect(screen.queryByRole("textbox")).toBeNull();
+    fireEvent.click(screen.getByRole("radio", { name: selectedAnswer ? "是假的" : "是真的" }));
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
-    expect(document.activeElement).not.toBe(screen.getByRole("heading", { name: topic.reveal.verdictHeadline }));
     expect(scrollIntoView).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    await screen.findByText("谣言退散");
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText("改写正确，这样说更准确。")).toBeNull();
+    expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
     expect(screen.queryByText(/获得贴纸/)).toBeNull();
-    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("饭局手记 · 已解锁");
+    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("饭局手记 · 已收藏");
+    expect(readCollectionProgress(topicIds).completedIds).toEqual(["H03"]);
+  });
+
+  it.each([false, true])("旧版未揭晓草稿 %s 不恢复、不计数，本次选择也不持久保存", (selectedAnswer) => {
+    saveProgress({ topicId: "H03", selectedAnswer, revealed: false });
+    const before = localStorage.getItem(PROGRESS_KEY);
+    render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
+    expect(screen.getAllByRole("radio").every((node) => !(node as HTMLInputElement).checked)).toBe(true);
+    expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
+    expect(readCollectionProgress(topicIds).completedIds).toEqual([]);
+    expect(fetch).not.toHaveBeenCalled();
   });
 
   it("请求失败保留选择，可再次提交", async () => {
@@ -169,15 +190,13 @@ describe("真假判断与揭晓", () => {
     expect(scrollIntoView).toHaveBeenCalledExactlyOnceWith({ behavior: "smooth", block: "start" });
   });
 
-  it("恢复接口失败后可重试，仍锁定旧答案", async () => {
-    saveProgress({ topicId: "H03", selectedAnswer: false, revealed: true });
-    vi.mocked(fetch).mockRejectedValueOnce(new Error("offline"));
-    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
-    fireEvent.click(await screen.findByRole("button", { name: "重试恢复" }));
-    await screen.findByText("谣言退散");
-    expect(screen.getByRole("radio", { name: "是真的" }).matches(":disabled")).toBe(true);
-    expect(screen.getByText("重温本条 · 已恢复上次答案，不重复累计。")).toBeTruthy();
-    expect(screen.queryByText(/获得贴纸/)).toBeNull();
+  it.each(["{broken", "null", "[]", '{"H03":{"revealed":"true"}}'])("损坏旧数据 %s 不影响进入与首次收集", async (stored) => {
+    localStorage.setItem(PROGRESS_KEY, stored);
+    render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
+    expect(fetch).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    expect(await screen.findByText(`获得贴纸：饭局手记 · 已查证 1/${topicIds.length}`)).toBeTruthy();
   });
 
   it("localStorage 抛错时仍可提交揭晓", async () => {
@@ -252,12 +271,126 @@ describe("评论与改写", () => {
     expect(screen.getByText("改写正确，这样说更准确。")).toBeTruthy();
   });
 
-  it("改写选择写回进度", async () => {
+  it("改写选择只在本次页面内生效，不写回持久进度", async () => {
     render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     await screen.findByText("谣言退散");
+    const before = localStorage.getItem(PROGRESS_KEY);
     fireEvent.click(screen.getByRole("button", { name: /^C / }));
-    await waitFor(() => expect(readProgress("H03")?.selectedRewriteOptionId).toBe("C"));
+    expect(screen.getByText("改写正确，这样说更准确。")).toBeTruthy();
+    expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
+    expect(readProgress("H03")?.selectedRewriteOptionId).toBeUndefined();
+  });
+});
+
+describe("整帖重新交互", () => {
+  async function answerAndRewrite() {
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    await screen.findByText("谣言退散");
+    fireEvent.click(screen.getByRole("button", { name: /^C / }));
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "本次问题" } });
+  }
+
+  function expectFresh() {
+    expect(screen.getAllByRole("radio").every((node) => !(node as HTMLInputElement).checked && !node.matches(":disabled"))).toBe(true);
+    expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+    expect(screen.queryByText("谣言退散")).toBeNull();
+    expect(screen.queryByRole("group", { name: "三选一改写" })).toBeNull();
+    expect(screen.queryByRole("textbox")).toBeNull();
+    expect(screen.queryByRole("button", { name: "再玩一次" })).toBeNull();
+    expect(readCollectionProgress(topicIds).completedIds).toEqual(["H03"]);
+  }
+
+  it.each([false, true])("再玩一次清空整帖、聚焦并滚回判题，重答无重复提示；减少动态=%s", async (reducedMotion) => {
+    vi.mocked(window.matchMedia).mockReturnValue({ matches: reducedMotion } as MediaQueryList);
+    render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
+    await answerAndRewrite();
+    const before = localStorage.getItem(PROGRESS_KEY);
+    fireEvent.click(screen.getByRole("button", { name: "再玩一次" }));
+    expectFresh();
+    const heading = screen.getByRole("heading", { name: "这条主张，你信吗？" });
+    expect(document.activeElement).toBe(heading);
+    expect(scrollIntoView).toHaveBeenLastCalledWith({ behavior: reducedMotion ? "instant" : "smooth", block: "start" });
+    expect(scrollIntoView.mock.contexts.at(-1)).toBe(heading.closest(".task-panel"));
+    await answerAndRewrite();
+    expect(screen.queryByText(/获得贴纸/)).toBeNull();
+    expect(screen.getByText("饭局手记 · 已收藏")).toBeTruthy();
+    expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
+  });
+
+  it("离开卸载后重进、路由 Activity 隐藏后返回和 bfcache 返回均重置", async () => {
+    const props = { topic: publicTopic, topicIds };
+    const first = render(<PostExperience {...props} />);
+    await answerAndRewrite();
+    first.unmount();
+    const { rerender } = render(<Activity mode="visible"><PostExperience {...props} /></Activity>);
+    expectFresh();
+    await answerAndRewrite();
+    rerender(<Activity mode="hidden"><PostExperience {...props} /></Activity>);
+    rerender(<Activity mode="visible"><PostExperience {...props} /></Activity>);
+    expectFresh();
+    await answerAndRewrite();
+    act(() => window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true })));
+    expectFresh();
+    expect(fetch).toHaveBeenCalledTimes(3);
+  });
+
+  it("再玩时取消待完成的 AI 请求，新面板无输入、历史、加载或错误", async () => {
+    let askSignal: AbortSignal | undefined;
+    vi.mocked(fetch).mockImplementation(async (url, init) => {
+      if (url === "/api/ask") {
+        askSignal = init?.signal as AbortSignal;
+        return new Promise<Response>(() => {});
+      }
+      return { ok: true, json: async () => result() } as Response;
+    });
+    render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
+    await answerAndRewrite();
+    fireEvent.click(screen.getByRole("button", { name: "发送问题" }));
+    expect(screen.getByText("值班史官正在查阅资料…")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "再玩一次" }));
+    expect(askSignal?.aborted).toBe(true);
+    expectFresh();
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    await screen.findByText("谣言退散");
+    expect(screen.getByRole("textbox")).toHaveProperty("value", "");
+    expect(screen.getByRole("log", { name: "AI 问答记录" }).textContent).toBe("");
+    expect(screen.getByRole("log").getAttribute("aria-busy")).toBe("false");
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(screen.getAllByRole("button", { pressed: false })).toHaveLength(3);
+  });
+
+  it("离开时取消判题，旧请求晚到不写入进度或污染重进题面", async () => {
+    let release!: (response: Response) => void;
+    let signal: AbortSignal | undefined;
+    vi.mocked(fetch).mockImplementation((_url, init) => {
+      signal = init?.signal as AbortSignal;
+      return new Promise<Response>((resolve) => { release = resolve; });
+    });
+    const first = render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    first.unmount();
+    expect(signal?.aborted).toBe(true);
+    render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
+    await act(async () => release({ ok: true, json: async () => result() } as Response));
+    expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+    expect(screen.queryByText("谣言退散")).toBeNull();
+    expect(localStorage.getItem(PROGRESS_KEY)).toBeNull();
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("存储写入失败时原地重玩也不重复提示获得贴纸", async () => {
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("quota"); });
+    render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
+    await answerAndRewrite();
+    expect(screen.getByText(/获得贴纸/)).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "再玩一次" }));
+    await answerAndRewrite();
+    expect(screen.queryByText(/获得贴纸/)).toBeNull();
+    expect(screen.getByText("饭局手记 · 已收藏")).toBeTruthy();
   });
 });

@@ -43,6 +43,7 @@ let server;
 let serverLog = "";
 let browser;
 const revealChecks = [];
+const replayChecks = [];
 
 async function requireFreePort() {
   const probe = createServer();
@@ -139,27 +140,79 @@ async function pollTendencyChecks(page) {
   assert.equal(await poll.locator("button:enabled").count(), 0);
 }
 
-async function pollHandoffChecks(page) {
-  // 核验用户投票后的真实落点，不调用测试滚动来修正位置。
-  await page.waitForFunction(() => {
-    const panel = document.querySelector(".task-panel");
-    const top = panel.getBoundingClientRect().top;
-    const margin = parseFloat(getComputedStyle(panel).scrollMarginTop);
-    // 判题区接近页尾，较高视口可能先到最大滚动距离；无需为对齐添加空白。
-    const atPageEnd = Math.abs(window.scrollY + window.innerHeight - document.documentElement.scrollHeight) < 1;
-    return Math.abs(top - margin) < 1 || (atPageEnd && top >= margin);
+async function taskLandingChecks(page) {
+  // 核验用户投票或再玩一次后的真实落点，不调用测试滚动来修正位置。
+  const layout = await page.evaluate(async () => {
+    const visible = (selector) => [...document.querySelectorAll(selector)].find((node) => node.checkVisibility());
+    let previous;
+    let stableFrames = 0;
+    const deadline = performance.now() + 10000;
+    while (performance.now() < deadline) {
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      const panel = visible(".task-panel");
+      if (!panel) continue;
+      const heading = panel.querySelector("#task-heading");
+      const box = panel.getBoundingClientRect();
+      const headingBox = heading.getBoundingClientRect();
+      const headerBottom = visible(".shell-header").getBoundingClientRect().bottom;
+      const tabsTop = visible(".bottom-tabs").getBoundingClientRect().top;
+      const current = { panelTop: box.top, panelBottom: box.bottom, headingTop: headingBox.top, headingBottom: headingBox.bottom, headerBottom, tabsTop, scrollY: window.scrollY };
+      // 接近页尾时无需强求顶部对齐；收藏提示异步加载也可能改变最大滚动距离。
+      const landed = current.scrollY > 0 && box.top >= headerBottom + 7.5 && box.bottom <= tabsTop
+        && document.activeElement === heading;
+      stableFrames = landed && previous && Math.abs(previous.scrollY - current.scrollY) < 0.5
+        && Math.abs(previous.panelTop - current.panelTop) < 0.5 ? stableFrames + 1 : 0;
+      if (stableFrames >= 5) return current;
+      previous = current;
+    }
+    throw new Error(`判题区滚动未稳定或被遮挡：${JSON.stringify(previous)}`);
   });
   await focused(page.locator("#task-heading"));
-  const layout = await page.locator(".task-panel").evaluate((panel) => {
-    const headerBottom = document.querySelector(".shell-header").getBoundingClientRect().bottom;
-    const tabsTop = document.querySelector(".bottom-tabs").getBoundingClientRect().top;
-    const heading = panel.querySelector("#task-heading").getBoundingClientRect();
-    return { panelTop: panel.getBoundingClientRect().top, panelBottom: panel.getBoundingClientRect().bottom, headingTop: heading.top, headingBottom: heading.bottom, headerBottom, tabsTop, scrollY: window.scrollY };
-  });
-  assert.ok(layout.scrollY > 0 && layout.panelTop >= layout.headerBottom + 7.5 && layout.headingBottom < layout.tabsTop, "投票后判题区标题被吸顶头部或底栏遮挡");
-  assert.ok(layout.panelBottom <= layout.tabsTop, "投票后判题区未完整进入首屏");
+  assert.ok(layout.scrollY > 0 && layout.panelTop >= layout.headerBottom + 7.5 && layout.headingBottom < layout.tabsTop, `判题区标题被吸顶头部或底栏遮挡：${JSON.stringify(layout)}`);
+  assert.ok(layout.panelBottom <= layout.tabsTop, "判题区未完整进入首屏");
+  return layout;
+}
+
+async function pollHandoffChecks(page) {
+  const layout = await taskLandingChecks(page);
   await pollTendencyChecks(page);
   return layout;
+}
+
+async function freshPost(page, { poll = false } = {}) {
+  await visible(page.getByRole("heading", { name: "这条主张，你信吗？", exact: true }));
+  await page.waitForFunction(() => [...document.querySelectorAll(".task-panel")].some((panel) => panel.checkVisibility()
+    && panel.querySelectorAll("input:checked").length === 0
+    && panel.querySelectorAll("input:disabled").length === 0
+    && panel.querySelector("button:disabled")?.textContent.trim() === "提交判断"));
+  assert.equal(await page.getByRole("radio").count(), 2);
+  assert.equal(await page.locator(".reveal-panel:visible").count(), 0);
+  assert.equal(await page.getByRole("group", { name: "三选一改写", exact: true }).count(), 0);
+  assert.equal(await page.getByRole("log", { name: "AI 问答记录", exact: true }).count(), 0);
+  assert.equal(await page.getByRole("textbox").count(), 0);
+  assert.equal(await page.getByRole("dialog").count(), 0);
+  assert.equal(await page.getByRole("button", { name: "再玩一次", exact: true }).count(), 0);
+  assert.equal(await page.getByText(/获得贴纸/).count(), 0);
+  if (poll) {
+    const section = page.getByRole("region", { name: "直觉投票", exact: true });
+    assert.equal(await section.getByRole("button", { pressed: true }).count(), 0);
+    assert.equal(await section.locator("button:enabled").count(), 2);
+    assert.equal(await section.locator(".poll-tendency").count(), 0);
+  }
+}
+
+async function replayPost(page, scenario, geometry) {
+  const saved = await page.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
+  const button = page.getByRole("button", { name: "再玩一次", exact: true });
+  const box = await button.boundingBox();
+  assert.ok(box.width >= 44 && box.height >= 44, "再玩一次触控范围不足 44px");
+  await button.click();
+  await freshPost(page, { poll: scenario.id === "H12" });
+  const landing = await taskLandingChecks(page);
+  assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved, "原地重玩不得改变进度或贴纸");
+  const record = { id: scenario.id, ...(await mobileGeometry(page, `${scenario.id} 再玩一次原地重置`)), landing, touchTarget: { width: box.width, height: box.height }, progressUnchanged: true };
+  replayChecks.push(record);
+  geometry.push(record);
 }
 
 async function discoverEmptyChecks(page, geometry) {
@@ -567,7 +620,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await page.waitForURL("**/trending");
   await page.locator('[aria-label="热搜排行"] a[href="/post/H03"]').click();
   await page.getByRole("radio", { name: "是假的", exact: true }).check();
-  // 只选答案不解锁；返回后仍可继续提交。
+  // 只选答案不解锁；返回后草稿也必须清空。
   await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
   await page.waitForURL("**/stickers");
   await collectionCount(page, 0);
@@ -575,6 +628,8 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
   await page.waitForURL("**/trending");
   await page.locator('[aria-label="热搜排行"] a[href="/post/H03"]').click();
+  await freshPost(page);
+  await page.getByRole("radio", { name: "是假的", exact: true }).check();
   await page.getByRole("button", { name: "提交判断", exact: true }).click();
   await visible(page.locator(".verdict-stamp"));
   await revealSummaryChecks(page, { correct: true, isTrue: false, firstScreen: viewport.width === 390 });
@@ -598,19 +653,52 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   assert.equal(await stickers.locator('[data-unlocked="false"]').count(), scenarios.length - 1);
   const unlocked = stickers.locator('[data-sticker-id="H03"]');
   assert.equal(await unlocked.getAttribute("data-unlocked"), "true");
-  await visible(unlocked.getByText("已解锁 · 回看帖子 →", { exact: true }));
+  await visible(unlocked.getByText("已收藏 · 重新挑战 →", { exact: true }));
   geometry.push(await mobileGeometry(page, "贴纸墙解锁一枚"));
   if (viewport.width === 390) await page.screenshot({ path: path.join(screenshots, "stickers-390x844.png"), animations: "disabled" });
   await unlocked.getByRole("link").click();
   await page.waitForURL("**/post/H03");
-  await visible(page.getByText("重温本条 · 已恢复上次答案，不重复累计。", { exact: true }));
-  assert.equal(await page.getByText(/获得贴纸/).count(), 0, "重温不应重复提示获得贴纸");
+  await freshPost(page);
+  const saved = await page.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
+  await visible(page.getByText(`贴纸已收藏 · 已查证 1/${scenarios.length}，重玩不重复累计。`, { exact: true }));
+  if (viewport.width === 390) {
+    await page.locator(".task-panel").evaluate((panel) => panel.scrollIntoView({ block: "start", behavior: "instant" }));
+    await versionScreenshot(page, "revisit", "0.13.2", { scrollToTop: false });
+  }
+  // 使用与首次相反的答案重答，仍只有一枚贴纸，也不覆盖首次完成记录。
+  await page.getByRole("radio", { name: "是真的", exact: true }).check();
+  assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
+  await page.getByRole("button", { name: "提交判断", exact: true }).click();
+  await visible(page.getByText("这次答错了，带走一个新知识。", { exact: true }));
+  assert.equal(await page.getByText(/获得贴纸/).count(), 0);
+  await visible(page.getByText("饭局手记 · 已收藏", { exact: true }));
+  await replayPost(page, scenarios.find(({ id }) => id === "H03"), geometry);
+  await page.getByRole("radio", { name: "是假的", exact: true }).check();
+  await page.getByRole("button", { name: "提交判断", exact: true }).click();
+  await visible(page.locator(".verdict-stamp"));
   await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
+  await page.waitForURL("**/stickers");
+  await collectionCount(page, 1);
+  // 浏览器后退会复用路由缓存；返回到已揭晓的帖子仍应全新。
+  await page.goBack();
+  await page.waitForURL("**/post/H03");
+  await freshPost(page);
+  assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
+  await page.goForward();
+  await page.waitForURL("**/stickers");
+  await collectionCount(page, 1);
+  await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
+  await page.waitForURL("**/trending");
+  await page.locator('[aria-label="热搜排行"] a[href="/post/H03"]').click();
+  await page.waitForURL("**/post/H03");
+  await freshPost(page);
+  await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
+  await page.waitForURL("**/stickers");
   await collectionCount(page, 1);
   await page.reload();
   await collectionCount(page, 1);
   assert.equal(await stickers.getByRole("link").count(), 1);
-  geometry.push(await mobileGeometry(page, "贴纸墙刷新恢复与重温去重"));
+  geometry.push(await mobileGeometry(page, "贴纸墙刷新保留进度，重进/历史返回/重玩去重"));
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await collectionCount(page, 0);
@@ -872,9 +960,11 @@ try {
     }
     await writeFile(path.join(output, `${id}-initial-post.html`), initialHtml);
 
+    if (id === "H12") await page.evaluate(() => localStorage.setItem("ahsd:poll:v1:H12", "different"));
     await page.goto(`${baseURL}/${topic.module === "trending" ? "trending" : "discover"}`);
     await page.locator(`[aria-label="${topic.module === "trending" ? "热搜排行" : "发现话题"}"] a[href="/post/${id}"]`).click();
     await page.waitForURL(`**/post/${id}`);
+    await freshPost(page, { poll: id === "H12" });
     await visible(page.getByRole("heading", { name: topic.title, exact: true }));
     if (topic.module === "discover") await visible(page.locator("article .author-row"));
     await visible(page.getByText(topic.body, { exact: true }));
@@ -907,13 +997,13 @@ try {
       // 投与后续判题相反的直觉，确认投票不会输入判题或解锁贴纸。
       await poll.getByRole("button", { name: "直觉：同一部书", exact: true }).click();
       await pollTendencyChecks(page);
-      assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:poll:v1:H12")), "same");
+      assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:poll:v1:H12")), "different", "新投票不得读取或覆盖旧版投票存储");
       assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), savedBeforeVote);
       assert.equal(verdictCalls, verdictCallsBeforeVote);
       assert.ok(await page.getByRole("button", { name: "提交判断", exact: true }).isDisabled());
       const handoff = await pollHandoffChecks(page);
       await versionScreenshot(page, "H12", packageVersion, { scrollToTop: false });
-      formatChecks.push({ id, format: "poll", ...(await mobileGeometry(page, "H12 投票后倾向文字条与原判题区")), handoff, pollSavedSeparately: true });
+      formatChecks.push({ id, format: "poll", ...(await mobileGeometry(page, "H12 投票后倾向文字条与原判题区")), handoff, pollSessionOnly: true, legacyVoteIgnored: true });
     }
     if (id === "H03") {
       await versionScreenshot(page, "post");
@@ -1049,23 +1139,33 @@ try {
     const saved = await page.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
     const progress = JSON.parse(saved)[id];
     assert.equal(progress.selectedAnswer, answer);
-    assert.equal(progress.selectedRewriteOptionId, best);
+    assert.equal(progress.selectedRewriteOptionId, undefined, "改写只存本次页面状态");
+    // 经所属模块离开再进入，随后刷新，均不自动请求揭晓或恢复任何交互。
+    await page.getByRole("link", { name: /← 返回.*继续围观/ }).click();
+    await page.waitForURL(`**/${topic.module}`);
+    await page.locator(`[aria-label="${topic.module === "trending" ? "热搜排行" : "发现话题"}"] a[href="/post/${id}"]`).click();
+    await page.waitForURL(`**/post/${id}`);
+    await freshPost(page, { poll: id === "H12" });
     await page.reload();
-    await visible(page.getByText("重温本条 · 已恢复上次答案，不重复累计。", { exact: true }));
-    assert.equal(await page.getByText(/获得贴纸/).count(), 0, "刷新重温不应重复提示获得贴纸");
-    assert.equal(verdictCalls, callsBefore + 2);
-    if (id === "H12") {
-      const poll = page.getByRole("region", { name: "直觉投票", exact: true });
-      await pollTendencyChecks(page);
-      assert.ok(await poll.getByRole("button", { pressed: true }).textContent().then((text) => text.includes("同一部书")));
-      assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:poll:v1:H12")), "same");
-    }
+    await freshPost(page, { poll: id === "H12" });
+    assert.equal(verdictCalls, callsBefore + 1, "重进/刷新不应自动恢复揭晓");
     assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
-    await visible(page.getByText("改写正确，这样说更准确。", { exact: true }));
+    await page.getByRole("radio", { name: answer ? "是真的" : "是假的", exact: true }).check();
+    assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved, "重选不得覆盖完成记录");
+    await page.getByRole("button", { name: "提交判断", exact: true }).click();
+    await visible(page.locator(".verdict-stamp"));
+    assert.equal(verdictCalls, callsBefore + 2);
+    assert.equal(await page.getByText(/获得贴纸/).count(), 0, "重答不重复提示获得贴纸");
+    await visible(page.getByRole("region", { name: "本题贴纸", exact: true }).getByText(/已收藏/));
+    assert.equal(await page.getByRole("group", { name: "三选一改写", exact: true }).getByRole("button", { pressed: true }).count(), 0);
+    assert.equal(await page.getByRole("textbox").inputValue(), "");
+    assert.equal(await page.getByRole("log", { name: "AI 问答记录", exact: true }).textContent(), "");
+    assert.equal(await page.locator('[aria-labelledby="ask-heading"]').getByRole("alert").count(), 0);
+    assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
     await page.emulateMedia({ reducedMotion: "reduce" });
     const animation = await page.locator(".verdict-stamp").evaluate((node) => getComputedStyle(node).animationDuration);
     assert.ok(parseFloat(animation) < 0.01, "减少动态效果设置未生效");
-    flows.push({ id, answer, verdict: stamp, bestRewrite: best, sourceCount, pngPath, pngBytes: (await stat(pngPath)).size, dimensions: "1200×675", sampledColors: colorCount, initialAnswerLeak: false, cardClipped: false, restored: true });
+    flows.push({ id, answer, verdict: stamp, bestRewrite: best, sourceCount, pngPath, pngBytes: (await stat(pngPath)).size, dimensions: "1200×675", sampledColors: colorCount, initialAnswerLeak: false, cardClipped: false, revisitFresh: true, reloadFresh: true, progressUnchanged: true, noDuplicateUnlock: true });
   }
 
   const progressIds = await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem("ahsd:progress:v1"))));
@@ -1182,9 +1282,26 @@ try {
         }
         await mobile.getByRole("button", { name: "关闭预览", exact: true }).click();
         await focused(mobile.getByRole("button", { name: "生成查证卡", exact: true }));
+        await replayPost(mobile, scenario, geometry);
+        const saved = await mobile.evaluate(() => localStorage.getItem("ahsd:progress:v1"));
+        if (scenario.id === "H12") {
+          await mobile.getByRole("button", { name: "直觉：同一部书", exact: true }).click();
+          await pollHandoffChecks(mobile);
+          assert.equal(await mobile.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
+        }
+        await mobile.getByRole("radio", { name: scenario.answer ? "是真的" : "是假的", exact: true }).check();
+        await mobile.getByRole("button", { name: "提交判断", exact: true }).click();
+        await visible(mobile.locator(".verdict-stamp"));
+        assert.equal(await mobile.getByText(/获得贴纸/).count(), 0);
+        assert.equal(await mobile.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
+        assert.equal(await mobile.getByRole("group", { name: "三选一改写", exact: true }).getByRole("button", { pressed: true }).count(), 0);
+        assert.equal(await mobile.getByRole("textbox").inputValue(), "");
+        assert.equal(await mobile.getByRole("log", { name: "AI 问答记录", exact: true }).textContent(), "");
+        assert.equal(await mobile.locator('[aria-labelledby="ask-heading"]').getByRole("alert").count(), 0);
         await mobile.reload();
-        await visible(mobile.getByText("重温本条 · 已恢复上次答案，不重复累计。", { exact: true }));
-        await mobileGeometry(mobile, `${route} 刷新恢复`);
+        await freshPost(mobile, { poll: scenario.id === "H12" });
+        assert.equal(await mobile.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
+        await mobileGeometry(mobile, `${route} 刷新后交互全新、收集不变`);
         await bottomNavigationAtEnd(mobile);
       }
       if (route === "/post/DOES-NOT-EXIST" && viewport.width === 390) await mobile.screenshot({ path: path.join(screenshots, "not-found-390x844.png"), animations: "disabled" });
@@ -1217,7 +1334,7 @@ try {
     await page.goto(`${baseURL}/discover`);
     await page.locator(`[aria-label="发现话题"] a[href="/post/${id}"]`).click();
     await page.waitForURL(`**/post/${id}`);
-    await visible(page.getByText("重温本条 · 已恢复上次答案，不重复累计。", { exact: true }));
+    await freshPost(page, { poll: id === "H12" });
   }
   const wrongContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const wrongPage = await wrongContext.newPage();
@@ -1245,7 +1362,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, buildId, previewBuild, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；刷新不跳转；独立本机存储，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true }, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, buildId, previewBuild, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true }, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

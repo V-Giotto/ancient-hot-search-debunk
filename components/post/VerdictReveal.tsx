@@ -2,7 +2,7 @@ import type { ReactNode, Ref } from "react";
 import type { VerdictResult } from "@/lib/verdict";
 import { StatusIcon } from "@/components/social/StatusIcon";
 
-export function VerdictReveal({ result, revisiting, headingRef, children }: { result: VerdictResult; revisiting: boolean; headingRef?: Ref<HTMLHeadingElement>; children?: ReactNode }) {
+export function VerdictReveal({ result, headingRef, children }: { result: VerdictResult; headingRef?: Ref<HTMLHeadingElement>; children?: ReactNode }) {
   return (
     <section className="panel reveal-panel" aria-labelledby="reveal-heading">
       <p className="eyebrow">查证结果 · 开发预览</p>
@@ -18,7 +18,6 @@ export function VerdictReveal({ result, revisiting, headingRef, children }: { re
         <span aria-hidden="true" className="verdict-feedback-icon">{result.isCorrect ? "✓" : "✕"}</span>
         <span>{result.isCorrect ? "答对了！这次吃瓜有依据。" : "这次答错了，带走一个新知识。"}</span>
       </p>
-      {revisiting && <p className="mt-3 text-xs text-muted">重温本条 · 已恢复上次答案，不重复累计。</p>}
       <section className="corrected-claim mt-4 rounded-xl border-l-4 border-gold bg-gold/10 p-4">
         <h3 className="result-heading">准确说法</h3>
         <p className="mt-2 text-sm leading-7 font-medium">{result.reveal.correctedClaim}</p>

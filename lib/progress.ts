@@ -13,7 +13,7 @@ function readMap(): Record<string, unknown> {
   return parsed.success ? parsed.data : {};
 }
 
-/** 浏览器禁用存储、数据损坏或 SSR 时，回退到当前页面的 React 状态。 */
+/** 兼容旧版记录的读取；单帖交互不使用此记录恢复 UI。存储异常或 SSR 时安全返回空值。 */
 export function readProgress(topicId: string): TopicProgress | undefined {
   try {
     const parsed = TopicProgressSchema.safeParse(readMap()[topicId]);
