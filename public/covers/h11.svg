@@ -8,7 +8,6 @@
     <text x="65" y="207" font-size="70" font-weight="800">这句话谁说的？</text>
     <text x="70" y="262" font-size="28" fill="#767680">提问与回答，都要带上上下文。</text>
     <path d="M180 325H720Q750 325 750 355V405Q750 435 720 435H265L205 475V435H180Q150 435 150 405V355Q150 325 180 325Z" fill="#fff" stroke="#d6ad72" stroke-width="3"/><text x="202" y="395" font-size="40" fill="#767680">转发语录 · 等等再说</text><path d="M530 460H1000Q1030 460 1030 490V535Q1030 565 1000 565H970V600L915 565H530Q500 565 500 535V490Q500 460 530 460Z" fill="#426b58"/><text x="550" y="529" font-size="38" fill="#fff">上下文在哪里？</text>
-    <text x="70" y="609" font-size="21" fill="#7d5b32">线索在材料里 · 结论等查证</text>
     <text x="1130" y="98" text-anchor="end" font-size="18" fill="#7d5b32">热搜档案 / H11</text>
   </g>
 </svg>

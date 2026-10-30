@@ -1,11 +1,4 @@
 /** 固定的展示元数据；不依赖当前时间，也不表示实时社区数据。 */
-export function authorHandle(name: string): string {
-  // 按作者名编码，同一作者在帖子与评论中保持同一原创账号标识。
-  let hash = 0;
-  for (const character of name) hash = (Math.imul(hash, 31) + character.codePointAt(0)!) >>> 0;
-  return `@guwen_${hash.toString(36)}`;
-}
-
 const postTimes = ["3小时", "5小时", "2小时", "6小时", "1天", "8小时", "1天", "9小时", "1小时", "4小时", "7小时", "2天"];
 
 export function compactCount(count: number): string {

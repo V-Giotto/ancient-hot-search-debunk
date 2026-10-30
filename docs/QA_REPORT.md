@@ -324,3 +324,28 @@ H03 首次提交后的 390×844 首屏截图已生成并打开复核：
 - `artifacts/stage-6/screenshots/v0.9.0-reveal-390x844.png`
 
 机器记录仍为 `artifacts/stage-6/result.json`，新增 `buildId`、`revealChecks` 与三视口 `geometry[].breadcrumb`。未新增史实，未打印密钥，未 commit。
+
+## v0.10.0：紧凑顶栏与统一帖子骨架
+
+验收日期：2026-10-29。按 `/workspace/iter1/自我迭代分析.md` 中四项 v0.10.0 要求实现，未纳入后续版本的文案、投票或 AI 功能改动。
+
+| 命令 | 结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 16 个文件、312 项全部通过 |
+| `npm run build` | 通过，BUILD_ID `oBM0S7do3JMxmWDDto7jh` |
+| `E2E_REVIEW_DIR=/workspace/iter1 CHROME_PATH=/usr/bin/google-chrome npm run test:e2e` | 12 条完整流程、141 项布局记录、52 次揭晓布局断言，浏览器运行错误 0 |
+| `node --check scripts/e2e.mjs`、`git diff --check` | 通过 |
+
+- 390×844、375×667、430×932 逐页检查发现、贴纸、十二条帖子及两种 404：顶栏均为 48px，含返回热搜榜链接与页面标题；帖子面包屑由紧凑顶栏取代。品牌大头仅保留在热榜横幅，检查范围限定应用壳层，排除 Next 的隐藏路由播报文本。
+- 热榜横幅实测 96px。390×844 未滚动首屏完整展示 5 条，第 5 条底边为 714.4375px，底部导航顶部为 779px；E2E 断言至少五条完整可见并无遮挡。分类筛选、键盘导航与本机进度功能仍通过。
+- 十二条帖子均检查六个直接子区块的固定顺序：author、format、title、body、cover、stats。每篇作者行、标题、正文、封面与统计各一份，形式主体不内嵌封面；评论统一置于文章之后，投票仍独立存储、不影响判题与贴纸。
+- 作者 handle 来自十二条数据中的显式命名字段，测试覆盖唯一性、`^@[a-z_]{3,20}$`、边界长度以及缺失、数字、大小写、空白等非法值；显示值与数据逐条一致。删除散列生成函数，评论保留昵称与相对时间。
+- H01–H12 封面底部胶囊/说明文字已移除，SVG 全部可解析，1200×675 尺寸、主标题、插画与档案编号保留；修改记录见 ASSET_LICENSES。与 HEAD 数据逐条对比：除新增 `author.handle` 外完全相同，来源索引未修改，未新增史实或改变审核状态。
+
+两张截图均为 390×844 首屏，已打开核对，并由 E2E 同步保存：
+
+- `/workspace/iter1/v0.10.0-trending-390x844.png`
+- `/workspace/iter1/v0.10.0-post-390x844.png`（H03）
+
+仓库内同名截图位于 `artifacts/stage-6/screenshots/`，最新机器记录仍为 `artifacts/stage-6/result.json`，新增 `trending.density`、`geometry[].header` 与 `social.sections`。E2E 等待目标路由完成后再检查收藏进度，避免相同进度文本在切页时误匹配旧页。所有测试服务已退出；未输出 AI_API_KEY，未 commit。

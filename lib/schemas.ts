@@ -55,6 +55,7 @@ export const HotTopicSchema = z.strictObject({
   coverAlt: nonEmptyText,
   author: z.strictObject({
     name: nonEmptyText,
+    handle: z.string().regex(/^@[a-z_]{3,20}$/, "handle 须为 @ 加 3–20 位小写字母或下划线"),
     bio: nonEmptyText,
     avatarUrl: nonEmptyText,
     fictitious: z.literal(true),

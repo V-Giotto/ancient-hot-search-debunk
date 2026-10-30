@@ -4,6 +4,7 @@ import { EmptyState } from "@/components/shell/EmptyState";
 import { getAllTopics } from "@/lib/topics";
 import { SocialIcon } from "@/components/social/SocialIcon";
 import { compactCount } from "@/lib/social-display";
+import { AppShell } from "@/components/shell/AppShell";
 
 export const metadata: Metadata = { title: "发现" };
 
@@ -11,7 +12,7 @@ export default function DiscoverPage() {
   const topics = getAllTopics();
 
   return (
-    <>
+    <AppShell title="发现">
       <div className="discover-heading">
         <div><p className="eyebrow">发现 · 街巷见闻</p><h1>跨时空吃瓜现场</h1></div>
         <Link href="/trending">去热搜榜 ↗</Link>
@@ -35,6 +36,6 @@ export default function DiscoverPage() {
           ))}
         </ul>
       )}
-    </>
+    </AppShell>
   );
 }

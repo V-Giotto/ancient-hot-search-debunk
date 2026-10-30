@@ -4,7 +4,7 @@ import { AuthorRow } from "@/components/social/AuthorRow";
 import { SocialStats } from "@/components/social/SocialStats";
 
 export function Author({ topic }: { topic: PublicTopic }) {
-  return <AuthorRow name={topic.author.name} avatarUrl={topic.author.avatarUrl} relativeTime={postRelativeTime(topic.rank)} />;
+  return <AuthorRow name={topic.author.name} handle={topic.author.handle} avatarUrl={topic.author.avatarUrl} relativeTime={postRelativeTime(topic.rank)} />;
 }
 
 export function Title({ topic }: { topic: PublicTopic }) {

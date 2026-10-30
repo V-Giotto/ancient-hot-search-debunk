@@ -3,6 +3,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { AppShell } from "@/components/shell/AppShell";
 import TrendingPage from "@/app/trending/page";
 import DiscoverPage from "@/app/discover/page";
+import StickersPage from "@/app/stickers/page";
+import NotFound from "@/app/not-found";
 
 const route = vi.hoisted(() => ({ pathname: "/trending" }));
 vi.mock("next/navigation", () => ({ usePathname: () => route.pathname }));
@@ -29,6 +31,28 @@ describe("AppShell 内容模式提示", () => {
 });
 
 describe("移动端共用壳层", () => {
+  it.each([
+    [DiscoverPage, "发现"], [StickersPage, "贴纸档案"], [NotFound, "页面未找到"],
+  ] as const)("%s 使用返回与页面标题的紧凑顶栏", (Page, title) => {
+    render(Page());
+    const header = screen.getByRole("banner");
+    expect(header.className).toBe("shell-header");
+    expect(within(header).getByText(title)).toBeTruthy();
+    expect(within(header).getByRole("link", { name: "返回热搜榜" }).getAttribute("href")).toBe("/trending");
+    expect(document.body.textContent).not.toContain("古代热搜辟谣局");
+    expect(screen.getAllByRole("main")).toHaveLength(1);
+  });
+
+  it("帖子顶栏显示帖子编号，热榜只在横幅出现一次品牌", () => {
+    const { unmount } = render(<AppShell title="帖子 H03"><p>帖子内容</p></AppShell>);
+    expect(within(screen.getByRole("banner")).getByText("帖子 H03")).toBeTruthy();
+    unmount();
+    const { container } = render(TrendingPage());
+    expect(container.querySelector(".shell-header")).toBeNull();
+    expect(screen.getAllByText("古代热搜辟谣局")).toHaveLength(1);
+    expect(screen.getByRole("heading", { level: 1 }).closest(".trending-hero")).toBeTruthy();
+  });
+
   it.each(["/trending", "/discover", "/stickers", "/post/H03", "/missing"])("%s 保留三 Tab 与主内容内可展开的公告、守则", (pathname) => {
     route.pathname = pathname;
     render(<AppShell><h1>页面内容</h1></AppShell>);
@@ -52,7 +76,7 @@ describe("移动端共用壳层", () => {
   });
 
   it.each([TrendingPage, DiscoverPage])("列表页移除标签，保留话题、统计和来源阅读入口：%s", (Page) => {
-    render(<AppShell>{Page()}</AppShell>);
+    render(Page());
     expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
     expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(12);
     if (Page === DiscoverPage) expect(screen.getByTitle("35,600").textContent).toContain("3.6万");

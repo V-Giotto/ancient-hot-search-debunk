@@ -223,6 +223,12 @@ describe("validateContentSet：当前题目的完整性规则", () => {
       expect(svg).not.toMatch(/虚构|架空|模拟|非史料|非实物复原|不是实物复原|仅作戏仿|场景为创作/);
       expect(svg).not.toContain('<rect x="834" y="578"');
       expect(svg).not.toContain('<circle cx="861" cy="600"');
+      if (asset.startsWith("/covers/")) {
+        expect(svg).not.toMatch(/<rect x="70" y="578"|<text x="242" y="607"|<text x="70" y="609"/);
+        expect(svg).toContain('viewBox="0 0 1200 675"');
+        expect(svg).toContain('font-size="70"');
+        expect(svg).toContain("热搜档案 / H");
+      }
       expect(svg).not.toMatch(/(?:href|src)=["']https?:/);
       expect(licenses).toContain(`public${asset}`);
     }
@@ -307,6 +313,16 @@ describe("7.3 的类型及 Zod 字段约束", () => {
     const topic = makeTopic();
     expect(HotTopicSchema.safeParse({ ...topic, author: { ...topic.author, fictitious: false } }).success).toBe(false);
     expect(HotTopicSchema.safeParse({ ...topic, isTrue: "false" }).success).toBe(false);
+  });
+
+  it.each([undefined, null, "", "abc", "@ab", "@abcdefghijklmnopqrstu", "@Uppercase", "@guwen_1pjmn5g", "@with-dash", "@name ", "@名字"])("拒绝缺失或格式无效的作者 handle：%j", (handle) => {
+    const topic = makeTopic();
+    expect(HotTopicSchema.safeParse({ ...topic, author: { ...topic.author, handle } }).success).toBe(false);
+  });
+
+  it.each(["@abc", "@abcdefghijklmnopqrst", "@changan_chihuo"])("接受 3–20 位小写字母/下划线 handle：%s", (handle) => {
+    const topic = makeTopic();
+    expect(HotTopicSchema.parse({ ...topic, author: { ...topic.author, handle } }).author.handle).toBe(handle);
   });
 
   it("改写选项的文本和反馈均不能为空", () => {

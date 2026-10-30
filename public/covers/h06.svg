@@ -32,7 +32,5 @@
     <path d="M27 138H401" stroke="#c9d9ce" stroke-width="2" />
     <text x="27" y="177" font-size="22" fill="#426b58">先查结构 · 再看工作方式</text>
   </g>
-  <rect x="70" y="578" width="345" height="43" rx="21" fill="#f7f5f0" />
-  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#426b58">器物开箱 · 原理待查证</text>
   <text x="1130" y="98" text-anchor="end" font-family="sans-serif" font-size="18" letter-spacing="2" fill="#7d5b32">热搜档案 / H06</text>
 </svg>

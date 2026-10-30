@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { PublicTopic } from "@/lib/public-topic";
-import { Author, Body, Cover, Stats, Tags, Title } from "./Shared";
+import { Body } from "./Shared";
 
 const options = [
   { id: "same", label: "直觉：同一部书", percent: 42 },
@@ -29,8 +29,7 @@ export function Poll({ topic }: { topic: PublicTopic }) {
     try { localStorage.setItem(storageKey, value); } catch { setStorageFailed(true); }
   }
 
-  return <article data-format="poll" className="overflow-hidden rounded-2xl border border-ink/7 bg-card">
-    <div className="p-5"><Author topic={topic} /><p className="eyebrow mt-5">读书会 · 对比投票</p><Title topic={topic} />
+  return <>
       <div className="mt-5 grid grid-cols-2 gap-2 text-center text-sm font-bold"><p className="rounded-xl bg-gold/15 p-4">《孙子兵法》</p><p className="rounded-xl bg-[#426b58]/10 p-4">《孙膑兵法》</p></div>
       <section aria-label="直觉投票" className="mt-4 rounded-xl border border-ink/10 p-4">
         <h2 className="font-bold">先投直觉，再查证</h2>
@@ -42,7 +41,6 @@ export function Poll({ topic }: { topic: PublicTopic }) {
         {choice && <p role="status" className="mt-3 text-xs text-muted">已投票 · 预制比例不随投票变化</p>}
         {storageFailed && <p role="status" className="mt-3 text-xs text-muted">本机存储不可用，本次仍可投票与判题；刷新后选择可能丢失。</p>}
         <a href="#task-heading" className="mt-3 text-sm font-semibold text-accent">继续判断真假 ↓</a>
-      </section><Body topic={topic} /><Tags topic={topic} />
-    </div><Cover topic={topic} /><div className="p-5"><Stats topic={topic} /></div>
-  </article>;
+      </section><Body topic={topic} />
+  </>;
 }

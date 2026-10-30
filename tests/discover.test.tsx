@@ -2,7 +2,6 @@ import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import DiscoverPage from "@/app/discover/page";
 import { getAllTopics } from "@/lib/topics";
-import { authorHandle } from "@/lib/social-display";
 
 afterEach(cleanup);
 
@@ -28,9 +27,10 @@ describe("发现页", () => {
     });
   });
 
-  it("handle 由作者数据确定，同名稳定、不同名独立，不暴露个人资料", () => {
-    expect(authorHandle("洛阳同城小助手")).toBe(authorHandle("洛阳同城小助手"));
-    expect(authorHandle("洛阳同城小助手")).not.toBe(authorHandle("认真读诗的"));
-    for (const topic of getAllTopics()) expect(authorHandle(topic.author.name)).toMatch(/^@guwen_[a-z0-9]+$/);
+  it("十二位作者使用数据中的独立可读 handle，不含随机数字串", () => {
+    const handles = getAllTopics().map((topic) => topic.author.handle);
+    expect(new Set(handles).size).toBe(12);
+    for (const handle of handles) expect(handle).toMatch(/^@[a-z_]{3,20}$/);
+    expect(handles).toContain("@changan_chihuo");
   });
 });

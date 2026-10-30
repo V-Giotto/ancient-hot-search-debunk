@@ -8,7 +8,6 @@
     <text x="65" y="207" font-size="70" font-weight="800">两个书名，怎么判？</text>
     <text x="70" y="262" font-size="28" fill="#767680">先投直觉，再让证据接棒。</text>
     <g transform="translate(150 326)"><rect width="410" height="214" rx="18" fill="#fff" stroke="#d6ad72" stroke-width="3"/><text x="205" y="78" text-anchor="middle" font-size="36" fill="#7d5b32">《孙子兵法》</text><rect x="35" y="125" width="340" height="24" rx="12" fill="#eee4d4"/><rect x="35" y="125" width="142" height="24" rx="12" fill="#e84e48"/></g><g transform="translate(640 326)"><rect width="410" height="214" rx="18" fill="#fff" stroke="#426b58" stroke-width="3"/><text x="205" y="78" text-anchor="middle" font-size="36" fill="#426b58">《孙膑兵法》</text><rect x="35" y="125" width="340" height="24" rx="12" fill="#eee4d4"/><rect x="35" y="125" width="197" height="24" rx="12" fill="#426b58"/></g><text x="600" y="460" text-anchor="middle" font-size="56" fill="#b33f39">?</text>
-    <text x="70" y="609" font-size="21" fill="#7d5b32">线索在材料里 · 结论等查证</text>
     <text x="1130" y="98" text-anchor="end" font-size="18" fill="#7d5b32">热搜档案 / H12</text>
   </g>
 </svg>

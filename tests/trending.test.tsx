@@ -15,9 +15,9 @@ afterEach(cleanup);
 
 describe("移动端热榜", () => {
   it("只将榜单所需的七个题面字段传到客户端", () => {
-    const page = TrendingPage();
-    expect(page.props.topics).toHaveLength(topics.length);
-    for (const topic of page.props.topics) {
+    const board = TrendingPage().props.children;
+    expect(board.props.topics).toHaveLength(topics.length);
+    for (const topic of board.props.topics) {
       expect(Object.keys(topic).sort()).toEqual(["category", "coverAlt", "coverUrl", "id", "rank", "simulatedHeat", "title"]);
     }
   });

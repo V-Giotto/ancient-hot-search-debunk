@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { TrendingBoard } from "@/components/trending/TrendingBoard";
 import { getAllTopics } from "@/lib/topics";
+import { AppShell } from "@/components/shell/AppShell";
 
 export const metadata: Metadata = { title: "热搜榜" };
 
@@ -10,5 +11,5 @@ export default function TrendingPage() {
     id, rank, category, title, simulatedHeat, coverUrl, coverAlt,
   }));
 
-  return <TrendingBoard topics={topics} />;
+  return <AppShell><TrendingBoard topics={topics} /></AppShell>;
 }

@@ -48,7 +48,6 @@ export function TrendingBoard({ topics }: { topics: readonly TrendingTopic[] }) 
         <p className="trending-eyebrow"><span aria-hidden="true" />跨朝代 · 热点档案</p>
         <h1>古代热搜辟谣局</h1>
         <p className="trending-slogan">让古人上热搜，让你来辟谣。</p>
-        <div className="trending-hero-footer"><span>今日热榜</span><span>先吃瓜，再查证 <span aria-hidden="true">↗</span></span></div>
       </header>
 
       <div role="tablist" aria-label="热榜分类" className="trending-categories">

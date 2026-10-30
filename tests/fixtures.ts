@@ -25,6 +25,7 @@ export function makeTopic(overrides: Partial<HotTopic> = {}): HotTopic {
     coverAlt: "测试占位路径，不对应正式素材",
     author: {
       name: "测试账号",
+      handle: "@test_author",
       bio: "仅用于自动化测试",
       avatarUrl: "/avatars/test-only.svg",
       fictitious: true,
