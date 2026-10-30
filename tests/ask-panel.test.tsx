@@ -32,14 +32,14 @@ describe("AskPanel", () => {
     expect(screen.getByText("开发预览·资料待审核")).toBeTruthy();
   });
 
-  it("初始不请求，空输入禁用发送，显示 500 字限制和 AI 提示", () => {
+  it("初始不请求，空输入禁用发送，显示 500 字限制且不显示免责说明", () => {
     render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     expect(fetchMock).not.toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "发送问题" })).toHaveProperty("disabled", true);
     const input = screen.getByRole("textbox");
     expect(input).toHaveProperty("maxLength", 500);
     expect(screen.getByText(/0\/500 字/)).toBeTruthy();
-    expect(screen.getByText(/AI 生成，可能有误，以史料为准/)).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/AI 生成，可能有误|以史料为准|免责声明|免责|模拟|虚构/);
     fireEvent.change(input, { target: { value: "  " } });
     expect(screen.getByRole("button", { name: "发送问题" })).toHaveProperty("disabled", true);
   });

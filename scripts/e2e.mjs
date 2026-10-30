@@ -14,7 +14,7 @@ const port = process.env.E2E_PORT || "3123";
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
 const output = path.resolve("artifacts/stage-6");
 const screenshots = path.join(output, "screenshots");
-const reviewDir = process.env.E2E_REVIEW_DIR || "D:/agent_project/_shots";
+const reviewDir = path.resolve(process.env.E2E_REVIEW_DIR || "artifacts/e2e-review");
 const scenarios = [
   { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 2 },
   { id: "H02", answer: true, best: "C", wrong: "A", sourceCount: 3 },
@@ -101,7 +101,13 @@ async function trendingDensityChecks(page) {
 
 async function versionScreenshot(page, name, version = "0.10.0", { scrollToTop = true } = {}) {
   await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
-  if (scrollToTop) await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  if (scrollToTop) {
+    await page.evaluate(() => {
+      document.scrollingElement.scrollTop = 0;
+      window.scrollTo(0, 0);
+    });
+    assert.equal(await page.evaluate(() => window.scrollY), 0, `${name} 交付截图必须从页面顶部拍摄`);
+  }
   const filename = `v${version}-${name}-390x844.png`;
   const target = path.join(screenshots, filename);
   await page.screenshot({ path: target, animations: "disabled" });
@@ -547,7 +553,7 @@ async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false 
   assert.equal(layout.stampIcon, isTrue ? "verified" : "refuted");
   assert.ok(layout.feedbackClass.includes(correct ? "feedback-correct" : "feedback-incorrect"));
   assert.equal(layout.icon, correct ? "check" : "close");
-  assert.equal(layout.feedbackColor, correct ? "rgb(52, 88, 68)" : "rgb(162, 51, 46)");
+  assert.equal(layout.feedbackColor, correct ? "rgb(166, 226, 46)" : "rgb(255, 122, 168)");
   assert.notEqual(layout.feedbackBackground, "rgba(0, 0, 0, 0)");
   assert.deepEqual(layout.order, ["verdict-stamp-row", "verdict-feedback", "corrected-claim"]);
   assert.deepEqual(layout.details, [false, false, false]);
@@ -579,7 +585,7 @@ async function noOverflow(page) {
 async function noDisclaimerLabels(page) {
   const displayed = await page.evaluate(() => [document.body.innerText, ...[...document.querySelectorAll("img")].map((image) => image.alt), ...[...document.querySelectorAll("[aria-label]")].map((node) => node.getAttribute("aria-label"))].join("\n"));
   for (const word of [...displayConstraints.hiddenUiWords, ...displayConstraints.falseInteractionWords]) assert.ok(!displayed.includes(word), `页面残留禁用展示措辞：${word}`);
-  assert.doesNotMatch(displayed, /虚构|架空|模拟|非史料|只是创作|只是梗|非实物复原|仅作戏仿|不是历史人物原话|现代类比，不等于古代原貌|拟人账号|预置展示|免责声明/, `页面残留免责声明标签：${page.url()}`);
+  assert.doesNotMatch(displayed, /虚构|架空|模拟|非史料|只是创作|只是梗|非实物复原|仅作戏仿|不是历史人物原话|现代类比，不等于古代原貌|拟人账号|预置展示|免责声明|角色扮演|史实以给定资料为准|AI 生成，可能有误|以史料为准/, `页面残留免责声明标签：${page.url()}`);
 }
 
 async function noHashtagTitles(page) {
@@ -616,7 +622,7 @@ async function centeredColumnChecks(page) {
   assert.deepEqual(layout.outside, [], "手机列之外不应有其它可见内容");
   assert.equal(layout.background.image, "none", "背景应为纯色");
   const channels = layout.background.color.match(/^rgb\((\d+), (\d+), (\d+)\)$/);
-  assert.ok(channels && channels.slice(1).every((channel) => Number(channel) >= 230), "背景应保持中性浅色");
+  assert.ok(channels && Number(channels[3]) > Number(channels[1]) && Number(channels[3]) > Number(channels[2]) && Number(channels[1]) < 40, "桌面列外应保持深紫纯色");
   return { viewport, ...layout, horizontalOverflow: false, noAuxiliaryContent: true };
 }
 
@@ -833,7 +839,8 @@ async function friendsFlow(page, viewport, geometry) {
   await visible(page.getByRole("heading", { name: "李白", exact: true }));
   assert.equal(await navigation.getByRole("link", { name: "好友", exact: true }).getAttribute("aria-current"), "page");
   assert.equal(await page.getByRole("link", { name: "返回好友列表", exact: true }).getAttribute("href"), "/friends");
-  assert.equal(await page.locator(".chat-role-note").count(), 1);
+  assert.equal(await page.locator(".chat-role-note").count(), 0);
+  await noDisclaimerLabels(page);
   const input = page.getByRole("textbox", { name: "写给李白", exact: true });
   const send = page.getByRole("button", { name: "发送消息", exact: true });
   assert.equal(await input.getAttribute("maxlength"), "200");
@@ -884,6 +891,7 @@ async function friendsFlow(page, viewport, geometry) {
     assert.ok(sides.composerBottom <= sides.tabsTop, "输入框不得被导航遮挡");
     geometry.push({ ...await mobileGeometry(page, "好友 mock 回复"), sides });
     if (viewport.width === 390) {
+      await versionScreenshot(page, "chat", packageVersion);
       await page.screenshot({ path: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`), animations: "disabled" });
     }
     reply = "此事吾不敢妄言。".repeat(120);
@@ -1016,7 +1024,7 @@ async function discoverChecks(page) {
       const author = byline.querySelector(".discover-author").getBoundingClientRect();
       const avatar = byline.querySelector("img");
       return { x: box.x, y: box.y, bottom: box.bottom, width: box.width, breakInside: getComputedStyle(card).breakInside,
-        avatarRound: getComputedStyle(avatar).borderRadius === "50%", likesRight: likes.left >= author.right,
+        avatarPixel: parseFloat(getComputedStyle(avatar).borderRadius) <= 2 && parseFloat(getComputedStyle(avatar).borderWidth) >= 2, likesRight: likes.left >= author.right,
         bylineContained: byline.scrollWidth <= byline.clientWidth,
         likeIcon: byline.querySelectorAll('svg[data-social-icon="like"]').length,
         links: card.querySelectorAll("a").length, buttons: card.querySelectorAll('button, [role="button"]').length };
@@ -1036,13 +1044,13 @@ async function discoverChecks(page) {
   assert.ok(Math.abs(layout.naturalGap - 10) < 1, "瀑布流应根据卡片实际高度连续排列");
   for (const card of layout.rows) {
     assert.equal(card.breakInside, "avoid");
-    assert.ok(card.avatarRound && card.likesRight && card.bylineContained, "发现卡片作者/点赞行越界或头像不圆");
+    assert.ok(card.avatarPixel && card.likesRight && card.bylineContained, "发现卡片作者/点赞行越界或头像未使用像素硬边");
     assert.equal(card.likeIcon, 1);
     assert.equal(card.links, 1);
     assert.equal(card.buttons, 0);
   }
   for (const card of await page.locator(".discover-card").evaluateAll((nodes) => nodes.map((node) => ({ radius: parseFloat(getComputedStyle(node).borderRadius), shadow: getComputedStyle(node).boxShadow })))) {
-    assert.ok(card.radius >= 20 && card.shadow !== "none", "发现卡片需要大圆角与阴影");
+    assert.ok(card.radius <= 4 && card.shadow !== "none", "发现卡片需要像素小圆角与硬阴影");
   }
   return layout;
 }
@@ -1068,7 +1076,10 @@ async function postSocialChecks(page, topic) {
     assert.equal(await header.locator(".author-badge").textContent(), "作者");
     const entry = feedEntries.find(({ id }) => id === topic.id);
     assert.equal(await header.locator(".author-time").textContent(), entry.publishedAt.slice(0, 16).replace("T", " "));
-    assert.ok(await header.evaluate((node) => node.closest("article").firstElementChild.contains(node) && getComputedStyle(node.querySelector(".author-avatar")).borderRadius === "50%"));
+    assert.ok(await header.evaluate((node) => {
+      const avatar = getComputedStyle(node.querySelector(".author-avatar"));
+      return node.closest("article").firstElementChild.contains(node) && parseFloat(avatar.borderRadius) <= 2 && parseFloat(avatar.borderWidth) >= 2;
+    }));
     assert.equal(await article.getByRole("button", { name: `关注${topic.author.name}`, exact: true }).count(), 1);
     const actions = article.getByRole("group", { name: "帖子互动" });
     assert.equal(await actions.getByRole("button").count(), 3);
@@ -1106,9 +1117,15 @@ async function postSocialChecks(page, topic) {
     const box = image.getBoundingClientRect();
     return Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight) < 0.01 && getComputedStyle(image).objectFit === "cover";
   }), "配图应等比显示且不变形");
-  const style = await article.evaluate((node) => ({ radius: parseFloat(getComputedStyle(node).borderRadius), accent: getComputedStyle(node).getPropertyValue("--accent").trim(), bodyLineHeight: parseFloat(getComputedStyle(node.querySelector(".post-body")).lineHeight), bodyWidth: node.querySelector(".post-body").getBoundingClientRect().width }));
-  assert.equal(style.accent, news ? "#244f68" : "#c85c41");
-  assert.ok(news ? style.radius === 0 && style.bodyLineHeight >= 32 : style.radius >= 24);
+  const style = await article.evaluate((node) => {
+    const body = node.querySelector(".post-body"), bodyStyle = getComputedStyle(body);
+    const luminance = (color) => color.match(/[\d.]+/g).slice(0, 3).map(Number).map((value) => value / 255).map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+    const foreground = luminance(bodyStyle.color), background = luminance(getComputedStyle(node).backgroundColor);
+    return { radius: parseFloat(getComputedStyle(node).borderRadius), accent: getComputedStyle(node).getPropertyValue("--accent").trim(), bodyLineHeight: parseFloat(bodyStyle.lineHeight), bodyWidth: body.getBoundingClientRect().width, bodyContrast: (Math.max(foreground, background) + .05) / (Math.min(foreground, background) + .05) };
+  });
+  assert.equal(style.accent, "#a6e22e");
+  assert.ok(style.radius <= 4 && style.bodyLineHeight >= 30, "详情正文应使用统一像素硬边与舒展行高");
+  assert.ok(style.bodyContrast >= 4.5, `详情正文对比度未达到 WCAG AA：${style.bodyContrast}`);
   if (news) assert.ok(style.bodyWidth >= (await page.locator(".app-shell").boundingBox()).width - 50.1, "新闻正文应使用较宽文本栏");
   return { module: topic.module, sections, ...style, noNewsEmoji: news, authorThreads: true };
 }
@@ -1159,7 +1176,7 @@ async function trendingChecks(page, keyboard = false) {
   assert.ok(await tabs.evaluate((node) => node.scrollWidth > node.clientWidth && getComputedStyle(node).overflowX === "auto"), "分类应在栏内横向滚动");
 
   const ranks = await list.getByTestId("trending-rank").evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).color));
-  assert.deepEqual(ranks, trendingTopics.map(({ rank }) => rank === 1 ? "rgb(36, 79, 104)" : rank === 2 ? "rgb(59, 100, 123)" : rank === 3 ? "rgb(76, 107, 125)" : "rgb(153, 150, 157)"), "排名采用墨蓝、石青与灰色");
+  assert.deepEqual(ranks, trendingTopics.map(({ rank }) => rank === 1 ? "rgb(166, 226, 46)" : rank === 2 ? "rgb(255, 200, 87)" : rank === 3 ? "rgb(255, 155, 210)" : "rgb(199, 186, 216)"), "排名采用亮绿、金色、粉色与淡紫像素色阶");
   const rankThreeContrast = await list.locator(".trending-rank-3").evaluate((node) => {
     const luminance = (rgb) => rgb.match(/[\d.]+/g).slice(0, 3).map(Number).map((value) => value / 255).map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
     const foreground = getComputedStyle(node).color;
@@ -1170,7 +1187,7 @@ async function trendingChecks(page, keyboard = false) {
   assert.ok(rankThreeContrast.ratios.every((ratio) => ratio >= 4.5), `排名第 3 对比度不足：${JSON.stringify(rankThreeContrast)}`);
   const quarter = Math.ceil(trendingTopics.length / 4);
   const tagFor = (rank) => rank <= quarter ? "爆" : rank > trendingTopics.length - quarter ? "新" : "热";
-  const tagColors = { 爆: "rgb(36, 79, 104)", 热: "rgb(66, 108, 131)", 新: "rgb(217, 231, 237)" };
+  const tagColors = { 爆: "rgb(255, 79, 139)", 热: "rgb(112, 64, 168)", 新: "rgb(166, 226, 46)" };
   const capsules = await list.getByTestId("trending-tag").evaluateAll((nodes) => nodes.map((node) => ({
     text: node.textContent, background: getComputedStyle(node).backgroundColor,
     radius: parseFloat(getComputedStyle(node).borderRadius), color: getComputedStyle(node).color,
@@ -1180,7 +1197,7 @@ async function trendingChecks(page, keyboard = false) {
   for (const capsule of capsules) {
     assert.equal(capsule.icon, { 爆: "burst", 热: "flame", 新: "spark" }[capsule.text], "胶囊需文字和不同图标双编码");
     assert.equal(capsule.background, tagColors[capsule.text]);
-    assert.equal(capsule.color, capsule.text === "新" ? "rgb(36, 79, 104)" : "rgb(255, 255, 255)");
+    assert.equal(capsule.color, capsule.text === "热" ? "rgb(255, 248, 237)" : "rgb(25, 11, 43)");
     assert.equal(capsule.radius, 2, "新闻标签使用小圆角");
   }
   assert.doesNotMatch(await list.innerText(), /\p{Extended_Pictographic}/u);
@@ -2197,6 +2214,7 @@ try {
   const previewBuild = await previewBuildChecks(buildId);
   assert.deepEqual(errors, [], "新增信息流浏览器出现运行错误");
   const summary = { passed: true, phase4: previewBuild.phase4, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: friendIds, shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", ...friendIds.map((id) => `/friends/${id}`), "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshots: ["sushi", "kongzi", "kangxi"].map((id) => path.join(reviewDir, `v${packageVersion}-chat-${id}-390x844.png`)) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H14 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十四题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "7:7", feedEntries: 44, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/读者评论/本机评论与回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  summary.modules.socialLayout = "统一深紫像素硬边/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接";
   const eraDetails = geometry.filter((record) => record.eraChip);
   summary.displayContent = {
     version: packageVersion,

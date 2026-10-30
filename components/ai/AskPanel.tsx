@@ -73,7 +73,6 @@ export function AskPanel({ topicId, reviewStatus, sources }: { topicId: string; 
     <section className="panel" aria-labelledby="ask-heading">
       <p className="eyebrow">AI 追问 / 辟谣局值班史官</p>
       <h2 id="ask-heading" tabIndex={-1} className="text-xl font-bold">这条热搜，还想问什么？</h2>
-      <p className="mt-3 text-sm leading-7 text-muted">围绕本条资料继续追问。AI 生成，可能有误，以史料为准。</p>
       <div className="mt-5 grid gap-2" aria-label="预设问题">
         {getAskPrompts(topicId).map((question) => (
           <button key={question} type="button" className="secondary-button w-full justify-start text-left disabled:opacity-50" disabled={busy} onClick={() => void send(question)}>{question}</button>

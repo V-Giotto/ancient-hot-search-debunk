@@ -31,10 +31,11 @@ describe("好友列表与即时对话", () => {
     }
     expect(fetchMock).not.toHaveBeenCalled();
   });
-  it("首次只有开场白、一行角色说明与禁用的空输入发送按钮", () => {
+  it("首次只有开场白、本机保存提示与禁用的空输入发送按钮，不显示角色或免责说明", () => {
     render(<FriendChat friend={friend} />);
     expect(within(transcript()).getByText(friend.greeting)).toBeTruthy();
-    expect(screen.getByText("这是角色扮演，史实以给定资料为准。")).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/角色扮演|史实以给定资料为准|虚构|免责|模拟/);
+    expect(screen.getByText(/闲谈保存在本机/)).toBeTruthy();
     expect((screen.getByRole("textbox") as HTMLTextAreaElement).maxLength).toBe(200);
     expect((screen.getByRole("button", { name: "发送消息" }) as HTMLButtonElement).disabled).toBe(true);
     expect(fetchMock).not.toHaveBeenCalled();

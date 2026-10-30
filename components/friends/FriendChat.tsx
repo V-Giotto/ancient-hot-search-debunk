@@ -135,7 +135,6 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
   const busy = Boolean(pending || sharing);
   return <section className="friend-chat" aria-labelledby="friend-chat-heading">
     <div className="chat-profile"><FriendAvatar friend={friend} /><div><h1 id="friend-chat-heading">{friend.name}</h1><p>{friend.bio}</p></div></div>
-    <p className="chat-role-note">这是角色扮演，史实以给定资料为准。</p>
     <div className="chat-session-tools"><p>闲谈保存在本机 · 最多 {CHAT_STORAGE_MAX_ENTRIES} 条</p><button type="button" className="secondary-button" onClick={clear} disabled={!messages.length && !busy}><PixelIcon name="trash" size={16} />清空对话</button></div>
     <div className="chat-transcript" role="log" aria-label={`与${friend.name}的对话`} aria-live="polite" aria-relevant="additions text">
       <ol>{bubble({ role: "assistant", content: friend.greeting }, "greeting")}{messages.map((message, index) => bubble(message, index))}{pending && bubble({ role: "user", content: pending }, "pending")}</ol>
