@@ -2,6 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { POST } from "@/app/api/chat/route";
 import { CHAT_MAX_TOKENS, CHAT_RETRY_MAX_TOKENS, CHAT_REPLY_MAX_LENGTH, ChatRequestSchema } from "@/lib/chat-contract";
+import * as topicData from "@/lib/topics";
 import { CHAT_SYSTEM_PROMPT } from "@/lib/chat-context";
 import { getChatSafeReply } from "@/lib/chat-guard";
 import { getFriendById } from "@/lib/friends";
@@ -293,5 +294,66 @@ describe("独立的好友 IP 内存限流", () => {
     expect((await POST(request(undefined, `${ip}-other`))).status).toBe(200);
     clock.mockReturnValue(now + 60000);
     expect((await POST(request())).status).toBe(200);
+  });
+});
+
+describe("分享话题的服务端白名单", () => {
+  it("系统提示禁止无引号的未审诗题、别称、典故与诗句化短语", () => {
+    expect(CHAT_SYSTEM_PROMPT).toContain("不要使用来源中未出现的诗题、别称、典故或诗句化短语（即使不加引号）");
+    expect(CHAT_SYSTEM_PROMPT).toContain("月下独酌、李侯");
+    expect(CHAT_SYSTEM_PROMPT).toContain("平实白话");
+    expect(CHAT_SYSTEM_PROMPT).toContain("不得剧透揭晓结论以外的新史实");
+  });
+  it("sharedTopicId 仅接受 ID；未知话题不调用模型", async () => {
+    expect((await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H99" }))).status).toBe(404);
+    expect((await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "../data" }))).status).toBe(400);
+    expect((await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02", sources: [] }))).status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  it("合并好友与分享题 reviewed 来源并去重，加入标题、claim、揭晓范围；引文校验接受分享题原文", async () => {
+    const { getTopicById, getSourcesForTopic } = await import("@/lib/topics");
+    const topic = getTopicById("H02")!;
+    const sources = getSourcesForTopic(topic).filter((source) => source.status === "reviewed");
+    const quote = sources[0].title;
+    fetchMock.mockResolvedValue(result(`吾看过《${quote}》，此事不宜妄言。`));
+    expect((await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02" }))).status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledOnce();
+    const context = JSON.parse(outgoing().messages[1].content.split("\n").slice(1).join("\n"));
+    expect(context.sharedTopic).toMatchObject({ id: topic.id, title: topic.title, claim: topic.claim, reveal: { correctedClaim: topic.reveal.correctedClaim } });
+    expect(context.sourceIds).toEqual(expect.arrayContaining(["S-H01-01", "S-H01-02", ...sources.map((source) => source.id)]));
+    expect(context.sourceIds).toHaveLength(new Set(context.sourceIds).size);
+    expect(context.sources.every((source: { status: string }) => source.status === "reviewed")).toBe(true);
+    expect(context.sourceIds.some((id: string) => id.startsWith("S-H03"))).toBe(false);
+  });
+  it("分享题不能解锁其他题引文；违规仍重试并按角色兜底", async () => {
+    fetchMock.mockResolvedValue(result("吾记得《不在合并白名单中的诗题》。"));
+    const response = await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02" }));
+    expect(await response.json()).toEqual({ reply: safeReply });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(outgoing(1).messages.at(-1).content).toContain("unsupportedQuotes");
+  });
+});
+
+
+describe("分享题审核与混合来源", () => {
+  it.each(["pending", "rejected"] as const)("%s 分享题拒绝请求模型", async (reviewStatus) => {
+    const topic = topicData.getTopicById("H02")!;
+    vi.spyOn(topicData, "getTopicById").mockReturnValue({ ...topic, reviewStatus });
+    expect((await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02" }))).status).toBe(409);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  it("分享题 pending/rejected supports 不进上下文，也不能通过引文校验", async () => {
+    const topic = topicData.getTopicById("H02")!;
+    const original = topicData.getSourcesForTopic(topic);
+    const sources = original.map((source, index) => ({ ...source, status: index === 0 ? "pending" as const : index === 1 ? "rejected" as const : "reviewed" as const, title: `未审来源${index}`, supports: `未审独有片段${index}` }));
+    vi.spyOn(topicData, "getSourcesForTopic").mockReturnValue(sources);
+    fetchMock.mockResolvedValue(result("吾记得《未审来源0》。"));
+    const response = await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02" }));
+    expect(await response.json()).toEqual({ reply: safeReply });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const context = outgoing().messages[1].content;
+    expect(context).not.toContain("未审独有片段0"); expect(context).not.toContain("未审独有片段1");
+    expect(context).not.toContain("未审来源0"); expect(context).not.toContain("未审来源1");
+    expect(context).toContain("S-H01-01"); expect(context).toContain(sources[2].id);
   });
 });

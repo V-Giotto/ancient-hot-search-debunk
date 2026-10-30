@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 const navigation = [
   { href: "/trending", label: "热搜榜", symbol: "#" },
   { href: "/discover", label: "发现", symbol: "◫" },
-  { href: "/stickers", label: "贴纸", symbol: "▧" },
   { href: "/friends", label: "好友", symbol: null },
+  { href: "/me", label: "我的", symbol: "▧" },
 ];
 
 export function NavRail() {

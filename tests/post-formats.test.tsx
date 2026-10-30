@@ -37,14 +37,14 @@ describe("按 format 选择帖子模板", () => {
     expect(article.querySelectorAll(".post-cover")).toHaveLength(1);
     expect(article.querySelector('[data-post-section="body"] .post-cover')).toBeNull();
     if (news) {
-      expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual(["masthead", "title", "byline", "lead", "cover", "body", "related"]);
+      expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual(["masthead", "title", "byline", "lead", "cover", "body", "related", "actions"]);
       expect(article.querySelector(".news-masthead")!.textContent).toContain("热点报道");
       expect(article.querySelector(".news-byline")!.textContent).toContain(topic.news!.outlet);
       expect(article.querySelector("time")!.dateTime).toBe(topic.news!.publishedAt);
       expect(article.querySelector(".news-lead")!.textContent).toBe(topic.news!.lead);
       expect(within(article).getByRole("region", { name: "相关报道" }).querySelectorAll("li")).toHaveLength(2);
       expect(article.querySelector(".news-related")!.textContent).toContain(topic.news!.related[0]);
-      expect(container.querySelector(".social-stats, .post-actions, .author-row, .reply-thread, .comments-panel, .follow-button")).toBeNull();
+      expect(container.querySelector(".social-stats, .author-row, .reply-thread, .comments-panel, .follow-button")).toBeNull();
       expect(article.textContent).not.toMatch(/\p{Extended_Pictographic}|\p{Regional_Indicator}|[\u20e3\ufe0f]/u);
       expect(article.textContent).not.toMatch(/家人们|谁懂啊|顶流|塑料友情|小板凳|在线蹲/);
     } else {
@@ -137,10 +137,10 @@ describe("按 format 选择帖子模板", () => {
       expect(action.getAttribute("aria-pressed")).toBe("false");
     }
     fireEvent.click(screen.getByRole("button", { name: /^转发/ }));
-    expect(screen.getByLabelText("把这条见闻分享给朋友")).toHaveProperty("value", window.location.href);
+    expect(screen.getByLabelText("把这条见闻分享给朋友")).toHaveProperty("value", `${window.location.origin}/post/H05`);
     fireEvent.click(screen.getByRole("button", { name: "复制链接" }));
     await waitFor(() => expect(screen.getByRole("button", { name: "链接已复制" })).toBeTruthy());
-    expect(writeText).toHaveBeenCalledWith(window.location.href);
+    expect(writeText).toHaveBeenCalledWith(`${window.location.origin}/post/H05`);
     expect(localStorage.getItem(PROGRESS_KEY)).toBeNull();
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
     expect(fetch).not.toHaveBeenCalled();
@@ -152,7 +152,7 @@ describe("按 format 选择帖子模板", () => {
     fireEvent.click(screen.getByRole("button", { name: /^转发/ }));
     fireEvent.click(screen.getByRole("button", { name: "复制链接" }));
     expect(await screen.findByRole("status")).toHaveProperty("textContent", "复制未完成，可选中上方链接手动复制。");
-    expect(screen.getByLabelText("把这条见闻分享给朋友")).toHaveProperty("value", window.location.href);
+    expect(screen.getByLabelText("把这条见闻分享给朋友")).toHaveProperty("value", `${window.location.origin}/post/H05`);
     expect(fetch).not.toHaveBeenCalled();
   });
 });
@@ -210,7 +210,7 @@ describe("本次页面直觉投票与判题隔离", () => {
     for (const button of within(section).getAllByRole("button")) expect(button).toHaveProperty("disabled", true);
     unmount();
     render(<PostFormat topic={poll} />);
-    expect(screen.queryByRole("button", { pressed: true })).toBeNull();
+    expect(screen.queryByRole("region", { name: "直觉投票" })?.querySelector('[aria-pressed="true"]')).toBeNull();
     expect(screen.queryByText("少数倾向")).toBeNull();
     expect(screen.queryByText("多数倾向")).toBeNull();
     expect(screen.getAllByRole("button").every((button) => !button.hasAttribute("disabled"))).toBe(true);

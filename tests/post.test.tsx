@@ -38,10 +38,10 @@ afterEach(() => {
 });
 
 describe("真假判断与揭晓", () => {
-  it("热搜新闻无社交统计、楼层评论、emoji 或免责声明", () => {
+  it("热搜新闻提供三项互动，无楼层评论、emoji 或免责声明", () => {
     const { container } = render(<PostExperience topic={publicTopic} topicIds={topicIds} />);
     expect(container.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
-    expect(container.querySelector(".social-stats, .comments-panel, .post-actions")).toBeNull();
+    expect(container.querySelector(".social-stats, .comments-panel")).toBeNull();
     expect(container.textContent).not.toMatch(/\p{Extended_Pictographic}/u);
     expect(container.querySelector("figcaption")).toBeNull();
     expect(container.querySelectorAll("img").length).toBeGreaterThan(0);
@@ -80,7 +80,7 @@ describe("真假判断与揭晓", () => {
     expect(sticker.textContent).toContain(`获得贴纸：饭局手记 · 已查证 1/${topicIds.length}`);
     expect(sticker.getAttribute("aria-live")).toBe("polite");
     expect(sticker.getAttribute("aria-atomic")).toBe("true");
-    expect(within(sticker).getByRole("link", { name: "去贴纸墙 →" }).getAttribute("href")).toBe("/stickers");
+    expect(within(sticker).getByRole("link", { name: "去贴纸墙 →" }).getAttribute("href")).toBe("/me?tab=stickers");
     expect(screen.getByRole("region", { name: topic.reveal.verdictHeadline }).contains(sticker)).toBe(true);
   });
 
@@ -360,7 +360,7 @@ describe("整帖重新交互", () => {
     expect(screen.getByRole("log", { name: "AI 问答记录" }).textContent).toBe("");
     expect(screen.getByRole("log").getAttribute("aria-busy")).toBe("false");
     expect(screen.queryByRole("alert")).toBeNull();
-    expect(screen.getAllByRole("button", { pressed: false })).toHaveLength(3);
+    expect(within(screen.getByRole("group", { name: "三选一改写" })).getAllByRole("button", { pressed: false })).toHaveLength(3);
   });
 
   it("离开时取消判题，旧请求晚到不写入进度或污染重进题面", async () => {

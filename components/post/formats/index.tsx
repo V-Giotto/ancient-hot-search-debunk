@@ -1,3 +1,4 @@
+import type { FriendProfile } from "@/lib/friend-schema";
 import type { PublicTopic } from "@/lib/public-topic";
 import { Post } from "./Post";
 import { News } from "./News";
@@ -17,8 +18,8 @@ const labels = {
   poll: ["读书会", "对比投票"],
 };
 
-export function PostFormat({ topic }: { topic: PublicTopic }) {
-  if (topic.module === "trending") return <News topic={topic} />;
+export function PostFormat({ topic, friends = [] }: { topic: PublicTopic; friends?: readonly FriendProfile[] }) {
+  if (topic.module === "trending") return <News topic={topic} friends={friends} />;
   const format = topic.format ?? "post";
   const Template = templates[format];
   const [label, description] = labels[format];
@@ -28,6 +29,6 @@ export function PostFormat({ topic }: { topic: PublicTopic }) {
     <div data-post-section="title"><Title topic={topic} /></div>
     <div data-post-section="cover"><Cover topic={topic} /></div>
     <div data-post-section="body"><Template key={topic.id} topic={topic} /><p className="post-invitation"><span aria-hidden="true">💬</span> 我先留个问号，你怎么看？</p><Tags topic={topic} /></div>
-    <div data-post-section="actions" className="post-statistics"><PostActions topic={topic} /></div>
+    <div data-post-section="actions" className="post-statistics"><PostActions topic={topic} friends={friends} /></div>
   </article>;
 }

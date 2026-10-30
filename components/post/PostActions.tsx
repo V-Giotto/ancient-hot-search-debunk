@@ -1,34 +1,24 @@
 "use client";
-
-import { useState } from "react";
+import { useId, useState } from "react";
 import type { PublicTopic } from "@/lib/public-topic";
+import type { FriendProfile } from "@/lib/friend-schema";
 import { SocialIcon } from "@/components/social/SocialIcon";
+import { useSocialState } from "@/components/social/useSocialState";
+import { emptyInteraction, interactionCount } from "@/lib/social-storage";
 import { compactCount } from "@/lib/social-display";
+import { ShareSheet } from "./ShareSheet";
 
-export function PostActions({ topic }: { topic: PublicTopic }) {
-  const [liked, setLiked] = useState(false);
-  const [saved, setSaved] = useState(false);
+export function PostActions({ topic, friends = [] }: { topic: PublicTopic; friends?: readonly FriendProfile[] }) {
+  const { state, toggle } = useSocialState();
+  const { liked, saved } = state[topic.id] ?? emptyInteraction;
   const [sharing, setSharing] = useState(false);
-  const [shareUrl, setShareUrl] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [copyFailed, setCopyFailed] = useState(false);
-
-  async function copy() {
-    try { await navigator.clipboard.writeText(shareUrl); setCopied(true); setCopyFailed(false); }
-    catch { setCopyFailed(true); }
-  }
-
+  const id = useId();
   return <>
     <div className="post-actions" role="group" aria-label="帖子互动">
-      <button type="button" aria-label="点赞" aria-pressed={liked} onClick={() => setLiked(!liked)}><SocialIcon name="like" /><span>{liked ? "已赞" : "点赞"}<small>{compactCount(topic.simulatedLikes + Number(liked))}</small></span></button>
-      <button type="button" aria-label="收藏" aria-pressed={saved} onClick={() => setSaved(!saved)}><SocialIcon name="bookmark" /><span>{saved ? "已收藏" : "收藏"}<small>{compactCount(topic.simulatedBookmarks + Number(saved))}</small></span></button>
-      <button type="button" aria-expanded={sharing} aria-controls="post-share" onClick={() => { setSharing(!sharing); setShareUrl(window.location.href); setCopied(false); setCopyFailed(false); }}><SocialIcon name="repost" /><span>转发<small>{compactCount(topic.simulatedReposts)}</small></span></button>
+      <button type="button" aria-label="点赞" aria-pressed={liked} aria-describedby={`${id}-likes`} onClick={() => toggle(topic.id, "liked")}><SocialIcon name="like" /><span>{liked ? "已赞" : "点赞"}<small aria-hidden="true">{compactCount(topic.simulatedLikes)}{liked && <em>+1</em>}</small></span><span id={`${id}-likes`} className="sr-only" aria-live="polite">{interactionCount(topic.simulatedLikes, liked).toLocaleString("zh-CN")} 人点赞</span></button>
+      <button type="button" aria-label="收藏" aria-pressed={saved} aria-describedby={`${id}-saves`} onClick={() => toggle(topic.id, "saved")}><SocialIcon name="bookmark" /><span>{saved ? "已收藏" : "收藏"}<small aria-hidden="true">{compactCount(topic.simulatedBookmarks)}{saved && <em>+1</em>}</small></span><span id={`${id}-saves`} className="sr-only" aria-live="polite">{interactionCount(topic.simulatedBookmarks, saved).toLocaleString("zh-CN")} 人收藏</span></button>
+      <button type="button" aria-label="转发" aria-haspopup="dialog" aria-expanded={sharing} onClick={() => setSharing(true)}><SocialIcon name="repost" /><span>转发<small>{compactCount(topic.simulatedReposts)}</small></span></button>
     </div>
-    {sharing && <section id="post-share" className="post-share" aria-label="转发这条见闻">
-      <label htmlFor="post-share-url">把这条见闻分享给朋友</label>
-      <input id="post-share-url" readOnly value={shareUrl} onFocus={(event) => event.target.select()} />
-      <button type="button" className="secondary-button" onClick={copy}>{copied ? "链接已复制" : "复制链接"}</button>
-      {copyFailed && <p role="status">复制未完成，可选中上方链接手动复制。</p>}
-    </section>}
+    {sharing && <ShareSheet topic={topic} friends={friends} onClose={() => setSharing(false)} />}
   </>;
 }

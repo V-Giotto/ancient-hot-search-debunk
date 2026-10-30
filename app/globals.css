@@ -447,3 +447,59 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .chat-composer button { display: flex; flex-shrink: 0; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 52px; border-radius: 9px; background: #456153; color: white; font-size: 11px; }
 .chat-composer button svg { width: 20px; height: 20px; }
 .chat-composer button:disabled { background: #ede9e2; color: #857e74; cursor: default; }
+
+/* v0.18.0 本机互动、我的收藏与好友分享，图形为项目原创 SVG。 */
+.post-actions small em, .discover-likes em { margin-left: 3px; font-size: 10px; font-style: normal; font-weight: 750; }
+.post-actions [aria-pressed="true"] [data-social-icon="like"] { fill: #e84e4828; }
+.post-actions [aria-pressed="true"] [data-social-icon="bookmark"] { fill: #d6ad7240; }
+.news-article .post-statistics { margin-top: 24px; border-top: 1px solid #384d6025; }
+.news-article .post-actions { color: #4b6479; }
+.list-social-state { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; color: #b33f39; font-size: 10px; line-height: 1.6; }
+.list-social-state > span { display: inline-flex; align-items: center; gap: 3px; }
+.list-social-state svg { width: 12px; height: 12px; }
+.discover-likes.is-liked { color: #b33f39; }
+.discover-likes.is-liked svg { fill: #e84e4828; }
+.share-sheet { position: fixed; inset: auto 0 var(--bottom-tabs-height); margin: 0 auto; padding: 0; width: min(100%, 430px); max-width: 100%; max-height: calc(90dvh - var(--bottom-tabs-height)); overflow-y: auto; border: 0; border-radius: 24px 24px 0 0; background: var(--card); color: var(--ink); box-shadow: 0 -8px 40px #26252c20; }
+.share-sheet::backdrop { background: #26252c85; }
+.share-sheet-content { padding: 10px 20px calc(24px + env(safe-area-inset-bottom, 0px)); }
+.share-sheet-handle { width: 36px; height: 4px; border-radius: 8px; background: #ccc5ba; margin: 0 auto 16px; }
+.share-sheet header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.share-sheet header p { color: var(--muted); font-size: 11px; letter-spacing: .1em; }
+.share-sheet h2 { font-size: 21px; font-weight: 750; margin-top: 3px; }
+.share-topic-title { margin: 18px 0; padding: 12px 14px; background: var(--background); border-left: 3px solid var(--gold); font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.share-friends { display: grid; gap: 8px; }
+.share-friends a { display: flex; align-items: center; gap: 12px; min-height: 64px; border: 1px solid #d6ad7240; border-radius: 14px; padding: 8px 12px; }
+.share-friends a > span:last-child { margin-left: auto; color: var(--muted); }
+.share-friends .friend-avatar { width: 44px; height: 44px; }
+.share-copy { width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; min-height: 48px; margin-top: 16px; border-radius: 12px; background: #eee4d4; font-size: 14px; font-weight: 650; cursor: pointer; }
+.share-sheet input { width: 100%; min-height: 44px; min-width: 0; margin-top: 10px; border: 1px solid #26252c20; border-radius: 8px; padding: 8px; color: var(--muted); font-size: 12px; }
+.share-sheet [role="status"] { font-size: 12px; line-height: 1.7; margin-top: 8px; }
+.me-page h1 { font-size: 26px; font-weight: 800; }
+.me-intro { margin: 8px 0 24px; font-size: 13px; line-height: 1.8; color: var(--muted); }
+.me-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid #d6ad7255; border-radius: 14px; background: #ede5d866; }
+.me-tabs button { min-width: 44px; min-height: 48px; border-radius: 10px; font-size: 14px; font-weight: 650; color: var(--muted); cursor: pointer; }
+.me-tabs button[aria-selected="true"] { background: var(--card); color: var(--accent); box-shadow: 0 2px 8px #26252c08; }
+.me-panel { margin-top: 20px; }
+.sticker-intro { margin: 10px 0 20px; font-size: 13px; line-height: 1.8; color: var(--muted); }
+.my-favorites { padding: 18px; border: 1px solid #d6ad7255; background: var(--card); border-radius: 18px; }
+.me-page h2 { font-size: 18px; font-weight: 750; }
+.my-favorites h2 span { font-size: 12px; color: var(--muted); margin-left: 6px; }
+.my-favorites li { border-bottom: 1px solid #26252c12; }
+.my-favorites li:last-child { border: 0; }
+.my-favorites li a { display: grid; grid-template-columns: 1fr 20px; align-items: center; gap: 8px; min-height: 80px; padding: 16px 0; }
+.my-favorites li strong { grid-column: 1; font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+.my-favorites li svg { grid-column: 2; grid-row: 1 / 3; color: #b33f39; }
+.module-label { color: var(--muted); font-size: 11px; }
+.favorites-empty { display: grid; justify-items: center; gap: 16px; padding: 26px 0 10px; }
+.favorites-empty > svg { width: 32px; height: 32px; color: var(--gold); }
+.favorites-empty p { color: var(--muted); font-size: 13px; line-height: 1.9; text-align: center; }
+.chat-session-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 12px 0; }
+.chat-session-tools p { font-size: 11px; color: var(--muted); }
+.chat-session-tools button { flex-shrink: 0; }
+.chat-share-card { display: flex; flex-direction: column; gap: 10px; max-width: 100%; min-height: 100px; border: 1px solid #d6ad7270; border-radius: 16px 3px 16px 16px; background: #f4ebdc; padding: 14px; overflow-wrap: anywhere; }
+.chat-share-card > span { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #796040; }
+.chat-share-card svg { width: 16px; height: 16px; }
+.chat-share-card strong { font-size: 14px; line-height: 1.8; }
+.chat-share-card small { border-top: 1px solid #d6ad724d; padding-top: 8px; color: var(--muted); font-size: 11px; }
+.chat-share-status { margin-top: 8px; color: var(--muted); font-size: 12px; }
+.chat-share-message .secondary-button { margin-top: 8px; }

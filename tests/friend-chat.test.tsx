@@ -8,7 +8,7 @@ import { getFriendById, toFriendProfile } from "@/lib/friends";
 vi.mock("next/navigation", () => ({ usePathname: () => "/friends/libai" }));
 const friend = toFriendProfile(getFriendById("libai")!);
 const fetchMock = vi.fn<typeof fetch>();
-beforeEach(() => { vi.stubGlobal("fetch", fetchMock); fetchMock.mockReset().mockResolvedValue(Response.json({ reply: "此事吾记不真切了，换个话头可好？" })); });
+beforeEach(() => { localStorage.clear(); vi.stubGlobal("fetch", fetchMock); fetchMock.mockReset().mockResolvedValue(Response.json({ reply: "此事吾记不真切了，换个话头可好？" })); });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 function write(value: string) { fireEvent.change(screen.getByRole("textbox", { name: "写给李白" }), { target: { value } }); }
 function send() { fireEvent.click(screen.getByRole("button", { name: "发送消息" })); }

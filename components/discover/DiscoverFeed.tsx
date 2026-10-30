@@ -6,12 +6,15 @@ import type { PublicTopic } from "@/lib/public-topic";
 import { EmptyState } from "@/components/shell/EmptyState";
 import { StartFirstTopic } from "@/components/shell/StartFirstTopic";
 import { SocialIcon } from "@/components/social/SocialIcon";
+import { useSocialState } from "@/components/social/useSocialState";
+import { interactionCount } from "@/lib/social-storage";
 import { compactCount } from "@/lib/social-display";
 import { MobileBriefing } from "@/components/shell/RightRail";
 
 export type DiscoverTopic = Pick<PublicTopic, "id" | "rank" | "title" | "category" | "tags" | "author" | "coverUrl" | "coverAlt" | "simulatedLikes">;
 
 export function DiscoverFeed({ topics, firstTrendingTopicId = topics.find((topic) => topic.rank === 1)?.id }: { topics: readonly DiscoverTopic[]; firstTrendingTopicId?: string }) {
+  const { state } = useSocialState();
   const [query, setQuery] = useState("");
   const keyword = query.trim().toLocaleLowerCase("zh-CN");
   const filtered = topics.filter((topic) => [topic.title, topic.category, ...topic.tags, topic.author.name].some((text) => text.toLocaleLowerCase("zh-CN").includes(keyword)));
@@ -40,8 +43,9 @@ export function DiscoverFeed({ topics, firstTrendingTopicId = topics.find((topic
               <div className="discover-byline">
                 <img src={topic.author.avatarUrl} alt={`${topic.author.name}头像`} width={22} height={22} />
                 <span className="discover-author" title={topic.author.name}>{topic.author.name}</span>
-                <span className="discover-likes" title={topic.simulatedLikes.toLocaleString("zh-CN")}><SocialIcon name="like" /><span className="sr-only">点赞 </span>{compactCount(topic.simulatedLikes)}</span>
+                <span className={`discover-likes ${state[topic.id]?.liked ? "is-liked" : ""}`} title={interactionCount(topic.simulatedLikes, Boolean(state[topic.id]?.liked)).toLocaleString("zh-CN")} aria-label={`${state[topic.id]?.liked ? "已赞，" : ""}${interactionCount(topic.simulatedLikes, Boolean(state[topic.id]?.liked)).toLocaleString("zh-CN")} 人点赞`}><SocialIcon name="like" />{compactCount(topic.simulatedLikes)}{state[topic.id]?.liked && <em>+1</em>}</span>
               </div>
+              {state[topic.id]?.saved && <span className="list-social-state"><span><SocialIcon name="bookmark" />已收藏</span></span>}
             </div>
           </Link>
         </li>)}

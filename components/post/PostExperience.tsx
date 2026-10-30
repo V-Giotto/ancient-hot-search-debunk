@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
+import type { FriendProfile } from "@/lib/friend-schema";
 import type { PublicTopic } from "@/lib/public-topic";
 import { Comments } from "./Comments";
 import { VerdictTask } from "./VerdictTask";
 import { PostFormat } from "./formats";
 import { MobileBriefing } from "@/components/shell/RightRail";
 
-export function PostExperience({ topic, topicIds }: { topic: PublicTopic; topicIds: readonly string[] }) {
+export function PostExperience({ topic, topicIds, friends = [] }: { topic: PublicTopic; topicIds: readonly string[]; friends?: readonly FriendProfile[] }) {
   const [attempt, setAttempt] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const focusTaskRef = useRef(false);
@@ -43,7 +44,7 @@ export function PostExperience({ topic, topicIds }: { topic: PublicTopic; topicI
 
   return (
     <div key={`${topic.id}:${attempt}`} ref={contentRef} className={`post-experience ${topic.module === "trending" ? "news-experience" : "social-experience"} space-y-6`}>
-      <PostFormat topic={topic} />
+      <PostFormat topic={topic} friends={friends} />
       {topic.module === "discover" && <Comments comments={topic.comments} author={topic.author.name} title={topic.title} />}
       <MobileBriefing />
       <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} collectedTopics={collectedTopics.current} />

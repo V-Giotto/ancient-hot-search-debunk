@@ -4,12 +4,12 @@ import { MobileBriefing } from "@/components/shell/RightRail";
 import { AppShell } from "@/components/shell/AppShell";
 import TrendingPage from "@/app/trending/page";
 import DiscoverPage from "@/app/discover/page";
-import StickersPage from "@/app/stickers/page";
+import MePage from "@/app/me/page";
 import NotFound from "@/app/not-found";
 import { version } from "@/package.json";
 
 const route = vi.hoisted(() => ({ pathname: "/trending" }));
-vi.mock("next/navigation", () => ({ usePathname: () => route.pathname }));
+vi.mock("next/navigation", () => ({ usePathname: () => route.pathname, useSearchParams: () => new URLSearchParams(), useRouter: () => ({ replace: vi.fn() }) }));
 
 afterEach(() => { cleanup(); vi.unstubAllEnvs(); });
 
@@ -51,7 +51,7 @@ describe("移动端共用壳层", () => {
   });
 
   it.each([
-    [DiscoverPage, "发现"], [StickersPage, "贴纸档案"], [NotFound, "页面未找到"],
+    [DiscoverPage, "发现"], [MePage, "我的"], [NotFound, "页面未找到"],
   ] as const)("%s 使用返回与页面标题的紧凑顶栏", (Page, title) => {
     render(Page());
     const header = screen.getByRole("banner");
@@ -72,12 +72,14 @@ describe("移动端共用壳层", () => {
     expect(screen.getByRole("heading", { level: 1 }).closest(".trending-hero")).toBeTruthy();
   });
 
-  it.each(["/trending", "/discover", "/stickers", "/friends", "/friends/libai", "/post/H03", "/missing"])("%s 保留四 Tab 与主内容内可展开的公告、守则", (pathname) => {
+  it.each(["/trending", "/discover", "/me", "/friends", "/friends/libai", "/post/H03", "/missing"])("%s 保留四 Tab 与主内容内可展开的公告、守则", (pathname) => {
     route.pathname = pathname;
     render(<AppShell><MobileBriefing /><h1>页面内容</h1></AppShell>);
     const navigation = screen.getByRole("navigation", { name: "主导航" });
     const links = within(navigation).getAllByRole("link");
-    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["▧贴纸", "/stickers"], ["好友", "/friends"]]);
+    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["好友", "/friends"], ["▧我的", "/me"]]);
+    expect(within(navigation).queryByRole("link", { name: "贴纸" })).toBeNull();
+    expect(document.querySelectorAll('a[href="/stickers"]')).toHaveLength(0);
     for (const link of links) expect(link.getAttribute("aria-current")).toBe(pathname === link.getAttribute("href") || pathname.startsWith(`${link.getAttribute("href")}/`) ? "page" : null);
     const main = screen.getByRole("main");
     const information = within(main).getByRole("complementary", { name: "页内公告与守则" });

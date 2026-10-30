@@ -1,3 +1,4 @@
+import { getAllFriends, toFriendProfile } from "@/lib/friends";
 import { notFound } from "next/navigation";
 import { PostExperience } from "@/components/post/PostExperience";
 import { toPublicTopic } from "@/lib/public-topic";
@@ -17,5 +18,5 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   const topic = topics.find((topic) => topic.id === id);
   if (!topic) notFound();
 
-  return <AppShell title={`${topic.module === "trending" ? "热搜 · 报道" : "发现 · 帖子"} ${topic.id}`} backHref={`/${topic.module}`} backLabel={topic.module === "trending" ? "返回热搜榜" : "返回发现"}><PostExperience topic={toPublicTopic(topic)} topicIds={topics.map((topic) => topic.id)} /></AppShell>;
+  return <AppShell title={`${topic.module === "trending" ? "热搜 · 报道" : "发现 · 帖子"} ${topic.id}`} backHref={`/${topic.module}`} backLabel={topic.module === "trending" ? "返回热搜榜" : "返回发现"}><PostExperience friends={getAllFriends().map(toFriendProfile)} topic={toPublicTopic(topic)} topicIds={topics.map((topic) => topic.id)} /></AppShell>;
 }

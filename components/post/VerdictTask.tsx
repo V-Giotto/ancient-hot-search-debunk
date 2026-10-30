@@ -126,7 +126,7 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
                 ? `获得贴纸：${getSticker(topic.id).name} · 已查证 ${earnedProgress.completed}/${earnedProgress.total}`
                 : `${getSticker(topic.id).name} · 已收藏`}</p>
               {storageFailed && <p className="text-xs text-muted">本次已解锁，存储不可用时刷新可能丢失。</p>}
-              <Link href="/stickers" className="text-xs text-accent hover:underline">去贴纸墙 →</Link>
+              <Link href="/me?tab=stickers" className="text-xs text-accent hover:underline">去贴纸墙 →</Link>
             </div>
           </section>
         </VerdictReveal>

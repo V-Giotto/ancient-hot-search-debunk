@@ -33,7 +33,7 @@ export function RightRail() {
       <h2>今天的吃瓜守则</h2>
       <Rules />
     </section>
-    <Link href="/stickers" className="rail-stickers"><span><strong>本机贴纸档案</strong><small>每次查证，留下一枚印记。</small></span><span aria-hidden="true">↗</span></Link>
+    <Link href="/me?tab=stickers" className="rail-stickers"><span><strong>本机贴纸档案</strong><small>每次查证，留下一枚印记。</small></span><span aria-hidden="true">↗</span></Link>
     <p className="rail-note">收藏仅保存在本机，随时重新挑战。</p>
   </aside>;
 }

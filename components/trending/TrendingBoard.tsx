@@ -8,6 +8,8 @@ import type { PublicTopic } from "@/lib/public-topic";
 import { trendingTag, trendingTagClass } from "@/lib/trending-tag";
 import { StatusIcon, type StatusIconName } from "@/components/social/StatusIcon";
 import { MobileBriefing } from "@/components/shell/RightRail";
+import { useSocialState } from "@/components/social/useSocialState";
+import { SocialIcon } from "@/components/social/SocialIcon";
 import { newsTimestamp } from "@/lib/news-display";
 
 const tagIcons: Record<ReturnType<typeof trendingTag>, StatusIconName> = { 爆: "burst", 热: "flame", 新: "spark" };
@@ -17,6 +19,7 @@ export type TrendingTopic = Pick<PublicTopic,
 > & { outlet: string; lead: string; publishedAt: string };
 
 export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.id) }: { topics: readonly TrendingTopic[]; topicIds?: readonly string[] }) {
+  const { state } = useSocialState();
   const [category, setCategory] = useState<string | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const id = useId();
@@ -94,6 +97,7 @@ export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.i
                       <h3>{topic.title}</h3>
                       <p className="trending-byline"><span>{topic.outlet}</span><time dateTime={topic.publishedAt}>{newsTimestamp(topic.publishedAt).slice(11)}</time></p>
                       <p className="trending-lead">{topic.lead}</p>
+                      {(state[topic.id]?.liked || state[topic.id]?.saved) && <span className="list-social-state">{state[topic.id]?.liked && <span><SocialIcon name="like" />已赞</span>}{state[topic.id]?.saved && <span><SocialIcon name="bookmark" />已收藏</span>}</span>}
                     </div>
                     <div className="trending-media">
                       <span data-testid="trending-tag" className={`trending-tag trending-tag-${({ 爆: "burst", 热: "hot", 新: "new" })[tag]} ${trendingTagClass[tag]}`}><StatusIcon name={tagIcons[tag]} size={12} /><span>{tag}</span></span>

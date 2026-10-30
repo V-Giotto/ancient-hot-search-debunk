@@ -1,6 +1,6 @@
 import { act, cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import StickersPage from "@/app/stickers/page";
+import MePage from "@/app/me/page";
 import { CollectionProgress } from "@/components/progress/CollectionProgress";
 import { StickerWall } from "@/components/stickers/StickerWall";
 import { PROGRESS_KEY, saveProgress } from "@/lib/progress";
@@ -15,11 +15,13 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 
 describe("贴纸墙与本机进度展示", () => {
   it("全题库锁定态不泄题，无可点击帖子；传给客户端的徽记仅有中性主题元数据", () => {
-    const page = StickersPage();
-    expect(page.props.children[1].props.stickers).toEqual(stickers);
-    expect(page.props.children[1].props.firstTopicId).toBe(topics.find(({ rank }) => rank === 1)!.id);
+    const page = MePage();
+    const tabs = page.props.children.props.children[2].props.children;
+    expect(tabs.props.stickers).toEqual(stickers);
+    expect(tabs.props.firstTopicId).toBe(topics.find(({ rank }) => rank === 1)!.id);
+    for (const topic of tabs.props.topics) expect(Object.keys(topic).sort()).toEqual(["id", "module", "title"]);
     for (const sticker of stickers) expect(Object.keys(sticker).sort()).toEqual(["id", "mark", "name"]);
-    const { container } = render(page);
+    const { container } = render(<StickerWall stickers={tabs.props.stickers} firstTopicId={tabs.props.firstTopicId} />);
     const wall = screen.getByRole("list", { name: "贴纸收藏" });
     expect(within(wall).getAllByRole("listitem")).toHaveLength(topics.length);
     expect(within(wall).getAllByText("未解锁 · 提交判断后收集")).toHaveLength(topics.length);

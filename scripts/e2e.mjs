@@ -105,7 +105,7 @@ async function firstLoadChecks(browser, errors) {
   const exportChunks = (await Promise.all(files.map(async (file) => (await readFile(path.join(chunkDir, file), "utf8")).includes("Failed to fetch resource:") ? `/_next/static/chunks/${file}` : null))).filter(Boolean);
   assert.ok(exportChunks.length > 0, "未找到 html-to-image 的独立动态 chunk");
   const routes = [];
-  for (const route of ["/trending", "/discover", "/stickers", "/post/H12"]) {
+  for (const route of ["/trending", "/discover", "/me", "/me?tab=favorites", "/post/H12"]) {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     try {
       const page = await context.newPage();
@@ -293,7 +293,7 @@ async function earnedSticker(page, id, count) {
   assert.equal(await sticker.getAttribute("aria-atomic"), "true");
   await visible(sticker.getByText(new RegExp(`^获得贴纸：.+ · 已查证 ${count}/${scenarios.length}$`)));
   if (id === "H03") await visible(sticker.getByText(`获得贴纸：饭局手记 · 已查证 ${count}/${scenarios.length}`, { exact: true }));
-  assert.equal(await sticker.getByRole("link", { name: "去贴纸墙 →", exact: true }).getAttribute("href"), "/stickers");
+  assert.equal(await sticker.getByRole("link", { name: "去贴纸墙 →", exact: true }).getAttribute("href"), "/me?tab=stickers");
   assert.equal(await page.locator(".reveal-panel .sticker-earned").count(), 1);
 }
 
@@ -353,12 +353,175 @@ async function focused(locator) {
   assert.ok(await locator.evaluate((node) => node === document.activeElement), "键盘焦点位置不正确");
 }
 
+async function navigationChecks(page) {
+  const navigation = page.getByRole("navigation", { name: "主导航", exact: true, includeHidden: true });
+  const links = navigation.getByRole("link", { includeHidden: true });
+  assert.deepEqual(await links.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href"))), ["/trending", "/discover", "/friends", "/me"]);
+  assert.deepEqual(await links.evaluateAll((nodes) => nodes.map((node) => {
+    const label = node.cloneNode(true);
+    label.querySelectorAll('[aria-hidden="true"]').forEach((icon) => icon.remove());
+    return label.textContent.trim();
+  })), ["热搜榜", "发现", "好友", "我的"]);
+  assert.equal(await page.locator('a[href="/stickers"], a[href^="/stickers?"]').count(), 0, "站内链接不得再指向旧贴纸路由");
+}
+
+async function meFlow(page, viewport, geometry) {
+  const legacy = await page.request.get(`${baseURL}/stickers`, { maxRedirects: 0 });
+  assert.equal(legacy.status(), 307, "旧贴纸路由应返回服务端 redirect");
+  assert.equal(new URL(legacy.headers().location, baseURL).pathname, "/me");
+  await page.goto(`${baseURL}/stickers`);
+  await page.waitForURL("**/me");
+  await compactHeaderChecks(page, "我的");
+  const tablist = page.getByRole("tablist", { name: "我的内容", exact: true });
+  const stickers = tablist.getByRole("tab", { name: "贴纸", exact: true });
+  const favorites = tablist.getByRole("tab", { name: "收藏", exact: true });
+  assert.deepEqual(await tablist.getByRole("tab").allTextContents(), ["贴纸", "收藏"]);
+  assert.equal(await stickers.getAttribute("aria-selected"), "true");
+  await collectionCount(page, 0);
+  geometry.push(await mobileGeometry(page, "我的贴纸与旧路由重定向"));
+  await favorites.click();
+  await page.waitForURL("**/me?tab=favorites");
+  await visible(page.getByRole("tabpanel", { name: "收藏", exact: true }));
+  assert.equal(await page.getByRole("tabpanel", { name: "贴纸", exact: true }).count(), 0);
+  await visible(page.getByRole("link", { name: "去热搜榜看看", exact: true }));
+  geometry.push(await mobileGeometry(page, "我的收藏空态与点击切换"));
+  for (const [key, selected] of [["ArrowRight", "贴纸"], ["ArrowLeft", "收藏"], ["Home", "贴纸"], ["End", "收藏"]]) {
+    await page.keyboard.press(key);
+    const tab = tablist.getByRole("tab", { name: selected, exact: true });
+    await page.waitForFunction((label) => [...document.querySelectorAll('.me-tabs [role="tab"]')].some((node) => node.textContent === label && node.getAttribute("aria-selected") === "true"), selected);
+    await focused(tab);
+    assert.equal(await tab.getAttribute("tabindex"), "0");
+    assert.equal(await tablist.getByRole("tab", { selected: false }).getAttribute("tabindex"), "-1");
+    const panel = page.getByRole("tabpanel", { name: selected, exact: true });
+    assert.equal(await panel.getAttribute("id"), await tab.getAttribute("aria-controls"));
+  }
+  // 验证原生按钮的 Enter/Space 激活，及 Tab 从选中标签进入内容区。
+  await stickers.focus(); await page.keyboard.press("Enter");
+  await page.waitForURL("**/me?tab=stickers");
+  await favorites.focus(); await page.keyboard.press("Space");
+  await page.waitForURL("**/me?tab=favorites");
+  await page.keyboard.press("Tab");
+  await focused(page.getByRole("tabpanel", { name: "收藏", exact: true }));
+  await page.reload();
+  assert.equal(await favorites.getAttribute("aria-selected"), "true");
+  await page.goto(`${baseURL}/me?tab=favorites`);
+  await visible(page.getByRole("heading", { name: "我的收藏 0", exact: true }));
+  geometry.push(await mobileGeometry(page, "我的收藏直达与刷新保持子标签"));
+  // 通过原帖操作收藏两条，截图与测试使用同一条真实界面路径。
+  for (const id of ["H01", "H05"]) {
+    await page.goto(`${baseURL}/post/${id}`);
+    await page.getByRole("button", { name: "收藏", exact: true }).click();
+  }
+  await page.goto(`${baseURL}/me?tab=favorites`);
+  const list = page.getByRole("list", { name: "我的收藏", exact: true });
+  await visible(list);
+  assert.deepEqual(await list.getByRole("link").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href"))), ["/post/H01", "/post/H05"]);
+  geometry.push(await mobileGeometry(page, "我的收藏两条与底部导航"));
+  if (viewport.width === 390) await versionScreenshot(page, "me", packageVersion);
+  for (const id of ["H01", "H05"]) {
+    await page.goto(`${baseURL}/post/${id}`);
+    await page.waitForFunction(() => document.querySelector('.post-actions [aria-label="收藏"]')?.getAttribute("aria-pressed") === "true");
+    await page.getByRole("button", { name: "收藏", exact: true }).click();
+  }
+}
+
+async function openMyStickers(page) {
+  await page.getByRole("navigation", { name: "主导航", exact: true }).getByRole("link", { name: "我的", exact: true }).click();
+  await page.waitForURL("**/me");
+  await page.getByRole("tab", { name: "贴纸", exact: true }).click();
+  await page.waitForURL("**/me?tab=stickers");
+}
+
+async function persistentSocialFlow(page, viewport, geometry) {
+  await page.goto(`${baseURL}/me?tab=favorites`);
+  await visible(page.getByRole("link", { name: "去热搜榜看看", exact: true }));
+  const nav = page.getByRole("navigation", { name: "主导航", exact: true });
+  await navigationChecks(page);
+  geometry.push(await mobileGeometry(page, "我的页收藏空状态"));
+  for (const [id, friendId, friendName] of [["H01", "libai", "李白"], ["H05", "dufu", "杜甫"]]) {
+    const topic = allTopics.find((entry) => entry.id === id);
+    await page.goto(`${baseURL}/post/${id}`);
+    for (const name of ["点赞", "收藏"]) {
+      const action = page.getByRole("button", { name, exact: true });
+      await action.click(); assert.equal(await action.getAttribute("aria-pressed"), "true");
+      assert.match(await action.innerText(), /\+1/);
+    }
+    await page.reload();
+    for (const name of ["点赞", "收藏"]) await page.waitForFunction((label) => document.querySelector(`.post-actions [aria-label="${label}"]`)?.getAttribute("aria-pressed") === "true", name);
+    await freshPost(page);
+    await page.goto(`${baseURL}/${topic.module}`);
+    const card = page.locator(`a[href="/post/${id}"]`).filter({ hasText: topic.title }).first();
+    await visible(card.getByText("已收藏", { exact: true }));
+    if (topic.module === "trending") await visible(card.getByText("已赞", { exact: true }));
+    await nav.getByRole("link", { name: "我的", exact: true }).click();
+    await page.waitForURL("**/me");
+    await page.getByRole("tab", { name: "收藏", exact: true }).click();
+    await page.waitForURL("**/me?tab=favorites");
+    const favorites = page.getByRole("list", { name: "我的收藏", exact: true });
+    const favorite = favorites.getByRole("link");
+    assert.equal(await favorite.getAttribute("href"), `/post/${id}`);
+    await visible(favorite.getByText(topic.module === "trending" ? "热搜" : "发现", { exact: true }));
+    geometry.push(await mobileGeometry(page, `${id} 我的收藏列表`));
+    await favorite.click();
+    await page.getByRole("group", { name: "帖子互动", exact: true }).scrollIntoViewIfNeeded();
+    if (id === "H05" && viewport.width === 390) await versionScreenshot(page, "liked", packageVersion, { scrollToTop: false });
+    const trigger = page.getByRole("button", { name: "转发", exact: true });
+    await trigger.click();
+    const sheet = page.getByRole("dialog", { name: "转发给好友", exact: true });
+    assert.equal(await sheet.getAttribute("aria-modal"), "true");
+    await visible(sheet.getByRole("link", { name: "转发给李白", exact: true }));
+    await visible(sheet.getByRole("link", { name: "转发给杜甫", exact: true }));
+    await visible(sheet.getByRole("button", { name: "复制链接", exact: true }));
+    await focused(sheet.getByRole("button", { name: "关闭转发弹层", exact: true }));
+    await page.keyboard.press("Shift+Tab"); await focused(sheet.getByRole("textbox"));
+    await page.keyboard.press("Tab"); await focused(sheet.getByRole("button", { name: "关闭转发弹层", exact: true }));
+    const sheetBox = await sheet.boundingBox();
+    const navBox = await page.locator(".bottom-tabs").boundingBox();
+    assert.ok(sheetBox.y + sheetBox.height <= navBox.y + 1, "转发弹层应保留底部标签栏的可视区域");
+    geometry.push(await mobileGeometry(page, `${id} 转发弹层`));
+    if (id === "H05" && viewport.width === 390) await versionScreenshot(page, "share-sheet", packageVersion, { scrollToTop: false });
+    await page.keyboard.press("Escape"); assert.equal(await sheet.count(), 0); await focused(trigger);
+    await trigger.click(); await page.mouse.click(4, 4); assert.equal(await sheet.count(), 0); await focused(trigger);
+    await trigger.click();
+    if (process.env.E2E_BASE_URL) await page.route("**/api/chat", (route) => route.fulfill({ status: 503, json: { error: "好友暂时不在线" } }));
+    const offline = page.waitForResponse((response) => response.url().endsWith("/api/chat"));
+    await sheet.getByRole("link", { name: `转发给${friendName}`, exact: true }).click();
+    await page.waitForURL(new RegExp(`/friends/${friendId}(?:\\?|$)`));
+    const response = await offline;
+    assert.equal(response.status(), 503);
+    assert.equal(response.request().postDataJSON().sharedTopicId, id);
+    const shareCard = page.getByRole("link", { name: `分享卡片：${topic.title}`, exact: true });
+    await visible(shareCard); assert.equal(await shareCard.getAttribute("href"), `/post/${id}`);
+    await visible(page.getByText("好友暂时不在线", { exact: true }));
+    geometry.push(await mobileGeometry(page, `${id} 分享卡片与离线好友`));
+    let calls = 0;
+    const countCalls = (request) => { if (request.url().endsWith("/api/chat")) calls++; };
+    page.on("request", countCalls);
+    await page.reload(); await visible(shareCard);
+    assert.equal(await page.locator(".chat-share-card").count(), 1); assert.equal(calls, 0, "刷新不重复请求好友");
+    page.off("request", countCalls);
+    await shareCard.click(); await freshPost(page);
+    await page.goto(`${baseURL}/friends/${friendId}`);
+    await page.getByRole("button", { name: "清空对话", exact: true }).click();
+    await page.reload(); assert.equal(await page.locator(".chat-share-card").count(), 0);
+    if (process.env.E2E_BASE_URL) await page.unroute("**/api/chat");
+    await page.goto(`${baseURL}/post/${id}`);
+    for (const name of ["点赞", "收藏"]) {
+      const action = page.getByRole("button", { name, exact: true });
+      await page.waitForFunction((label) => document.querySelector(`.post-actions [aria-label="${label}"]`)?.getAttribute("aria-pressed") === "true", name);
+      await action.click(); assert.equal(await action.getAttribute("aria-pressed"), "false");
+    }
+    await page.goto(`${baseURL}/me?tab=favorites`);
+    await visible(page.getByRole("link", { name: "去热搜榜看看", exact: true }));
+  }
+}
+
 async function friendsFlow(page, viewport, geometry) {
   await page.goto(`${baseURL}/friends`);
   await visible(page.getByRole("heading", { name: "见字如面", exact: true }));
   await compactHeaderChecks(page, "好友");
   const navigation = page.getByRole("navigation", { name: "主导航", exact: true });
-  assert.deepEqual(await navigation.getByRole("link").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href"))), ["/trending", "/discover", "/stickers", "/friends"]);
+  await navigationChecks(page);
   assert.equal(await navigation.getByRole("link", { name: "好友", exact: true }).getAttribute("aria-current"), "page");
   assert.equal(await page.locator(".friends-list .friend-avatar").count(), 2);
   geometry.push(await mobileGeometry(page, "好友列表"));
@@ -442,7 +605,10 @@ async function friendsFlow(page, viewport, geometry) {
   } finally { release(); await page.unroute("**/api/chat"); }
   await page.reload();
   await visible(page.getByRole("heading", { name: "李白", exact: true }));
-  assert.equal(await page.locator(".chat-message-user").count(), 0, "刷新后不保留内存对话");
+  assert.equal(await page.locator(".chat-message-user").count(), 2, "刷新后保留成功发送的本机对话");
+  await page.getByRole("button", { name: "清空对话", exact: true }).click();
+  await page.reload();
+  assert.equal(await page.locator(".chat-message-user").count(), 0, "清空后刷新仍为空");
   assert.equal(await input.inputValue(), "");
   await page.getByRole("link", { name: "返回好友列表", exact: true }).click();
   await page.getByRole("link", { name: "与杜甫对话", exact: true }).click();
@@ -462,6 +628,7 @@ async function focusVisible(locator) {
 async function mobileGeometry(page, state) {
   await visible(page.locator(".app-shell"));
   await noOverflow(page);
+  await navigationChecks(page);
   await noDisclaimerLabels(page);
   await noHashtagTitles(page);
   const briefing = await mobileBriefingChecks(page);
@@ -565,14 +732,14 @@ async function postSocialChecks(page, topic) {
   const news = topic.module === "trending";
   assert.equal(await article.getAttribute("data-module"), topic.module);
   const sections = await article.evaluate((node) => [...node.children].map((child) => child.getAttribute("data-post-section")));
-  assert.deepEqual(sections, news ? ["masthead", "title", "byline", "lead", "cover", "body", "related"] : ["author", "format", "title", "cover", "body", "actions"]);
+  assert.deepEqual(sections, news ? ["masthead", "title", "byline", "lead", "cover", "body", "related", "actions"] : ["author", "format", "title", "cover", "body", "actions"]);
   if (news) {
     assert.equal(await article.locator(".news-lead").textContent(), topic.news.lead);
     assert.ok((await article.locator(".news-byline").textContent()).includes(topic.news.outlet));
     assert.equal(await article.locator("time").getAttribute("datetime"), topic.news.publishedAt);
     assert.equal(await article.getByRole("region", { name: "相关报道" }).locator("li").count(), 2);
     for (const text of topic.news.related) assert.ok((await article.locator(".news-related").textContent()).includes(text));
-    assert.equal(await page.locator(".news-experience .social-stats, .news-experience .post-actions, .news-experience .author-row, .news-experience .comments-panel, [data-reply-id], .follow-button").count(), 0);
+    assert.equal(await page.locator(".news-experience .social-stats, .news-experience .author-row, .news-experience .comments-panel, [data-reply-id], .follow-button").count(), 0);
     assert.doesNotMatch(await article.innerText(), /\p{Extended_Pictographic}|\p{Regional_Indicator}|[\u20e3\ufe0f]/u, "新闻稿不得出现 emoji");
     assert.doesNotMatch(await article.innerText(), /家人们|谁懂啊|顶流|塑料友情|小板凳|在线蹲/);
   } else {
@@ -644,7 +811,7 @@ async function localSocialChecks(page, topic, geometry) {
     await visible(page.getByRole("button", { name: "链接已复制", exact: true }));
     assert.equal(await page.evaluate(() => navigator.clipboard.readText()), page.url());
     geometry.push(await mobileGeometry(page, "发现关注切换/刷新恢复/取消及点赞收藏转发"));
-    await page.getByRole("button", { name: /^转发/ }).click();
+    await page.getByRole("button", { name: "关闭转发弹层", exact: true }).click();
     assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), before);
     assert.equal(calls, 0, "关注及帖子互动不能请求 API 或影响判题");
   } finally { page.off("request", onRequest); }
@@ -752,7 +919,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await page.goto(`${baseURL}/trending`);
   await collectionCount(page, 0);
   await page.getByRole("main").getByRole("link", { name: "贴纸墙 →", exact: true }).click();
-  await page.waitForURL("**/stickers");
+  await page.waitForURL("**/me?tab=stickers");
   await collectionCount(page, 0);
   assert.equal(await stickers.locator(":scope > li").count(), scenarios.length);
   assert.equal(await stickers.getByRole("link").count(), 0);
@@ -770,8 +937,8 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await page.locator('[aria-label="热搜排行"] a[href="/post/H03"]').click();
   await page.getByRole("radio", { name: "是假的", exact: true }).check();
   // 只选答案不解锁；返回后草稿也必须清空。
-  await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
-  await page.waitForURL("**/stickers");
+  await openMyStickers(page);
+  await page.waitForURL("**/me?tab=stickers");
   await collectionCount(page, 0);
   assert.equal(await stickers.getByRole("link").count(), 0);
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
@@ -785,7 +952,7 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await earnedSticker(page, "H03", 1);
   if (viewport.width === 390) await page.screenshot({ path: path.join(screenshots, "v0.9.0-reveal-390x844.png"), animations: "disabled" });
   await page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }).click();
-  await page.waitForURL("**/stickers");
+  await page.waitForURL("**/me?tab=stickers");
   await collectionCount(page, 1);
   assert.equal(await start.count(), 0, "已有贴纸时不应出现空态引导");
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
@@ -794,9 +961,9 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await collectionCount(page, 1);
   geometry.push(await mobileGeometry(page, "答一题后热榜进度 1/N"));
   if (viewport.width === 390) await page.screenshot({ path: path.join(screenshots, "trending-progress-390x844.png"), animations: "disabled" });
-  await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
-  await page.waitForURL("**/stickers");
-  assert.equal(await navigation.getByRole("link", { name: "贴纸", exact: true }).getAttribute("aria-current"), "page");
+  await openMyStickers(page);
+  await page.waitForURL("**/me?tab=stickers");
+  assert.equal(await navigation.getByRole("link", { name: "我的", exact: true }).getAttribute("aria-current"), "page");
   await collectionCount(page, 1);
   assert.equal(await stickers.getByRole("link").count(), 1);
   assert.equal(await stickers.locator('[data-unlocked="false"]').count(), scenarios.length - 1);
@@ -825,24 +992,24 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   await page.getByRole("radio", { name: "是假的", exact: true }).check();
   await page.getByRole("button", { name: "提交判断", exact: true }).click();
   await visible(page.locator(".verdict-stamp"));
-  await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
-  await page.waitForURL("**/stickers");
+  await openMyStickers(page);
+  await page.waitForURL("**/me?tab=stickers");
   await collectionCount(page, 1);
-  // 浏览器后退会复用路由缓存；返回到已揭晓的帖子仍应全新。
+  // 子标签替换当前 URL，后退一步回到帖子并验证缓存中的帖子重置。
   await page.goBack();
   await page.waitForURL("**/post/H03");
   await freshPost(page);
   assert.equal(await page.evaluate(() => localStorage.getItem("ahsd:progress:v1")), saved);
   await page.goForward();
-  await page.waitForURL("**/stickers");
+  await page.waitForURL("**/me?tab=stickers");
   await collectionCount(page, 1);
   await navigation.getByRole("link", { name: "热搜榜", exact: true }).click();
   await page.waitForURL("**/trending");
   await page.locator('[aria-label="热搜排行"] a[href="/post/H03"]').click();
   await page.waitForURL("**/post/H03");
   await freshPost(page);
-  await navigation.getByRole("link", { name: "贴纸", exact: true }).click();
-  await page.waitForURL("**/stickers");
+  await openMyStickers(page);
+  await page.waitForURL("**/me?tab=stickers");
   await collectionCount(page, 1);
   await page.reload();
   await collectionCount(page, 1);
@@ -954,7 +1121,7 @@ async function previewBuildChecks(buildId) {
     const page = await context.newPage();
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    for (const route of ["/trending", "/discover", "/stickers", "/post/H03"]) {
+    for (const route of ["/trending", "/discover", "/me", "/me?tab=favorites", "/post/H03"]) {
       await page.goto(`${previewURL}${route}`);
       assert.equal(await page.getByText("开发预览：本条史实尚待人工审核", { exact: true }).count(), 0);
       const footer = page.getByRole("contentinfo", { name: "预览构建信息" });
@@ -1328,10 +1495,10 @@ try {
 
   const progressIds = await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem("ahsd:progress:v1"))));
   assert.deepEqual(progressIds.sort(), scenarios.map(({ id }) => id));
-  await page.goto(`${baseURL}/stickers`);
+  await page.goto(`${baseURL}/me`);
   await collectionCount(page, scenarios.length);
   assert.equal(await page.locator('[aria-label="贴纸收藏"] a').count(), scenarios.length);
-  const stickersHtml = await (await fetch(`${baseURL}/stickers`)).text();
+  const stickersHtml = await (await fetch(`${baseURL}/me`)).text();
   for (const scenario of scenarios) {
     const topic = JSON.parse(await readFile(`data/topics/${scenario.id.toLowerCase()}.json`, "utf8"));
     for (const forbidden of [topic.reveal.correctedClaim, ...topic.sourceIds, "谣言退散", "查证属实"]) {
@@ -1346,15 +1513,17 @@ try {
     const mobileContext = await browser.newContext({ viewport, acceptDownloads: true, isMobile: true, hasTouch: true });
     const mobile = await mobileContext.newPage();
     mobile.on("pageerror", (error) => errors.push(error.message));
+    await meFlow(mobile, viewport, geometry);
     await friendsFlow(mobile, viewport, geometry);
+    await persistentSocialFlow(mobile, viewport, geometry);
     await stickerCollectionFlow(mobile, viewport, geometry);
-    for (const route of ["/trending", "/discover", "/stickers", ...scenarios.map(({ id }) => `/post/${id}`), "/post/DOES-NOT-EXIST", "/missing-page"]) {
+    for (const route of ["/trending", "/discover", "/me", "/me?tab=favorites", ...scenarios.map(({ id }) => `/post/${id}`), "/post/DOES-NOT-EXIST", "/missing-page"]) {
       const response = await mobile.goto(`${baseURL}${route}`);
       await visible(mobile.getByRole("heading", { level: 1 }));
       if (route.includes("DOES-NOT-EXIST") || route === "/missing-page") assert.equal(response.status(), 404);
       const pageGeometry = await mobileGeometry(mobile, route);
       if (route !== "/trending") {
-        const title = response.status() === 404 ? "页面未找到" : route === "/discover" ? "发现" : route === "/stickers" ? "贴纸档案" : postPageTitle(allTopics.find(({ id }) => id === route.split("/").at(-1)));
+        const title = response.status() === 404 ? "页面未找到" : route === "/discover" ? "发现" : route.startsWith("/me") ? "我的" : postPageTitle(allTopics.find(({ id }) => id === route.split("/").at(-1)));
         pageGeometry.header = await compactHeaderChecks(mobile, title);
       }
       await mobile.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
@@ -1512,7 +1681,7 @@ try {
   await wrongPage.getByRole("button", { name: "生成查证卡", exact: true }).click();
   await visible(wrongPage.getByRole("dialog", { name: "查证卡预览" }));
   await wrongPage.getByRole("button", { name: "关闭预览", exact: true }).click();
-  await wrongPage.getByRole("navigation", { name: "主导航", exact: true }).getByRole("link", { name: "贴纸", exact: true }).click();
+  await openMyStickers(wrongPage);
   await collectionCount(wrongPage, 1);
   assert.equal(await wrongPage.locator('[data-sticker-id="H03"]').getAttribute("data-unlocked"), "true");
   assert.equal(await wrongPage.locator('[data-sticker-id="H03"] a').getAttribute("href"), "/post/H03");
@@ -1524,7 +1693,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新清空", "404"], realAiCalls: 0, memoryOnly: true, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道；无 emoji、社交统计或楼层评论", socialLayout: "暖色大圆角/配图/emoji/楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道；无 emoji 或楼层评论；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/emoji/楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {
