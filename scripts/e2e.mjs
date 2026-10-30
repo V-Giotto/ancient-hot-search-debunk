@@ -9,7 +9,7 @@ import { chromium } from "playwright";
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
 const port = process.env.E2E_PORT || "3123";
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
-const output = path.resolve("artifacts/stage-4");
+const output = path.resolve("artifacts/stage-5");
 const screenshots = path.join(output, "screenshots");
 const scenarios = [
   { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 2 },
@@ -33,7 +33,7 @@ async function visible(locator) {
 }
 
 async function noOverflow(page) {
-  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, `页面水平溢出：${page.url()}`);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true, `页面水平溢出：${page.url()}`);
 }
 
 async function focused(locator) {
@@ -44,72 +44,87 @@ async function focusVisible(locator) {
   assert.ok(await locator.evaluate((node) => node.matches(":focus-visible") && getComputedStyle(node).outlineStyle !== "none" && parseFloat(getComputedStyle(node).outlineWidth) >= 2), "缺少清晰的键盘焦点样式");
 }
 
-async function withinViewport(page, locator, label) {
-  const box = await locator.boundingBox();
+// 核对实际可点击范围；原生 radio 的触控范围为关联的整张 label。
+async function mobileGeometry(page, state) {
+  await noOverflow(page);
+  const small = await page.evaluate(() => {
+    const root = document.querySelector("dialog[open]") || document;
+    return [...root.querySelectorAll('a[href], button, input, textarea, summary')].flatMap((node) => {
+      if (!node.checkVisibility() || node.classList.contains("sr-only")) return [];
+      const target = node instanceof HTMLInputElement && node.type === "radio" ? node.closest("label") : node;
+      const { width, height } = target.getBoundingClientRect();
+      return width < 44 - 0.1 || height < 44 - 0.1 ? [{ text: node.textContent?.trim().slice(0, 80) || node.getAttribute("aria-label") || node.type, width, height }] : [];
+    });
+  });
+  assert.deepEqual(small, [], `${state} 存在小于 44px 的触控目标`);
   const viewport = page.viewportSize();
-  const header = await page.locator("header").boundingBox();
-  assert.ok(box && box.width > 0 && box.height > 0, `${label} 没有可见尺寸`);
-  assert.ok(box.x >= 0 && box.x + box.width <= viewport.width + 1, `${label} 水平超出视口`);
-  assert.ok(box.y >= header.y + header.height - 1 && box.y + box.height <= viewport.height + 1, `${label} 被 header 遮挡或超出视口：${JSON.stringify(box)}`);
-  return box;
+  const shell = await page.locator(".app-shell").boundingBox();
+  assert.ok(shell.width <= 430 && Math.abs(shell.x + shell.width / 2 - viewport.width / 2) < 1, "手机列未居中或超过 430px");
+  if (!await page.getByRole("dialog").count()) {
+    const tabs = await page.getByRole("navigation", { name: "主导航", exact: true }).boundingBox();
+    assert.ok(Math.abs(tabs.y + tabs.height - viewport.height) < 1 && Math.abs(tabs.width - shell.width) < 1, "底部导航未固定在手机列底部");
+  }
+  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px" };
 }
 
-async function stickyRailsAtBottom(page, viewport) {
+async function screenshotAt(page, locator, filename) {
+  await locator.evaluate((node) => {
+    const headerHeight = document.querySelector("header").getBoundingClientRect().height;
+    window.scrollTo({ top: node.getBoundingClientRect().top + window.scrollY - headerHeight - 16, behavior: "instant" });
+  });
+  await page.screenshot({ path: path.join(screenshots, filename), animations: "disabled" });
+}
+
+async function bottomNavigationAtEnd(page) {
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  await page.waitForFunction(() => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2);
-  const scrollY = await page.evaluate(() => window.scrollY);
-  assert.ok(scrollY > viewport.height, "H03 揭晓后必须实际滚动到长页面底部");
-  const header = await page.locator("header").boundingBox();
-  assert.equal(header.y, 0, "header 未保持在顶部");
+  const info = page.getByRole("complementary", { name: "辟谣局信息", exact: true });
+  const box = await info.boundingBox();
   const nav = page.getByRole("navigation", { name: "主导航", exact: true });
-  const leftBox = await withinViewport(page, nav, "左侧导航");
-  for (const rail of [nav, ...(viewport.width >= 1440 ? [page.getByRole("complementary", { name: "辟谣局信息栏" })] : [])]) {
-    const style = await rail.evaluate((node) => ({ position: getComputedStyle(node).position, top: parseFloat(getComputedStyle(node).top), overflow: getComputedStyle(node).overflowY }));
-    assert.deepEqual(style, { position: "sticky", top: header.height, overflow: "auto" });
-  }
-  const rightBox = viewport.width >= 1440 ? await withinViewport(page, page.getByRole("complementary", { name: "辟谣局信息栏" }), "右侧信息栏") : null;
+  const navBox = await nav.boundingBox();
+  assert.ok(box.y + box.height <= navBox.y, "底部 Tab 遮挡页面末尾内容");
   const link = nav.getByRole("link", { name: "发现", exact: true });
-  await withinViewport(page, link, "左侧导航链接");
   assert.ok(await link.evaluate((node) => {
     const box = node.getBoundingClientRect();
     return node.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
-  }), "左侧导航链接被其他元素遮挡");
-  await link.click({ trial: true });
-  assert.equal(await page.evaluate(() => window.scrollY), scrollY, "点击检查不应把页面滚回导航位置");
-  await noOverflow(page);
+  }), "底部导航被遮挡");
   await link.click();
   await page.waitForURL("**/discover");
-  await visible(page.getByRole("heading", { name: "跨时空吃瓜现场" }));
-  return { viewport, scrollY, leftBox, rightBox, navigationClicked: true };
+  assert.equal(await link.getAttribute("aria-current"), "page");
 }
 
-async function longRailsScrollInternally(page, viewport) {
-  // 仅测试 DOM 中追加长内容，验证未来内容增长时仍限制在栏内滚动。
-  const rails = page.locator(".shell-sticky-rail:visible");
-  await rails.evaluateAll((nodes) => nodes.forEach((node) => {
-    const filler = document.createElement("div");
-    filler.style.height = "1600px";
-    filler.dataset.e2eRailFiller = "true";
-    node.append(filler);
-  }));
-  try {
-    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-    const scrollY = await page.evaluate(() => window.scrollY);
-    for (const rail of await rails.all()) {
-      await withinViewport(page, rail, "长内容侧栏");
-      const sizes = await rail.evaluate((node) => ({ client: node.clientHeight, scroll: node.scrollHeight }));
-      assert.ok(sizes.scroll > sizes.client, "测试内容未触发栏内溢出");
-      await rail.hover();
-      await page.mouse.wheel(0, 500);
-      await page.waitForFunction((label) => document.querySelector(`[aria-label="${label}"]`).scrollTop > 0, await rail.getAttribute("aria-label"));
-      assert.equal(await page.evaluate(() => window.scrollY), scrollY, "滚动侧栏不应带动页面");
-      await noOverflow(page);
+async function askStates(page) {
+  // 仅 AI 布局状态使用浏览器 mock，避免消耗模型额度；判题和 PNG 均走真实服务。
+  let release;
+  let calls = 0;
+  const handler = async (route) => {
+    calls++;
+    if (calls === 1) {
+      await new Promise((resolve) => { release = resolve; });
+      await route.fulfill({ status: 503, json: { error: "test" } });
+    } else {
+      await route.fulfill({ json: { answer: "浏览器布局测试（mock）：" + "长文本换行".repeat(30) + " https://example.test/" + "a".repeat(180), citedSourceIds: ["S-H03-02"], grounded: true, preview: true } });
     }
+  };
+  await page.route("**/api/ask", handler);
+  try {
+    const input = page.getByRole("textbox", { name: "向值班史官提问" });
+    const question = "手机布局测试问题";
+    await input.fill(question);
+    await page.getByRole("button", { name: "发送问题", exact: true }).click();
+    await visible(page.getByText("值班史官正在查阅资料…", { exact: true }));
+    await mobileGeometry(page, "AI loading");
+    release();
+    await visible(page.getByRole("alert"));
+    assert.equal(await input.inputValue(), question);
+    await mobileGeometry(page, "AI error");
+    await page.getByRole("button", { name: "重试提问", exact: true }).click();
+    await visible(page.getByText(/^浏览器布局测试（mock）：/));
+    await mobileGeometry(page, "AI response + long URL");
+    assert.equal(await input.inputValue(), "");
   } finally {
-    await page.locator("[data-e2e-rail-filler]").evaluateAll((nodes) => nodes.forEach((node) => node.remove()));
-    await rails.evaluateAll((nodes) => nodes.forEach((node) => { node.scrollTop = 0; }));
+    release?.();
+    await page.unroute("**/api/ask", handler);
   }
-  return { viewport, internalScroll: true };
 }
 
 async function revealScreenshot(page, filename) {
@@ -118,7 +133,7 @@ async function revealScreenshot(page, filename) {
     const headerHeight = document.querySelector("header").getBoundingClientRect().height;
     window.scrollTo(0, node.getBoundingClientRect().top + window.scrollY - headerHeight - 24);
   });
-  await page.screenshot({ path: path.join(screenshots, filename) });
+  await page.screenshot({ path: path.join(screenshots, filename), animations: "disabled" });
 }
 
 async function dialogKeyboard(page) {
@@ -178,7 +193,7 @@ try {
   assert.ok(started, "生产服务未启动");
   const executablePath = process.env.CHROME_PATH || (existsSync("/usr/bin/google-chrome") ? "/usr/bin/google-chrome" : undefined);
   browser = await chromium.launch({ executablePath, headless: true, args: ["--no-sandbox", "--disable-dev-shm-usage"] });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, acceptDownloads: true });
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, acceptDownloads: true });
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
@@ -191,9 +206,10 @@ try {
   const trendingLinks = await page.locator('[aria-label="热搜排行"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   assert.deepEqual(trendingLinks, scenarios.map(({ id }) => `/post/${id}`));
   await noOverflow(page);
+  await mobileGeometry(page, "热搜榜");
+  await page.screenshot({ path: path.join(screenshots, "trending-390x844.png"), animations: "disabled" });
   await page.keyboard.press("Tab");
   await focusVisible(page.locator(":focus"));
-  await page.screenshot({ path: path.join(output, "trending-1440.png"), fullPage: true });
 
   const flows = [];
   for (const scenario of scenarios) {
@@ -221,6 +237,11 @@ try {
     await visible(page.getByText("以上数字均为模拟值，角色发言与评论均为架空演绎。", { exact: true }));
     await visible(page.getByText("预制评论 · 架空演绎", { exact: true }));
     assert.ok(topic.comments.every((comment) => !comment.text.includes(topic.reveal.correctedClaim) && !/核心主张为[真假]|查证属实|谣言退散|正确(?:答案|选项)[：:]/.test(comment.text)), `${id} 评论直接泄漏结论`);
+    await mobileGeometry(page, `${id} 初始帖子与判题区`);
+    if (id === "H03") {
+      await screenshotAt(page, page.locator("main"), "post-H03-top-390x844.png");
+      await screenshotAt(page, page.locator(".task-panel"), "post-H03-task-390x844.png");
+    }
     const callsBefore = verdictCalls;
     const stamp = answer ? "查证属实" : "谣言退散";
     const submit = page.getByRole("button", { name: "提交判断", exact: true });
@@ -269,6 +290,8 @@ try {
       await visible(sourceItem.getByText(`支持要点：${source.supports}`, { exact: true }));
     }
     assert.equal(await page.getByText("待人工审核", { exact: true }).count(), sourceCount);
+    await mobileGeometry(page, `${id} 揭晓与展开来源`);
+    if (id === "H03") await revealScreenshot(page, "post-H03-reveal-390x844.png");
     const links = await page.locator('a[target="_blank"]').evaluateAll((nodes) => nodes.map((node) => ({ href: node.href, rel: node.rel })));
     assert.deepEqual(links.map((link) => link.href), topic.sourceIds.map((sourceId) => new URL(sourceIndex.find((source) => source.id === sourceId).url).href));
     assert.ok(links.every((link) => link.rel.includes("noopener")));
@@ -276,6 +299,12 @@ try {
     await visible(page.getByText("再打磨一下，看看遗漏了什么。", { exact: true }));
     await page.getByRole("button", { name: new RegExp(`^${best} `) }).click();
     await visible(page.getByText("改写正确，这样说更准确。", { exact: true }));
+    await mobileGeometry(page, `${id} 改写反馈`);
+    if (id === "H03") {
+      await screenshotAt(page, page.locator('[aria-labelledby="rewrite-heading"]'), "post-H03-rewrite-390x844.png");
+      await screenshotAt(page, page.locator('[aria-labelledby="ask-heading"]'), "post-H03-ai-390x844.png");
+      await askStates(page);
+    }
     await page.getByRole("button", { name: "生成查证卡", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "查证卡预览" });
     await visible(dialog);
@@ -293,7 +322,8 @@ try {
       };
     });
     assert.deepEqual(overflow, { width: 1200, height: 675, clientHeight: 675, clipped: false }, `${id} 查证卡内容溢出`);
-    await page.screenshot({ path: path.join(output, `${id}-card-preview-1440.png`) });
+    await mobileGeometry(page, `${id} 查证卡弹窗`);
+    if (id === "H03") await page.screenshot({ path: path.join(screenshots, "check-card-390x844.png"), animations: "disabled" });
     const downloadReady = page.waitForEvent("download");
     await page.getByRole("button", { name: "下载 PNG", exact: true }).click();
     const download = await downloadReady;
@@ -329,42 +359,88 @@ try {
 
   const progressIds = await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem("ahsd:progress:v1"))));
   assert.deepEqual(progressIds.sort(), scenarios.map(({ id }) => id));
-  const stickyRails = [];
-  const internalRailScroll = [];
-  for (const viewport of [{ width: 1440, height: 900 }, { width: 1920, height: 1080 }, { width: 1024, height: 768 }]) {
-    await page.setViewportSize(viewport);
-    for (const route of ["/trending", "/discover", ...scenarios.map(({ id }) => `/post/${id}`)]) {
-      await page.goto(`${baseURL}${route}`);
-      // 等待需要验收的 UI；路由预取等后台请求不代表页面尚未可用。
-      if (route.startsWith("/post/")) await visible(page.locator(".verdict-stamp"));
-      else await visible(page.getByRole("heading", { level: 1 }));
-      await noOverflow(page);
-      assert.equal(await page.locator(".shell-right-rail").isVisible(), viewport.width >= 1440);
-      assert.ok(await page.locator("img").evaluateAll((images) => images.every((image) => image.complete && image.naturalWidth > 0)), "本地素材加载失败");
-      const untabbable = await page.locator('a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), summary').evaluateAll((nodes) => nodes.filter((node) => node.getClientRects().length && node.tabIndex < 0).length);
-      assert.equal(untabbable, 0, "存在不可 Tab 聚焦的可用控件");
-      if (viewport.width >= 1440 && ["/trending", "/discover", "/post/H03", "/post/H06"].includes(route)) {
-        if (route.startsWith("/post/")) {
-          const name = route === "/post/H03" ? "post-H03-revealed-scrolled" : "post-H06-revealed";
-          await revealScreenshot(page, `${name}-${viewport.width}x${viewport.height}.png`);
-        } else {
-          await page.screenshot({ path: path.join(screenshots, `${route.slice(1)}-${viewport.width}x${viewport.height}.png`) });
-        }
+  const geometry = [];
+  for (const viewport of [{ width: 390, height: 844 }, { width: 375, height: 667 }, { width: 430, height: 932 }]) {
+    const mobileContext = await browser.newContext({ viewport, acceptDownloads: true, isMobile: true, hasTouch: true });
+    const mobile = await mobileContext.newPage();
+    mobile.on("pageerror", (error) => errors.push(error.message));
+    for (const route of ["/trending", "/discover", ...scenarios.map(({ id }) => `/post/${id}`), "/post/DOES-NOT-EXIST", "/missing-page"]) {
+      const response = await mobile.goto(`${baseURL}${route}`);
+      await visible(mobile.getByRole("heading", { level: 1 }));
+      if (route.includes("DOES-NOT-EXIST") || route === "/missing-page") assert.equal(response.status(), 404);
+      geometry.push(await mobileGeometry(mobile, route));
+      await mobile.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
+      const untabbable = await mobile.locator('a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), summary').evaluateAll((nodes) => nodes.filter((node) => node.checkVisibility() && node.tabIndex < 0).length);
+      assert.equal(untabbable, 0, "存在不可 Tab 聚焦的控件");
+      if (route === "/trending") {
+        await mobile.getByText("辟谣局公告", { exact: true }).click();
+        await visible(mobile.getByText(/本站是古代社交媒体的架空演绎/));
+        await mobile.getByText("今天的吃瓜守则", { exact: true }).click();
+        await visible(mobile.getByText("标题可以有梗，结论要看证据。", { exact: false }));
+        await mobileGeometry(mobile, "页内公告/守则展开");
       }
+      if (route === "/discover") {
+        assert.equal(await mobile.locator('[aria-label="发现话题"]').evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(" ").length), 2);
+        if (viewport.width === 390) await screenshotAt(mobile, mobile.locator("main"), "discover-390x844.png");
+      }
+      const scenario = scenarios.find(({ id }) => route === `/post/${id}`);
+      if (scenario) {
+        await mobile.getByRole("button", { name: /展开更多评论/ }).click();
+        await mobileGeometry(mobile, `${route} 评论展开`);
+        await mobile.getByRole("radio", { name: scenario.answer ? "是真的" : "是假的", exact: true }).check();
+        if (scenario.id === "H03") await mobile.emulateMedia({ reducedMotion: "reduce" });
+        await mobile.getByRole("button", { name: "提交判断", exact: true }).click();
+        await visible(mobile.locator(".verdict-stamp"));
+        await focused(mobile.locator("#reveal-heading"));
+        if (scenario.id === "H03") {
+          await mobile.waitForFunction(() => {
+            const heading = document.querySelector("#reveal-heading").getBoundingClientRect();
+            const header = document.querySelector("header").getBoundingClientRect();
+            return heading.y >= header.bottom && heading.bottom < window.innerHeight - 65;
+          });
+          assert.equal(await mobile.locator(".verdict-stamp").evaluate((node) => getComputedStyle(node).animationDuration), "0s");
+        }
+        await mobile.getByText("展开详细解释", { exact: true }).click();
+        await mobile.getByText(`展开史料依据（${scenario.sourceCount} 条）`, { exact: true }).click();
+        geometry.push(await mobileGeometry(mobile, `${route} 揭晓/证据/AI/改写`));
+        await mobile.getByRole("button", { name: new RegExp(`^${scenario.best} `) }).click();
+        await mobileGeometry(mobile, `${route} 改写反馈`);
+        if (scenario.id === "H03") await askStates(mobile);
+        await mobile.getByRole("button", { name: "生成查证卡", exact: true }).click();
+        await visible(mobile.getByRole("dialog"));
+        geometry.push(await mobileGeometry(mobile, `${route} 查证卡预览`));
+        const preview = await mobile.getByTestId("check-card").boundingBox();
+        assert.ok(preview.width < viewport.width && Math.abs(preview.width / preview.height - 1200 / 675) < 0.01, "手机预览未等比缩放");
+        if (scenario.id === "H03") {
+          const ready = mobile.waitForEvent("download");
+          await mobile.getByRole("button", { name: "下载 PNG", exact: true }).click();
+          const download = await ready;
+          assert.equal(await download.failure(), null);
+          const pngPath = path.join(output, `H03-${viewport.width}x${viewport.height}-check-card.png`);
+          await download.saveAs(pngPath);
+          const png = await readFile(pngPath);
+          assert.equal(png.readUInt32BE(16), 1200);
+          assert.equal(png.readUInt32BE(20), 675);
+        }
+        await mobile.getByRole("button", { name: "关闭预览", exact: true }).click();
+        await focused(mobile.getByRole("button", { name: "生成查证卡", exact: true }));
+        await mobile.reload();
+        await visible(mobile.getByText("重温本条 · 已恢复上次答案，不重复计分。", { exact: true }));
+        await mobileGeometry(mobile, `${route} 刷新恢复`);
+        await bottomNavigationAtEnd(mobile);
+      }
+      if (route === "/post/DOES-NOT-EXIST" && viewport.width === 390) await mobile.screenshot({ path: path.join(screenshots, "not-found-390x844.png"), animations: "disabled" });
     }
-    await page.goto(`${baseURL}/post/H03`);
-    await visible(page.locator(".verdict-stamp"));
-    stickyRails.push(await stickyRailsAtBottom(page, viewport));
-    await page.goto(`${baseURL}/post/H03`);
-    await visible(page.locator(".verdict-stamp"));
-    internalRailScroll.push(await longRailsScrollInternally(page, viewport));
-    await page.getByRole("button", { name: "生成查证卡", exact: true }).click();
-    await visible(page.getByRole("dialog"));
-    await noOverflow(page);
-    if (viewport.width >= 1440) await page.screenshot({ path: path.join(screenshots, `check-card-dialog-${viewport.width}x${viewport.height}.png`) });
-    await page.keyboard.press("Escape");
-    await focused(page.getByRole("button", { name: "生成查证卡", exact: true }));
+    await mobileContext.close();
   }
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(`${baseURL}/trending`);
+  await mobileGeometry(page, "1440×900 桌面居中列");
+  const desktopShell = await page.locator(".app-shell").boundingBox();
+  assert.equal(desktopShell.width, 390);
+  assert.equal(desktopShell.x, (1440 - 390) / 2);
+  assert.equal(await page.locator('.shell-sticky-rail, .shell-right-rail, canvas, [class*="qr" i], [id*="qr" i]').count(), 0);
+  await page.screenshot({ path: path.join(screenshots, "trending-desktop-1440x900.png"), animations: "disabled" });
   await page.goto(`${baseURL}/discover`);
   assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), 8);
   const discoverLinks = await page.locator('[aria-label="发现话题"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
@@ -377,7 +453,7 @@ try {
     await page.waitForURL(`**/post/${id}`);
     await visible(page.getByText("重温本条 · 已恢复上次答案，不重复计分。", { exact: true }));
   }
-  const wrongContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const wrongContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const wrongPage = await wrongContext.newPage();
   wrongPage.on("pageerror", (error) => errors.push(error.message));
   await wrongPage.goto(`${baseURL}/post/H03`);
@@ -395,9 +471,9 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "H03", answer: "false" }) })).status, 400);
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
-  const summary = { passed: true, flow: "首页 → trending → H01–H08 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, wrongAnswerRevealed: true, viewports: ["1440×900", "1920×1080", "1024×768"], stickyRails, internalRailScroll, keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, flow: "首页 → trending → H01–H08 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, wrongAnswerRevealed: true, viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
-  console.log(JSON.stringify(summary, null, 2));
+  console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {
   if (serverLog) console.error(serverLog);
   throw error;

@@ -19,7 +19,9 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
     dialog.showModal();
     closeButtonRef.current?.focus();
     const preview = previewRef.current!;
-    const observer = new ResizeObserver(() => setScale(preview.clientWidth / 1200));
+    const resize = () => setScale(Math.min(1, preview.clientWidth / 1200));
+    resize();
+    const observer = new ResizeObserver(resize);
     observer.observe(preview);
     return () => {
       observer.disconnect();
@@ -94,6 +96,7 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
           </div>
         </div>
       </div>
+      <p className="mt-3 text-sm leading-7"><strong>准确说法：</strong>{result.reveal.correctedClaim}</p>
       <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
         <p className="text-xs text-muted">导出内容保留待人工审核提示。</p>
         <button type="button" disabled={exporting} onClick={download} className="primary-button">{exporting ? "正在生成 PNG…" : "下载 PNG"}</button>

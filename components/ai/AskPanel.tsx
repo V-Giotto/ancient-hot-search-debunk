@@ -75,9 +75,9 @@ export function AskPanel({ topicId, sources }: { topicId: string; sources: Sourc
       <p className="eyebrow">AI 追问 / 辟谣局值班史官</p>
       <h2 id="ask-heading" className="text-xl font-bold">这条热搜，还想问什么？</h2>
       <p className="mt-3 text-sm leading-7 text-muted">围绕本条资料继续追问。AI 生成，可能有误，以史料为准。</p>
-      <div className="mt-5 flex flex-wrap gap-2" aria-label="预设问题">
+      <div className="mt-5 grid gap-2" aria-label="预设问题">
         {PRESET_QUESTIONS.map((question) => (
-          <button key={question} type="button" className="secondary-button text-left disabled:opacity-50" disabled={busy} onClick={() => void send(question)}>{question}</button>
+          <button key={question} type="button" className="secondary-button w-full justify-start text-left disabled:opacity-50" disabled={busy} onClick={() => void send(question)}>{question}</button>
         ))}
       </div>
       <div role="log" aria-label="AI 问答记录" aria-live="polite" aria-busy={busy} className="mt-6 space-y-5">
@@ -106,7 +106,7 @@ export function AskPanel({ topicId, sources }: { topicId: string; sources: Sourc
       <form className="mt-5" onSubmit={(event) => { event.preventDefault(); void send(input); }}>
         <label htmlFor="ask-question" className="text-sm font-semibold">向值班史官提问</label>
         <textarea id="ask-question" value={input} onChange={(event) => setInput(event.target.value)} maxLength={QUESTION_MAX_LENGTH} disabled={busy} rows={3}
-          aria-describedby="ask-input-limit" className="mt-2 block w-full resize-y rounded-xl border border-ink/20 bg-white p-3 text-sm leading-7 disabled:opacity-60" placeholder="输入你对本条热搜的疑问" />
+          aria-describedby="ask-input-limit" className="mt-2 block w-full resize-y rounded-xl border border-ink/20 bg-white p-3 text-base leading-7 disabled:opacity-60" placeholder="输入你对本条热搜的疑问" />
         <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
           <p id="ask-input-limit" className="text-xs text-muted">{input.length}/{QUESTION_MAX_LENGTH} 字；仅围绕当前热搜</p>
           <button type="submit" className="primary-button" disabled={busy || !input.trim() || input.trim().length > QUESTION_MAX_LENGTH}>{busy ? "回答中…" : "发送问题"}</button>
