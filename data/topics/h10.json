@@ -34,9 +34,9 @@
       "role": "spectator",
       "text": "眼睛说会了，解释说你先别急，收藏夹说又是我来兜底。",
       "simulatedLikes": 520, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4731, "replies": [
-      {"id": "H10-C01-R1", "replyTo": "H10-C01", "author": "活版手作观察员", "avatar": "/avatars/reader.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
-      {"id": "H10-C01-R2", "replyTo": "H10-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
-      {"id": "H10-C01-R3", "replyTo": "H10-C01-R2", "author": "活版手作观察员", "avatar": "/avatars/reader.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+      {"id": "H10-C01-R1", "replyTo": "H10-C01", "author": "活版手作观察员", "avatar": "/avatars/reader.svg", "text": "收藏夹别慌，这次不考手工，先把记载读顺就算交作业。"},
+      {"id": "H10-C01-R2", "replyTo": "H10-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "那我先把教程收藏夹清一清，腾地方给资料。"},
+      {"id": "H10-C01-R3", "replyTo": "H10-C01-R2", "author": "活版手作观察员", "avatar": "/avatars/reader.svg", "text": "腾出来的位置别再塞教程了，留给原文吧。"}
     ] },
     {
       "id": "H10-C02",

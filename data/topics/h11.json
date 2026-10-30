@@ -34,9 +34,9 @@
       "role": "spectator",
       "text": "刚准备转给朋友，朋友已经转给我了，这群聊是开了循环播放吗。",
       "simulatedLikes": 520, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4834, "replies": [
-      {"id": "H11-C01-R1", "replyTo": "H11-C01", "author": "语录转发核对组", "avatar": "/avatars/reader.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
-      {"id": "H11-C01-R2", "replyTo": "H11-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
-      {"id": "H11-C01-R3", "replyTo": "H11-C01-R2", "author": "语录转发核对组", "avatar": "/avatars/reader.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+      {"id": "H11-C01-R1", "replyTo": "H11-C01", "author": "语录转发核对组", "avatar": "/avatars/reader.svg", "text": "转发键先松开，咱们核对组今天只干一件事：认清谁在说话。"},
+      {"id": "H11-C01-R2", "replyTo": "H11-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "收到，我先把那张语录卡从群相册里撤下来。"},
+      {"id": "H11-C01-R3", "replyTo": "H11-C01-R2", "author": "语录转发核对组", "avatar": "/avatars/reader.svg", "text": "撤得好，等上下文读完，再决定要不要发更正。"}
     ] },
     {
       "id": "H11-C02",

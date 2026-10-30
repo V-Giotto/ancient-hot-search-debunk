@@ -23,9 +23,9 @@
   "simulatedBookmarks": 2480,
   "comments": [
     { "id": "H05-C01", "author": "调色盘加班中", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我只是来选个头像底色，怎么突然参加了命名听证会？", "simulatedLikes": 421, "simulatedReplies": 6, "simulatedReposts": 5, "simulatedViews": 3523, "replies": [
-      {"id": "H05-C01-R1", "replyTo": "H05-C01", "author": "三彩本人在线维权", "avatar": "/avatars/pepper.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
-      {"id": "H05-C01-R2", "replyTo": "H05-C01-R1", "author": "调色盘加班中", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
-      {"id": "H05-C01-R3", "replyTo": "H05-C01-R2", "author": "三彩本人在线维权", "avatar": "/avatars/pepper.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+      {"id": "H05-C01-R1", "replyTo": "H05-C01", "author": "三彩本人在线维权", "avatar": "/avatars/pepper.svg", "text": "头像底色先别定，我这名字到底管不管颜色，咱们等证据开庭再说。"},
+      {"id": "H05-C01-R2", "replyTo": "H05-C01-R1", "author": "调色盘加班中", "avatar": "/avatars/spectator.svg", "text": "好，调色盘先合上，听证会我坐旁听席。"},
+      {"id": "H05-C01-R3", "replyTo": "H05-C01-R2", "author": "三彩本人在线维权", "avatar": "/avatars/pepper.svg", "text": "旁听席给你留着，散会前别偷偷把我改成三色限定款。"}
     ] },
     { "id": "H05-C02", "author": "器物说明先读完", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "先看器物说明里的用词，再决定怎么数颜色，别只盯着名字里的数字。", "simulatedLikes": 587, "simulatedReplies": 7, "simulatedReposts": 2, "simulatedViews": 4746 },
     { "id": "H05-C03", "author": "彩釉区气氛组", "avatar": "/avatars/hype.svg", "role": "troll", "text": "标题我都想好了：一个名字，让整个美术区集体开会！", "simulatedLikes": 196, "simulatedReplies": 8, "simulatedReposts": 7, "simulatedViews": 2070 },

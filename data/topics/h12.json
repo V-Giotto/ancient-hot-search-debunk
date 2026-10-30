@@ -34,9 +34,9 @@
       "role": "spectator",
       "text": "选项点得飞快，理由加载失败，这熟悉的学习状态。",
       "simulatedLikes": 520, "simulatedReplies": 13, "simulatedReposts": 4, "simulatedViews": 4937, "replies": [
-      {"id": "H12-C01-R1", "replyTo": "H12-C01", "author": "兵书对照读书会", "avatar": "/avatars/reader.svg", "text": "来了来了，评论我看到了！先一起围观，别急着替我下结论。"},
-      {"id": "H12-C01-R2", "replyTo": "H12-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "收到，前排的椅子搬好了，等大家一起看完再聊。"},
-      {"id": "H12-C01-R3", "replyTo": "H12-C01-R2", "author": "兵书对照读书会", "avatar": "/avatars/reader.svg", "text": "这楼先留着，等你看完回来接着聊。"}
+      {"id": "H12-C01-R1", "replyTo": "H12-C01", "author": "兵书对照读书会", "avatar": "/avatars/reader.svg", "text": "投票可以凭直觉，解释就得凭书了，读书会今晚加时。"},
+      {"id": "H12-C01-R2", "replyTo": "H12-C01-R1", "author": "前排等资料", "avatar": "/avatars/spectator.svg", "text": "那我先把选项理由空着，等读完再补。"},
+      {"id": "H12-C01-R3", "replyTo": "H12-C01-R2", "author": "兵书对照读书会", "avatar": "/avatars/reader.svg", "text": "空着比乱填强，书签夹好，下次活动带来对照。"}
     ] },
     {
       "id": "H12-C02",
