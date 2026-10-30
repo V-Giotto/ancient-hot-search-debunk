@@ -1,6 +1,5 @@
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { MobileBriefing } from "@/components/shell/RightRail";
 import { AppShell } from "@/components/shell/AppShell";
 import TrendingPage from "@/app/trending/page";
 import DiscoverPage from "@/app/discover/page";
@@ -40,14 +39,13 @@ describe("AppShell 内容模式提示", () => {
 });
 
 describe("移动端共用壳层", () => {
-  it("左右侧栏是手机列的同级元素，移动公告位于列表之前", () => {
-    const { container } = render(TrendingPage());
-    const frame = container.querySelector(".app-layout")!;
-    expect([...frame.children].map((node) => node.className)).toEqual(["desktop-rail left-rail", "app-shell", "desktop-rail right-rail"]);
-    const main = screen.getByRole("main");
-    const briefing = within(main).getByRole("complementary", { name: "页内公告与守则" });
-    expect(briefing.compareDocumentPosition(within(main).getByRole("list", { name: "热搜排行" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(main.lastElementChild).not.toBe(briefing);
+  it.each([TrendingPage, DiscoverPage, MePage, NotFound])("%s 只渲染手机列，移除侧栏和页内公告", (Page) => {
+    const { container } = render(Page());
+    expect([...container.children].map((node) => node.className)).toEqual(["app-shell"]);
+    expect(container.querySelector(".desktop-rail, .left-rail, .right-rail, .mobile-briefing, .rail-stickers")).toBeNull();
+    expect(screen.queryByRole("complementary", { hidden: true })).toBeNull();
+    expect(container.textContent).not.toMatch(/辟谣局公告|今天的吃瓜守则/);
+    expect(screen.getAllByRole("main")).toHaveLength(1);
   });
 
   it.each([
@@ -72,26 +70,16 @@ describe("移动端共用壳层", () => {
     expect(screen.getByRole("heading", { level: 1 }).closest(".trending-hero")).toBeTruthy();
   });
 
-  it.each(["/trending", "/discover", "/me", "/friends", "/friends/libai", "/post/H03", "/missing"])("%s 保留四 Tab 与主内容内可展开的公告、守则", (pathname) => {
+  it.each(["/trending", "/discover", "/me", "/friends", "/friends/libai", "/post/H03", "/missing"])("%s 保留四 Tab 与主内容", (pathname) => {
     route.pathname = pathname;
-    render(<AppShell><MobileBriefing /><h1>页面内容</h1></AppShell>);
+    render(<AppShell><h1>页面内容</h1></AppShell>);
     const navigation = screen.getByRole("navigation", { name: "主导航" });
     const links = within(navigation).getAllByRole("link");
     expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["好友", "/friends"], ["▧我的", "/me"]]);
     expect(within(navigation).queryByRole("link", { name: "贴纸" })).toBeNull();
     expect(document.querySelectorAll('a[href="/stickers"]')).toHaveLength(0);
     for (const link of links) expect(link.getAttribute("aria-current")).toBe(pathname === link.getAttribute("href") || pathname.startsWith(`${link.getAttribute("href")}/`) ? "page" : null);
-    const main = screen.getByRole("main");
-    const information = within(main).getByRole("complementary", { name: "页内公告与守则" });
-    for (const title of ["辟谣局公告", "今天的吃瓜守则"]) {
-      const summary = within(information).getByText(title);
-      const details = summary.closest("details")!;
-      expect(details.open).toBe(false);
-      fireEvent.click(summary);
-      expect(details.open).toBe(true);
-    }
-    expect(within(information).getByText(/提交后可查看结论与来源/)).toBeTruthy();
-    expect(within(information).getByText(/查阅来源，留意时间与范围/)).toBeTruthy();
+    expect(within(screen.getByRole("main")).getByRole("heading", { name: "页面内容" })).toBeTruthy();
     expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料|不是历史人物原话|现代类比/);
     expect(screen.queryByText(/二维码|扫码|QR/)).toBeNull();
   });

@@ -325,35 +325,63 @@ async function noHashtagTitles(page) {
   for (const value of await page.locator('meta[property="og:title"], meta[name="twitter:title"]').evaluateAll((nodes) => nodes.map((node) => node.content))) assert.doesNotMatch(value, /#/);
 }
 
-async function mobileBriefingChecks(page) {
-  const briefing = page.getByRole("complementary", { name: "页内公告与守则", exact: true, includeHidden: true });
-  const followingContent = page.locator('.trending-list, #discover-results, .task-panel').first();
-  if (await followingContent.count()) assert.equal(await briefing.count(), 1, `热榜、发现和帖子必须保留页内公告：${page.url()}`);
-  if (!await briefing.count()) return null;
-  if (page.viewportSize().width >= 1024) { assert.equal(await briefing.isVisible(), false); return null; }
-  await visible(briefing);
-  assert.deepEqual(await briefing.locator("summary").allTextContents(), ["辟谣局公告", "今天的吃瓜守则"]);
-  assert.equal(await page.locator(".desktop-rail:visible").count(), 0);
-  const position = await briefing.evaluate((node) => ({ top: node.getBoundingClientRect().top + window.scrollY, bottom: node.getBoundingClientRect().bottom + window.scrollY, pageBottom: document.documentElement.scrollHeight }));
-  assert.ok(await briefing.evaluate((node) => Boolean(node.compareDocumentPosition(document.querySelector('.trending-list, #discover-results, .task-panel')) & Node.DOCUMENT_POSITION_FOLLOWING)), `移动端公告必须位于榜单、发现列表或判题区之前：${page.url()}`);
-  assert.ok(position.bottom < position.pageBottom - 100, "移动端公告不能放在页面最底部");
-  return position;
+async function noAuxiliaryContent(page) {
+  assert.equal(await page.locator(".desktop-rail, .left-rail, .right-rail, .mobile-briefing, .rail-stickers").count(), 0, `侧栏与页内公告必须从 DOM 移除：${page.url()}`);
+  assert.doesNotMatch(await page.locator("body").textContent(), /辟谣局公告|今天的吃瓜守则/, `页面残留公告或守则文案：${page.url()}`);
 }
 
-async function desktopRailChecks(page) {
-  const shell = await page.locator(".app-shell").boundingBox();
-  const left = page.getByRole("complementary", { name: "辟谣局公告侧栏", exact: true });
-  const right = page.getByRole("complementary", { name: "今天的吃瓜守则侧栏", exact: true });
-  await visible(left);
-  await visible(right);
-  const boxes = { left: await left.boundingBox(), right: await right.boundingBox() };
-  assert.ok(boxes.left.x + boxes.left.width < shell.x && boxes.right.x > shell.x + shell.width, "左右侧栏必须分别位于居中手机列两侧");
-  for (const box of Object.values(boxes)) assert.ok(box.y >= 0 && box.y + box.height < page.viewportSize().height, "侧栏必须在宽屏首屏完整可见");
-  assert.equal(await left.getByRole("heading", { name: "辟谣局公告", exact: true }).count(), 1);
-  assert.equal(await right.getByRole("heading", { name: "今天的吃瓜守则", exact: true }).count(), 1);
-  assert.equal(await page.locator(".mobile-briefing:visible").count(), 0);
+async function centeredColumnChecks(page) {
+  await visible(page.locator(".app-shell"));
+  await noAuxiliaryContent(page);
   await noOverflow(page);
-  return boxes;
+  assert.equal(await page.locator(".app-shell").count(), 1);
+  const layout = await page.evaluate(() => {
+    const shell = document.querySelector(".app-shell");
+    const box = shell.getBoundingClientRect();
+    const background = getComputedStyle(document.body);
+    const outside = [...document.body.querySelectorAll("*")].filter((node) => {
+      if (shell.contains(node) || node.contains(shell) || !node.checkVisibility()) return false;
+      const rect = node.getBoundingClientRect();
+      return rect.width > 1 && rect.height > 1;
+    }).map((node) => ({ tag: node.tagName, className: node.className }));
+    return { shell: { x: box.x, width: box.width }, outside, background: { color: background.backgroundColor, image: background.backgroundImage } };
+  });
+  const viewport = page.viewportSize();
+  assert.equal(layout.shell.width, 390, "桌面仅保留 390px 手机列");
+  assert.equal(layout.shell.x, (viewport.width - 390) / 2, "手机列应水平居中");
+  assert.deepEqual(layout.outside, [], "手机列之外不应有其它可见内容");
+  assert.equal(layout.background.image, "none", "背景应为纯色");
+  const channels = layout.background.color.match(/^rgb\((\d+), (\d+), (\d+)\)$/);
+  assert.ok(channels && channels.slice(1).every((channel) => Number(channel) >= 230), "背景应保持中性浅色");
+  return { viewport, ...layout, horizontalOverflow: false, noAuxiliaryContent: true };
+}
+
+async function homeScreenshots(browser, errors) {
+  const captures = [];
+  let desktop;
+  for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+    const context = await browser.newContext({ viewport, isMobile: viewport.width === 390, hasTouch: viewport.width === 390 });
+    try {
+      const page = await context.newPage();
+      page.on("pageerror", (error) => errors.push(error.message));
+      await page.goto(`${baseURL}/`);
+      await page.waitForURL("**/trending");
+      if (viewport.width === 390) {
+        await mobileGeometry(page, "390×844 全新会话首页");
+        await versionScreenshot(page, "home", packageVersion);
+        captures.push(path.join(reviewDir, `v${packageVersion}-home-390x844.png`));
+      } else {
+        desktop = await centeredColumnChecks(page);
+        assert.equal(await page.locator('canvas, [class*="qr" i], [id*="qr" i]').count(), 0);
+        await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
+        const filename = `v${packageVersion}-desktop-1440x900.png`;
+        await page.screenshot({ path: path.join(screenshots, filename), animations: "disabled" });
+        if (reviewDir) await copyFile(path.join(screenshots, filename), path.join(reviewDir, filename));
+        captures.push(path.join(reviewDir, filename));
+      }
+    } finally { await context.close(); }
+  }
+  return { desktop, screenshots: captures };
 }
 
 async function focused(locator) {
@@ -638,7 +666,7 @@ async function mobileGeometry(page, state) {
   await navigationChecks(page);
   await noDisclaimerLabels(page);
   await noHashtagTitles(page);
-  const briefing = await mobileBriefingChecks(page);
+  await noAuxiliaryContent(page);
   const small = await page.evaluate(() => {
     const root = document.querySelector("dialog[open]") || document;
     return [...root.querySelectorAll('a[href], button, input, textarea, summary')].flatMap((node) => {
@@ -656,7 +684,7 @@ async function mobileGeometry(page, state) {
     const tabs = await page.getByRole("navigation", { name: "主导航", exact: true }).boundingBox();
     assert.ok(Math.abs(tabs.y + tabs.height - viewport.height) < 1 && Math.abs(tabs.width - shell.width) < 1, "底部导航未固定在手机列底部");
   }
-  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px", briefing, noHashtagTitles: true };
+  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px", noAuxiliaryContent: true, noHashtagTitles: true };
 }
 
 async function coverGeometry(page, route) {
@@ -1558,11 +1586,6 @@ try {
       if (route === "/trending") {
         pageGeometry.trending = await trendingChecks(mobile);
         pageGeometry.trending.density = await trendingDensityChecks(mobile);
-        await mobile.locator(".mobile-briefing").getByText("辟谣局公告", { exact: true }).click();
-        await visible(mobile.locator(".mobile-briefing").getByText(/提交后可查看结论与来源/));
-        await mobile.locator(".mobile-briefing").getByText("今天的吃瓜守则", { exact: true }).click();
-        await visible(mobile.locator(".mobile-briefing").getByText("标题可以有梗，结论要看证据。", { exact: false }));
-        await mobileGeometry(mobile, "页内公告/守则展开");
       }
       if (route === "/discover") {
         await discoverEmptyChecks(mobile, geometry);
@@ -1662,22 +1685,21 @@ try {
     }
     await mobileContext.close();
   }
+  const desktopChecks = [];
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`${baseURL}/trending`);
-  await mobileGeometry(page, "1440×900 桌面居中列");
-  const desktopShell = await page.locator(".app-shell").boundingBox();
-  assert.equal(desktopShell.width, 390);
-  assert.equal(desktopShell.x, (1440 - 390) / 2);
-  const desktopRails = await desktopRailChecks(page);
-  assert.equal(await page.locator('canvas, [class*="qr" i], [id*="qr" i]').count(), 0);
-  await page.screenshot({ path: path.join(screenshots, "trending-desktop-1440x900.png"), animations: "disabled" });
-  const desktopScreenshot = `v${packageVersion}-desktop-1440x900.png`;
-  await page.screenshot({ path: path.join(screenshots, desktopScreenshot), animations: "disabled" });
-  await copyFile(path.join(screenshots, desktopScreenshot), path.join(reviewDir, desktopScreenshot));
+  for (const route of ["/", "/discover", "/me", "/me?tab=favorites", "/friends", "/friends/libai", "/friends/dufu", ...scenarios.map(({ id }) => `/post/${id}`), "/post/DOES-NOT-EXIST", "/missing-page"]) {
+    await page.goto(`${baseURL}${route}`);
+    await visible(page.getByRole("heading", { level: 1 }));
+    if (route === "/") await mobileGeometry(page, "1440×900 桌面居中列");
+    desktopChecks.push({ route, ...(await centeredColumnChecks(page)) });
+  }
+  const desktopShell = desktopChecks[0].shell;
   for (const width of [1023, 1024]) {
     await page.setViewportSize({ width, height: 900 });
-    if (width < 1024) await mobileBriefingChecks(page); else await desktopRailChecks(page);
+    await page.goto(`${baseURL}/`);
+    desktopChecks.push({ route: "/", ...(await centeredColumnChecks(page)) });
   }
+  const homeLayout = await homeScreenshots(browser, errors);
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(`${baseURL}/discover`);
   assert.equal(await page.locator('[aria-label="发现话题"] > li').count(), discoverTopics.length);
@@ -1716,7 +1738,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道；无 emoji 或楼层评论；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/emoji/楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道；无 emoji 或楼层评论；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/emoji/楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   const eraDetails = geometry.filter((record) => record.eraChip);
   assert.equal(eraDetails.length, allTopics.length * 3, "十二题的年代 chip 须在三种手机视口全部通过");
   summary.era = { detailChecks: eraDetails.length, h12FirstScreenChecks: eraDetails.filter((record) => record.eraChip.firstScreen).length, screenshot: path.join(reviewDir, `v${packageVersion}-era-390x844.png`) };

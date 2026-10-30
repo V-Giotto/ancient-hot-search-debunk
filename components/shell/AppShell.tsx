@@ -1,16 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { NavRail } from "./NavRail";
-import { LeftRail, RightRail } from "./RightRail";
 import { version } from "@/package.json";
 
 export function AppShell({ children, title, backHref = "/trending", backLabel = "返回热搜榜" }: { children: ReactNode; title?: string; backHref?: string; backLabel?: string }) {
   const preview = process.env.CONTENT_MODE === "preview";
 
   return (
-    <div className="app-layout">
-      <LeftRail />
-      <div className="app-shell">
+    <div className="app-shell">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-card focus:p-3">
         跳到主要内容
       </a>
@@ -32,8 +29,6 @@ export function AppShell({ children, title, backHref = "/trending", backLabel = 
         </footer>}
       </div>
       <NavRail />
-      </div>
-      <RightRail />
     </div>
   );
 }

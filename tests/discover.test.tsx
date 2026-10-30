@@ -10,8 +10,6 @@ describe("发现页", () => {
   it("实际发现页仅有发现题目，无匹配时仍能前往热榜第一条", () => {
     render(DiscoverPage());
     const firstTrending = getAllTopics().find((topic) => topic.module === "trending")!;
-    const briefing = screen.getByRole("complementary", { name: "页内公告与守则" });
-    expect(briefing.compareDocumentPosition(screen.getByRole("list", { name: "发现话题" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     fireEvent.change(screen.getByRole("searchbox", { name: "筛选话题" }), { target: { value: "无匹配的关键词" } });
     expect(screen.getByRole("link", { name: "从热榜第 1 条开始" }).getAttribute("href")).toBe(`/post/${firstTrending.id}`);
   });

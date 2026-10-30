@@ -9,7 +9,6 @@ import { SocialIcon } from "@/components/social/SocialIcon";
 import { useSocialState } from "@/components/social/useSocialState";
 import { interactionCount } from "@/lib/social-storage";
 import { compactCount } from "@/lib/social-display";
-import { MobileBriefing } from "@/components/shell/RightRail";
 
 export type DiscoverTopic = Pick<PublicTopic, "id" | "rank" | "title" | "category" | "tags" | "author" | "coverUrl" | "coverAlt" | "simulatedLikes">;
 
@@ -27,7 +26,6 @@ export function DiscoverFeed({ topics, firstTrendingTopicId = topics.find((topic
       <input id="discover-query" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索标题、分类或作者" aria-controls="discover-results" />
       {query && <button type="button" className="secondary-button" onClick={() => setQuery("")}>清除筛选</button>}
     </form>
-    <MobileBriefing />
     <p role="status" aria-live="polite" aria-atomic="true" className="mb-3 text-xs text-muted">{filtered.length} 条话题</p>
     <div id="discover-results">
       {filtered.length === 0 ? <section aria-labelledby="discover-empty-heading" className="rounded-2xl border border-dashed border-gold/50 bg-card p-5 text-center">

@@ -7,7 +7,6 @@ import { EmptyState } from "@/components/shell/EmptyState";
 import type { PublicTopic } from "@/lib/public-topic";
 import { trendingTag, trendingTagClass } from "@/lib/trending-tag";
 import { StatusIcon, type StatusIconName } from "@/components/social/StatusIcon";
-import { MobileBriefing } from "@/components/shell/RightRail";
 import { useSocialState } from "@/components/social/useSocialState";
 import { SocialIcon } from "@/components/social/SocialIcon";
 import { newsTimestamp } from "@/lib/news-display";
@@ -78,7 +77,6 @@ export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.i
       <div className="trending-progress">
         <CollectionProgress topicIds={topicIds} compact />
       </div>
-      <MobileBriefing />
 
       <section role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-tab-${selectedIndex}`}>
         <div className="trending-list-heading">

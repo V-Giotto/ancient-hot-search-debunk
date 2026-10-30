@@ -79,8 +79,8 @@ describe("按 format 选择帖子模板", () => {
     }
     expect(screen.getByRole("heading", { name: "这条主张，你信吗？" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
-    const briefing = screen.getByRole("complementary", { name: "页内公告与守则" });
-    expect(briefing.compareDocumentPosition(container.querySelector(".task-panel")!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector(".mobile-briefing")).toBeNull();
+    expect(container.textContent).not.toMatch(/辟谣局公告|今天的吃瓜守则/);
     expect(screen.getByRole("link", { name: /← 返回.*继续/ }).getAttribute("href")).toBe(`/${topic.module}`);
     expect(container.textContent).not.toContain(topic.reveal.correctedClaim);
     expect(container.textContent).not.toMatch(/架空|模拟|艺术创作|非史料/);
