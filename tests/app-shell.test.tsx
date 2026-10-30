@@ -55,6 +55,6 @@ describe("移动端共用壳层", () => {
     render(<AppShell>{Page()}</AppShell>);
     expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
     expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(12);
-    expect(screen.getByText(/热度 1,286,400|点赞 35,600/)).toBeTruthy();
+    expect(screen.getByText(/128.6 万热度|点赞 35,600/)).toBeTruthy();
   });
 });

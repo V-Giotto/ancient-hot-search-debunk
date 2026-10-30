@@ -26,6 +26,7 @@ const scenarios = [
   { id: "H12", answer: false, best: "C", wrong: "A", sourceCount: 2, format: "poll" },
 ];
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
+const trendingTopics = await Promise.all(scenarios.map(({ id }) => readFile(`data/topics/${id.toLowerCase()}.json`, "utf8").then(JSON.parse)));
 await mkdir(output, { recursive: true });
 await mkdir(screenshots, { recursive: true });
 let server;
@@ -79,25 +80,105 @@ async function mobileGeometry(page, state) {
 
 async function coverGeometry(page, route) {
   const list = route === "/trending" ? '[aria-label="热搜排行"]' : '[aria-label="发现话题"]';
-  const covers = await page.locator(`${list} > li > a > img`).evaluateAll((images) => images.map((image) => {
+  const coverSelector = route === "/trending" ? `${list} .trending-thumbnail` : `${list} > li > a > img`;
+  const covers = await page.locator(coverSelector).evaluateAll((images) => images.map((image) => {
     const { width, height, left, right } = image.getBoundingClientRect();
     const link = image.closest("a").getBoundingClientRect();
-    const heading = image.closest("a").querySelector("h2");
+    const heading = image.closest("a").querySelector("h2, h3");
     return {
       width, height, objectFit: getComputedStyle(image).objectFit,
       loaded: image.complete && image.naturalWidth > 0,
       contained: left >= link.left && right <= link.right,
       titleClipped: heading.scrollWidth > heading.clientWidth || heading.scrollHeight > heading.clientHeight,
+      titleHorizontalOverflow: heading.scrollWidth > heading.clientWidth,
+      titleHeight: heading.getBoundingClientRect().height,
+      titleLineHeight: parseFloat(getComputedStyle(heading).lineHeight),
+      titleLineClamp: getComputedStyle(heading).webkitLineClamp,
     };
   }));
   assert.equal(covers.length, scenarios.length, `${route} 封面数量不正确`);
   for (const cover of covers) {
-    assert.ok(cover.loaded && cover.contained && !cover.titleClipped, `${route} 封面未加载、越界或标题被裁切`);
+    assert.ok(cover.loaded && cover.contained && !cover.titleHorizontalOverflow, `${route} 封面未加载、越界或标题横向溢出`);
     assert.ok(Math.abs(cover.width / cover.height - 16 / 9) < 0.01, `${route} 封面未保持 16:9`);
     assert.equal(cover.objectFit, "contain", `${route} 封面应完整展示，避免裁切内嵌标题`);
-    if (route === "/trending") assert.ok(cover.width >= 112 && cover.width <= 128, "热搜榜缩略图宽度应为 112–128px");
+    if (route === "/trending") {
+      assert.ok(cover.width >= 88 && cover.width <= 112, "热搜榜缩略图宽度应为 88–112px");
+      assert.equal(cover.titleLineClamp, "2", "热榜标题必须最多两行");
+      assert.ok(cover.titleHeight <= cover.titleLineHeight * 2 + 1, "热榜标题超过两行");
+    } else assert.ok(!cover.titleClipped, "发现页标题被裁切");
   }
   return covers;
+}
+
+async function trendingChecks(page, keyboard = false) {
+  const tabs = page.getByRole("tablist", { name: "热榜分类", exact: true });
+  const list = page.getByRole("list", { name: "热搜排行", exact: true });
+  const categories = [...new Set(trendingTopics.map((topic) => topic.category))];
+  assert.deepEqual(await tabs.getByRole("tab").allTextContents(), ["全部", ...categories]);
+  assert.ok(await tabs.evaluate((node) => node.scrollWidth > node.clientWidth && getComputedStyle(node).overflowX === "auto"), "分类应在栏内横向滚动");
+
+  const ranks = await list.getByTestId("trending-rank").evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).color));
+  assert.deepEqual(ranks, trendingTopics.map(({ rank }) => rank === 1 ? "rgb(232, 78, 72)" : rank === 2 ? "rgb(215, 123, 54)" : rank === 3 ? "rgb(194, 154, 70)" : "rgb(153, 150, 157)"), "排名应为红、橙、金黄，其余灰色");
+  const quarter = Math.ceil(trendingTopics.length / 4);
+  const tagFor = (rank) => rank <= quarter ? "爆" : rank > trendingTopics.length - quarter ? "新" : "热";
+  const tagColors = { 爆: "rgb(232, 78, 72)", 热: "rgb(245, 158, 11)", 新: "rgb(47, 128, 237)" };
+  const capsules = await list.getByTestId("trending-tag").evaluateAll((nodes) => nodes.map((node) => ({
+    text: node.textContent, background: getComputedStyle(node).backgroundColor,
+    radius: parseFloat(getComputedStyle(node).borderRadius), color: getComputedStyle(node).color,
+  })));
+  assert.deepEqual(capsules.map(({ text }) => text), trendingTopics.map(({ rank }) => tagFor(rank)));
+  for (const capsule of capsules) {
+    assert.equal(capsule.background, tagColors[capsule.text]);
+    assert.equal(capsule.color, "rgb(255, 255, 255)");
+    assert.ok(capsule.radius >= 4, "热度标签应有胶囊圆角");
+  }
+  const progressBefore = await page.getByRole("status").textContent();
+  for (const category of categories) {
+    const tab = tabs.getByRole("tab", { name: category, exact: true });
+    await tab.click();
+    assert.equal(await tab.getAttribute("aria-selected"), "true");
+    assert.equal(await tabs.getByRole("tab", { selected: true }).count(), 1);
+    assert.ok(await tab.evaluate((node) => parseFloat(getComputedStyle(node, "::after").height) >= 3 && getComputedStyle(node, "::after").backgroundColor !== "rgba(0, 0, 0, 0)"), "选中分类缺少下划线");
+    const panel = page.getByRole("tabpanel", { name: category, exact: true });
+    assert.equal(await tab.getAttribute("aria-controls"), await panel.getAttribute("id"));
+    const expected = trendingTopics.filter((topic) => topic.category === category);
+    assert.deepEqual(await list.getByRole("link").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href"))), expected.map(({ id }) => `/post/${id}`));
+    assert.deepEqual(await list.getByTestId("trending-rank").allTextContents(), expected.map(({ rank }) => String(rank)), "筛选必须保留全榜名次");
+    assert.deepEqual(await list.getByTestId("trending-tag").allTextContents(), expected.map(({ rank }) => tagFor(rank)), "筛选必须保留全榜标签");
+    assert.equal(await page.getByRole("status").textContent(), progressBefore, "分类筛选不应改变本机进度");
+    assert.equal(await page.getByRole("progressbar", { name: "已查证题目", exact: true }).getAttribute("max"), String(trendingTopics.length));
+    await noOverflow(page);
+  }
+  const all = tabs.getByRole("tab", { name: "全部", exact: true });
+  await all.click();
+  assert.equal(await list.getByRole("listitem").count(), scenarios.length);
+  if (keyboard) {
+    await all.focus();
+    for (const [key, name] of [["ArrowRight", categories[0]], ["ArrowLeft", "全部"], ["ArrowLeft", categories.at(-1)], ["ArrowRight", "全部"], ["End", categories.at(-1)], ["Home", "全部"]]) {
+      await page.keyboard.press(key);
+      const selected = tabs.getByRole("tab", { name, exact: true });
+      await focused(selected);
+      await focusVisible(selected);
+      assert.equal(await selected.getAttribute("aria-selected"), "true");
+      assert.equal(await tabs.locator('[tabindex="0"]').count(), 1);
+      const box = await selected.boundingBox();
+      const tabBox = await tabs.boundingBox();
+      assert.ok(box.x >= tabBox.x - 1 && box.x + box.width <= tabBox.x + tabBox.width + 1, "键盘选中项未滚动到分类栏可见范围");
+    }
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Space");
+    assert.equal(await all.getAttribute("aria-selected"), "true");
+    await page.keyboard.press("Tab");
+    await focused(page.getByRole("link", { name: "贴纸墙 →", exact: true }));
+    await page.keyboard.press("Shift+Tab");
+    await focused(all);
+  }
+  await page.evaluate(() => {
+    document.activeElement?.blur();
+    document.querySelector('[role="tablist"]').scrollLeft = 0;
+    window.scrollTo(0, 0);
+  });
+  return { categories, filters: "逐类匹配、全部恢复、保留原排名/标签与全题库进度", ranks, capsules, keyboard };
 }
 
 async function collectionCount(page, count) {
@@ -296,13 +377,16 @@ try {
 
   await page.goto(`${baseURL}/`);
   await page.waitForURL("**/trending");
-  await visible(page.getByRole("heading", { name: "古代互联网实时吃瓜榜" }));
+  await visible(page.getByRole("heading", { name: "古代热搜辟谣局", level: 1, exact: true }));
   await collectionCount(page, 0);
   const trendingLinks = await page.locator('[aria-label="热搜排行"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   assert.deepEqual(trendingLinks, scenarios.map(({ id }) => `/post/${id}`));
   await noOverflow(page);
   await mobileGeometry(page, "热搜榜");
+  const trending = await trendingChecks(page, true);
+  await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
   await page.screenshot({ path: path.join(screenshots, "trending-390x844.png"), animations: "disabled" });
+  await page.screenshot({ path: path.join(screenshots, "v0.7.0-trending-390x844.png"), animations: "disabled" });
   await page.keyboard.press("Tab");
   await focusVisible(page.locator(":focus"));
 
@@ -511,9 +595,11 @@ try {
       await mobile.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
       if (route === "/trending" || route === "/discover") pageGeometry.covers = await coverGeometry(mobile, route);
       geometry.push(pageGeometry);
-      const untabbable = await mobile.locator('a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), summary').evaluateAll((nodes) => nodes.filter((node) => node.checkVisibility() && node.tabIndex < 0).length);
+      // ARIA Tab 使用 roving tabindex：未选分类由方向键访问，只有选中项进入 Tab 顺序。
+      const untabbable = await mobile.locator('a[href], button:not(:disabled):not([role="tab"]), input:not(:disabled), textarea:not(:disabled), summary').evaluateAll((nodes) => nodes.filter((node) => node.checkVisibility() && node.tabIndex < 0).length);
       assert.equal(untabbable, 0, "存在不可 Tab 聚焦的控件");
       if (route === "/trending") {
+        pageGeometry.trending = await trendingChecks(mobile);
         await mobile.getByText("辟谣局公告", { exact: true }).click();
         await visible(mobile.getByText(/提交后可查看结论与来源/));
         await mobile.getByText("今天的吃瓜守则", { exact: true }).click();
@@ -625,7 +711,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "H03", answer: "false" }) })).status, 400);
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
-  const summary = { passed: true, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、提交后 1/N、贴纸解锁回帖、刷新恢复、重温去重、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、提交后 1/N、贴纸解锁回帖、刷新恢复、重温去重、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {
