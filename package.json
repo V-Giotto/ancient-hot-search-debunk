@@ -1,12 +1,13 @@
 {
   "name": "ancient-hot-search-debunk",
-  "version": "0.1.0",
+  "version": "0.11.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/check-port.mjs --start",
+    "check:port": "node scripts/check-port.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "node scripts/e2e.mjs"

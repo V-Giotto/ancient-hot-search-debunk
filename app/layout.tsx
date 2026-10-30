@@ -9,6 +9,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
 
+// CONTENT_MODE 在生产服务启动后读取，使页脚与 API 使用同一个运行模式。
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="zh-CN">

@@ -56,8 +56,8 @@ describe("AskPanel", () => {
     expect(JSON.parse(String(fetchMock.mock.calls[0][1]!.body))).toEqual({ topicId: "H03", question: "胡椒是什么？", history: [] });
   });
   it.each([
-    [409, "本条资料尚在审核，暂不开放 AI 科普"],
-    [503, "实时 AI 尚未配置；你仍可查看史实与来源"],
+    [409, "本条内容审核中，暂不开放追问"],
+    [503, "AI 未配置"],
     [504, "AI 回答超时，请重试；你的问题仍然保留。"],
     [502, "AI 服务暂时不可用，请稍后重试。"],
     [429, "提问太快了，请稍后再试。"],
@@ -67,12 +67,24 @@ describe("AskPanel", () => {
     typeAndSend("问题仍在");
     expect((await screen.findByRole("alert")).textContent).toBe(message);
     expect(screen.getByRole("textbox")).toHaveProperty("value", "问题仍在");
+    expect(screen.getByRole("link", { name: "返回揭晓" }).getAttribute("href")).toBe("#reveal-heading");
     expect(fetchMock).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByRole("button", { name: "重试提问" }));
     await screen.findByText("这是一条来自 mock Provider 的测试输出。");
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(fetchMock.mock.calls[0][1]!.body).toBe(fetchMock.mock.calls[1][1]!.body);
     expect(screen.queryByRole("alert")).toBeNull();
+  });
+  it.each([409, 503])("HTTP %i 可返回揭晓并聚焦，问题和错误提示仍保留", async (status) => {
+    fetchMock.mockResolvedValueOnce(Response.json({}, { status }));
+    render(<><h2 id="reveal-heading" tabIndex={-1}>测试揭晓</h2><AskPanel topicId="H03" sources={sources} /></>);
+    typeAndSend("返回后仍可重试");
+    await screen.findByRole("alert");
+    fireEvent.click(screen.getByRole("link", { name: "返回揭晓" }));
+    expect(document.activeElement).toBe(screen.getByRole("heading", { name: "测试揭晓" }));
+    expect(screen.getByRole("textbox")).toHaveProperty("value", "返回后仍可重试");
+    expect(screen.getByRole("button", { name: "重试提问" })).toHaveProperty("disabled", false);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
   it("网络失败和非法响应可重试，输入不会丢失", async () => {
     fetchMock.mockRejectedValueOnce(new Error("offline"));

@@ -8,7 +8,7 @@
     "东京快讯",
     "防火"
   ],
-  "title": "#东京突发播报：望火楼下竟有军兵与救火器具？#",
+  "title": "#东京望火楼冲上热搜：楼下也有救火配置？#",
   "coverUrl": "/covers/h09.svg",
   "coverAlt": "望火楼主题的观察窗、警讯线与问号图形",
   "author": {
@@ -18,7 +18,7 @@
     "avatarUrl": "/avatars/reader.svg",
     "fictitious": true
   },
-  "body": "街巷快讯插播：一条关于望火楼的消息正在转发，配图里高处的观察窗成了评论区焦点。有人盯着楼上，有人追问楼下，播报员的提词卡已经快被问号挤满。先别急着把熟悉的现代名称贴上去，也别只凭一个楼名脑补整套安排。把消息拆成瞭望、人员和器具，带着问题去查证，再决定这条快讯该怎么转。",
+  "body": "东京快讯插播：望火楼的话题刚刷出来，评论区已经忙着给楼上楼下分配工作。有人只看楼名就划走，有人追问救火的人和器具在哪儿，转发区比消息本身还着急。这波属于标题看完，脑内续集自动播放。先把自动播放关掉吧：楼上负责什么，楼下又有什么安排？别光凭想象补剧情，热搜可以催更，证据可不能倍速。",
   "simulatedHeat": 510000,
   "simulatedViews": 979670,
   "simulatedLikes": 11500,
@@ -31,7 +31,7 @@
       "author": "前排等资料",
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
-      "text": "播报员先喝口水，我的转发键已经被问号按住了。",
+      "text": "转发到一半停住了：我连楼上楼下都没看明白，怎么先替它写起了简介。",
       "simulatedLikes": 520, "simulatedReplies": 10, "simulatedReposts": 1, "simulatedViews": 4628
     },
     {
@@ -39,7 +39,7 @@
       "author": "慢读课代表",
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
-      "text": "把消息中的瞭望、驻军、器具分开核对，别让一个楼名包办所有解释。",
+      "text": "楼名不是懒人版全文，人员和器具还得看记载怎么说。",
       "simulatedLikes": 483, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4430
     },
     {
@@ -47,7 +47,7 @@
       "author": "热度值班员",
       "avatar": "/avatars/hype.svg",
       "role": "troll",
-      "text": "快讯封面已排好，结论等你们查完再上！",
+      "text": "热搜推送比我反应还快，我的理解目前仍在缓冲。",
       "simulatedLikes": 446, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4232
     },
     {
@@ -55,7 +55,7 @@
       "author": "街巷围观客",
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
-      "text": "本街巷网友申请靠后围观，别让我挡住播报员。",
+      "text": "刚进评论区就被问住了，先从激情发言切换成默默围观。",
       "simulatedLikes": 409, "simulatedReplies": 13, "simulatedReposts": 4, "simulatedViews": 4034
     },
     {
@@ -63,7 +63,7 @@
       "author": "上下文观察员",
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
-      "text": "《东京梦华录》的防火记述值得对照，先读上下文再选。",
+      "text": "只截楼名就开讲，后面的上下文是不是被折叠了？",
       "simulatedLikes": 372, "simulatedReplies": 14, "simulatedReposts": 5, "simulatedViews": 3836
     },
     {
@@ -71,7 +71,7 @@
       "author": "收藏夹管理员",
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
-      "text": "楼上楼下都有人提问，评论区比我家消息群还忙。",
+      "text": "想蹲个懒人总结，结果越蹲问题越多，收藏夹又开始加班。",
       "simulatedLikes": 335, "simulatedReplies": 15, "simulatedReposts": 6, "simulatedViews": 3638
     },
     {
@@ -79,7 +79,7 @@
       "author": "书签借我用用",
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
-      "text": "提词卡借我看看，我只负责给问号排队。",
+      "text": "本来只想路过，现在退出去都怕错过后续。",
       "simulatedLikes": 298, "simulatedReplies": 16, "simulatedReposts": 7, "simulatedViews": 3440
     },
     {
@@ -87,7 +87,7 @@
       "author": "标题排版中",
       "avatar": "/avatars/hype.svg",
       "role": "troll",
-      "text": "热度我来盯，资料请课代表接力。",
+      "text": "标题很会抓人，我很会点进来，理解这件事还在排队。",
       "simulatedLikes": 261, "simulatedReplies": 17, "simulatedReposts": 0, "simulatedViews": 3242
     }
   ],

@@ -21,6 +21,7 @@ export function VerdictReveal({ result, revisiting, headingRef, children }: { re
         <h3 className="result-heading">准确说法</h3>
         <p className="mt-2 text-sm leading-7 font-medium">{result.reveal.correctedClaim}</p>
       </section>
+      <a href="#ask-heading" className="secondary-button mt-4" onClick={() => document.getElementById("ask-heading")?.focus({ preventScroll: true })}>问问 AI</a>
       {children}
       <div className="reveal-details mt-4 text-sm leading-7">
         <details>

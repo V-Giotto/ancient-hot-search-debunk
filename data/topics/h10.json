@@ -8,7 +8,7 @@
     "毕昇",
     "朋友圈"
   ],
-  "title": "#朋友圈晒出胶泥小字块：毕昇这条动态该点赞吗？#",
+  "title": "#毕昇胶泥字块刷屏：手作区这是开大了？#",
   "coverUrl": "/covers/h10.svg",
   "coverAlt": "胶泥活字主题的字块与朋友圈配图格",
   "author": {
@@ -18,7 +18,7 @@
     "avatarUrl": "/avatars/reader.svg",
     "fictitious": true
   },
-  "body": "朋友圈今天被胶泥小字块刷屏了：配图格一摆，点赞区先热闹起来，评论却追着问这条手作动态到底有什么来头。别光顾着夸排版，也别把一张图当成全部工艺说明。材料是什么、字块怎样处理、记载又出自哪里，都值得放大看看。本观察员先把滤镜关掉，留出位置给资料，等查清楚再认真按下这个赞。",
+  "body": "朋友圈刷到胶泥小字块，手作区的胜负欲突然上线：别人晒作品，我晒收藏夹。放大看看就觉得自己会了，真要讲材料和做法，输入中的状态挂了半天也没发出去。毕昇这条动态到底靠不靠谱？滤镜负责好看，记载负责说清。先别在评论里秒回求教程，这回要交的作业，是分清自己看懂了，还是只是点过赞了。",
   "simulatedHeat": 500000,
   "simulatedViews": 916500,
   "simulatedLikes": 11000,
@@ -31,7 +31,7 @@
       "author": "前排等资料",
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
-      "text": "这张配图格看起来很适合收藏，我的手工进度还停在找桌面。",
+      "text": "眼睛说会了，解释说你先别急，收藏夹说又是我来兜底。",
       "simulatedLikes": 520, "simulatedReplies": 11, "simulatedReposts": 2, "simulatedViews": 4731
     },
     {
@@ -39,7 +39,7 @@
       "author": "慢读课代表",
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
-      "text": "材料与处理方法要回到文字记载逐项看，不能让滤镜替工艺作证。",
+      "text": "配图放大不等于工艺讲明白了，材料和处理方法还得读记载。",
       "simulatedLikes": 483, "simulatedReplies": 12, "simulatedReposts": 4, "simulatedViews": 4533
     },
     {
@@ -47,7 +47,7 @@
       "author": "热度值班员",
       "avatar": "/avatars/hype.svg",
       "role": "troll",
-      "text": "点赞区就位！谁也别催我交手作作业。",
+      "text": "点赞很熟练，复述就卡壳，建议把我的手作等级改成围观。",
       "simulatedLikes": 446, "simulatedReplies": 13, "simulatedReposts": 6, "simulatedViews": 4335
     },
     {
@@ -55,7 +55,7 @@
       "author": "街巷围观客",
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
-      "text": "本手作网友先把桌面腾出来，免得小字块找不到位置。",
+      "text": "别人更新作品，我更新收藏夹，大家都有进度。",
       "simulatedLikes": 409, "simulatedReplies": 14, "simulatedReposts": 0, "simulatedViews": 4137
     },
     {
@@ -63,7 +63,7 @@
       "author": "上下文观察员",
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
-      "text": "可以从《梦溪笔谈》的相关记述找线索，先看它具体怎么说。",
+      "text": "《梦溪笔谈》这条线索先收藏，别看完标题就自称学会了。",
       "simulatedLikes": 372, "simulatedReplies": 15, "simulatedReposts": 2, "simulatedViews": 3939
     },
     {
@@ -71,7 +71,7 @@
       "author": "收藏夹管理员",
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
-      "text": "收藏夹又收下了一项我看完就觉得自己会了的手艺。",
+      "text": "刚想评论求教程，想起收藏夹里那些从没打开的教程，又默默撤回。",
       "simulatedLikes": 335, "simulatedReplies": 16, "simulatedReposts": 4, "simulatedViews": 3741
     },
     {
@@ -79,7 +79,7 @@
       "author": "书签借我用用",
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
-      "text": "排版可以慢一点，别把我的围观名额排没了。",
+      "text": "输入中挂了半天，最后只发出一句让我再看看。",
       "simulatedLikes": 298, "simulatedReplies": 17, "simulatedReposts": 6, "simulatedViews": 3543
     },
     {
@@ -87,7 +87,7 @@
       "author": "标题排版中",
       "avatar": "/avatars/hype.svg",
       "role": "troll",
-      "text": "封面很忙，评论很热，我的查证进度还在加载。",
+      "text": "手作区请继续更新，我的动手计划正在无限延期。",
       "simulatedLikes": 261, "simulatedReplies": 18, "simulatedReposts": 0, "simulatedViews": 3345
     }
   ],

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { NavRail } from "./NavRail";
 import { RightRail } from "./RightRail";
+import { version } from "@/package.json";
 
 export function AppShell({ children, title }: { children: ReactNode; title?: string }) {
   const preview = process.env.CONTENT_MODE === "preview";
@@ -24,6 +25,10 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
           {children}
           <RightRail />
         </main>
+        {preview && <footer aria-label="预览构建信息" className="mt-5 border-t border-ink/10 pt-4 text-xs leading-6 text-muted break-words">
+          <span>v{version}</span><span className="mx-2" aria-hidden="true">·</span>
+          <span>构建 ID：<code>{process.env.APP_BUILD_ID}</code></span>
+        </footer>}
       </div>
       <NavRail />
     </div>

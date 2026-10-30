@@ -8,7 +8,7 @@
     "以德报怨",
     "群聊转发"
   ],
-  "title": "#群聊语录刷屏：“以德报怨”真是孔子的主张？#",
+  "title": "#群聊又转“以德报怨”：孔子真这么说？#",
   "coverUrl": "/covers/h11.svg",
   "coverAlt": "语录核对主题的聊天气泡与问号",
   "author": {
@@ -18,7 +18,7 @@
     "avatarUrl": "/avatars/reader.svg",
     "fictitious": true
   },
-  "body": "群里又收到一张处世语录卡，署名很熟悉，转发语气也很笃定，大家已经开始用它劝人了。核对组先把聊天气泡留在这里：这句话在原文里是谁说的，是提问还是回答，后面还有没有别的话？别让截图的裁切替你完成阅读，也别拿点赞数当出处。先找回对话上下文，再决定这张语录卡该不该继续转发。",
+  "body": "群聊又在转以德报怨的处世语录，署名孔子，配文还带着一股快转给朋友的熟练感。有人拿来劝架，有人已经设成个性签名；我刚点开，消息就被顶到了看不见的地方。群聊里的阅读进度，主打一个没看完但已转发。等等，这句话在原文里是谁说的？提问和回答可别认错人，断章取义也不能靠转发量续费吧。",
   "simulatedHeat": 490000,
   "simulatedViews": 853330,
   "simulatedLikes": 10500,
@@ -31,7 +31,7 @@
       "author": "前排等资料",
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
-      "text": "群聊里每个人都在劝人，我先申请一个只看不转的座位。",
+      "text": "刚准备转给朋友，朋友已经转给我了，这群聊是开了循环播放吗。",
       "simulatedLikes": 520, "simulatedReplies": 12, "simulatedReposts": 3, "simulatedViews": 4834
     },
     {
@@ -39,7 +39,7 @@
       "author": "慢读课代表",
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
-      "text": "先认清哪句是提问、哪句是回答，语录卡的裁切范围也要查。",
+      "text": "提问和回答得连着读，只看截出来的短句容易认错发言人。",
       "simulatedLikes": 483, "simulatedReplies": 13, "simulatedReposts": 6, "simulatedViews": 4636
     },
     {
@@ -47,7 +47,7 @@
       "author": "热度值班员",
       "avatar": "/avatars/hype.svg",
       "role": "troll",
-      "text": "转发文案写好了，出处这一栏怎么突然这么难填？",
+      "text": "配文写着建议全文背诵，点开却没有全文，这建议也太省流了。",
       "simulatedLikes": 446, "simulatedReplies": 14, "simulatedReposts": 1, "simulatedViews": 4438
     },
     {
@@ -55,7 +55,7 @@
       "author": "街巷围观客",
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
-      "text": "本群慢读网友上线，先把气泡里的话读完再接龙。",
+      "text": "别人都在接龙，我还停在加载上下文，申请慢速围观。",
       "simulatedLikes": 409, "simulatedReplies": 15, "simulatedReposts": 4, "simulatedViews": 4240
     },
     {
@@ -63,7 +63,7 @@
       "author": "上下文观察员",
       "avatar": "/avatars/reader.svg",
       "role": "history_nerd",
-      "text": "《论语·宪问》的上下文值得核对，别只摘下孤零零的一句。",
+      "text": "《论语·宪问》先读完整，别让摘句替整段对话发言。",
       "simulatedLikes": 372, "simulatedReplies": 16, "simulatedReposts": 7, "simulatedViews": 4042
     },
     {
@@ -71,7 +71,7 @@
       "author": "收藏夹管理员",
       "avatar": "/avatars/spectator.svg",
       "role": "spectator",
-      "text": "我刚想转给朋友，朋友已经把同一张图转给我了。",
+      "text": "转发时很笃定，被问出处时突然切换成对方正在输入。",
       "simulatedLikes": 335, "simulatedReplies": 17, "simulatedReposts": 2, "simulatedViews": 3844
     },
     {
@@ -79,7 +79,7 @@
       "author": "书签借我用用",
       "avatar": "/avatars/changan.svg",
       "role": "in_world",
-      "text": "群聊气泡挤得下短句，未必挤得下全部上下文。",
+      "text": "消息免打扰开了，未读还在涨，劝人这件事大家是真有空。",
       "simulatedLikes": 298, "simulatedReplies": 18, "simulatedReposts": 5, "simulatedViews": 3646
     },
     {
@@ -87,7 +87,7 @@
       "author": "标题排版中",
       "avatar": "/avatars/hype.svg",
       "role": "troll",
-      "text": "先暂停转发接力，我的标题还没拿到资料区的通行证。",
+      "text": "个性签名先别急着换，我可不想过会儿再发个更正。",
       "simulatedLikes": 261, "simulatedReplies": 0, "simulatedReposts": 0, "simulatedViews": 3448
     }
   ],

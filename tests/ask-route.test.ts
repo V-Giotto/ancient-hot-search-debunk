@@ -66,7 +66,7 @@ describe("POST /api/ask：输入校验与审核门控", () => {
     vi.stubEnv("CONTENT_MODE", mode);
     const response = await POST(request());
     expect(response.status).toBe(409);
-    expect(await response.json()).toEqual({ error: "本条资料尚在审核，暂不开放 AI 科普" });
+    expect(await response.json()).toEqual({ error: "本条内容审核中，暂不开放追问" });
     expect(fetchMock).not.toHaveBeenCalled();
   });
   it.each(["formal", "preview"])("%s 模式永远不把 rejected 话题送入模型", async (mode) => {
@@ -114,7 +114,7 @@ describe("Provider Adapter、错误与安全", () => {
     vi.stubEnv("AI_API_KEY", key);
     const response = await POST(request());
     expect(response.status).toBe(503);
-    expect(await response.json()).toEqual({ error: "实时 AI 尚未配置；你仍可查看史实与来源" });
+    expect(await response.json()).toEqual({ error: "AI 未配置" });
     expect(fetchMock).not.toHaveBeenCalled();
   });
   it("按默认 DeepSeek URL/model、Bearer、JSON 格式和低 temperature 发起 fetch", async () => {

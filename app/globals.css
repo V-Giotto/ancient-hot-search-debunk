@@ -82,7 +82,7 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-.reveal-panel, #reveal-heading { scroll-margin-top: var(--reveal-scroll-margin); }
+.reveal-panel, #reveal-heading, #ask-heading { scroll-margin-top: var(--reveal-scroll-margin); }
 
 @media (min-width: 600px) {
   .app-shell, .bottom-tabs { width: 390px; }

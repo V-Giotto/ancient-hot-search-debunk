@@ -17,10 +17,10 @@ const PRESET_QUESTIONS = [
 const ERROR_MESSAGES: Record<number, string> = {
   400: "请输入 1–500 字的问题。",
   404: "未找到这条热搜",
-  409: "本条资料尚在审核，暂不开放 AI 科普",
+  409: "本条内容审核中，暂不开放追问",
   429: "提问太快了，请稍后再试。",
   502: "AI 服务暂时不可用，请稍后重试。",
-  503: "实时 AI 尚未配置；你仍可查看史实与来源",
+  503: "AI 未配置",
   504: "AI 回答超时，请重试；你的问题仍然保留。",
 };
 
@@ -73,7 +73,7 @@ export function AskPanel({ topicId, sources }: { topicId: string; sources: Sourc
   return (
     <section className="panel" aria-labelledby="ask-heading">
       <p className="eyebrow">AI 追问 / 辟谣局值班史官</p>
-      <h2 id="ask-heading" className="text-xl font-bold">这条热搜，还想问什么？</h2>
+      <h2 id="ask-heading" tabIndex={-1} className="text-xl font-bold">这条热搜，还想问什么？</h2>
       <p className="mt-3 text-sm leading-7 text-muted">围绕本条资料继续追问。AI 生成，可能有误，以史料为准。</p>
       <div className="mt-5 grid gap-2" aria-label="预设问题">
         {PRESET_QUESTIONS.map((question) => (
@@ -114,7 +114,10 @@ export function AskPanel({ topicId, sources }: { topicId: string; sources: Sourc
       </form>
       {error && <div className="mt-4 rounded-xl border border-accent/20 p-4">
         <p role="alert" className="text-sm leading-7 text-accent">{error}</p>
-        <button type="button" className="secondary-button mt-3" disabled={busy} onClick={() => void send(input)}>重试提问</button>
+        <div className="mt-3 flex flex-wrap gap-3">
+          <button type="button" className="secondary-button" disabled={busy || !input.trim()} onClick={() => void send(input)}>重试提问</button>
+          <a href="#reveal-heading" className="secondary-button" onClick={() => document.getElementById("reveal-heading")?.focus({ preventScroll: true })}>返回揭晓</a>
+        </div>
       </div>}
     </section>
   );

@@ -345,6 +345,12 @@ describe("7.3 的类型及 Zod 字段约束", () => {
 });
 
 describe("阶段6的形式与史实边界", () => {
+  it("全部标题使用紧贴正文的成对 #，无混用或重复的句末标点", () => {
+    for (const topic of getAllTopics()) {
+      expect(topic.title).toMatch(/^#[^#\s].*[^#\s]#$/);
+      expect(topic.title).not.toMatch(/\s#|#\s|[！？，。]{2,}/);
+    }
+  });
   it("旧题缺省 post，新题依次为 news/moments/chat/poll，公开题面保留 format", () => {
     const topics = getAllTopics();
     expect(topics.slice(0, 8).every((topic) => topic.format === undefined)).toBe(true);

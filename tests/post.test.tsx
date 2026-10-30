@@ -55,6 +55,7 @@ describe("真假判断与揭晓", () => {
     expect(fetch).not.toHaveBeenCalled();
     expect(screen.queryByText("谣言退散")).toBeNull();
     expect(screen.queryByRole("heading", { name: "这条热搜，还想问什么？" })).toBeNull();
+    expect(screen.queryByRole("link", { name: "问问 AI" })).toBeNull();
     fireEvent.click(screen.getByRole("radio", { name: "是真的" }));
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     expect(screen.getByRole("radio", { name: "是假的" })).toHaveProperty("checked", true);
@@ -80,6 +81,18 @@ describe("真假判断与揭晓", () => {
     expect(sticker.getAttribute("aria-atomic")).toBe("true");
     expect(within(sticker).getByRole("link", { name: "去贴纸墙 →" }).getAttribute("href")).toBe("/stickers");
     expect(screen.getByRole("region", { name: topic.reveal.verdictHeadline }).contains(sticker)).toBe(true);
+  });
+
+  it("揭晓首屏入口链接到 AI 标题，点击后转移键盘焦点", async () => {
+    render(<VerdictTask topic={publicTopic} topicIds={topicIds} />);
+    fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
+    fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+    const link = await screen.findByRole("link", { name: "问问 AI" });
+    expect(link.getAttribute("href")).toBe("#ask-heading");
+    expect(link.closest(".reveal-panel")).toBeTruthy();
+    fireEvent.click(link);
+    expect(document.activeElement).toBe(screen.getByRole("heading", { name: "这条热搜，还想问什么？" }));
+    expect(document.activeElement?.getAttribute("tabindex")).toBe("-1");
   });
 
   it("答错也揭晓，不阻塞查证卡", async () => {

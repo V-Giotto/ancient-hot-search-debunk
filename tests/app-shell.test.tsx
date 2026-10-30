@@ -5,6 +5,7 @@ import TrendingPage from "@/app/trending/page";
 import DiscoverPage from "@/app/discover/page";
 import StickersPage from "@/app/stickers/page";
 import NotFound from "@/app/not-found";
+import { version } from "@/package.json";
 
 const route = vi.hoisted(() => ({ pathname: "/trending" }));
 vi.mock("next/navigation", () => ({ usePathname: () => route.pathname }));
@@ -14,10 +15,15 @@ afterEach(() => { cleanup(); vi.unstubAllEnvs(); });
 describe("AppShell 内容模式提示", () => {
   it("服务端 CONTENT_MODE=preview 时显示开发预览条", () => {
     vi.stubEnv("CONTENT_MODE", "preview");
+    vi.stubEnv("APP_BUILD_ID", "test-build-id");
     render(<AppShell><p>页面内容</p></AppShell>);
     expect(screen.getByRole("note").textContent).toContain("开发预览模式");
     expect(screen.getByRole("note").textContent).toContain("本条史实尚待人工审核");
     expect(screen.getByText("页面内容")).toBeTruthy();
+    const footer = screen.getByRole("contentinfo", { name: "预览构建信息" });
+    expect(footer.textContent).toContain(`v${version}`);
+    expect(footer.textContent).toContain("构建 ID：test-build-id");
+    expect(footer.closest("main")).toBeNull();
   });
 
   it.each(["formal", undefined, "", "invalid"])("CONTENT_MODE=%j 时不渲染开发预览条，仍展示页面内容", (mode) => {
@@ -26,6 +32,7 @@ describe("AppShell 内容模式提示", () => {
     expect(screen.queryByRole("note")).toBeNull();
     expect(screen.queryByText("开发预览模式")).toBeNull();
     expect(screen.queryByText(/本条史实尚待人工审核/)).toBeNull();
+    expect(screen.queryByRole("contentinfo", { name: "预览构建信息" })).toBeNull();
     expect(screen.getByText("页面内容")).toBeTruthy();
   });
 });

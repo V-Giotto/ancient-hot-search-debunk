@@ -28,6 +28,7 @@ const scenarios = [
   { id: "H12", answer: false, best: "C", wrong: "A", sourceCount: 2, format: "poll" },
 ];
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
+const { version: packageVersion } = JSON.parse(await readFile("package.json", "utf8"));
 const trendingTopics = await Promise.all(scenarios.map(({ id }) => readFile(`data/topics/${id.toLowerCase()}.json`, "utf8").then(JSON.parse)));
 await mkdir(output, { recursive: true });
 await mkdir(screenshots, { recursive: true });
@@ -80,10 +81,10 @@ async function trendingDensityChecks(page) {
   return layout;
 }
 
-async function versionScreenshot(page, name) {
+async function versionScreenshot(page, name, version = "0.10.0") {
   await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  const filename = `v0.10.0-${name}-390x844.png`;
+  const filename = `v${version}-${name}-390x844.png`;
   const target = path.join(screenshots, filename);
   await page.screenshot({ path: target, animations: "disabled" });
   if (reviewDir) await copyFile(target, path.join(reviewDir, filename));
@@ -114,6 +115,8 @@ async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false 
       details: [...panel.querySelectorAll("details")].map((node) => node.open),
       duplicateAnswer: panel.innerText.includes("明确答案"),
       correctedBottom: corrected.bottom, stickerBottom: panel.querySelector(".sticker-earned").getBoundingClientRect().bottom,
+      aiLinkTop: panel.querySelector('a[href="#ask-heading"]').getBoundingClientRect().top,
+      aiLinkBottom: panel.querySelector('a[href="#ask-heading"]').getBoundingClientRect().bottom,
       tabsTop: document.querySelector(".bottom-tabs").getBoundingClientRect().top,
     };
   });
@@ -131,6 +134,7 @@ async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false 
   assert.deepEqual(layout.details, [false, false, false]);
   assert.equal(layout.duplicateAnswer, false);
   if (firstScreen) assert.ok(layout.correctedBottom <= layout.tabsTop && layout.stickerBottom <= layout.tabsTop, "准确说法或获得贴纸反馈未完整进入揭晓首屏");
+  if (firstScreen) assert.ok(layout.aiLinkTop >= layout.headerBottom && layout.aiLinkBottom <= layout.tabsTop, "问问 AI 入口未完整进入揭晓首屏");
   revealChecks.push({ route: new URL(page.url()).pathname, viewport: page.viewportSize(), correct, ...layout });
 }
 
@@ -480,12 +484,17 @@ async function askStates(page) {
     if (calls === 1) {
       await new Promise((resolve) => { release = resolve; });
       await route.fulfill({ status: 503, json: { error: "test" } });
+    } else if (calls === 2) {
+      await route.fulfill({ status: 409, json: { error: "test" } });
     } else {
       await route.fulfill({ json: { answer: "浏览器布局测试（mock）：" + "长文本换行".repeat(30) + " https://example.test/" + "a".repeat(180), citedSourceIds: ["S-H03-02"], grounded: true, preview: true } });
     }
   };
   await page.route("**/api/ask", handler);
   try {
+    await page.getByRole("link", { name: "问问 AI", exact: true }).click();
+    await focused(page.locator("#ask-heading"));
+    await page.waitForFunction(() => document.querySelector("#ask-heading").getBoundingClientRect().top >= document.querySelector(".shell-header").getBoundingClientRect().bottom);
     const input = page.getByRole("textbox", { name: "向值班史官提问" });
     const question = "手机布局测试问题";
     await input.fill(question);
@@ -493,9 +502,18 @@ async function askStates(page) {
     await visible(page.getByText("值班史官正在查阅资料…", { exact: true }));
     await mobileGeometry(page, "AI loading");
     release();
-    await visible(page.getByRole("alert"));
+    const alert = page.locator('[aria-labelledby="ask-heading"]').getByRole("alert");
+    await visible(alert);
+    assert.equal(await alert.textContent(), "AI 未配置");
     assert.equal(await input.inputValue(), question);
     await mobileGeometry(page, "AI error");
+    await page.getByRole("button", { name: "重试提问", exact: true }).click();
+    await visible(page.getByText("本条内容审核中，暂不开放追问", { exact: true }));
+    await page.getByRole("link", { name: "返回揭晓", exact: true }).click();
+    await focused(page.locator("#reveal-heading"));
+    assert.equal(await input.inputValue(), question);
+    await page.getByRole("link", { name: "问问 AI", exact: true }).click();
+    await focused(page.locator("#ask-heading"));
     await page.getByRole("button", { name: "重试提问", exact: true }).click();
     await visible(page.getByText(/^浏览器布局测试（mock）：/));
     await mobileGeometry(page, "AI response + long URL");
@@ -503,6 +521,64 @@ async function askStates(page) {
   } finally {
     release?.();
     await page.unroute("**/api/ask", handler);
+  }
+}
+
+async function previewBuildChecks(buildId) {
+  const probe = createServer();
+  await new Promise((resolve) => probe.listen(0, "127.0.0.1", resolve));
+  const previewPort = probe.address().port;
+  await new Promise((resolve) => probe.close(resolve));
+  const previewURL = `http://127.0.0.1:${previewPort}`;
+  const previewServer = spawn(process.execPath, ["scripts/check-port.mjs", "--start", "-H", "127.0.0.1", "-p", String(previewPort)], {
+    env: { ...process.env, CONTENT_MODE: "preview", AI_API_KEY: "" }, stdio: ["ignore", "pipe", "pipe"],
+  });
+  for (const stream of [previewServer.stdout, previewServer.stderr]) stream.on("data", (data) => { serverLog += data.toString(); });
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
+  try {
+    let ready = false;
+    for (let attempt = 0; attempt < 60; attempt++) {
+      assert.equal(previewServer.exitCode, null, "preview 服务启动失败");
+      try { ready = (await fetch(`${previewURL}/trending`)).ok; } catch { /* 服务启动中 */ }
+      if (ready) break;
+      await setTimeout(250);
+    }
+    assert.ok(ready, "preview 服务未就绪");
+    const page = await context.newPage();
+    const errors = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    for (const route of ["/trending", "/discover", "/stickers", "/post/H03"]) {
+      await page.goto(`${previewURL}${route}`);
+      const footer = page.getByRole("contentinfo", { name: "预览构建信息" });
+      assert.ok((await footer.textContent()).includes(`v${packageVersion}`));
+      assert.ok((await footer.textContent()).includes(buildId), "预览页脚的构建 ID 与 .next/BUILD_ID 不一致");
+      await noOverflow(page);
+    }
+    await page.getByRole("radio", { name: "是假的", exact: true }).check();
+    await page.getByRole("button", { name: "提交判断", exact: true }).click();
+    await visible(page.getByRole("link", { name: "问问 AI", exact: true }));
+    await page.getByRole("link", { name: "问问 AI", exact: true }).click();
+    await focused(page.locator("#ask-heading"));
+    await page.getByRole("textbox").fill("唐朝人用什么调料获得辛辣味？");
+    for (const button of ["发送问题", "重试提问"]) {
+      const pending = page.waitForResponse((response) => response.url().endsWith("/api/ask"));
+      await page.getByRole("button", { name: button, exact: true }).click();
+      assert.equal((await pending).status(), 503);
+      await visible(page.getByText("AI 未配置", { exact: true }));
+    }
+    const filename = `v${packageVersion}-ai-390x844.png`;
+    await screenshotAt(page, page.locator('[aria-labelledby="ask-heading"]'), filename);
+    if (reviewDir) await copyFile(path.join(screenshots, filename), path.join(reviewDir, filename));
+    await page.getByRole("link", { name: "返回揭晓", exact: true }).click();
+    await focused(page.locator("#reveal-heading"));
+    assert.equal(await page.getByRole("textbox").inputValue(), "唐朝人用什么调料获得辛辣味？");
+    assert.deepEqual(errors, [], "preview 浏览器运行错误");
+    return { version: packageVersion, buildId, routes: 4, unconfiguredStatus: 503, retried: true, returned: true };
+  } finally {
+    await context.close();
+    const stopped = new Promise((resolve) => previewServer.once("exit", resolve));
+    previewServer.kill("SIGTERM");
+    await stopped;
   }
 }
 
@@ -563,7 +639,7 @@ try {
   let serverStartError;
   if (!process.env.E2E_BASE_URL) {
     await requireFreePort();
-    server = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "--hostname", "127.0.0.1", "--port", port], { stdio: ["ignore", "pipe", "pipe"] });
+    server = spawn(process.execPath, ["scripts/check-port.mjs", "--start", "--hostname", "127.0.0.1", "--port", port], { env: { ...process.env, CONTENT_MODE: "formal", AI_API_KEY: "" }, stdio: ["ignore", "pipe", "pipe"] });
     server.once("error", (error) => { serverStartError = error; });
     for (const stream of [server.stdout, server.stderr]) stream.on("data", (data) => { serverLog += data.toString(); });
   }
@@ -592,6 +668,7 @@ try {
   await page.goto(`${baseURL}/`);
   await page.waitForURL("**/trending");
   await visible(page.getByRole("heading", { name: "古代热搜辟谣局", level: 1, exact: true }));
+  if (!process.env.E2E_BASE_URL) assert.equal(await page.getByRole("contentinfo", { name: "预览构建信息" }).count(), 0);
   await collectionCount(page, 0);
   const trendingLinks = await page.locator('[aria-label="热搜排行"] > li > a').evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   assert.deepEqual(trendingLinks, scenarios.map(({ id }) => `/post/${id}`));
@@ -641,6 +718,7 @@ try {
       await page.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
       await screenshotAt(page, page.locator("main"), `post-${id}-top-390x844.png`);
     }
+    if (id === "H09") await versionScreenshot(page, "H09", packageVersion);
     if (id === "H12") {
       const poll = page.getByRole("region", { name: "直觉投票", exact: true });
       assert.equal(await poll.getByText("42%", { exact: true }).count(), 0);
@@ -692,6 +770,9 @@ try {
     await earnedSticker(page, id, flows.length + 1);
     if (id === "H03") {
       await page.keyboard.press("Tab");
+      await focused(page.getByRole("link", { name: "问问 AI", exact: true }));
+      await focusVisible(page.getByRole("link", { name: "问问 AI", exact: true }));
+      await page.keyboard.press("Tab");
       await focused(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }));
       await focusVisible(page.getByRole("region", { name: "本题贴纸", exact: true }).getByRole("link", { name: "去贴纸墙 →", exact: true }));
       await page.keyboard.press("Tab");
@@ -731,6 +812,16 @@ try {
     if (id === "H03") {
       await screenshotAt(page, page.locator('[aria-labelledby="rewrite-heading"]'), "post-H03-rewrite-390x844.png");
       await screenshotAt(page, page.locator('[aria-labelledby="ask-heading"]'), "post-H03-ai-390x844.png");
+      // formal 下实际请求审核门控，不调用模型；布局异常分支另用 mock。
+      if (!process.env.E2E_BASE_URL) {
+        const pending = page.waitForResponse((response) => response.url().endsWith("/api/ask"));
+        await page.getByRole("textbox").fill("唐朝人用什么调料获得辛辣味？");
+        await page.getByRole("button", { name: "发送问题", exact: true }).click();
+        assert.equal((await pending).status(), 409);
+        await visible(page.getByText("本条内容审核中，暂不开放追问", { exact: true }));
+        await page.getByRole("link", { name: "返回揭晓", exact: true }).click();
+        await focused(page.locator("#reveal-heading"));
+      }
       await askStates(page);
     }
     await page.getByRole("button", { name: "生成查证卡", exact: true }).click();
@@ -955,7 +1046,8 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "H03", answer: "false" }) })).status, 400);
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
-  const summary = { passed: true, buildId, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "仅 AI loading/503/重试/长回答使用浏览器 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const previewBuild = await previewBuildChecks(buildId);
+  const summary = { passed: true, buildId, previewBuild, revealChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题刷新恢复", flows, formatChecks, poll: "固定42%/58%，独立本机存储、刷新恢复，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、贴纸解锁回帖、刷新恢复、重温不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

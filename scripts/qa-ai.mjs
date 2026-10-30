@@ -136,7 +136,7 @@ try {
   });
   assert.equal(unavailableHttp.status, 503);
   const unavailableBody = await unavailableHttp.json();
-  assert.equal(unavailableBody.error, "实时 AI 尚未配置；你仍可查看史实与来源");
+  assert.equal(unavailableBody.error, "AI 未配置");
   await noKeyPage.getByRole("alert").filter({ hasText: unavailableBody.error }).waitFor();
   assert.equal(await noKeyPage.getByRole("alert").filter({ hasText: unavailableBody.error }).textContent(), unavailableBody.error);
   assert.equal(await noKeyPage.getByRole("textbox").inputValue(), questions[0]);
