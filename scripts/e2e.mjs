@@ -67,6 +67,29 @@ async function mobileGeometry(page, state) {
   return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px" };
 }
 
+async function coverGeometry(page, route) {
+  const list = route === "/trending" ? '[aria-label="热搜排行"]' : '[aria-label="发现话题"]';
+  const covers = await page.locator(`${list} > li > a > img`).evaluateAll((images) => images.map((image) => {
+    const { width, height, left, right } = image.getBoundingClientRect();
+    const link = image.closest("a").getBoundingClientRect();
+    const heading = image.closest("a").querySelector("h2");
+    return {
+      width, height, objectFit: getComputedStyle(image).objectFit,
+      loaded: image.complete && image.naturalWidth > 0,
+      contained: left >= link.left && right <= link.right,
+      titleClipped: heading.scrollWidth > heading.clientWidth || heading.scrollHeight > heading.clientHeight,
+    };
+  }));
+  assert.equal(covers.length, scenarios.length, `${route} 封面数量不正确`);
+  for (const cover of covers) {
+    assert.ok(cover.loaded && cover.contained && !cover.titleClipped, `${route} 封面未加载、越界或标题被裁切`);
+    assert.ok(Math.abs(cover.width / cover.height - 16 / 9) < 0.01, `${route} 封面未保持 16:9`);
+    assert.equal(cover.objectFit, "contain", `${route} 封面应完整展示，避免裁切内嵌标题`);
+    if (route === "/trending") assert.ok(cover.width >= 112 && cover.width <= 128, "热搜榜缩略图宽度应为 112–128px");
+  }
+  return covers;
+}
+
 async function screenshotAt(page, locator, filename) {
   await locator.evaluate((node) => {
     const headerHeight = document.querySelector("header").getBoundingClientRect().height;
@@ -368,8 +391,10 @@ try {
       const response = await mobile.goto(`${baseURL}${route}`);
       await visible(mobile.getByRole("heading", { level: 1 }));
       if (route.includes("DOES-NOT-EXIST") || route === "/missing-page") assert.equal(response.status(), 404);
-      geometry.push(await mobileGeometry(mobile, route));
+      const pageGeometry = await mobileGeometry(mobile, route);
       await mobile.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
+      if (route === "/trending" || route === "/discover") pageGeometry.covers = await coverGeometry(mobile, route);
+      geometry.push(pageGeometry);
       const untabbable = await mobile.locator('a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), summary').evaluateAll((nodes) => nodes.filter((node) => node.checkVisibility() && node.tabIndex < 0).length);
       assert.equal(untabbable, 0, "存在不可 Tab 聚焦的控件");
       if (route === "/trending") {

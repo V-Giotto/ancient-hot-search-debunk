@@ -209,3 +209,11 @@ AI 单元/组件测试全部 mock fetch，未真实调用网络，覆盖：
 保留提交后焦点和滚动、恢复不抢焦点、reduced-motion、弹窗 Tab 循环/Esc/关闭及焦点返回。AI 加载、503 保留输入、手动重试、长回答与长 URL 换行使用浏览器 mock；本轮未调用模型，历史真实 AI 记录仍保留。
 
 产物：`artifacts/stage-5/result.json`、PNG 与 `artifacts/stage-5/screenshots/`（9 张 390×844：热榜、发现、帖子顶部、判题区、揭晓、改写、AI 追问区、查证卡、404；另有 1 张 1440×900 桌面截图）。已查看截图；采集时结束动效，避免截到弹窗淡入的中间帧。题库扩容、贴纸/完成度仍为后续任务，史实审核状态保持 pending；未 commit。
+
+## 热搜榜封面裁切修复（2026-10-29）
+
+本轮按“完成一项即可停下验证”完成第 1 项：热搜榜缩略图改为 112×63px、`aspect-ratio:16/9` 和 `object-contain`，完整展示原 SVG 中的标题，保留原有圆角、配色与布局风格。发现页原已使用 16:9 和 `object-contain`，本轮一并增加浏览器回归检查。贴纸与完成度留待后续任务。
+
+`npm run typecheck`、`npm test`（11 个文件、223 项）、`npm run build`、`CHROME_PATH=/usr/bin/google-chrome npm run test:e2e` 全部通过。E2E 保留八题完整闭环与 84 项页面/状态几何检查，浏览器运行错误为 0；新增三种手机视口 `390×844`、`375×667`、`430×932` 下两页共 48 张封面的比例、完整加载、边界、标题无裁切检查，热榜缩略图均为 112×63px，页面无横向溢出且触控目标宽高均 ≥44px。
+
+已覆盖并查看 `artifacts/stage-5/screenshots/trending-390x844.png` 和 `artifacts/stage-5/screenshots/discover-390x844.png`；机器结果更新至 `artifacts/stage-5/result.json`。产物目录仍由 `.gitignore` 忽略；未 commit。
