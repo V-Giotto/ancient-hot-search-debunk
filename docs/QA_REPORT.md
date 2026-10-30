@@ -1,6 +1,6 @@
 # QA 报告
 
-最新结果为文末“v0.13.2：每次进入重新交互与收藏去重”；前文各阶段保留为历史验收。
+最新结果为文末“v0.14.0：人工审核完成与正式模式回归”；前文各阶段的 pending、409、未签名及待人工审核均为当时验收状态，不代表当前题目与来源状态。
 
 验收日期：2026-10-29。范围仅为现有 H03 的真实 AI 追问与 AskPanel；题目、来源与审核状态保持原样，其余七条未开发。
 
@@ -441,3 +441,24 @@ H03 首次提交后的 390×844 首屏截图已生成并打开复核：
 截图为 H03 首次揭晓、经贴纸墙重新进入后，将全新判题区滚入首屏的状态：真假均未选、提交禁用、未显示揭晓，同时可见“贴纸已收藏 · 已查证 1/12，重玩不重复累计。”。两个文件内容一致，PNG 为 56,449 字节。
 
 最新机器结果位于 `artifacts/stage-6/result.json`，逐题记录含 `revisitFresh`、`reloadFresh`、`progressUnchanged` 与 `noDuplicateUnlock`，`replayChecks` 保存三视口滚动落点及触控尺寸。测试服务均已退出。未打印或提交 AI_API_KEY；未 commit、tag 或 push。
+
+
+## v0.14.0：人工审核完成与正式模式回归
+
+验收日期：2026-10-30。保留用户已完成的审核字段、`tests/content.test.ts` reviewed 断言及人工审核清单第 3 步修订；逐文件校验值确认本轮未改写 12 题、28 条来源及内容测试。Giotto 单人审核全部 12 题（6 真 6 假）与全部 28 条来源，全部通过；题目与来源均为 reviewed，署名 Giotto，时间均为 `2026-10-30T02:33:00-07:00`。项目负责人于 2026-10-30 确认；**无第二人抽查**。H05/H08/H10/H11 来源差异按现有页面措辞保留，不新增史实，不改正文、揭晓或来源 supports。
+
+- pending/formal 409 门控改用内存合成 fixture；preview 仍接受 pending，rejected 话题与来源仍被排除，保留来源过滤和相关事实过滤覆盖。
+- 全部 12 条真实 reviewed 题在 formal 下进入 mock fetch，返回 200、有效引用且不含 preview；验证服务端上下文包含 reviewed 状态、对应来源与事实卡。preview 下 reviewed 上下文也保持真实状态。
+- 来源列表与 PNG 按实际状态显示“已人工审核”；pending/rejected fixture 仍显示对应状态。preview 模式保留，已审核回答显示“开发预览”，仅含 pending 时显示“开发预览·资料待审核”。AI 提示词按服务端题目及来源状态区分措辞。
+- README、部署、演示、审核与交付说明同步；旧阶段 pending/409 记录作为历史保留。`package.json`、锁文件顶层及根包版本均为 **0.14.0**。
+
+| 命令 | 本轮结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 18 个测试文件、383 项全部通过 |
+| `npm run build` | 通过；构建进程显式清空 AI_API_KEY |
+| `CHROME_PATH=/usr/bin/google-chrome npm run test:e2e` | 通过；12 题流程、三种手机视口及 1440×900 桌面、183 项几何检查，浏览器错误为 0 |
+
+本轮未调用真实 DeepSeek；AI 上游单测全部 mock，E2E 自启 formal/preview 服务均显式清空 AI_API_KEY，真实接口仅检查无配置 503；409、加载、重试和长回答由浏览器 mock 覆盖。真实 AI 验证脚本仅同步 reviewed 文案与断言，未执行。密钥未打印或记录；未 commit、tag 或 push。
+
+E2E 实测 formal 下 reviewed H03 通过审核门控后返回无配置 503，preview 无配置同为 503，输入保留、重试与返回揭晓通过；preview 页脚为 v0.14.0，构建 ID 与 `.next/BUILD_ID` 一致。全部来源显示已人工审核、PNG 非空且为 1200×675、内容无裁切；保留离开重进／刷新／再玩一次、贴纸去重、键盘焦点及多视口布局回归。产物：`artifacts/stage-6/result.json`、`artifacts/stage-6/*-check-card.png` 及 `artifacts/stage-6/screenshots/`（均被 Git 忽略）。

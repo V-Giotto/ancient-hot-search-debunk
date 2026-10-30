@@ -19,7 +19,8 @@ describe("AppShell 内容模式提示", () => {
     vi.stubEnv("APP_BUILD_ID", "test-build-id");
     render(<AppShell><p>页面内容</p></AppShell>);
     expect(screen.getByRole("note").textContent).toContain("开发预览模式");
-    expect(screen.getByRole("note").textContent).toContain("本条史实尚待人工审核");
+    expect(screen.getByRole("note").textContent).toContain("审核状态以各题与来源标记为准");
+    expect(screen.getByRole("note").textContent).not.toContain("待人工审核");
     expect(screen.getByText("页面内容")).toBeTruthy();
     const footer = screen.getByRole("contentinfo", { name: "预览构建信息" });
     expect(footer.textContent).toContain(`v${version}`);

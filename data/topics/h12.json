@@ -138,6 +138,8 @@
     "只说明两书各自传世，不展开曹操删定说，不补两书具体成书年代。",
     "竹简抄写时期与兵书成书年代要分开；投票为预制比例，只在本机记录选择，不作为史实依据或判题输入。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "原创 SVG，艺术创作·非史料；许可与待审记录见 docs/ASSET_LICENSES.md。"
 }

@@ -772,6 +772,8 @@ async function askStates(page) {
     await focused(page.locator("#ask-heading"));
     await page.getByRole("button", { name: "重试提问", exact: true }).click();
     await visible(page.getByText(/^浏览器布局测试（mock）：/));
+    await visible(page.getByText("开发预览", { exact: true }));
+    assert.equal(await page.getByText("开发预览·资料待审核", { exact: true }).count(), 0);
     await mobileGeometry(page, "AI response + long URL");
     assert.equal(await input.inputValue(), "");
   } finally {
@@ -805,6 +807,7 @@ async function previewBuildChecks(buildId) {
     page.on("pageerror", (error) => errors.push(error.message));
     for (const route of ["/trending", "/discover", "/stickers", "/post/H03"]) {
       await page.goto(`${previewURL}${route}`);
+      assert.equal(await page.getByText("开发预览：本条史实尚待人工审核", { exact: true }).count(), 0);
       const footer = page.getByRole("contentinfo", { name: "预览构建信息" });
       assert.ok((await footer.textContent()).includes(`v${packageVersion}`));
       assert.ok((await footer.textContent()).includes(buildId), "预览页脚的构建 ID 与 .next/BUILD_ID 不一致");
@@ -1067,7 +1070,9 @@ try {
       await visible(sourceItem.getByText(source.organization, { exact: true }));
       await visible(sourceItem.getByText(`支持要点：${source.supports}`, { exact: true }));
     }
-    assert.equal(await page.getByText("待人工审核", { exact: true }).count(), sourceCount);
+    assert.equal(await page.getByText("已人工审核", { exact: true }).count(), sourceCount);
+    assert.equal(await page.getByText("待人工审核", { exact: true }).count(), 0);
+    assert.ok(result.sources.every((source) => source.status === "reviewed"));
     await mobileGeometry(page, `${id} 揭晓与展开来源`);
     if (id === "H03") await revealScreenshot(page, "post-H03-reveal-390x844.png");
     if (id === "H11") await revealScreenshot(page, "post-H11-reveal-390x844.png");
@@ -1082,13 +1087,13 @@ try {
     if (id === "H03") {
       await screenshotAt(page, page.locator('[aria-labelledby="rewrite-heading"]'), "post-H03-rewrite-390x844.png");
       await screenshotAt(page, page.locator('[aria-labelledby="ask-heading"]'), "post-H03-ai-390x844.png");
-      // formal 下实际请求审核门控，不调用模型；布局异常分支另用 mock。
+      // reviewed 资料通过 formal 门控后，无 Key 返回 503；布局异常分支另用 mock。
       if (!process.env.E2E_BASE_URL) {
         const pending = page.waitForResponse((response) => response.url().endsWith("/api/ask"));
         await page.getByRole("textbox").fill("唐朝人用什么调料获得辛辣味？");
         await page.getByRole("button", { name: "发送问题", exact: true }).click();
-        assert.equal((await pending).status(), 409);
-        await visible(page.getByText("本条内容审核中，暂不开放追问", { exact: true }));
+        assert.equal((await pending).status(), 503);
+        await visible(page.getByText("AI 未配置", { exact: true }));
         await page.getByRole("link", { name: "返回揭晓", exact: true }).click();
         await focused(page.locator("#reveal-heading"));
       }
@@ -1099,7 +1104,7 @@ try {
     await visible(dialog);
     await visible(dialog.getByText(`查证结果：${answer ? "真" : "假"}`, { exact: true }));
     await visible(dialog.getByText(topic.reveal.correctedClaim, { exact: true }));
-    await visible(dialog.getByText("开发预览：本条史实尚待人工审核", { exact: true }));
+    await visible(dialog.getByText("已人工审核", { exact: true }));
     const overflow = await page.getByTestId("check-card").evaluate((node) => {
       const bounds = node.getBoundingClientRect();
       return {
@@ -1362,7 +1367,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, buildId, previewBuild, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true }, aiStates: "真实 formal 409 与 preview 无配置 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, buildId, previewBuild, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

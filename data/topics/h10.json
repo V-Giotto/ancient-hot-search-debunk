@@ -138,6 +138,8 @@
     "依据给定文献说明胶泥活字，不采用“比谷腾堡早约400年”的比较，不补毕昇卒年。",
     "维基文库作“畢昇”，第二来源转录作“毕升”；异体写法待人工核对，不据此拆成不同人物。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "原创 SVG，艺术创作·非史料；许可与待审记录见 docs/ASSET_LICENSES.md。"
 }

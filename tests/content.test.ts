@@ -152,14 +152,20 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     expect(() => validateContentSet(unbalanced, sourceIndex, { expectedCount: 12 })).toThrow(/真假比例必须为 6:6/);
   });
 
-  it("阶段6扩至 H01–H12，排名连续，题目及来源全部 pending 且没有审核签名", () => {
+  it("阶段6 H01–H12 排名连续、真假 6:6，题目及来源全部经 Giotto 人工审核（2026-10-30）", () => {
     const topics = getAllTopics();
     expect(topics.map((topic) => [topic.id, topic.rank, topic.isTrue])).toEqual([
       ["H01", 1, false], ["H02", 2, true], ["H03", 3, false], ["H04", 4, true],
       ["H05", 5, false], ["H06", 6, true], ["H07", 7, false], ["H08", 8, true],
       ["H09", 9, true], ["H10", 10, true], ["H11", 11, false], ["H12", 12, false],
     ]);
-    expect(topics.every((topic) => topic.reviewStatus === "pending")).toBe(true);
+    expect(topics).toHaveLength(12);
+    expect(topics.filter((topic) => topic.isTrue)).toHaveLength(6);
+    for (const topic of topics) {
+      expect(topic.reviewStatus).toBe("reviewed");
+      expect(topic.reviewBy).toBe("Giotto");
+      expect(topic.reviewedAt).toBe("2026-10-30T02:33:00-07:00");
+    }
     expect(sourceIndex.map((source) => source.id)).toEqual([
       "S-H01-01", "S-H01-02", "S-H02-01", "S-H02-02", "S-H02-03",
       "S-H03-01", "S-H03-02", "S-H03-03", "S-H04-01", "S-H04-02", "S-H04-03",
@@ -174,11 +180,13 @@ describe("validateContentSet：当前题目的完整性规则", () => {
       "S-H09-01": "卷三·防火", "S-H10-01": "卷十八", "S-H11-01": "卷十四·宪问",
     };
     for (const source of sourceIndex) {
-      expect(source.status).toBe("pending");
+      expect(source.status).toBe("reviewed");
+      expect(source.verifiedBy).toBe("Giotto");
+      expect(source.verifiedAt).toBe("2026-10-30T02:33:00-07:00");
       expect(source.locator).toBe(locators[source.id] ?? "");
     }
-    const raw = JSON.stringify([topics, sourceIndex]);
-    for (const field of ["reviewBy", "reviewedAt", "verifiedBy", "verifiedAt"]) expect(raw).not.toContain(`"${field}"`);
+    const cited = new Set(topics.flatMap((topic) => topic.sourceIds));
+    expect(sourceIndex.every((source) => cited.has(source.id))).toBe(true);
   });
 
   it.each([
@@ -240,7 +248,7 @@ describe("validateContentSet：当前题目的完整性规则", () => {
       expect(displayed).not.toMatch(/虚构|架空|模拟|非史料|只是创作|只是梗|均为现代演绎|拟人账号/);
       expect(topic.aiLimitations.length).toBeGreaterThan(0);
       expect(topic.assetLicense).toContain("艺术创作·非史料");
-      expect(topic.reviewStatus).toBe("pending");
+      expect(topic.reviewStatus).toBe("reviewed");
     }
   });
 

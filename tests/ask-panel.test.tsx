@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AskPanel } from "@/components/ai/AskPanel";
 import sourceIndex from "@/data/source-index.json";
 import { SourceSchema } from "@/lib/schemas";
+import { makeSource } from "./fixtures";
 
 const sources = sourceIndex.filter((source) => source.id.startsWith("S-H03-")).map((source) => SourceSchema.parse(source));
 const fetchMock = vi.fn<typeof fetch>();
@@ -21,8 +22,18 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe("AskPanel", () => {
+  it.each([
+    { reviewStatus: "pending" as const, sourceStatus: "reviewed" as const },
+    { reviewStatus: "reviewed" as const, sourceStatus: "pending" as const },
+  ])("preview 中题目 $reviewStatus、来源 $sourceStatus 时仍提示资料待审核", async ({ reviewStatus, sourceStatus }) => {
+    render(<AskPanel topicId="TEST-1" reviewStatus={reviewStatus} sources={[makeSource({ status: sourceStatus })]} />);
+    typeAndSend();
+    await screen.findByText("这是一条来自 mock Provider 的测试输出。");
+    expect(screen.getByText("开发预览·资料待审核")).toBeTruthy();
+  });
+
   it("初始不请求，空输入禁用发送，显示 500 字限制和 AI 提示", () => {
-    render(<AskPanel topicId="H03" sources={sources} />);
+    render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     expect(fetchMock).not.toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "发送问题" })).toHaveProperty("disabled", true);
     const input = screen.getByRole("textbox");
@@ -35,7 +46,7 @@ describe("AskPanel", () => {
   it("显示加载状态并禁止重复发送，完成后渲染模型回答、有效引用和预览标记", async () => {
     let resolve!: (response: Response) => void;
     fetchMock.mockImplementationOnce(() => new Promise((done) => { resolve = done; }));
-    render(<AskPanel topicId="H03" sources={sources} />);
+    render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     typeAndSend("  胡椒是什么？  ");
     expect(screen.getByRole("status").textContent).toContain("正在查阅资料");
     expect(screen.getByRole("button", { name: "回答中…" })).toHaveProperty("disabled", true);
@@ -44,7 +55,8 @@ describe("AskPanel", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     resolve(reply({ citedSourceIds: ["S-H03-02", "made-up-999", "S-H03-02"] }));
     expect(await screen.findByText("这是一条来自 mock Provider 的测试输出。")).toBeTruthy();
-    expect(screen.getByText("开发预览·资料待审核")).toBeTruthy();
+    expect(screen.getByText("开发预览", { exact: true })).toBeTruthy();
+    expect(screen.queryByText("开发预览·资料待审核")).toBeNull();
     const citations = screen.getByRole("list", { name: "本条回答引用" });
     const links = within(citations).getAllByRole("link");
     expect(links).toHaveLength(1);
@@ -63,7 +75,7 @@ describe("AskPanel", () => {
     [429, "提问太快了，请稍后再试。"],
   ])("HTTP %i 显示错误并保留输入，可手动重试", async (status, message) => {
     fetchMock.mockResolvedValueOnce(Response.json({ error: "上游内部错误不能直接显示" }, { status: status as number }));
-    render(<AskPanel topicId="H03" sources={sources} />);
+    render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     typeAndSend("问题仍在");
     expect((await screen.findByRole("alert")).textContent).toBe(message);
     expect(screen.getByRole("textbox")).toHaveProperty("value", "问题仍在");
@@ -77,7 +89,7 @@ describe("AskPanel", () => {
   });
   it.each([409, 503])("HTTP %i 可返回揭晓并聚焦，问题和错误提示仍保留", async (status) => {
     fetchMock.mockResolvedValueOnce(Response.json({}, { status }));
-    render(<><h2 id="reveal-heading" tabIndex={-1}>测试揭晓</h2><AskPanel topicId="H03" sources={sources} /></>);
+    render(<><h2 id="reveal-heading" tabIndex={-1}>测试揭晓</h2><AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} /></>);
     typeAndSend("返回后仍可重试");
     await screen.findByRole("alert");
     fireEvent.click(screen.getByRole("link", { name: "返回揭晓" }));
@@ -89,7 +101,7 @@ describe("AskPanel", () => {
   it("网络失败和非法响应可重试，输入不会丢失", async () => {
     fetchMock.mockRejectedValueOnce(new Error("offline"));
     fetchMock.mockResolvedValueOnce(Response.json({ wrong: "结构错误" }));
-    render(<AskPanel topicId="H03" sources={sources} />);
+    render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     typeAndSend("保留问题");
     await screen.findByRole("alert");
     expect(screen.getByRole("textbox")).toHaveProperty("value", "保留问题");
@@ -105,14 +117,14 @@ describe("AskPanel", () => {
     "胡椒和辣椒是一回事吗？",
     "你凭什么说辣椒是明代才传入？",
   ])("预设按钮直接向 /api/ask 发起真实组件请求：%s", async (question) => {
-    render(<AskPanel topicId="H03" sources={sources} />);
+    render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     fireEvent.click(screen.getByRole("button", { name: question }));
     await screen.findByText("这是一条来自 mock Provider 的测试输出。");
     expect(fetchMock).toHaveBeenCalledWith("/api/ask", expect.objectContaining({ method: "POST", body: JSON.stringify({ topicId: "H03", question, history: [] }) }));
   });
   it("后续请求只附最近 6 条成功对话，每条回答历史截到 1000 字", async () => {
     fetchMock.mockImplementation(async () => reply({ answer: "答".repeat(1500), preview: undefined }));
-    render(<AskPanel topicId="H03" sources={sources} />);
+    render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     for (let i = 0; i < 5; i++) {
       typeAndSend(`第${i}问`);
       await waitFor(() => expect(screen.getByRole("textbox")).toHaveProperty("value", ""));
@@ -121,11 +133,11 @@ describe("AskPanel", () => {
     expect(last.history).toHaveLength(6);
     expect(last.history[0]).toEqual({ role: "user", content: "第1问" });
     expect(last.history[1]).toEqual({ role: "assistant", content: "答".repeat(1000) });
-    expect(screen.queryByText("开发预览·资料待审核")).toBeNull();
+    expect(screen.queryByText(/开发预览/)).toBeNull();
   });
   it("即使响应引用 rejected 或未知来源，也不显示链接；答案作为文本渲染", async () => {
     fetchMock.mockResolvedValue(reply({ answer: "<script>alert('test')</script>", citedSourceIds: ["S-H03-02", "made-up-999"] }));
-    const { container } = render(<AskPanel topicId="H03" sources={sources.map((s) => ({ ...s, status: "rejected" }))} />);
+    const { container } = render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources.map((s) => ({ ...s, status: "rejected" }))} />);
     typeAndSend();
     await screen.findByText("<script>alert('test')</script>");
     expect(screen.queryByRole("link")).toBeNull();
@@ -133,7 +145,7 @@ describe("AskPanel", () => {
   });
   it("离开页面时取消进行中的请求", () => {
     fetchMock.mockImplementation(() => new Promise(() => {}));
-    const { unmount } = render(<AskPanel topicId="H03" sources={sources} />);
+    const { unmount } = render(<AskPanel topicId="H03" reviewStatus="reviewed" sources={sources} />);
     typeAndSend();
     const signal = fetchMock.mock.calls[0][1]!.signal!;
     unmount();

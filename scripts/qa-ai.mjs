@@ -95,7 +95,7 @@ try {
   const firstResult = await first.json();
   validateResult(first.status(), firstResult, 0);
   await page.getByText(firstResult.answer, { exact: true }).waitFor();
-  await page.getByText("开发预览·资料待审核", { exact: true }).waitFor();
+  await page.getByText("开发预览", { exact: true }).waitFor();
   assert.equal(await page.getByRole("list", { name: "本条回答引用" }).getByRole("link").count(), firstResult.citedSourceIds.length);
   await page.screenshot({ path: path.join(output, "real-ai-preview-1440.png"), fullPage: true });
   const results = [{ question: questions[0], status: first.status(), response: firstResult }];
@@ -141,7 +141,7 @@ try {
   assert.equal(await noKeyPage.getByRole("alert").filter({ hasText: unavailableBody.error }).textContent(), unavailableBody.error);
   assert.equal(await noKeyPage.getByRole("textbox").inputValue(), questions[0]);
   await noKeyPage.getByText("展开史料依据（3 条）", { exact: true }).click();
-  assert.equal(await noKeyPage.getByText("待人工审核", { exact: true }).count(), 3);
+  assert.equal(await noKeyPage.getByText("已人工审核", { exact: true }).count(), 3);
   await noKeyPage.getByRole("button", { name: /^C / }).click();
   await noKeyPage.getByText("改写正确，这样说更准确。", { exact: true }).waitFor();
   await noKeyPage.getByRole("button", { name: "生成查证卡", exact: true }).click();
@@ -171,7 +171,7 @@ try {
   await writeFile(path.join(output, "result.json"), json);
   let prefix = "# 阶段 C QA 报告\n\n";
   try { prefix = (await readFile(reportPath, "utf8")).split("<!-- stage-c-live:start -->")[0]; } catch { /* 首次生成 */ }
-  const report = `${prefix}<!-- stage-c-live:start -->\n## 生产服务真实联调\n\n- 时间：${summary.date}（UTC）；模型 ID：\`${model}\`；基础地址：\`${base}\`。\n- 模式：\`CONTENT_MODE=preview\`；H03 和来源仍为 pending，不构成人工审核。\n- 实际运行 Next.js 生产服务器。首问由浏览器点击预设问题发出真实请求，其余两问直接 POST /api/ask；没有 mock 或预录回答。\n- 下列为实际响应 JSON 摘要；运行时耗时及措辞可能变化。\n\n\`\`\`json\n${json}\n\`\`\`\n\n正常问题有白名单引用；私信问题承认资料不足/偏离主题，不编造原文；注入问题拒绝伪造。人工复核回答文本与自动检查相互补充，提示词隔离不等于模型永不出错。\n\n无 Key 生产服务使用 preview，显式清空 AI_API_KEY 后实测返回 503；默认 formal 对当前 pending H03 则先返回 409。无 Key 页面浏览、真假判断、来源展开、改写、PNG 导出均通过。截图、PNG 与机器可读结果保存在被忽略的 artifacts/stage-c/。\n\n仅 npm test 使用 mock fetch；复现真实联调需先 npm run build，再在安全注入 Key 的环境中运行 node scripts/qa-ai.mjs。Key 未写入配置文件、报告或其他验收产物。\n<!-- stage-c-live:end -->\n`;
+  const report = `${prefix}<!-- stage-c-live:start -->\n## 生产服务真实联调\n\n- 时间：${summary.date}（UTC）；模型 ID：\`${model}\`；基础地址：\`${base}\`。\n- 模式：\`CONTENT_MODE=preview\`；H03 和来源均为 reviewed；Giotto 于 2026-10-30 单人审核全部 12 题与 28 条来源，负责人同日确认，无第二人抽查。本次联调不改变审核状态。\n- 实际运行 Next.js 生产服务器。首问由浏览器点击预设问题发出真实请求，其余两问直接 POST /api/ask；没有 mock 或预录回答。\n- 下列为实际响应 JSON 摘要；运行时耗时及措辞可能变化。\n\n\`\`\`json\n${json}\n\`\`\`\n\n正常问题有白名单引用；私信问题承认资料不足/偏离主题，不编造原文；注入问题拒绝伪造。人工复核回答文本与自动检查相互补充，提示词隔离不等于模型永不出错。\n\n无 Key 生产服务使用 preview，显式清空 AI_API_KEY 后实测返回 503；当前 reviewed H03 在 formal 下也可通过审核门控，无 Key 时返回 503（formal 分支由 E2E 独立验证）。无 Key 页面浏览、真假判断、来源展开、改写、PNG 导出均通过。截图、PNG 与机器可读结果保存在被忽略的 artifacts/stage-c/。\n\nnpm test 使用 mock fetch，npm run test:e2e 的 AI 布局也使用 mock 且不调用真实模型；复现真实联调需先 npm run build，再在安全注入 Key 的环境中运行 node scripts/qa-ai.mjs。Key 未写入配置文件、报告或其他验收产物。\n<!-- stage-c-live:end -->\n`;
   assert.ok(!report.includes(key), "报告不得含密钥");
   await writeFile(reportPath, report);
   console.log(JSON.stringify({ passed: true, model, mode: "preview", realRequestStatuses: results.map((result) => result.status), noKeyStatus: 503, report: "docs/QA_REPORT.md", artifacts: "artifacts/stage-c/" }, null, 2));

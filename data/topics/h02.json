@@ -63,6 +63,8 @@
     "维基文库本‘旋置’不得悄然改成‘旋买’再作为该版本原文；不得补造未给出的引文、页码、URL、年代、人名或配送细节。",
     "封面中的订单进度、帖子及评论均为架空演绎，不是古代服务界面或历史人物原话。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
 }

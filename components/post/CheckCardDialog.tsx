@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { PublicTopic } from "@/lib/public-topic";
 import type { VerdictResult } from "@/lib/verdict";
 import { StatusIcon } from "@/components/social/StatusIcon";
+import { getContentReviewStatus, REVIEW_STATUS_LABELS } from "@/lib/review-status";
 
 export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic; result: VerdictResult; onClose: () => void }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -13,6 +14,8 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
   const [scale, setScale] = useState(0.6);
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState("");
+  const reviewStatus = getContentReviewStatus(topic.reviewStatus, result.sources);
+  const reviewLabel = reviewStatus === "pending" ? "开发预览：本条史实尚待人工审核" : REVIEW_STATUS_LABELS[reviewStatus];
 
   useEffect(() => {
     const dialog = dialogRef.current!;
@@ -92,14 +95,14 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
             <p style={{ margin: "15px 0", fontSize: 21, lineHeight: 1.7 }}>{result.reveal.shortExplanation}</p>
             <div style={{ marginTop: "auto", borderTop: "1px solid #dfd9ce", paddingTop: 14, fontSize: 16, lineHeight: 1.8, color: "#6d6559" }}>
               <p style={{ margin: 0 }}>来源：{result.sources.map((source) => source.organization).join(" / ")}</p>
-              <p style={{ margin: 0 }}><strong>开发预览：本条史实尚待人工审核</strong></p>
+              <p style={{ margin: 0 }}><strong>{reviewLabel}</strong></p>
             </div>
           </div>
         </div>
       </div>
       <p className="mt-3 text-sm leading-7"><strong>准确说法：</strong>{result.reveal.correctedClaim}</p>
       <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
-        <p className="text-xs text-muted">导出内容保留待人工审核提示。</p>
+        <p className="text-xs text-muted">导出内容保留来源与审核状态。</p>
         <button type="button" disabled={exporting} onClick={download} className="primary-button">{exporting ? "正在生成 PNG…" : "下载 PNG"}</button>
       </div>
       {error && <p role="alert" className="mt-3 text-sm text-accent">{error}</p>}

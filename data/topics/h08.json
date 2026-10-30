@@ -69,6 +69,8 @@
     "不将骨制柄写成塑料牙刷，不将杨柳枝清洁方式扩大成所有人的统一习惯。",
     "封面仅为虚构角色与骨柄结构示意，不复原已消失的毛束；仅使用给定事实和引文，不补写未给出的史实、年代、人名、页码或URL。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
 }

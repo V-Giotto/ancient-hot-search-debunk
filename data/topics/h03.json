@@ -62,6 +62,8 @@
     "所列来源对胡椒传入年代的说法存在差异，只采用唐代已有胡椒，不写确定的传入年代。",
     "不得编造古籍原文、页码、馆藏信息、来源 URL，不能超出所列来源支持的事实。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "仓库原创 SVG，由 Codex 生成，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
 }

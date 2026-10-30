@@ -67,6 +67,8 @@
     "保鲜食物的说法归属湖北省博物馆介绍，不扩展到具体食物或保鲜时长。",
     "封面为虚构青铜套器与冰饮贴纸，不是实物图或精确复原；仅使用给定事实，不补写未给出的史实、年代、人名、页码或URL。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
 }

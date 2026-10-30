@@ -131,7 +131,7 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
           </section>
         </VerdictReveal>
         {onReplay && <button type="button" className="secondary-button" onClick={onReplay}>再玩一次</button>}
-        <AskPanel key={topic.id} topicId={topic.id} sources={result.sources} />
+        <AskPanel key={topic.id} topicId={topic.id} reviewStatus={topic.reviewStatus} sources={result.sources} />
         <RewriteExercise options={result.rewriteOptions} selectedId={rewriteId} onSelect={setRewriteId} />
         <section className="panel flex flex-wrap items-center justify-between gap-5">
           <div><h2 className="font-bold">把这次查证带走</h2><p className="mt-2 text-sm text-muted">生成一张有结论、有来源的查证卡。</p></div>

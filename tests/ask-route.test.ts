@@ -4,9 +4,12 @@ import { POST } from "@/app/api/ask/route";
 import { ANSWER_MAX_LENGTH } from "@/lib/ask-contract";
 import { ASK_SYSTEM_PROMPT } from "@/lib/ask-context";
 import * as topics from "@/lib/topics";
+import { makeSource, makeTopic } from "./fixtures";
 
 const h03 = topics.getTopicById("H03")!;
 const h03Sources = topics.getSourcesForTopic(h03);
+const pendingSource = makeSource({ id: "S-TEST-01" });
+const pendingTopic = makeTopic({ sourceIds: [pendingSource.id], aiFacts: ["[S-TEST-01] 合成测试事实"] });
 const TEST_KEY = "test-only-secret-do-not-return";
 const fetchMock = vi.fn<typeof fetch>();
 let ipSerial = 0;
@@ -64,7 +67,8 @@ describe("POST /api/ask：输入校验与审核门控", () => {
   });
   it.each(["", "formal", "invalid"])("CONTENT_MODE=%j 时 pending 返回 409", async (mode) => {
     vi.stubEnv("CONTENT_MODE", mode);
-    const response = await POST(request());
+    vi.spyOn(topics, "getTopicById").mockReturnValue(pendingTopic);
+    const response = await POST(request({ topicId: pendingTopic.id, question: "合成测试问题" }));
     expect(response.status).toBe(409);
     expect(await response.json()).toEqual({ error: "本条内容审核中，暂不开放追问" });
     expect(fetchMock).not.toHaveBeenCalled();
@@ -75,15 +79,41 @@ describe("POST /api/ask：输入校验与审核门控", () => {
     expect((await POST(request())).status).toBe(409);
     expect(fetchMock).not.toHaveBeenCalled();
   });
-  it("preview 模式接受真实 pending 数据并标注 preview:true", async () => {
-    const response = await POST(request());
+  it("preview 模式接受合成 pending 数据并标注 preview:true 和真实审核状态", async () => {
+    vi.spyOn(topics, "getTopicById").mockReturnValue(pendingTopic);
+    vi.spyOn(topics, "getSourcesForTopic").mockReturnValue([pendingSource]);
+    fetchMock.mockResolvedValue(providerResult({ answer: "合成测试输出", citedSourceIds: [pendingSource.id], grounded: true }));
+    const response = await POST(request({ topicId: pendingTopic.id, question: "合成测试问题" }));
     expect(response.status).toBe(200);
     expect(response.headers.get("Cache-Control")).toBe("no-store");
-    expect(await response.json()).toEqual({ answer: "模型测试输出", citedSourceIds: ["S-H03-01"], grounded: true, preview: true });
+    expect(await response.json()).toEqual({ answer: "合成测试输出", citedSourceIds: [pendingSource.id], grounded: true, preview: true });
+    expect(outgoing().body.messages[1].content).toContain('"reviewStatus":"pending"');
+    expect(outgoing().body.messages[1].content).toContain('"status":"pending"');
+  });
+  it.each(topics.getAllTopics())("formal 模式下真实 reviewed $id 进入 mock AI 流程", async (topic) => {
+    vi.stubEnv("CONTENT_MODE", "formal");
+    const sourceId = topic.sourceIds[0];
+    fetchMock.mockResolvedValue(providerResult({ answer: "正式模式测试输出", citedSourceIds: [sourceId], grounded: true }));
+    const response = await POST(request({ topicId: topic.id, question: "本条资料支持什么？" }));
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
+    expect(await response.json()).toEqual({ answer: "正式模式测试输出", citedSourceIds: [sourceId], grounded: true });
+    expect(fetchMock).toHaveBeenCalledOnce();
+    const context = JSON.parse(outgoing().body.messages[1].content.split("\n")[1]);
+    expect(context).toMatchObject({ topicId: topic.id, reviewStatus: "reviewed", preview: false });
+    expect(context.sources.map((source: { id: string }) => source.id)).toEqual(topic.sourceIds);
+    expect(context.sources.every((source: { status: string }) => source.status === "reviewed")).toBe(true);
+    expect(context.aiFacts).toEqual(topic.aiFacts);
+  });
+  it("preview 下真实 reviewed 资料保留 reviewed 上下文，仅标记开发模式", async () => {
+    const response = await POST(request());
+    expect(await response.json()).toMatchObject({ preview: true });
+    const context = outgoing().body.messages[1].content;
+    expect(context).toContain('"reviewStatus":"reviewed"');
+    expect(context).not.toContain('"status":"pending"');
   });
   it("formal 模式只传 reviewed 来源及相关事实，不传 pending/rejected，且省略 preview", async () => {
     vi.stubEnv("CONTENT_MODE", "formal");
-    vi.spyOn(topics, "getTopicById").mockReturnValue({ ...h03, reviewStatus: "reviewed" });
     vi.spyOn(topics, "getSourcesForTopic").mockReturnValue(h03Sources.map((s, index) => ({ ...s, status: index === 0 ? "reviewed" : index === 1 ? "pending" : "rejected" })));
     const response = await POST(request());
     expect(response.status).toBe(200);

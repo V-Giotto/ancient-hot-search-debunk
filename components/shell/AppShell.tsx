@@ -22,7 +22,7 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
         <main id="main-content" tabIndex={-1} className="min-w-0 wrap-break-word">
           {preview && <div role="note" className="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-gold/40 bg-gold/10 px-4 py-3 text-xs leading-6 text-muted">
             <span className="rounded-md bg-gold/15 px-2.5 py-1 font-medium text-ink">开发预览模式</span>
-            <span>开发预览：本条史实尚待人工审核</span>
+            <span>审核状态以各题与来源标记为准。</span>
           </div>}
           {children}
         </main>

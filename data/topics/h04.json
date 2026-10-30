@@ -63,6 +63,8 @@
     "目前尚未发现公认实物不等于实物从未存在；封面是虚构财经资讯卡，不能当成交子票面或印版复原。",
     "仅可引用所给事实和引文；《续资治通鉴长编》卷101由 S-H04-02 转引，不补写未给出的原文、页码、URL、年代或人名。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
 }

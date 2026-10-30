@@ -8,6 +8,7 @@ import { setTimeout as delay } from "node:timers/promises";
 const key = process.env.AI_API_KEY?.trim();
 assert.ok(key, "需要环境中已安全注入 AI_API_KEY");
 const model = "deepseek-flash";
+const runDate = new Date().toISOString().slice(0, 10);
 const port = Number(process.env.AI_QA_STAGE3_PORT || 3136);
 const url = `http://127.0.0.1:${port}`;
 const output = path.resolve("artifacts/stage-3/ai");
@@ -81,13 +82,13 @@ try {
     const checks = assess(item, http.status, response);
     const result = { ...item, status: http.status, response, milliseconds: Date.now() - start, summary: [...(response.answer || response.error || "无答案").replace(/\s+/g, " ")].slice(0, 80).join(""), checks, asExpected: Object.values(checks).every(Boolean) };
     results.push(result);
-    await writeFile(path.join(output, "live-results.json"), JSON.stringify({ date: "2026-10-29", at: new Date().toISOString(), model, mode: "preview", results }, null, 2));
+    await writeFile(path.join(output, "live-results.json"), JSON.stringify({ date: runDate, at: new Date().toISOString(), model, mode: "preview", results }, null, 2));
     console.log(JSON.stringify({ topicId: item.topicId, status: result.status, grounded: response.grounded ?? null, citedSourceIds: response.citedSourceIds ?? [], summary: result.summary, asExpected: result.asExpected }));
   }
   assert.ok(!logs.includes(key), "服务日志不得包含密钥");
   assert.ok(cases.every(({ question }) => !logs.includes(question)), "服务日志不得包含完整问题");
   const rows = results.map((result) => `| ${result.topicId} | ${markdown(result.question)} | ${result.status} | ${result.response.grounded ?? "—"} | ${markdown(JSON.stringify(result.response.citedSourceIds ?? []))} | ${markdown(result.summary)} | ${result.asExpected ? "符合（待逐条审阅原答）" : "不符合，待修复重测"} |`).join("\n");
-  const section = `<!-- stage-3-live:start -->\n## 阶段 3：七问真实 AI（2026-10-29）\n\n模型：\`${model}\`；模式：\`CONTENT_MODE=preview\`；通过本机 Next.js **生产服务**实际 POST /api/ask，没有 mock 或预录答案。题目、真值、来源和审核状态未修改，全部仍为 pending。Key 仅由环境继承，静态产物、响应和服务日志的密钥检查通过；密钥未打印或写入文件。\n\n| 话题 | 实际问题 | HTTP | grounded | citedSourceIds | 答案摘要（≤80字） | 是否符合预期 |\n| --- | --- | --- | --- | --- | --- | --- |\n${rows}\n\n以上为实际响应摘要，原答与逐项检查位于被忽略的 \`artifacts/stage-3/ai/live-results.json\`。自动检查只核对结构、引用白名单、grounded 与关键词，需结合事实卡逐条审阅完整答案，不据此改变审核状态。mock 伪造来源过滤仍由 \`tests/ask-route.test.ts\` 与 \`tests/source-guard.test.ts\` 覆盖，包括 made-up-999 被过滤、有效引用去重、全无效时 grounded:false。\n<!-- stage-3-live:end -->`;
+  const section = `<!-- stage-3-live:start -->\n## 阶段 3：七问真实 AI（${runDate}）\n\n模型：\`${model}\`；模式：\`CONTENT_MODE=preview\`；通过本机 Next.js **生产服务**实际 POST /api/ask，没有 mock 或预录答案。本脚本不修改题目、真值、来源或审核状态。当前 12 题与 28 条来源已由 Giotto 于 2026-10-30 单人审核通过，项目负责人同日确认，无第二人抽查。Key 仅由环境继承，静态产物、响应和服务日志的密钥检查通过；密钥未打印或写入文件。\n\n| 话题 | 实际问题 | HTTP | grounded | citedSourceIds | 答案摘要（≤80字） | 是否符合预期 |\n| --- | --- | --- | --- | --- | --- | --- |\n${rows}\n\n以上为实际响应摘要，原答与逐项检查位于被忽略的 \`artifacts/stage-3/ai/live-results.json\`。自动检查只核对结构、引用白名单、grounded 与关键词，需结合事实卡逐条审阅完整答案，不据此改变审核状态。mock 伪造来源过滤仍由 \`tests/ask-route.test.ts\` 与 \`tests/source-guard.test.ts\` 覆盖，包括 made-up-999 被过滤、有效引用去重、全无效时 grounded:false。\n<!-- stage-3-live:end -->`;
   const previous = await readFile(reportPath, "utf8");
   const updated = previous.includes("<!-- stage-3-live:start -->") ? previous.replace(/<!-- stage-3-live:start -->[\s\S]*?<!-- stage-3-live:end -->/, section) : `${previous.trimEnd()}\n\n${section}\n`;
   assert.ok(!updated.includes(key), "报告不得包含密钥");

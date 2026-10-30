@@ -42,7 +42,7 @@ describe("POST /api/verdict（真实 H01–H12 数据）", () => {
     expect(result.isCorrect).toBe(answer === isTrue);
     expect(result.reveal.correctedClaim).toBe(corrected);
     expect(result.sources).toHaveLength(sourceCount);
-    expect(result.sources.every((source: { id: string; status: string }) => source.status === "pending" && source.id.startsWith(`S-${topicId}-`))).toBe(true);
+    expect(result.sources.every((source: { id: string; status: string }) => source.status === "reviewed" && source.id.startsWith(`S-${topicId}-`))).toBe(true);
     expect(result.rewriteOptions.find((option: { isBest: boolean }) => option.isBest).id).toBe(best);
     expect(result).not.toHaveProperty("aiFacts");
   });

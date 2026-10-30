@@ -229,7 +229,7 @@ describe("真假判断与揭晓", () => {
     for (const field of ["shortExplanation", "detailedExplanation", "correctedClaim", "funFact"] as const) {
       expect(within(reveal).getByText(topic.reveal[field], { exact: true })).toBeTruthy();
     }
-    expect(within(reveal).getAllByText("待人工审核")).toHaveLength(topic.sourceIds.length);
+    expect(within(reveal).getAllByText("已人工审核")).toHaveLength(topic.sourceIds.length);
     const links = within(reveal).getAllByRole("link").filter((link) => link.getAttribute("target") === "_blank");
     expect(links.map((link) => link.getAttribute("href"))).toEqual(result().sources.map((source) => source.url));
   });

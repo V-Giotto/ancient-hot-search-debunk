@@ -62,6 +62,8 @@
     "S-H01-02 维基文库诗题作‘範十’，页面文本质量标记为25%，须人工复核文字，不把标题异体字或质量标记当作新增史实。",
     "仅使用 S-H01-01、S-H01-02 支持的事实与已给引文；不得增加其它史实、年代、人名、引文、页码或 URL。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
 }

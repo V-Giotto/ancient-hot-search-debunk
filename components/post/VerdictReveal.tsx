@@ -1,11 +1,12 @@
 import type { ReactNode, Ref } from "react";
 import type { VerdictResult } from "@/lib/verdict";
 import { StatusIcon } from "@/components/social/StatusIcon";
+import { REVIEW_STATUS_LABELS } from "@/lib/review-status";
 
 export function VerdictReveal({ result, headingRef, children }: { result: VerdictResult; headingRef?: Ref<HTMLHeadingElement>; children?: ReactNode }) {
   return (
     <section className="panel reveal-panel" aria-labelledby="reveal-heading">
-      <p className="eyebrow">查证结果 · 开发预览</p>
+      <p className="eyebrow">查证结果</p>
       <h2 ref={headingRef} id="reveal-heading" tabIndex={-1} className="text-xl font-bold">{result.reveal.verdictHeadline}</h2>
       <div className="verdict-stamp-row">
         <span className={`verdict-stamp ${result.isTrue ? "stamp-true" : ""}`}>
@@ -37,7 +38,7 @@ export function VerdictReveal({ result, headingRef, children }: { result: Verdic
               <li key={source.id} className="rounded-xl border border-ink/10 p-4">
                 <div className="flex flex-wrap items-center gap-2 text-xs">
                   <span className="font-semibold">{source.organization}</span>
-                  <span className="rounded-md bg-gold/15 px-2 text-[#7d5b32]">待人工审核</span>
+                  <span className="rounded-md bg-gold/15 px-2 text-[#7d5b32]">{REVIEW_STATUS_LABELS[source.status]}</span>
                   <span className="text-muted">{source.id}</span>
                 </div>
                 <a href={source.url} target="_blank" rel="noopener" className="mt-1 block font-semibold text-accent hover:underline">{source.title} ↗</a>

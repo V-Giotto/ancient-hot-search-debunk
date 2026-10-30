@@ -64,6 +64,8 @@
     "封面是虚构体育资讯场景，不是球场、球具或比赛规则复原。",
     "仅使用给定事实和引文，不补写未给出的史实、年代、人名、引文、页码或URL。"
   ],
-  "reviewStatus": "pending",
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T02:33:00-07:00",
   "assetLicense": "仓库原创 SVG，由 Codex 编写，复用已登记的原创头像，人工待审；详见 docs/ASSET_LICENSES.md。艺术创作·非史料。"
 }

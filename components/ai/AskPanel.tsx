@@ -5,7 +5,8 @@ import {
   AskResponseSchema, HISTORY_CONTENT_MAX_LENGTH, HISTORY_MAX_LENGTH, QUESTION_MAX_LENGTH,
   type AskHistoryEntry, type AskResponse,
 } from "@/lib/ask-contract";
-import type { Source } from "@/lib/schemas";
+import type { HotTopic, Source } from "@/lib/schemas";
+import { getContentReviewStatus } from "@/lib/review-status";
 import { validateSourceIds } from "@/lib/source-guard";
 
 const PRESET_QUESTIONS = [
@@ -26,7 +27,7 @@ const ERROR_MESSAGES: Record<number, string> = {
 
 type Exchange = { question: string; response: AskResponse };
 
-export function AskPanel({ topicId, sources }: { topicId: string; sources: Source[] }) {
+export function AskPanel({ topicId, reviewStatus, sources }: { topicId: string; reviewStatus: HotTopic["reviewStatus"]; sources: Source[] }) {
   const [input, setInput] = useState("");
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [pendingQuestion, setPendingQuestion] = useState("");
@@ -34,6 +35,7 @@ export function AskPanel({ topicId, sources }: { topicId: string; sources: Sourc
   const controllerRef = useRef<AbortController | null>(null);
   const busy = !!pendingQuestion;
   const allowedSources = sources.filter((source) => source.status !== "rejected" && /^https?:\/\//.test(source.url));
+  const pendingContent = getContentReviewStatus(reviewStatus, allowedSources) === "pending";
 
   useEffect(() => () => controllerRef.current?.abort(), []);
 
@@ -88,7 +90,7 @@ export function AskPanel({ topicId, sources }: { topicId: string; sources: Sourc
               <p className="ml-8 rounded-xl bg-gold/15 p-4 text-sm leading-7 break-words"><span className="font-semibold">你：</span>{question}</p>
               <div className="mr-4 rounded-xl border border-ink/10 bg-background p-4 text-sm leading-7 break-words">
                 <div className="flex flex-wrap items-center gap-2"><span className="font-semibold">值班史官 · AI</span>
-                  {response.preview && <span className="rounded bg-gold/20 px-2 text-xs text-[#7d5b32]">开发预览·资料待审核</span>}
+                  {response.preview && <span className="rounded bg-gold/20 px-2 text-xs text-[#7d5b32]">{pendingContent ? "开发预览·资料待审核" : "开发预览"}</span>}
                 </div>
                 <p className="mt-2 whitespace-pre-wrap">{response.answer}</p>
                 {ids.length > 0 && <ul className="mt-3 space-y-2" aria-label="本条回答引用">
