@@ -8,7 +8,7 @@ import { getFriendById, toFriendProfile } from "@/lib/friends";
 vi.mock("next/navigation", () => ({ usePathname: () => "/friends/libai" }));
 const friend = toFriendProfile(getFriendById("libai")!);
 const fetchMock = vi.fn<typeof fetch>();
-beforeEach(() => { vi.stubGlobal("fetch", fetchMock); fetchMock.mockReset().mockResolvedValue(Response.json({ reply: "不确定，资料里没写。" })); });
+beforeEach(() => { vi.stubGlobal("fetch", fetchMock); fetchMock.mockReset().mockResolvedValue(Response.json({ reply: "此事吾记不真切了，换个话头可好？" })); });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 function write(value: string) { fireEvent.change(screen.getByRole("textbox", { name: "写给李白" }), { target: { value } }); }
 function send() { fireEvent.click(screen.getByRole("button", { name: "发送消息" })); }
@@ -39,10 +39,12 @@ describe("好友列表与即时对话", () => {
     expect(screen.getByRole("status").textContent).toContain("正在回信");
     expect(fetchMock).toHaveBeenCalledOnce();
     expect(transcript().querySelector(".chat-message-user .chat-bubble")?.textContent).toBe("你好");
-    resolve(Response.json({ reply: "不确定，资料里没写。" }));
+    expect(within(transcript()).getAllByText("我", { exact: true })).toHaveLength(1);
+    resolve(Response.json({ reply: "此事吾记不真切了，换个话头可好？" }));
     await waitFor(() => expect(screen.queryByRole("status")).toBeNull());
     expect((screen.getByRole("textbox") as HTMLTextAreaElement).value).toBe("");
     expect(transcript().querySelectorAll(".chat-message-assistant")).toHaveLength(2);
+    expect(within(transcript()).getAllByText("我", { exact: true })).toHaveLength(1);
     expect(JSON.parse(fetchMock.mock.calls[0][1]!.body as string)).toEqual({ friendId: "libai", message: "你好", history: [] });
   });
   it.each([503, 429, 502, 504])("%s 友好错误，保留输入；重试后无重复消息", async (status) => {
@@ -70,7 +72,7 @@ describe("好友列表与即时对话", () => {
     expect((screen.getByRole("textbox") as HTMLTextAreaElement).value).toBe("你好");
   });
   it("超过 6 轮时只发送最近 12 条历史，不发送开场白", async () => {
-    fetchMock.mockImplementation(async () => Response.json({ reply: "资料里没写。" }));
+    fetchMock.mockImplementation(async () => Response.json({ reply: "此事吾不敢妄言。" }));
     render(<FriendChat friend={friend} />);
     for (let index = 0; index < 8; index++) {
       write(`消息${index}`); send();
@@ -79,7 +81,7 @@ describe("好友列表与即时对话", () => {
     const history = JSON.parse(fetchMock.mock.calls[7][1]!.body as string).history;
     expect(history).toHaveLength(12);
     expect(history[0]).toEqual({ role: "user", content: "消息1" });
-    expect(history.at(-1)).toEqual({ role: "assistant", content: "资料里没写。" });
+    expect(history.at(-1)).toEqual({ role: "assistant", content: "此事吾不敢妄言。" });
     expect(JSON.stringify(history)).not.toContain(friend.greeting);
   });
   it("卸载后取消请求；重新打开不恢复历史与草稿", async () => {

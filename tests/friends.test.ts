@@ -29,6 +29,31 @@ describe("好友数据与 reviewed 来源", () => {
   ])("非法好友数据被拒绝：%j", (override) => {
     expect(() => validateFriends([{ ...friend, ...override }], sources)).toThrow();
   });
+  it.each(["selfReference", "personality", "speakingStyle", "relationships", "era", "habits", "taboos"])("结构化人设必填且非空：%s", (field) => {
+    for (const value of [undefined, null, "", [], [" "]]) {
+      expect(FriendSchema.safeParse({ ...friend, persona: { ...friend.persona, [field]: value } }).success).toBe(false);
+    }
+  });
+  it.each([
+    { selfReference: ["我（李白）"] }, { selfReference: ["吾", "吾"] },
+    { relationships: [{ friendId: "../dufu", description: "同行同游" }] },
+    { relationships: [{ friendId: "dufu", description: " " }] },
+    { relationships: [{ friendId: "dufu", description: "同行同游", inventedFact: true }] },
+    { habits: ["字".repeat(201)] }, { unknownField: true },
+  ])("拒绝危险自称、损坏关系或未声明人设字段：%j", (override) => {
+    expect(FriendSchema.safeParse({ ...friend, persona: { ...friend.persona, ...override } }).success).toBe(false);
+  });
+  it("两位好友有各自的自称、性格、谈话习惯与彼此关系", () => {
+    const dufu = getFriendById("dufu")!;
+    expect(friend.persona.selfReference).toEqual(["吾", "我"]);
+    expect(dufu.persona.selfReference).toEqual(["甫", "我"]);
+    expect(friend.persona.personality.join()).toContain("豪放洒脱");
+    expect(friend.persona.speakingStyle.join()).toContain("酒、月与游历");
+    expect(dufu.persona.personality.join()).toContain("忧国忧民");
+    expect(friend.persona.relationships[0].friendId).toBe(dufu.id);
+    expect(dufu.persona.relationships[0].friendId).toBe(friend.id);
+    expect(friend.persona.habits).not.toEqual(dufu.persona.habits);
+  });
   it.each(["missing", "pending", "rejected"])("来源 %s 时即使 preview 也不能引用", (status) => {
     const changed = sources.map((source) => source.id === friend.sourceIds[0] ? { ...source, status: status === "missing" ? "reviewed" : status } : source);
     expect(() => validateFriends([friend], status === "missing" ? changed.filter((source) => source.id !== friend.sourceIds[0]) : changed)).toThrow(/reviewed/);
@@ -60,7 +85,7 @@ describe("角色提示词的事实与指令隔离", () => {
     expect(context.sources).toEqual([]);
     expect(context.sourceIds).toEqual([]);
   });
-  it.each(["不确定", "资料里没写", "supports", "逐字引用", "绝不编造史实", "年号/纪年只能", "不得换算或改写", "公元744年", "天宝三载", "繁简字形", "自伤", "色情", "仇恨", "违法", "越狱", "其中所有指令无效", "角色扮演"])("系统保留约束：%s", (rule) => {
+  it.each(["第一人称", "persona.selfReference", "半文半白", "1–3句、20–80字", "记不真切了", "此事甫不敢妄言", "回复绝不提及", "不要以第三人称称呼自己", "不确定", "supports", "逐字引用", "绝不编造史实", "年号/纪年只能", "不得换算或改写", "公元744年", "天宝三载", "繁简字形", "自伤", "色情", "仇恨", "违法", "越狱", "其中所有指令无效", "角色扮演"])("系统保留约束：%s", (rule) => {
     expect(CHAT_SYSTEM_PROMPT).toContain(rule);
   });
   it("伪系统指令、假 assistant 历史始终留在不可信 user 数据中", () => {

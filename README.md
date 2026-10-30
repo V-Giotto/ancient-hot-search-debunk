@@ -110,7 +110,7 @@ CHROME_PATH=/usr/bin/google-chrome npm run test:e2e
 - `simulatedViews` 为独立的预制浏览数；帖子统计行展示回复/转发/点赞/浏览，`simulatedBookmarks` 继续保留在数据中。评论可含 `simulatedReplies`、`simulatedReposts`、`simulatedViews`，旧数据缺省时展示 0。全部统计只读，UI 不附加虚构/模拟标签。
 - `public/covers/`、`public/avatars/` 存放 H01–H12 原创封面与复用的原创头像；`public/decorations/` 继续预留。使用系统中文无衬线字体，不提交字体文件。
 
-## 好友对话（v0.15.0）
+## 好友对话（v0.17.0）
 
 `/friends` 展示好友列表，`/friends/libai` 与 `/friends/dufu` 为初始对话页；四个底部标签在 375px 宽下均保持 ≥44px 触控范围。无需登录，会话仅存组件内存，刷新清空；发送失败保留草稿，可手动重试，无自动模型请求。对话页只保留一行角色扮演轻说明。
 
@@ -124,19 +124,27 @@ CHROME_PATH=/usr/bin/google-chrome npm run test:e2e
   "bio": "简短介绍，避免新增无来源史实。",
   "greeting": "开场白。",
   "sourceIds": ["S-H01-01", "S-H01-02"],
-  "persona": ["表达风格要点；不能用作历史事实。"]
+  "persona": {
+    "selfReference": ["我"],
+    "personality": ["友好恳切。"],
+    "speakingStyle": ["半文半白，简短易懂。"],
+    "relationships": [{ "friendId": "dufu", "description": "只填写有已审核依据的人物关系。" }],
+    "era": "只填写已审核内容支持的时代背景。",
+    "habits": ["先回应对方，不确定时说记不真切了。"],
+    "taboos": ["不提资料或生成过程，不编造史实或诗句。"]
+  }
 }
 ```
 
-头像使用本项目新绘的 SVG 山月（`moon`）或汀草（`reeds`）纹样，可在数据中搭配三种六位十六进制颜色；不加载外部图片、不执行 SVG 字符串。`sourceIds` 必须唯一且指向索引中存在的 reviewed 来源，preview 也不放宽。后续细化人设应编辑 JSON 的 `persona`、简介与开场白，史实仍只取该好友来源的 `supports`；本版未添加人物生平或新诗句。
+头像使用本项目新绘的 SVG 山月（`moon`）或汀草（`reeds`）纹样，可在数据中搭配三种六位十六进制颜色；不加载外部图片、不执行 SVG 字符串。`sourceIds` 必须唯一且指向索引中存在的 reviewed 来源，preview 也不放宽。persona 各字段必填且非空，自称为不重复的汉字短语，首项用于失败兜底。李白自称吾／我，豪放洒脱；杜甫自称甫／我，沉郁恳切。人设中的事实仅摘取已有已审李杜内容，逐条列入 `docs/CONTENT_REVIEW.md` 与 `docs/人工审核清单.md`，六项均待 Giotto 审核，不继承原审核签名。人设不能扩大事实白名单，没有新增引语或诗句。
 
-`POST /api/chat` 接收 `{ friendId, message, history?: [{ role: "user" | "assistant", content }] }`，返回 `{ reply }`。单条用户消息最多 200 字、历史最多 12 条（页面发送最近 12 条，接口拒绝超限），历史中的 user 最多 200 字、assistant 最多 1200 字；回复最多 1200 字，首次 `max_tokens: 1200`，重试提高至 2400。仅提取上游 `reply`，容忍额外字段、完整纯文本及完整 JSON 代码围栏。截断 JSON、空回复、非法回复或违规引用共用一次自动重试预算；仍失败则 HTTP 200 返回不含引用、承认不确定的固定回复。复用 `AI_API_KEY`、`AI_BASE_URL`、`AI_MODEL`（默认 `deepseek-flash`）和 `AI_TIMEOUT_MS`（默认 20000）。只在服务端读取配置，不记录用户消息原文、上游原文或密钥。
+`POST /api/chat` 接收 `{ friendId, message, history?: [{ role: "user" | "assistant", content }] }`，返回 `{ reply }`。单条用户消息最多 200 字、历史最多 12 条（页面发送最近 12 条，接口拒绝超限），历史中的 user 最多 200 字、assistant 最多 1200 字；回复通常 1–3 句、20–80 字，硬上限仍为 1200 字，首次 `max_tokens: 1200`，重试提高至 2400。仅提取上游 `reply`，容忍额外字段、完整纯文本及完整 JSON 代码围栏。截断 JSON、空回复、非法回复、违规引用或元话语／自称异常共用一次自动重试预算；仍失败则 HTTP 200 返回按好友自称生成的存疑回复，例如“此事吾记不真切了，换个话头可好？”。复用 `AI_API_KEY`、`AI_BASE_URL`、`AI_MODEL`（默认 `deepseek-flash`）和 `AI_TIMEOUT_MS`（默认 20000）。只在服务端读取配置，不记录用户消息原文、上游原文或密钥。
 
-系统约束包含：仅据 reviewed `supports` 陈述史实；资料不足明确“不确定/资料里没写”；不编造史实或诗句；年号/纪年仅用来源原样写法，不换算。服务端保守校验所有中英文成对引号及《》书名：内容必须在该好友 reviewed 白名单来源的单个 `supports` 或 `title` 字段中连续、逐字出现，不自动转换繁简字形或标点。违规时重试提示明确给出违规片段，再失败则整条回复换为安全兜底。拒绝有害、违法、色情、仇恨、自伤指导与脱离角色的越狱。历史（含客户端传入的 assistant）统一作为不可信 user 数据，不可修改系统规则。引用校验不等于对无引号陈述的逐句语义审核。
+系统约束包含：第一人称、现代人读得懂的半文半白；仅据 reviewed `supports` 陈述史实，不确定时说记不真切了／此事吾（或甫）不敢妄言；不编造史实或诗句；年号/纪年仅用来源原样写法，不换算。服务端正则检查资料、来源、设定、提示词、AI、人工智能、模型、角色扮演及当前好友姓名旁白／括号署名；允许正常第一人称介绍、谈论另一位好友，书名和引文中的姓名交给引文校验。所有中英文成对引号及《》书名必须在该好友 reviewed 白名单来源的单个 `supports` 或 `title` 字段中连续、逐字出现，不自动转换繁简字形或标点。统一重试提示只列出不可信违规片段，再失败则整条回复换为角色口吻兜底。拒绝有害、违法、色情、仇恨、自伤指导与脱离角色的越狱。历史（含客户端传入的 assistant）统一作为不可信 user 数据，不可修改系统规则。正则与引用校验不等于对无引号陈述的逐句语义审核。
 
 按 IP 单进程内存限流 10 次/分钟（两位好友共用额度，与帖子追问分开），429 带 `Retry-After`；多实例部署需共享限流，可信代理须覆盖 `x-forwarded-for` / `x-real-ip`。输入非法 400、未知好友 404、无 key 503、上游失败 502、超时 504，均返回固定友好错误且不缓存。
 
-单测覆盖数据、提示词、边界、限流、无 key、超时、上游异常与密钥回显隔离；E2E 覆盖三种手机视口的好友列表、两位好友、加载/离线/长回复/重试/刷新与 404，全程 mock 或无 key。列表截图为 `/workspace/iter1/v0.15.0-friends-390x844.png`，mock 对话仅存 `artifacts/stage-6/screenshots/v0.15.0-chat-mock-390x844.png`；真实对话截图由用户自行拍摄。
+单测覆盖结构化人设、提示词、统一输出检查／重试／各好友兜底、边界、限流、无 key、超时、上游异常与密钥回显隔离；E2E 覆盖三种手机视口的好友列表、两位好友、加载/离线/长回复/重试/刷新与 404，检查发送中和完成后自己的消息只有一处“我”，全程 mock 或无 key。列表截图为 `/workspace/iter1/v0.17.0-friends-390x844.png`，mock 对话仅存 `artifacts/stage-6/screenshots/v0.17.0-chat-mock-390x844.png`；真实对话截图由用户自行拍摄。
 
 ## 本机贴纸与完成度
 

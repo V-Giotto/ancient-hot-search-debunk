@@ -5,7 +5,6 @@ export const CHAT_HISTORY_MAX_LENGTH = 12;
 export const CHAT_REPLY_MAX_LENGTH = 1200;
 export const CHAT_MAX_TOKENS = 1200;
 export const CHAT_RETRY_MAX_TOKENS = 2400;
-export const CHAT_SAFE_REPLY = "资料里没写清楚，我还不能确定。咱们先保留存疑，不把推测当作定论。";
 
 export const ChatHistoryEntrySchema = z.discriminatedUnion("role", [
   z.strictObject({ role: z.literal("user"), content: z.string().trim().min(1).max(CHAT_MESSAGE_MAX_LENGTH) }),

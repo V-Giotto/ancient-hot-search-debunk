@@ -389,7 +389,7 @@ async function friendsFlow(page, viewport, geometry) {
   let release;
   const gate = new Promise((resolve) => { release = resolve; });
   let status = 200;
-  let reply = "不确定，资料里没写。咱们先核对出处，再慢慢聊。";
+  let reply = "此事吾记不真切了，换个话头可好？";
   const sent = [];
   await page.route("**/api/chat", async (route) => {
     sent.push(route.request().postDataJSON());
@@ -400,11 +400,13 @@ async function friendsFlow(page, viewport, geometry) {
     await page.getByRole("button", { name: "重试发送", exact: true }).click();
     await visible(page.getByRole("status").filter({ hasText: "正在回信" }));
     assert.equal(await send.isDisabled(), true);
+    assert.equal(await page.locator(".chat-message-user").getByText("我", { exact: true }).count(), 1, "发送中的自己消息只显示一处我");
     geometry.push(await mobileGeometry(page, "好友发送中"));
     release();
     await visible(page.getByRole("log").getByText(reply, { exact: true }));
     assert.equal(await input.inputValue(), "");
     assert.equal(await page.locator(".chat-message-user").count(), 1, "失败重试不得重复插入用户消息");
+    assert.equal(await page.locator(".chat-message-user").getByText("我", { exact: true }).count(), 1, "发送后的自己消息只显示一处我");
     assert.deepEqual(sent[0], { friendId: "libai", message: "你好", history: [] });
     const sides = await page.evaluate(() => {
       const assistant = document.querySelector(".chat-message-assistant .friend-avatar").getBoundingClientRect();
@@ -420,7 +422,7 @@ async function friendsFlow(page, viewport, geometry) {
       // mock 对话截图只留在 artifacts；指定交付截图仅为好友列表。
       await page.screenshot({ path: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`), animations: "disabled" });
     }
-    reply = "资料里没写。".repeat(120);
+    reply = "此事吾不敢妄言。".repeat(120);
     await input.fill("还有呢？");
     await send.click();
     await visible(page.getByRole("log").getByText(reply, { exact: true }));

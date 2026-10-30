@@ -1,6 +1,23 @@
 # 内容审核记录
 
-当前状态：全部 12 题与全部 28 条来源均为 `reviewed`。当前审核结论以本节 2026-10-30 记录为准。
+当前状态：全部 12 题与全部 28 条来源均为 `reviewed`；v0.17.0 的人设事实摘录如下逐条登记为“待 Giotto 审核”，不继承原来源的审核签名。
+
+## 2026-10-30 · v0.17.0 好友人设（待 Giotto 审核）
+
+人设只摘取仓库已审核的 S-H01-01、S-H01-02 `supports` 及 H01 已审核准确表述，不增补外部传记、年代、称号、轶事、私信、引语或诗句。下表将每位好友人设中新增的事实性条目逐条列出；这是待审的提取与使用记录，不表示 Giotto 已审核本版人设。两份审核文档使用相同编号。
+
+| 编号 | 文件／字段 | 新增事实性条目 | 已审核仓库依据与范围 | 状态 |
+| --- | --- | --- | --- | --- |
+| P-L01 | `data/friends/libai.json` → `persona.era` | 李白的时代背景为唐代 | S-H01-01 supports 的唐玄宗及天宝纪年背景；H01 `reveal.correctedClaim` 明述唐代 | 待 Giotto 审核 |
+| P-L02 | 同文件 → `persona.relationships[0].description` | 李白与杜甫相识 | S-H01-01 supports 明述初次相识；不补写人际私事 | 待 Giotto 审核 |
+| P-L03 | 同文件 → `persona.relationships[0].description` | 李白曾与杜甫同行同游 | S-H01-01 supports 的同游齐鲁、S-H01-02 supports 的同行同游；不扩写行程与次数 | 待 Giotto 审核 |
+| P-D01 | `data/friends/dufu.json` → `persona.era` | 杜甫的时代背景为唐代 | S-H01-01 supports 的唐玄宗及天宝纪年背景；H01 `reveal.correctedClaim` 明述唐代 | 待 Giotto 审核 |
+| P-D02 | 同文件 → `persona.relationships[0].description` | 杜甫与李白相识 | S-H01-01 supports 明述初次相识；不补写人际私事 | 待 Giotto 审核 |
+| P-D03 | 同文件 → `persona.relationships[0].description` | 杜甫曾与李白同行同游 | S-H01-01 supports 的同游齐鲁、S-H01-02 supports 的同行同游；不扩写行程与次数 | 待 Giotto 审核 |
+
+自称“吾／我”“甫／我”、李白豪放洒脱及酒/月/游历意象、杜甫沉郁恳切及忧国忧民语气，均按本次用户要求作为对话表达规则，不声称考据出历史人物的真实说话习惯。其他性格、关怀方式、亲切相待／珍惜情谊、简介与开场白同为对话创作，不是历史引语或新增生平事件；不得据此扩写亲历故事。`habits` 与 `taboos` 约束不确定表述、引用和安全边界，不能充当事实依据。
+
+回复史实白名单仍仅取本好友 reviewed `supports`，persona 不能扩大白名单；所有引号与书名仍须逐字核验，石门分手后是否再见继续保留存疑。`data/topics`、来源索引及原审核字段均未修改。
 
 ## 2026-10-30 · v0.16.0 区分新闻与个人帖子
 

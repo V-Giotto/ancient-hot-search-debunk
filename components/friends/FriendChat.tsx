@@ -54,8 +54,8 @@ export function FriendChat({ friend }: { friend: FriendProfile }) {
 
   function bubble(message: ChatHistoryEntry, key: string | number) {
     return <li key={key} className={`chat-message chat-message-${message.role}`}>
-      {message.role === "assistant" ? <FriendAvatar avatar={friend.avatar} /> : <span className="chat-self-avatar" aria-hidden="true">我</span>}
-      <div className="chat-message-copy"><span className="chat-sender">{message.role === "assistant" ? friend.name : "我"}</span><p className="chat-bubble">{message.content}</p></div>
+      {message.role === "assistant" ? <FriendAvatar avatar={friend.avatar} /> : <span className="chat-self-avatar">我</span>}
+      <div className="chat-message-copy">{message.role === "assistant" && <span className="chat-sender">{friend.name}</span>}<p className="chat-bubble">{message.content}</p></div>
     </li>;
   }
 

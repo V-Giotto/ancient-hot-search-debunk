@@ -435,7 +435,6 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .chat-sender { display: block; margin: 0 3px 5px; font-size: 10px; color: #756c64; }
 .chat-bubble { padding: 12px 14px; border: 1px solid #26252c0b; border-radius: 2px 14px 14px; background: white; font-size: 14px; line-height: 1.9; white-space: pre-wrap; overflow-wrap: anywhere; }
 .chat-message-user { flex-direction: row-reverse; }
-.chat-message-user .chat-sender { text-align: right; }
 .chat-message-user .chat-bubble { border-color: #ccdbd0; border-radius: 14px 2px 14px 14px; background: #e2ebe2; color: #304e42; }
 .chat-waiting { padding: 14px 44px 0; font-size: 11px; color: #6d766a; }
 .chat-error { margin-top: 20px; padding: 14px; border: 1px solid #d6ad7270; border-radius: 12px; background: #faf3e9; font-size: 12px; color: #785d43; }
