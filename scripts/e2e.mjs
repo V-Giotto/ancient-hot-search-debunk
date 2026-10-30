@@ -929,7 +929,7 @@ async function trendingChecks(page, keyboard = false) {
     await page.keyboard.press("Space");
     assert.equal(await all.getAttribute("aria-selected"), "true");
     await page.keyboard.press("Tab");
-    await focused(page.getByRole("link", { name: "贴纸墙 →", exact: true }));
+    await focused(page.getByRole("link", { name: "我的 →", exact: true }));
     await page.keyboard.press("Shift+Tab");
     await focused(all);
   }
@@ -953,8 +953,8 @@ async function stickerCollectionFlow(page, viewport, geometry) {
   const stickers = page.getByRole("list", { name: "贴纸收藏", exact: true });
   await page.goto(`${baseURL}/trending`);
   await collectionCount(page, 0);
-  await page.getByRole("main").getByRole("link", { name: "贴纸墙 →", exact: true }).click();
-  await page.waitForURL("**/me?tab=stickers");
+  await page.getByRole("main").getByRole("link", { name: "我的 →", exact: true }).click();
+  await page.waitForURL("**/me");
   await collectionCount(page, 0);
   assert.equal(await stickers.locator(":scope > li").count(), scenarios.length);
   assert.equal(await stickers.getByRole("link").count(), 0);

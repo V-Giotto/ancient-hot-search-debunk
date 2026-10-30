@@ -72,7 +72,7 @@ describe("移动端热榜", () => {
       expect(within(ranking()).getAllByTestId("trending-tag").map((tag) => tag.textContent)).toEqual(expected.map((topic) => trendingTag(topic.rank, topics.length)));
       expect(screen.getByRole("status").textContent).toBe(`已查证 1/${allTopics.length}`);
       expect(screen.getByRole("progressbar").getAttribute("max")).toBe(String(allTopics.length));
-      expect(screen.getByRole("link", { name: "贴纸墙 →" }).getAttribute("href")).toBe("/me?tab=stickers");
+      expect(screen.getByRole("link", { name: "我的 →" }).getAttribute("href")).toBe("/me");
     }
     fireEvent.click(tabs[0]);
     expect(within(ranking()).getAllByRole("listitem")).toHaveLength(topics.length);
