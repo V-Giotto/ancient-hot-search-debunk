@@ -1,6 +1,10 @@
 {
   "id": "H12",
-  "era": { "label": "战国", "order": 2 },
+  "era": { "label": "春秋战国", "order": 1 },
+  "rumorEra": "不限定",
+  "coreContext": "春秋孙武、战国孙膑",
+  "evidenceEra": "西汉竹简、1972年出土",
+  "eraReview": { "status": "reviewed", "by": "Giotto", "at": "2026-10-30T07:32:00-07:00" },
   "rank": 12,
   "module": "discover",
   "format": "poll",

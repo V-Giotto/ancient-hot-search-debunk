@@ -1,6 +1,10 @@
 {
   "id": "H03",
   "era": { "label": "唐代", "order": 4 },
+  "rumorEra": "唐代",
+  "coreContext": "唐代辛味调料与美洲辣椒传入的区别",
+  "evidenceEra": "明代文献（1591年条目有版本争议、1621年记载）",
+  "eraReview": { "status": "pending" },
   "rank": 3,
   "module": "trending",
   "category": "古代美食",

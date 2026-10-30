@@ -1,6 +1,10 @@
 {
   "id": "H06",
   "era": { "label": "战国", "order": 2 },
+  "rumorEra": "战国",
+  "coreContext": "战国以冰块冷却酒饮的青铜器具",
+  "evidenceEra": "战国早期器物（出土年代待定）",
+  "eraReview": { "status": "pending" },
   "rank": 6,
   "module": "discover",
   "category": "科技文物",

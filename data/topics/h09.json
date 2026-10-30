@@ -1,6 +1,10 @@
 {
   "id": "H09",
   "era": { "label": "北宋", "order": 5 },
+  "rumorEra": "北宋",
+  "coreContext": "北宋东京望火楼、驻军与救火器具",
+  "evidenceEra": "待定",
+  "eraReview": { "status": "pending" },
   "rank": 9,
   "module": "trending",
   "format": "news",

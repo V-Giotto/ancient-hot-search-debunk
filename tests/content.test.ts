@@ -196,7 +196,7 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     { id: "H04", best: "B", sources: ["S-H04-01", "S-H04-02", "S-H04-03"], corrected: "北宋四川出现交子，并经历民间使用到官府发行的发展过程。" },
     { id: "H05", best: "B", sources: ["S-H05-01", "S-H05-02"], corrected: "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。" },
     { id: "H06", best: "A", sources: ["S-H06-01", "S-H06-02"], corrected: "战国已有可借助冰块冷却酒饮的冰鉴等器具，不等于电冰箱。" },
-    { id: "H07", best: "C", sources: ["S-H07-01", "S-H07-02"], corrected: "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。" },
+    { id: "H07", best: "C", sources: ["S-H07-01", "S-H07-02"], corrected: "早在战国时期，齐国临淄就已经流行蹴鞠。宋代是蹴鞠高度发展的时期，而非其起源时期。" },
     { id: "H08", best: "B", sources: ["S-H08-01", "S-H08-02"], corrected: "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。" },
     { id: "H09", best: "A", sources: ["S-H09-01", "S-H09-02"], corrected: "北宋东京设望火楼瞭望火情，楼下驻军并备救火器具，遇火由军兵扑救。" },
     { id: "H10", best: "C", sources: ["S-H10-01", "S-H10-02"], corrected: "据沈括《梦溪笔谈》，北宋庆历年间布衣毕昇以胶泥刻字、火烧令坚，制成活版。" },
@@ -214,7 +214,9 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     expect(new Set(topic.comments.map((comment) => comment.role))).toEqual(new Set(["spectator", "troll", "history_nerd", "in_world"]));
     expect(topic.sourceIds).toEqual(sources);
     expect(topic.rewriteOptions.map((option) => option.id)).toEqual(["A", "B", "C"]);
-    expect(topic.rewriteOptions.find((option) => option.isBest)).toMatchObject({ id: best, text: corrected });
+    // v0.18.2 只批准更新 H07 的 correctedClaim；原 C 项仍保留已审措辞。
+    const rewriteText = id === "H07" ? "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。" : corrected;
+    expect(topic.rewriteOptions.find((option) => option.isBest)).toMatchObject({ id: best, text: rewriteText });
     expect(topic.reveal.correctedClaim).toBe(corrected);
     expect(topic.aiLimitations.length).toBeGreaterThan(0);
     for (const fact of topic.aiFacts) {

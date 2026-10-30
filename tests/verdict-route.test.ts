@@ -27,7 +27,7 @@ describe("POST /api/verdict（真实 H01–H12 数据）", () => {
     { topicId: "H04", isTrue: true, best: "B", sourceCount: 3, corrected: "北宋四川出现交子，并经历民间使用到官府发行的发展过程。" },
     { topicId: "H05", isTrue: false, best: "B", sourceCount: 2, corrected: "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。" },
     { topicId: "H06", isTrue: true, best: "A", sourceCount: 2, corrected: "战国已有可借助冰块冷却酒饮的冰鉴等器具，不等于电冰箱。" },
-    { topicId: "H07", isTrue: false, best: "C", sourceCount: 2, corrected: "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。" },
+    { topicId: "H07", isTrue: false, best: "C", sourceCount: 2, corrected: "早在战国时期，齐国临淄就已经流行蹴鞠。宋代是蹴鞠高度发展的时期，而非其起源时期。" },
     { topicId: "H08", isTrue: true, best: "B", sourceCount: 2, corrected: "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。" },
     { topicId: "H09", isTrue: true, best: "A", sourceCount: 2, corrected: "北宋东京设望火楼瞭望火情，楼下驻军并备救火器具，遇火由军兵扑救。" },
     { topicId: "H10", isTrue: true, best: "C", sourceCount: 2, corrected: "据沈括《梦溪笔谈》，北宋庆历年间布衣毕昇以胶泥刻字、火烧令坚，制成活版。" },

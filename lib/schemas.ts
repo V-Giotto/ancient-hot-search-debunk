@@ -7,6 +7,12 @@ const simulatedCount = z.number().int().nonnegative();
 export const ReviewStatusSchema = z.enum(["pending", "reviewed", "rejected"]);
 export type ReviewStatus = z.infer<typeof ReviewStatusSchema>;
 
+export const EraReviewSchema = z.strictObject({
+  status: z.enum(["reviewed", "pending"]),
+  by: nonEmptyText.optional(),
+  at: z.iso.datetime({ offset: true }).optional(),
+});
+
 export const SourceKindSchema = z.enum(["primary", "museum", "academic", "public_culture"]);
 export type SourceKind = z.infer<typeof SourceKindSchema>;
 
@@ -57,8 +63,12 @@ export type RewriteOption = z.infer<typeof RewriteOptionSchema>;
 
 export const HotTopicSchema = z.strictObject({
   id: nonEmptyText,
-  // 仅为从已审内容提取的时代元数据，不新增史实或改变审核状态。
+  // 核心历史主题与传言、证据时间分别记录；年代审核独立于题目内容审核。
   era: EraSchema,
+  rumorEra: nonEmptyText,
+  coreContext: nonEmptyText,
+  evidenceEra: nonEmptyText,
+  eraReview: EraReviewSchema,
   rank: z.number().int().positive(),
   module: z.enum(["trending", "discover"]),
   format: z.enum(["post", "news", "moments", "chat", "poll"]).optional(),

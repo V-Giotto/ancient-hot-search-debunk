@@ -35,6 +35,9 @@ describe("按 format 选择帖子模板", () => {
     expect(within(article).getByText(topic.body, { exact: true })).toBeTruthy();
     expect(article.querySelectorAll("h1")).toHaveLength(1);
     expect(article.querySelectorAll(".post-cover")).toHaveLength(1);
+    const eraChip = within(article).getByLabelText(`历史年代：${topic.era.label}`);
+    expect(eraChip.textContent).toBe(topic.era.label);
+    expect(eraChip.closest('[data-post-section]')?.getAttribute("data-post-section")).toBe(news ? "byline" : "format");
     expect(article.querySelector('[data-post-section="body"] .post-cover')).toBeNull();
     if (news) {
       expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual(["masthead", "title", "byline", "lead", "cover", "body", "related", "actions"]);

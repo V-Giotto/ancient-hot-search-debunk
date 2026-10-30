@@ -1,6 +1,10 @@
 {
   "id": "H10",
   "era": { "label": "北宋", "order": 5 },
+  "rumorEra": "北宋",
+  "coreContext": "北宋庆历年间毕昇胶泥活字",
+  "evidenceEra": "待定",
+  "eraReview": { "status": "pending" },
   "rank": 10,
   "module": "discover",
   "format": "moments",

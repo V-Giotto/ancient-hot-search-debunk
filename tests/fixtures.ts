@@ -18,6 +18,10 @@ export function makeTopic(overrides: Partial<HotTopic> = {}): HotTopic {
   return {
     id: "TEST-1",
     era: { label: "唐代", order: 4 },
+    rumorEra: "不限定",
+    coreContext: "合成测试背景",
+    evidenceEra: "待定",
+    eraReview: { status: "pending" },
     rank: 1,
     module: "trending",
     category: "合成测试",

@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { findChatOutputViolations, findUnsupportedChatQuotes, getChatSafeReply } from "@/lib/chat-guard";
+import { findChatOutputViolations, findUnsupportedChatQuotes, getChatSafeReply, normalizeChatSelfReferences } from "@/lib/chat-guard";
 import { getFriendById, getFriendSources } from "@/lib/friends";
 import { makeSource } from "./fixtures";
 
@@ -53,11 +53,11 @@ describe("统一检查元话语、自我旁白与引文", () => {
     ["libai", "吾是李白，你今日过得如何？"], ["dufu", "我是杜甫，你慢慢说。"],
     ["libai", "《春日忆李白》《李白与杜甫》"], ["dufu", "《鲁郡东石门送杜二甫》"],
   ])("允许第一人称、谈论对方及已审书名：%s %s", (id, reply) => {
-    expect(findChatOutputViolations(reply, getFriendById(id)!, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [], missingEraMarker: false });
+    expect(findChatOutputViolations(reply, getFriendById(id)!, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [], missingEraMarker: false, mixedSelfReferences: false });
   });
   it("引号不能掩盖自我旁白或元话语，两类违规一并报告", () => {
     expect(findChatOutputViolations("资料里‘李白说不存在的诗句’。", friend, sources)).toEqual({
-      unsupportedQuotes: ["李白说不存在的诗句"], personaFragments: ["资料里"], missingEraMarker: false,
+      unsupportedQuotes: ["李白说不存在的诗句"], personaFragments: ["资料里"], missingEraMarker: false, mixedSelfReferences: false,
     });
     expect(findChatOutputViolations("‘来源’", friend, sources).personaFragments).toEqual(["来源"]);
   });
@@ -67,21 +67,60 @@ describe("统一检查元话语、自我旁白与引文", () => {
     expect(reply).toContain(current.persona.selfReference[0]);
     expect(reply).toContain("记不真切");
     expect(reply).not.toMatch(/[“”‘’「」『』《》"']/);
-    expect(findChatOutputViolations(reply, current, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [], missingEraMarker: false });
+    expect(findChatOutputViolations(reply, current, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [], missingEraMarker: false, mixedSelfReferences: false });
+  });
+});
+
+describe("整条回复的我／吾自称一致性", () => {
+  it.each([
+    ["libai", "吾不敢妄言，吾也愿听听。我记不真切。", "吾不敢妄言，吾也愿听听。吾记不真切。"],
+    ["libai", "我不敢妄言，我也愿听听。吾记不真切。", "我不敢妄言，我也愿听听。我记不真切。"],
+    ["dufu", "甫记不真切，我不敢说，我也愿听听。吾不敢断言。", "甫记不真切，我不敢说，我也愿听听。我不敢断言。"],
+  ])("%s 安全替换少数方自称，再检查整条回复", (id, reply, expected) => {
+    const current = getFriendById(id)!;
+    expect(findChatOutputViolations(reply, current, sources).mixedSelfReferences).toBe(true);
+    expect(normalizeChatSelfReferences(reply, current)).toBe(expected);
+    expect(findChatOutputViolations(expected, current, sources).mixedSelfReferences).toBe(false);
+  });
+  it.each([
+    "吾不敢说，我也记不清。", // 数量相同
+    "吾不敢说，吾也记不清。我们再聊聊。", // 不造出吾们
+    "吾不敢说，吾也记不清。自我不必放大。", // 不改词义
+    "吾不敢说，吾也记不清。无我不等于执念。", // 不把无我改成无吾
+    "吾不敢说，吾也记不清。问我不如问你。", // 宾语不能确认为主语
+    "吾不敢说，吾也记不清，吾愿听听。我不知，何谓无我不必放大？", // 不做部分替换
+    "吾不敢说，吾也记不清。‘我记不真切’。", // 不改引文
+    "吾不敢说，吾也记不清。《我也不知》。", // 不改书名
+    "吾不敢说，吾也记不清。‘我不敢说。", // 不完整引号
+  ])("不能安全规范化时保留原文并报告混用：%s", (reply) => {
+    expect(normalizeChatSelfReferences(reply, friend)).toBe(reply);
+    expect(findChatOutputViolations(reply, friend, sources).mixedSelfReferences).toBe(true);
+  });
+  it.each(["甫记不真切，我也不敢说。", "甫记不真切，吾也不敢说。", "吾不敢说。", "我记不清。", "换个话头可好？"])("只有一种或没有我／吾时不报混用：%s", (reply) => {
+    const dufu = getFriendById("dufu")!;
+    expect(normalizeChatSelfReferences(reply, dufu)).toBe(reply);
+    expect(findChatOutputViolations(reply, dufu, sources).mixedSelfReferences).toBe(false);
+  });
+  it("不把多数方换成好友未配置的自称", () => {
+    const reply = "吾不敢说，吾也记不清。我记不真切。";
+    expect(normalizeChatSelfReferences(reply, getFriendById("dufu")!)).toBe(reply);
   });
 });
 
 describe("晚代耳闻标记与统一校验", () => {
   const laterEra = { label: "北宋", order: 5 } as const;
+  it("春秋战国不要求唐代好友带耳闻标记", () => {
+    expect(findChatOutputViolations("此事吾不敢妄言。", friend, sources, [], { label: "春秋战国", order: 1 }).missingEraMarker).toBe(false);
+  });
   it.each(["听说", "听闻", "耳闻", "据说", "后世", "身后"])("晚代回复接受标记：%s", (marker) => {
     expect(findChatOutputViolations(`${marker}此事，吾不敢多说。`, friend, sources, [], laterEra).missingEraMarker).toBe(false);
   });
   it("同轮报告引文、元话语和时代违规，不能相互掩盖", () => {
     expect(findChatOutputViolations("资料里‘不存在的引文’。", friend, sources, [], laterEra)).toEqual({
-      unsupportedQuotes: ["不存在的引文"], personaFragments: ["资料里"], missingEraMarker: true,
+      unsupportedQuotes: ["不存在的引文"], personaFragments: ["资料里"], missingEraMarker: true, mixedSelfReferences: false,
     });
     expect(findChatOutputViolations("听说资料里‘不存在的引文’。", friend, sources, [], laterEra)).toEqual({
-      unsupportedQuotes: ["不存在的引文"], personaFragments: ["资料里"], missingEraMarker: false,
+      unsupportedQuotes: ["不存在的引文"], personaFragments: ["资料里"], missingEraMarker: false, mixedSelfReferences: false,
     });
   });
   it.each(["libai", "dufu"])("%s 的晚代兜底以配置自称且通过所有输出检查", (friendId) => {
@@ -89,7 +128,7 @@ describe("晚代耳闻标记与统一校验", () => {
     const reply = getChatSafeReply(current, laterEra);
     expect(reply).toBe(`${current.persona.selfReference[0]}身后之事，只是耳闻，不敢多说。`);
     expect(findChatOutputViolations(reply, current, sources, [], laterEra)).toEqual({
-      unsupportedQuotes: [], personaFragments: [], missingEraMarker: false,
+      unsupportedQuotes: [], personaFragments: [], missingEraMarker: false, mixedSelfReferences: false,
     });
     expect(getChatSafeReply(current, current.era)).toBe(getChatSafeReply(current));
     expect(getChatSafeReply(current, { label: "战国", order: 2 })).toBe(getChatSafeReply(current));

@@ -1,6 +1,10 @@
 {
   "id": "H05",
   "era": { "label": "唐代", "order": 4 },
+  "rumorEra": "不限定",
+  "coreContext": "唐代彩釉陶器的多种釉色",
+  "evidenceEra": "待定",
+  "eraReview": { "status": "pending" },
   "rank": 5,
   "module": "discover",
   "category": "科技文物",

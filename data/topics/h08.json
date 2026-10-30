@@ -1,6 +1,10 @@
 {
   "id": "H08",
   "era": { "label": "唐代", "order": 4 },
+  "rumorEra": "唐代",
+  "coreContext": "唐代带植毛孔的牙刷柄",
+  "evidenceEra": "唐代器物、1984年出土",
+  "eraReview": { "status": "pending" },
   "rank": 8,
   "module": "discover",
   "category": "古代日常",

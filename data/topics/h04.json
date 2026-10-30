@@ -1,6 +1,10 @@
 {
   "id": "H04",
   "era": { "label": "北宋", "order": 5 },
+  "rumorEra": "北宋",
+  "coreContext": "北宋四川交子由民间使用到官府发行",
+  "evidenceEra": "待定",
+  "eraReview": { "status": "pending" },
   "rank": 4,
   "module": "trending",
   "category": "古代商业",

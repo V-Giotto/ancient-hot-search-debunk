@@ -1,6 +1,10 @@
 {
   "id": "H02",
   "era": { "label": "北宋", "order": 5 },
+  "rumorEra": "宋代",
+  "coreContext": "北宋东京等特定城市的购食与代买送食",
+  "evidenceEra": "待定",
+  "eraReview": { "status": "pending" },
   "rank": 2,
   "module": "trending",
   "category": "古代生活",

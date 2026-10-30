@@ -10,6 +10,10 @@ export function Title({ topic }: { topic: PublicTopic }) {
   return <h1 className="post-title">{topic.title}</h1>;
 }
 
+export function EraChip({ topic }: { topic: PublicTopic }) {
+  return <span aria-label={`历史年代：${topic.era.label}`} className="era-chip inline-flex max-w-full items-center rounded-full bg-gold/15 px-2 py-1 text-xs font-medium text-[#7d5b32]">{topic.era.label}</span>;
+}
+
 export function Body({ topic }: { topic: PublicTopic }) {
   return <p className="post-body">{topic.body}</p>;
 }

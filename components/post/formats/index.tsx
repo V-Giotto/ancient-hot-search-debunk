@@ -5,7 +5,7 @@ import { News } from "./News";
 import { Moments } from "./Moments";
 import { Chat } from "./Chat";
 import { Poll } from "./Poll";
-import { Author, Cover, Tags, Title } from "./Shared";
+import { Author, Cover, EraChip, Tags, Title } from "./Shared";
 import { FollowButton } from "../FollowButton";
 import { PostActions } from "../PostActions";
 
@@ -25,7 +25,7 @@ export function PostFormat({ topic, friends = [] }: { topic: PublicTopic; friend
   const [label, description] = labels[format];
   return <article data-format={format} data-module="discover" className="post-article social-article">
     <div data-post-section="author" className="post-author"><Author topic={topic} /><FollowButton handle={topic.author.handle} name={topic.author.name} /></div>
-    <div data-post-section="format" className="post-format-bar"><span>{label}</span><span>{description}</span></div>
+    <div data-post-section="format" className="post-format-bar"><span className="flex flex-wrap items-center gap-2"><span>{label}</span><EraChip topic={topic} /></span><span>{description}</span></div>
     <div data-post-section="title"><Title topic={topic} /></div>
     <div data-post-section="cover"><Cover topic={topic} /></div>
     <div data-post-section="body"><Template key={topic.id} topic={topic} /><p className="post-invitation"><span aria-hidden="true">💬</span> 我先留个问号，你怎么看？</p><Tags topic={topic} /></div>

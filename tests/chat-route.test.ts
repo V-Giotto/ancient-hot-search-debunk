@@ -358,6 +358,50 @@ describe("分享题审核与混合来源", () => {
   });
 });
 
+describe("自称混用先规范化，再共用一次重试预算", () => {
+  it.each([
+    ["libai", "吾不敢说，吾也记不清。我记不真切。", "吾不敢说，吾也记不清。吾记不真切。"],
+    ["libai", "我不敢说，我也记不清。吾记不真切。", "我不敢说，我也记不清。我记不真切。"],
+    ["dufu", "甫记不清，我也不敢说，我愿听你聊。吾不敢断言。", "甫记不清，我也不敢说，我愿听你聊。我不敢断言。"],
+  ])("%s 安全规范化无需重试", async (friendId, reply, expected) => {
+    fetchMock.mockResolvedValueOnce(result(reply));
+    const response = await POST(request({ friendId, message: "聊聊" }));
+    expect(await response.json()).toEqual({ reply: expected });
+    expect(fetchMock).toHaveBeenCalledOnce();
+  });
+  it.each(["libai", "dufu"])("%s 无法安全规范化则重试一次，通过后返回", async (friendId) => {
+    const valid = getChatSafeReply(getFriendById(friendId)!);
+    fetchMock.mockResolvedValueOnce(result("吾不敢说，我也记不清。")).mockResolvedValueOnce(result(valid));
+    const response = await POST(request({ friendId, message: "聊聊" }));
+    expect(await response.json()).toEqual({ reply: valid });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(outgoing(1).messages.at(-1).content).toContain('"mixedSelfReferences":true');
+    expect(outgoing(1).messages.at(-1).content).toContain("整条回复只用我或吾中的一种");
+  });
+  it.each(["libai", "dufu"])("%s 两次混用则使用配置自称兜底", async (friendId) => {
+    fetchMock.mockResolvedValue(result("吾不敢说，我也记不清。"));
+    const response = await POST(request({ friendId, message: "聊聊" }));
+    expect(await response.json()).toEqual({ reply: getChatSafeReply(getFriendById(friendId)!) });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+  it("规范化后仍执行耳闻和引文检查，跨类型违规共用一次重试", async () => {
+    fetchMock.mockResolvedValueOnce(result("吾不敢说，吾也记不清。我记不真切。"))
+      .mockResolvedValueOnce(result("听说吾不敢说，吾也记不清。我记不真切。‘未审引文’。"));
+    const response = await POST(request({ friendId: "libai", sharedTopicId: "H02", message: "看看" }));
+    expect(await response.json()).toEqual({ reply: "吾身后之事，只是耳闻，不敢多说。" });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(outgoing(1).messages.at(-1).content).toContain('"missingEraMarker":true');
+  });
+  it("混用与其他违规交替仍只重试一次", async () => {
+    fetchMock.mockResolvedValueOnce(result("资料里，吾不敢说，吾也记不清。我记不真切。"))
+      .mockResolvedValueOnce(result("吾不敢说，我也记不清。"));
+    const response = await POST(request());
+    expect(await response.json()).toEqual({ reply: safeReply });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(outgoing(1).messages.at(-1).content).toContain('"personaFragments":["资料里"]');
+  });
+});
+
 describe("晚于好友时代的分享与讨论", () => {
   const laterCases = ["libai", "dufu"].flatMap((friendId) => ["H02", "H04", "H09", "H10"].map((sharedTopicId) => ({ friendId, sharedTopicId })));
   it.each(laterCases)("$friendId 讨论 $sharedTopicId 缺耳闻标记→带提示重试→通过", async ({ friendId, sharedTopicId }) => {

@@ -23,6 +23,34 @@ export function findUnsupportedChatQuotes(reply: string, friend: Friend, sources
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+/** 只替换可确认的少数方主语自称；平票、引文、书名或复合词保持原文以触发重试。 */
+export function normalizeChatSelfReferences(reply: string, friend: Friend): string {
+  const count = (self: string) => [...reply.matchAll(new RegExp(self, "gu"))].length;
+  const wo = count("我");
+  const wu = count("吾");
+  if (!wo || !wu || wo === wu) return reply;
+  const majority = wo > wu ? "我" : "吾";
+  const minority = wo > wu ? "吾" : "我";
+  if (!friend.persona.selfReference.includes(majority)) return reply;
+
+  const protectedRanges: [number, number][] = [];
+  let unquoted = reply;
+  for (const pattern of quotePatterns()) {
+    for (const match of reply.matchAll(pattern)) protectedRanges.push([match.index, match.index + match[0].length]);
+    unquoted = unquoted.replace(pattern, " ");
+  }
+  if (/[“”‘’「」『』《》"']/u.test(unquoted)) return reply;
+  const positions = [...reply.matchAll(new RegExp(minority, "gu"))].map((match) => match.index);
+  for (const index of positions) {
+    if (protectedRanges.some(([start, end]) => index >= start && index < end)) return reply;
+    // 只确认分句开头的主语，避免把无我、自我、忘我、你我等复合词改成自称。
+    // 句中宾语、定语和无法确定的结构交给重试，不尝试猜词义。
+    if (!/(?:^|[，。！？；：,.!?;:\n])\s*$/u.test(reply.slice(0, index))) return reply;
+    if (!/^(?:不|也|亦|愿|想|看|听|记|知|敢|曾|未|能|会|可|来|去|与|和|是|有|无|还|仍|只|觉得|认为|便|就|先|再|倒|并|虽|若|恐|且|却|正|总|已|很|更|见|说|问|写|读|须|当)/u.test(reply.slice(index + 1))) return reply;
+  }
+  return reply.replaceAll(minority, majority);
+}
+
 export function findChatOutputViolations(reply: string, friend: Friend, sources: Source[], sharedSourceIds: readonly string[] = [], topicEra?: Era) {
   const personaFragments = new Set<string>();
   const meta = /(?:根据|依据|按照)?资料(?:里|中|显示|表明|记载)?|来源|设定|提示词|人工智能|模型|角色扮演|(?:作为\s*)?\bAI\b/giu;
@@ -39,7 +67,8 @@ export function findChatOutputViolations(reply: string, friend: Friend, sources:
   for (const match of narration.matchAll(selfNarration)) personaFragments.add(match[0]);
 
   const missingEraMarker = Boolean(topicEra && isLaterEra(topicEra, friend.era) && !/听说|听闻|耳闻|据说|后世|身后/u.test(reply));
-  return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments], missingEraMarker };
+  const mixedSelfReferences = reply.includes("我") && reply.includes("吾");
+  return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments], missingEraMarker, mixedSelfReferences };
 }
 
 export function getChatSafeReply(friend: Friend, topicEra?: Era): string {

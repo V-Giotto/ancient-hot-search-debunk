@@ -239,10 +239,17 @@ async function discoverEmptyChecks(page, geometry) {
 
 async function revealSummaryChecks(page, { correct, isTrue, firstScreen = false }) {
   // 等真实提交触发的滚动稳定；此处不手动滚动，避免掩盖吸顶遮挡回归。
-  await page.waitForFunction(() => {
-    const panel = document.querySelector(".reveal-panel");
-    return panel && Math.abs(panel.getBoundingClientRect().top - parseFloat(getComputedStyle(panel).scrollMarginTop)) < 0.5;
-  });
+  try {
+    await page.waitForFunction(() => {
+      const panel = document.querySelector(".reveal-panel");
+      // Chrome 的滚动位置可能取整，布局仍保留半像素；容许 1px 取整误差。
+      return panel && Math.abs(panel.getBoundingClientRect().top - parseFloat(getComputedStyle(panel).scrollMarginTop)) <= 1;
+    });
+  } catch (error) {
+    const position = await page.locator(".reveal-panel").evaluate((panel) => ({ top: panel.getBoundingClientRect().top, margin: getComputedStyle(panel).scrollMarginTop, scrollY: window.scrollY, maxScrollY: document.documentElement.scrollHeight - window.innerHeight }));
+    await page.screenshot({ path: path.join(screenshots, `v${packageVersion}-reveal-scroll-failure-${page.viewportSize().width}.png`), animations: "disabled" });
+    throw new Error(`揭晓滚动未到位：${page.url()} ${JSON.stringify({ viewport: page.viewportSize(), ...position })}`, { cause: error });
+  }
   const layout = await page.locator(".reveal-panel").evaluate((panel) => {
     const heading = panel.querySelector("#reveal-heading");
     const header = document.querySelector(".shell-header").getBoundingClientRect();
@@ -1271,7 +1278,7 @@ try {
     const { id, answer, best, wrong, sourceCount } = scenario;
     const topic = JSON.parse(await readFile(`data/topics/${id.toLowerCase()}.json`, "utf8"));
     const initialHtml = await (await fetch(`${baseURL}/post/${id}`)).text();
-    for (const forbidden of ["isTrue", "isCorrect", "reveal", "sources", "sourceIds", "rewriteOptions", "isBest", "feedback", "aiFacts", "aiLimitations"]) {
+    for (const forbidden of ["isTrue", "isCorrect", "reveal", "sources", "sourceIds", "rewriteOptions", "isBest", "feedback", "aiFacts", "aiLimitations", "rumorEra", "coreContext", "evidenceEra", "eraReview"]) {
       assert.ok(!initialHtml.includes(`"${forbidden}"`) && !initialHtml.includes(`\\"${forbidden}\\"`), `${id} 初始 HTML 泄漏答案字段 ${forbidden}`);
     }
     for (const forbidden of [topic.reveal.correctedClaim, ...topic.sourceIds, "谣言退散", "查证属实"]) {
@@ -1505,7 +1512,7 @@ try {
       assert.ok(!stickersHtml.includes(forbidden), `贴纸墙初始 HTML 泄漏答案 ${forbidden}`);
     }
   }
-  for (const forbidden of ["isTrue", "isCorrect", "reveal", "sources", "sourceIds", "rewriteOptions", "isBest", "feedback", "aiFacts", "aiLimitations"]) {
+  for (const forbidden of ["isTrue", "isCorrect", "reveal", "sources", "sourceIds", "rewriteOptions", "isBest", "feedback", "aiFacts", "aiLimitations", "rumorEra", "coreContext", "evidenceEra", "eraReview"]) {
     assert.ok(!stickersHtml.includes(`"${forbidden}"`) && !stickersHtml.includes(`\\"${forbidden}\\"`), `贴纸墙初始 HTML 泄漏字段 ${forbidden}`);
   }
   const geometry = [];
@@ -1527,6 +1534,22 @@ try {
         pageGeometry.header = await compactHeaderChecks(mobile, title);
       }
       await mobile.waitForFunction(() => [...document.images].every((image) => image.complete && image.naturalWidth > 0));
+      const detailTopic = allTopics.find(({ id }) => route === `/post/${id}`);
+      if (detailTopic) {
+        const chip = mobile.getByLabel(`历史年代：${detailTopic.era.label}`, { exact: true });
+        await visible(chip);
+        assert.equal(await chip.textContent(), detailTopic.era.label);
+        assert.equal(await chip.evaluate((node) => node.closest('[data-post-section]')?.getAttribute('data-post-section')), detailTopic.module === "trending" ? "byline" : "format");
+        pageGeometry.eraChip = { ...detailTopic.era, section: detailTopic.module === "trending" ? "byline" : "format" };
+        if (detailTopic.id === "H12") {
+          assert.deepEqual(detailTopic.era, { label: "春秋战国", order: 1 });
+          await mobile.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+          const box = await chip.boundingBox();
+          assert.ok(box && box.y >= 48 && box.y + box.height < viewport.height - 65, "H12 春秋战国年代 chip 须在详情首屏可见");
+          pageGeometry.eraChip = { ...pageGeometry.eraChip, firstScreen: true, box };
+          if (viewport.width === 390) await versionScreenshot(mobile, "era", packageVersion);
+        }
+      }
       if (route === "/trending" || route === "/discover") pageGeometry.covers = await coverGeometry(mobile, route);
       geometry.push(pageGeometry);
       // ARIA Tab 使用 roving tabindex：未选分类由方向键访问，只有选中项进入 Tab 顺序。
@@ -1694,6 +1717,9 @@ try {
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
   const summary = { passed: true, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道；无 emoji 或楼层评论；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/emoji/楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const eraDetails = geometry.filter((record) => record.eraChip);
+  assert.equal(eraDetails.length, allTopics.length * 3, "十二题的年代 chip 须在三种手机视口全部通过");
+  summary.era = { detailChecks: eraDetails.length, h12FirstScreenChecks: eraDetails.filter((record) => record.eraChip.firstScreen).length, screenshot: path.join(reviewDir, `v${packageVersion}-era-390x844.png`) };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {
