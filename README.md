@@ -4,6 +4,8 @@
 
 ## 当前阶段
 
+v0.15.0（2026-10-30）：新增“好友”第四个 Tab、数据驱动好友列表与李白/杜甫对话页。仅实现可扩展框架，详细人设待用户细化；不改题库与来源内容。采用原创 SVG 头像、左右气泡和仅页面内存的会话；服务端复用 DeepSeek adapter，无 key 显示“好友暂时不在线”。后续联调修复上游忽略 JSON 模式的兼容问题，并增加引用原文校验、一次重试和安全兜底。自动化测试仍 mock 或无 key，真实上游验收另见 [QA_REPORT.md](docs/QA_REPORT.md)。
+
 v0.14.0（2026-10-30）：Giotto 单人审核全部 12 题（6 真 6 假）与全部 28 条来源，全部通过；项目负责人于同日确认。未进行第二人抽查。题目与来源均登记为 `reviewed`，审核时间为 `2026-10-30T02:33:00-07:00`。H05/H08/H10/H11 来源差异按现有页面措辞保留。formal 可进入 AI 流程；单测 mock 上游，E2E 不调用真实 AI。详见 [审核记录](docs/CONTENT_REVIEW.md)。
 
 v0.13.2：每次进入、刷新或历史返回帖子都重新开始判断、揭晓、改写、投票与 AI 问答；揭晓后可点“再玩一次”原地重置并返回判题区。贴纸与已查证进度仍保存在本机，重玩不重复累计或提示获得，兼容旧版收藏但不恢复答案。截图：`/workspace/iter1/v0.13.2-revisit-390x844.png`。
@@ -69,7 +71,7 @@ npm run build && npm start
 
 - 在预定端口执行 `npm run check:port`（默认 3000），先确认无旧服务；占用时查看并停止确认过的旧进程，或更换端口。`npm start` 会自动再检查，检测失败即退出。
 - 自定义端口用 `PORT=3999 npm run check:port` / `PORT=3999 npm start`，也可用 `npm run check:port -- --port 3999` / `npm start -- --port 3999`；启动参数优先于 PORT，`--hostname/-H` 同步用于检查和监听。
-- 启动 `CONTENT_MODE=preview npm start` 后，检查任意页底部为 `v0.14.0`，构建 ID 与 `cat .next/BUILD_ID` 完全一致，并确认该构建是在本次目标工作区修改完成后生成。BUILD_ID 是构建标识，不是提交哈希。模式在服务运行时读取；formal 页脚不显示版本信息。
+- 启动 `CONTENT_MODE=preview npm start` 后，检查任意页底部为 `v0.15.0`，构建 ID 与 `cat .next/BUILD_ID` 完全一致，并确认该构建是在本次目标工作区修改完成后生成。BUILD_ID 是构建标识，不是提交哈希。模式在服务运行时读取；formal 页脚不显示版本信息。
 - 用独立演示浏览器实测判题、“问问 AI”、来源和 PNG 下载。409 表示内容审核门控；503 表示 AI 未配置，均有重试/返回操作。密钥仅从服务端安全配置读取，不输出或截图配置内容。
 
 ## 测试、类型检查与构建
@@ -107,6 +109,34 @@ CHROME_PATH=/usr/bin/google-chrome npm run test:e2e
 - 当前加载器按已有题目数量校验，允许空题库与 `pending` 的开发预览。当前 12 题与 28 条来源的人工审核已完成；本次无第二人抽查。后续新增未审内容仍需人工审核，正式发布遵循仅发布 `reviewed` 题目的要求；结构校验不能代替内容审核。
 - `simulatedViews` 为独立的预制浏览数；帖子统计行展示回复/转发/点赞/浏览，`simulatedBookmarks` 继续保留在数据中。评论可含 `simulatedReplies`、`simulatedReposts`、`simulatedViews`，旧数据缺省时展示 0。全部统计只读，UI 不附加虚构/模拟标签。
 - `public/covers/`、`public/avatars/` 存放 H01–H12 原创封面与复用的原创头像；`public/decorations/` 继续预留。使用系统中文无衬线字体，不提交字体文件。
+
+## 好友对话（v0.15.0）
+
+`/friends` 展示好友列表，`/friends/libai` 与 `/friends/dufu` 为初始对话页；四个底部标签在 375px 宽下均保持 ≥44px 触控范围。无需登录，会话仅存组件内存，刷新清空；发送失败保留草稿，可手动重试，无自动模型请求。对话页只保留一行角色扮演轻说明。
+
+新增好友只需添加 `data/friends/<id>.json`（文件名与 id 一致）；加载器自动发现并通过 `lib/friend-schema.ts` 的 Zod Schema 和来源完整性校验，无需改路由或列表：
+
+```json
+{
+  "id": "new-friend",
+  "name": "好友名称",
+  "avatar": { "motif": "moon", "paper": "#EAEDE5", "ink": "#415C53", "accent": "#C8955E" },
+  "bio": "简短介绍，避免新增无来源史实。",
+  "greeting": "开场白。",
+  "sourceIds": ["S-H01-01", "S-H01-02"],
+  "persona": ["表达风格要点；不能用作历史事实。"]
+}
+```
+
+头像使用本项目新绘的 SVG 山月（`moon`）或汀草（`reeds`）纹样，可在数据中搭配三种六位十六进制颜色；不加载外部图片、不执行 SVG 字符串。`sourceIds` 必须唯一且指向索引中存在的 reviewed 来源，preview 也不放宽。后续细化人设应编辑 JSON 的 `persona`、简介与开场白，史实仍只取该好友来源的 `supports`；本版未添加人物生平或新诗句。
+
+`POST /api/chat` 接收 `{ friendId, message, history?: [{ role: "user" | "assistant", content }] }`，返回 `{ reply }`。单条用户消息最多 200 字、历史最多 12 条（页面发送最近 12 条，接口拒绝超限），历史中的 user 最多 200 字、assistant 最多 1200 字；回复最多 1200 字，首次 `max_tokens: 1200`，重试提高至 2400。仅提取上游 `reply`，容忍额外字段、完整纯文本及完整 JSON 代码围栏。截断 JSON、空回复、非法回复或违规引用共用一次自动重试预算；仍失败则 HTTP 200 返回不含引用、承认不确定的固定回复。复用 `AI_API_KEY`、`AI_BASE_URL`、`AI_MODEL`（默认 `deepseek-flash`）和 `AI_TIMEOUT_MS`（默认 20000）。只在服务端读取配置，不记录用户消息原文、上游原文或密钥。
+
+系统约束包含：仅据 reviewed `supports` 陈述史实；资料不足明确“不确定/资料里没写”；不编造史实或诗句；年号/纪年仅用来源原样写法，不换算。服务端保守校验所有中英文成对引号及《》书名：内容必须在该好友 reviewed 白名单来源的单个 `supports` 或 `title` 字段中连续、逐字出现，不自动转换繁简字形或标点。违规时重试提示明确给出违规片段，再失败则整条回复换为安全兜底。拒绝有害、违法、色情、仇恨、自伤指导与脱离角色的越狱。历史（含客户端传入的 assistant）统一作为不可信 user 数据，不可修改系统规则。引用校验不等于对无引号陈述的逐句语义审核。
+
+按 IP 单进程内存限流 10 次/分钟（两位好友共用额度，与帖子追问分开），429 带 `Retry-After`；多实例部署需共享限流，可信代理须覆盖 `x-forwarded-for` / `x-real-ip`。输入非法 400、未知好友 404、无 key 503、上游失败 502、超时 504，均返回固定友好错误且不缓存。
+
+单测覆盖数据、提示词、边界、限流、无 key、超时、上游异常与密钥回显隔离；E2E 覆盖三种手机视口的好友列表、两位好友、加载/离线/长回复/重试/刷新与 404，全程 mock 或无 key。列表截图为 `/workspace/iter1/v0.15.0-friends-390x844.png`，mock 对话仅存 `artifacts/stage-6/screenshots/v0.15.0-chat-mock-390x844.png`；真实对话截图由用户自行拍摄。
 
 ## 本机贴纸与完成度
 

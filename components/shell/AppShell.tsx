@@ -4,7 +4,7 @@ import { NavRail } from "./NavRail";
 import { LeftRail, RightRail } from "./RightRail";
 import { version } from "@/package.json";
 
-export function AppShell({ children, title }: { children: ReactNode; title?: string }) {
+export function AppShell({ children, title, backHref = "/trending", backLabel = "返回热搜榜" }: { children: ReactNode; title?: string; backHref?: string; backLabel?: string }) {
   const preview = process.env.CONTENT_MODE === "preview";
 
   return (
@@ -15,7 +15,7 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
         跳到主要内容
       </a>
       {title && <header className="shell-header">
-        <Link href="/trending" aria-label="返回热搜榜" className="shell-back"><span aria-hidden="true">←</span></Link>
+        <Link href={backHref} aria-label={backLabel} className="shell-back"><span aria-hidden="true">←</span></Link>
         <p className="shell-page-title">{title}</p>
       </header>}
       <div className="shell-content px-4 pt-4">

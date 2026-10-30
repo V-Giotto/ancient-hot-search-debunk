@@ -352,6 +352,105 @@ async function focused(locator) {
   assert.ok(await locator.evaluate((node) => node === document.activeElement), "键盘焦点位置不正确");
 }
 
+async function friendsFlow(page, viewport, geometry) {
+  await page.goto(`${baseURL}/friends`);
+  await visible(page.getByRole("heading", { name: "见字如面", exact: true }));
+  await compactHeaderChecks(page, "好友");
+  const navigation = page.getByRole("navigation", { name: "主导航", exact: true });
+  assert.deepEqual(await navigation.getByRole("link").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href"))), ["/trending", "/discover", "/stickers", "/friends"]);
+  assert.equal(await navigation.getByRole("link", { name: "好友", exact: true }).getAttribute("aria-current"), "page");
+  assert.equal(await page.locator(".friends-list .friend-avatar").count(), 2);
+  geometry.push(await mobileGeometry(page, "好友列表"));
+  if (viewport.width === 390) await versionScreenshot(page, "friends", packageVersion);
+
+  await page.getByRole("link", { name: "与李白对话", exact: true }).click();
+  await visible(page.getByRole("heading", { name: "李白", exact: true }));
+  assert.equal(await navigation.getByRole("link", { name: "好友", exact: true }).getAttribute("aria-current"), "page");
+  assert.equal(await page.getByRole("link", { name: "返回好友列表", exact: true }).getAttribute("href"), "/friends");
+  assert.equal(await page.locator(".chat-role-note").count(), 1);
+  const input = page.getByRole("textbox", { name: "写给李白", exact: true });
+  const send = page.getByRole("button", { name: "发送消息", exact: true });
+  assert.equal(await input.getAttribute("maxlength"), "200");
+  assert.equal(await send.isDisabled(), true);
+  geometry.push(await mobileGeometry(page, "李白对话初始"));
+
+  // 自启服务显式无 key，真实验证 503；外部服务始终 mock，避免使用其 AI 配置。
+  if (process.env.E2E_BASE_URL) await page.route("**/api/chat", (route) => route.fulfill({ status: 503, json: { error: "好友暂时不在线" } }));
+  await input.fill("你好");
+  const offline = page.waitForResponse((response) => response.url().endsWith("/api/chat"));
+  await send.click();
+  assert.equal((await offline).status(), 503);
+  await visible(page.locator(".chat-error").getByText("好友暂时不在线", { exact: true }));
+  assert.equal(await input.inputValue(), "你好");
+  geometry.push(await mobileGeometry(page, "好友无 key 503 保留草稿"));
+  if (process.env.E2E_BASE_URL) await page.unroute("**/api/chat");
+
+  let release;
+  const gate = new Promise((resolve) => { release = resolve; });
+  let status = 200;
+  let reply = "不确定，资料里没写。咱们先核对出处，再慢慢聊。";
+  const sent = [];
+  await page.route("**/api/chat", async (route) => {
+    sent.push(route.request().postDataJSON());
+    await gate;
+    await route.fulfill({ status, json: status === 200 ? { reply } : { error: "不展示的上游错误" } });
+  });
+  try {
+    await page.getByRole("button", { name: "重试发送", exact: true }).click();
+    await visible(page.getByRole("status").filter({ hasText: "正在回信" }));
+    assert.equal(await send.isDisabled(), true);
+    geometry.push(await mobileGeometry(page, "好友发送中"));
+    release();
+    await visible(page.getByRole("log").getByText(reply, { exact: true }));
+    assert.equal(await input.inputValue(), "");
+    assert.equal(await page.locator(".chat-message-user").count(), 1, "失败重试不得重复插入用户消息");
+    assert.deepEqual(sent[0], { friendId: "libai", message: "你好", history: [] });
+    const sides = await page.evaluate(() => {
+      const assistant = document.querySelector(".chat-message-assistant .friend-avatar").getBoundingClientRect();
+      const user = document.querySelector(".chat-self-avatar").getBoundingClientRect();
+      const input = document.querySelector(".chat-composer").getBoundingClientRect();
+      const tabs = document.querySelector(".bottom-tabs").getBoundingClientRect();
+      return { assistantX: assistant.x, userX: user.x, composerBottom: input.bottom, tabsTop: tabs.top };
+    });
+    assert.ok(sides.userX > sides.assistantX, "自己在右、好友在左");
+    assert.ok(sides.composerBottom <= sides.tabsTop, "输入框不得被导航遮挡");
+    geometry.push({ ...await mobileGeometry(page, "好友 mock 回复"), sides });
+    if (viewport.width === 390) {
+      // mock 对话截图只留在 artifacts；指定交付截图仅为好友列表。
+      await page.screenshot({ path: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`), animations: "disabled" });
+    }
+    reply = "资料里没写。".repeat(120);
+    await input.fill("还有呢？");
+    await send.click();
+    await visible(page.getByRole("log").getByText(reply, { exact: true }));
+    assert.equal(sent[1].history.length, 2);
+    geometry.push(await mobileGeometry(page, "好友长回复"));
+    for (const failure of [429, 502, 504]) {
+      status = failure;
+      await input.fill("消息保留");
+      const pending = page.waitForResponse((response) => response.url().endsWith("/api/chat"));
+      await send.click();
+      assert.equal((await pending).status(), failure);
+      await visible(page.locator(".chat-error"));
+      assert.equal(await input.inputValue(), "消息保留");
+      assert.ok(!(await page.locator(".chat-error").textContent()).includes("上游错误"));
+      geometry.push(await mobileGeometry(page, `好友 ${failure} 重试状态`));
+    }
+  } finally { release(); await page.unroute("**/api/chat"); }
+  await page.reload();
+  await visible(page.getByRole("heading", { name: "李白", exact: true }));
+  assert.equal(await page.locator(".chat-message-user").count(), 0, "刷新后不保留内存对话");
+  assert.equal(await input.inputValue(), "");
+  await page.getByRole("link", { name: "返回好友列表", exact: true }).click();
+  await page.getByRole("link", { name: "与杜甫对话", exact: true }).click();
+  await visible(page.getByRole("heading", { name: "杜甫", exact: true }));
+  geometry.push(await mobileGeometry(page, "杜甫对话初始"));
+  const missing = await page.goto(`${baseURL}/friends/missing-friend`);
+  assert.equal(missing.status(), 404);
+  await visible(page.getByRole("heading", { name: "这位好友还没加入", exact: true }));
+  geometry.push(await mobileGeometry(page, "未知好友 404"));
+}
+
 async function focusVisible(locator) {
   assert.ok(await locator.evaluate((node) => node.matches(":focus-visible") && getComputedStyle(node).outlineStyle !== "none" && parseFloat(getComputedStyle(node).outlineWidth) >= 2), "缺少清晰的键盘焦点样式");
 }
@@ -1193,6 +1292,7 @@ try {
     const mobileContext = await browser.newContext({ viewport, acceptDownloads: true, isMobile: true, hasTouch: true });
     const mobile = await mobileContext.newPage();
     mobile.on("pageerror", (error) => errors.push(error.message));
+    await friendsFlow(mobile, viewport, geometry);
     await stickerCollectionFlow(mobile, viewport, geometry);
     for (const route of ["/trending", "/discover", "/stickers", ...scenarios.map(({ id }) => `/post/${id}`), "/post/DOES-NOT-EXIST", "/missing-page"]) {
       const response = await mobile.goto(`${baseURL}${route}`);
@@ -1367,7 +1467,7 @@ try {
   assert.equal((await fetch(`${baseURL}/api/verdict`, { method: "POST", body: JSON.stringify({ topicId: "MISSING", answer: false }) })).status, 404);
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
-  const summary = { passed: true, buildId, previewBuild, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新清空", "404"], realAiCalls: 0, memoryOnly: true, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopRails, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), eachTrueFalse: "3:3", authorThreads: true }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));
   console.log(JSON.stringify({ passed: true, flows: flows.length, viewports: summary.viewports, geometryChecks: geometry.length, browserErrors: errors, result: path.join(output, "result.json"), screenshots }, null, 2));
 } catch (error) {

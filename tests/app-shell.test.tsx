@@ -72,13 +72,13 @@ describe("移动端共用壳层", () => {
     expect(screen.getByRole("heading", { level: 1 }).closest(".trending-hero")).toBeTruthy();
   });
 
-  it.each(["/trending", "/discover", "/stickers", "/post/H03", "/missing"])("%s 保留三 Tab 与主内容内可展开的公告、守则", (pathname) => {
+  it.each(["/trending", "/discover", "/stickers", "/friends", "/friends/libai", "/post/H03", "/missing"])("%s 保留四 Tab 与主内容内可展开的公告、守则", (pathname) => {
     route.pathname = pathname;
     render(<AppShell><MobileBriefing /><h1>页面内容</h1></AppShell>);
     const navigation = screen.getByRole("navigation", { name: "主导航" });
     const links = within(navigation).getAllByRole("link");
-    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["▧贴纸", "/stickers"]]);
-    for (const link of links) expect(link.getAttribute("aria-current")).toBe(pathname === link.getAttribute("href") ? "page" : null);
+    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["▧贴纸", "/stickers"], ["好友", "/friends"]]);
+    for (const link of links) expect(link.getAttribute("aria-current")).toBe(pathname === link.getAttribute("href") || pathname.startsWith(`${link.getAttribute("href")}/`) ? "page" : null);
     const main = screen.getByRole("main");
     const information = within(main).getByRole("complementary", { name: "页内公告与守则" });
     for (const title of ["辟谣局公告", "今天的吃瓜守则"]) {

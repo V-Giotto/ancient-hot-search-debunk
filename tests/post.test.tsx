@@ -1,5 +1,5 @@
 import { Activity, useState } from "react";
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import h03 from "@/data/topics/h03.json";
 import sources from "@/data/source-index.json";
@@ -122,7 +122,7 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(submit);
     await screen.findByText("谣言退散");
     const heading = screen.getByRole("heading", { name: topic.reveal.verdictHeadline });
-    expect(document.activeElement).toBe(heading);
+    await waitFor(() => expect(document.activeElement).toBe(heading));
     expect(focus).toHaveBeenLastCalledWith({ preventScroll: true });
     expect(window.matchMedia).toHaveBeenCalledWith("(prefers-reduced-motion: reduce)");
     expect(scrollIntoView).toHaveBeenCalledExactlyOnceWith({ behavior, block: "start" });
