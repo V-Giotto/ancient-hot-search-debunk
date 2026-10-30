@@ -1,7 +1,6 @@
 import type { PublicTopic } from "@/lib/public-topic";
 import { postRelativeTime } from "@/lib/social-display";
 import { AuthorRow } from "@/components/social/AuthorRow";
-import { SocialStats } from "@/components/social/SocialStats";
 
 export function Author({ topic }: { topic: PublicTopic }) {
   return <AuthorRow name={topic.author.name} handle={topic.author.handle} avatarUrl={topic.author.avatarUrl} relativeTime={postRelativeTime(topic.rank)} isAuthor={topic.module === "discover"} />;
@@ -21,8 +20,4 @@ export function Tags({ topic }: { topic: PublicTopic }) {
 
 export function Cover({ topic }: { topic: PublicTopic }) {
   return <figure className="post-cover"><img src={topic.coverUrl} alt={topic.coverAlt} width={1200} height={675} /></figure>;
-}
-
-export function Stats({ topic }: { topic: PublicTopic }) {
-  return <SocialStats counts={{ replies: topic.simulatedComments, reposts: topic.simulatedReposts, likes: topic.simulatedLikes, views: topic.simulatedViews }} />;
 }

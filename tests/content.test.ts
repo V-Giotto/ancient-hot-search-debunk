@@ -417,6 +417,23 @@ describe("阶段6的形式与史实边界", () => {
       expect(topic.title).not.toMatch(/\s#|#\s|[！？，。]{2,}/);
     }
   });
+  it("热搜报道元数据完整且仅公开题面，正文、导语与相关报道无 emoji", () => {
+    for (const topic of getAllTopics()) {
+      if (topic.module === "discover") { expect(topic.news).toBeUndefined(); continue; }
+      expect(topic.news).toBeTruthy();
+      expect(topic.news!.outlet).toMatch(/采闻社|经纬社/);
+      expect(topic.news!.related).toHaveLength(2);
+      expect(topic.news!.publishedAt).toMatch(/^2026-10-30T09:/);
+      expect(toPublicTopic(topic).news).toEqual(topic.news);
+      expect(JSON.stringify({ title: topic.title, body: topic.body, news: topic.news })).not.toMatch(/\p{Extended_Pictographic}|\p{Regional_Indicator}|[\u20e3\ufe0f]/u);
+      expect(JSON.stringify(toPublicTopic(topic))).not.toMatch(/"(?:isTrue|reveal|sourceIds|aiFacts|rewriteOptions)"/);
+    }
+    const { news: _news, ...missing } = makeTopic();
+    expect(HotTopicSchema.safeParse(missing).success).toBe(false);
+    expect(HotTopicSchema.safeParse({ ...missing, module: "discover" }).success).toBe(true);
+    const topic = makeTopic();
+    expect(HotTopicSchema.safeParse({ ...topic, news: { ...topic.news, publishedAt: "not-a-date" } }).success).toBe(false);
+  });
   it("旧题缺省 post，新题依次为 news/moments/chat/poll，公开题面保留 format", () => {
     const topics = getAllTopics();
     expect(topics.slice(0, 8).every((topic) => topic.format === undefined)).toBe(true);

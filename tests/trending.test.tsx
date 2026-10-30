@@ -15,11 +15,11 @@ beforeEach(() => localStorage.clear());
 afterEach(cleanup);
 
 describe("移动端热榜", () => {
-  it("只将榜单所需的七个题面字段传到客户端", () => {
+  it("榜单仅传新闻条目题面字段，不传答案", () => {
     const board = TrendingPage().props.children;
     expect(board.props.topics).toHaveLength(topics.length);
     for (const topic of board.props.topics) {
-      expect(Object.keys(topic).sort()).toEqual(["category", "coverAlt", "coverUrl", "id", "rank", "simulatedHeat", "title"]);
+      expect(Object.keys(topic).sort()).toEqual(["category", "coverAlt", "coverUrl", "id", "lead", "outlet", "publishedAt", "rank", "simulatedHeat", "title"]);
     }
   });
 
@@ -46,6 +46,11 @@ describe("移动端热榜", () => {
       expect(icon.getAttribute("focusable")).toBe("false");
       for (const className of trendingTagClass[expected].split(" ")) expect(tag.classList.contains(className)).toBe(true);
       expect(within(row).getByRole("img").getAttribute("src")).toBe(topic.coverUrl);
+      expect(row.querySelector(".trending-byline")!.textContent).toContain(topic.news!.outlet);
+      expect(row.querySelector("time")!.dateTime).toBe(topic.news!.publishedAt);
+      expect(row.querySelector(".trending-lead")!.textContent).toBe(topic.news!.lead);
+      expect(row.textContent).not.toMatch(/\p{Extended_Pictographic}/u);
+      expect(row.querySelector(".author-row, .social-stats")).toBeNull();
     });
   });
 

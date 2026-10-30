@@ -42,12 +42,12 @@ export function PostExperience({ topic, topicIds }: { topic: PublicTopic; topicI
   }
 
   return (
-    <div key={`${topic.id}:${attempt}`} ref={contentRef} className="space-y-6">
+    <div key={`${topic.id}:${attempt}`} ref={contentRef} className={`post-experience ${topic.module === "trending" ? "news-experience" : "social-experience"} space-y-6`}>
       <PostFormat topic={topic} />
-      <Comments comments={topic.comments} author={topic.author.name} module={topic.module} title={topic.title} />
+      {topic.module === "discover" && <Comments comments={topic.comments} author={topic.author.name} title={topic.title} />}
       <MobileBriefing />
       <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} collectedTopics={collectedTopics.current} />
-      <Link href={topic.module === "trending" ? "/trending" : "/discover"} className="inline-block py-2 text-sm text-accent hover:underline">← 返回{topic.module === "trending" ? "热搜榜" : "发现"}，继续围观</Link>
+      <Link href={topic.module === "trending" ? "/trending" : "/discover"} className="inline-block py-2 text-sm text-accent hover:underline">← 返回{topic.module === "trending" ? "热搜榜，继续阅读" : "发现，继续围观"}</Link>
     </div>
   );
 }

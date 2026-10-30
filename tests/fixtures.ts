@@ -32,6 +32,7 @@ export function makeTopic(overrides: Partial<HotTopic> = {}): HotTopic {
       fictitious: true,
     },
     body: "合成测试正文，不包含历史断言。",
+    news: { outlet: "测试采闻社", lead: "合成测试导语", publishedAt: "2026-10-30T09:20:00+08:00", related: ["合成线索一", "合成线索二"] },
     simulatedHeat: 100,
     simulatedViews: 120,
     simulatedLikes: 10,

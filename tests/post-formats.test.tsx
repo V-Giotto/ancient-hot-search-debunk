@@ -1,10 +1,10 @@
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { PostExperience } from "@/components/post/PostExperience";
 import { PostFormat } from "@/components/post/formats";
 import { toPublicTopic } from "@/lib/public-topic";
-import { getAllTopics } from "@/lib/topics";
-import { PROGRESS_KEY } from "@/lib/progress";
+import { getAllTopics, getSourcesForTopic } from "@/lib/topics";
+import { PROGRESS_KEY, readCollectionProgress } from "@/lib/progress";
 import { compactCount, postRelativeTime } from "@/lib/social-display";
 import { generateMetadata } from "@/app/post/[id]/page";
 
@@ -25,75 +25,170 @@ describe("按 format 选择帖子模板", () => {
     expect(metadata.title).not.toMatch(/^#|#$/);
   });
 
-  it.each(topics)("$id 渲染对应模板、唯一标题/正文、统计与原判题入口", (topic) => {
-    const { container } = render(<PostExperience topic={toPublicTopic(topic)} topicIds={topics.map((topic) => topic.id)} />);
-    expect(screen.queryByRole("navigation", { name: "面包屑" })).toBeNull();
-    expect(container.querySelector("article")?.getAttribute("data-format")).toBe(topic.module === "trending" ? "news" : topic.format ?? "post");
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(topic.title);
-    expect(screen.getByText(topic.body, { exact: true })).toBeTruthy();
-    expect(screen.getByLabelText("互动统计").textContent).toContain(compactCount(topic.simulatedLikes));
+  it.each(topics)("$id 按模块渲染独立版式，并保留原判题入口", (topic) => {
+    const { container } = render(<PostExperience topic={toPublicTopic(topic)} topicIds={topics.map(({ id }) => id)} />);
     const article = container.querySelector("article")!;
-    expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual([topic.module === "trending" ? "masthead" : "author", "format", "title", "body", "cover", "stats"]);
-    expect(article.querySelectorAll(".author-row")).toHaveLength(topic.module === "discover" ? 1 : 0);
+    const news = topic.module === "trending";
+    expect(article.getAttribute("data-format")).toBe(news ? "news" : topic.format ?? "post");
+    expect(article.getAttribute("data-module")).toBe(topic.module);
+    expect(within(article).getByRole("heading", { level: 1 }).textContent).toBe(topic.title);
+    expect(within(article).getByText(topic.body, { exact: true })).toBeTruthy();
     expect(article.querySelectorAll("h1")).toHaveLength(1);
     expect(article.querySelectorAll(".post-cover")).toHaveLength(1);
-    expect(article.querySelectorAll(".social-stats")).toHaveLength(1);
-    expect(article.querySelector('[data-post-section="format"]')!.textContent?.trim()).toBeTruthy();
-    expect(article.querySelector('[data-post-section="body"]')!.textContent).toContain(topic.body);
-    expect(article.querySelector('[data-post-section="body"]')!.querySelector(".post-cover")).toBeNull();
-    if (topic.module === "discover") {
+    expect(article.querySelector('[data-post-section="body"] .post-cover')).toBeNull();
+    if (news) {
+      expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual(["masthead", "title", "byline", "lead", "cover", "body", "related"]);
+      expect(article.querySelector(".news-masthead")!.textContent).toContain("热点报道");
+      expect(article.querySelector(".news-byline")!.textContent).toContain(topic.news!.outlet);
+      expect(article.querySelector("time")!.dateTime).toBe(topic.news!.publishedAt);
+      expect(article.querySelector(".news-lead")!.textContent).toBe(topic.news!.lead);
+      expect(within(article).getByRole("region", { name: "相关报道" }).querySelectorAll("li")).toHaveLength(2);
+      expect(article.querySelector(".news-related")!.textContent).toContain(topic.news!.related[0]);
+      expect(container.querySelector(".social-stats, .post-actions, .author-row, .reply-thread, .comments-panel, .follow-button")).toBeNull();
+      expect(article.textContent).not.toMatch(/\p{Extended_Pictographic}|\p{Regional_Indicator}|[\u20e3\ufe0f]/u);
+      expect(article.textContent).not.toMatch(/家人们|谁懂啊|顶流|塑料友情|小板凳|在线蹲/);
+    } else {
+      expect([...article.children].map((node) => node.getAttribute("data-post-section"))).toEqual(["author", "format", "title", "cover", "body", "actions"]);
       const author = article.querySelector(".author-row")!;
       expect(article.firstElementChild!.contains(author)).toBe(true);
       expect(author.querySelector(".author-handle")!.textContent).toBe(topic.author.handle);
       expect(author.querySelector(".author-badge")!.textContent).toBe("作者");
       expect(author.textContent).toContain(postRelativeTime(topic.rank));
-    } else {
-      expect(article.querySelector(".news-masthead")!.textContent).toContain("热点快讯");
-      expect(article.querySelector(".author-handle")).toBeNull();
-    }
-    const stats = screen.getByLabelText("互动统计");
-    expect([...stats.querySelectorAll("dt")].map((node) => node.textContent)).toEqual(["回复", "转发", "点赞", "浏览"]);
-    expect([...stats.querySelectorAll("dd")].map((node) => node.getAttribute("aria-label"))).toEqual([topic.simulatedComments, topic.simulatedReposts, topic.simulatedLikes, topic.simulatedViews].map((count) => count.toLocaleString("zh-CN")));
-    expect(stats.querySelectorAll("svg")).toHaveLength(4);
-    expect(stats.querySelector('button, a, [role="button"], [tabindex], [onclick]')).toBeNull();
-    const comment = container.querySelector("#post-comments > li")!;
-    expect(comment.querySelector(".author-row")!.textContent).toContain(topic.comments[0].author);
-    expect(comment.querySelector(".author-handle")).toBeNull();
-    expect(article.compareDocumentPosition(comment) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(comment.querySelectorAll("dl svg")).toHaveLength(4);
-    expect(comment.querySelectorAll("[data-reply-id]")).toHaveLength(topic.module === "discover" ? 3 : 0);
-    if (topic.module === "discover") {
+      expect(article.textContent).toMatch(/\p{Extended_Pictographic}/u);
+      expect(within(article).getByRole("button", { name: `关注${topic.author.name}` })).toBeTruthy();
+      const actions = within(article).getByRole("group", { name: "帖子互动" });
+      expect(within(actions).getByRole("button", { name: "点赞" }).textContent).toContain(compactCount(topic.simulatedLikes));
+      expect(within(actions).getByRole("button", { name: "收藏" })).toBeTruthy();
+      expect(within(actions).getByRole("button", { name: /^转发/ })).toBeTruthy();
+      const comment = container.querySelector("#post-comments > li")!;
+      expect(comment.querySelector(".author-row")!.textContent).toContain(topic.comments[0].author);
+      expect(comment.querySelectorAll("dl svg")).toHaveLength(4);
+      expect(comment.querySelectorAll("[data-reply-id]")).toHaveLength(3);
       for (const reply of topic.comments[0].replies!) {
         const node = comment.querySelector(`[data-reply-id="${reply.id}"]`)!;
         expect(node.getAttribute("data-reply-to")).toBe(reply.replyTo);
         expect(node.parentElement!.parentElement!.getAttribute("data-reply-id")).toBe(reply.replyTo === topic.comments[0].id ? null : reply.replyTo);
         expect(node.querySelector(":scope > .author-row .author-badge")?.textContent).toBe(reply.author === topic.author.name ? "作者" : undefined);
       }
+      expect(container.querySelectorAll("#post-comments > li")).toHaveLength(4);
+      fireEvent.click(screen.getByRole("button", { name: /展开更多评论/ }));
+      expect(container.querySelectorAll("#post-comments > li")).toHaveLength(8);
     }
-    expect(comment.querySelector('button, a, [role="button"], [tabindex]')).toBeNull();
     expect(screen.getByRole("heading", { name: "这条主张，你信吗？" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "提交判断" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
     const briefing = screen.getByRole("complementary", { name: "页内公告与守则" });
     expect(briefing.compareDocumentPosition(container.querySelector(".task-panel")!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(screen.getByRole("link", { name: /← 返回.*继续围观/ }).getAttribute("href")).toBe(`/${topic.module}`);
-    expect(container.querySelectorAll("#post-comments")).toHaveLength(1);
-    expect(container.querySelectorAll("#post-comments > li")).toHaveLength(4);
-    fireEvent.click(screen.getByRole("button", { name: /展开更多评论/ }));
-    expect(container.querySelectorAll("#post-comments > li")).toHaveLength(8);
+    expect(screen.getByRole("link", { name: /← 返回.*继续/ }).getAttribute("href")).toBe(`/${topic.module}`);
     expect(container.textContent).not.toContain(topic.reveal.correctedClaim);
     expect(container.textContent).not.toMatch(/架空|模拟|艺术创作|非史料/);
     expect(fetch).not.toHaveBeenCalled();
   });
 
-  it("朋友圈有配图格与点赞区，聊天有转发气泡，快讯有播报栏", () => {
-    const { rerender } = render(<PostFormat topic={toPublicTopic(topics[8])} />);
-    expect(screen.getByText("街巷突发播报")).toBeTruthy();
-    rerender(<PostFormat topic={toPublicTopic(topics[9])} />);
+  it("发现的手作配图、聊天转发与投票模板继续可用", () => {
+    const { rerender } = render(<PostFormat topic={toPublicTopic(topics[9])} />);
     expect(screen.getByLabelText("朋友圈配图格")).toBeTruthy();
-    expect(screen.getByText("♡ 点赞区 · 手作围观中", { exact: true })).toBeTruthy();
     rerender(<PostFormat topic={toPublicTopic(topics[10])} />);
     expect(screen.getByLabelText("群聊转发")).toBeTruthy();
-    expect(screen.getByText("转发消息 · 待核对")).toBeTruthy();
+    rerender(<PostFormat topic={poll} />);
+    expect(screen.getByRole("region", { name: "直觉投票" })).toBeTruthy();
+  });
+
+  it("关注只保存本地作者状态，重进恢复并可取消，不请求网络或改动进度", () => {
+    const topic = toPublicTopic(topics.find(({ id }) => id === "H05")!);
+    localStorage.setItem(PROGRESS_KEY, '{"existing":"unchanged"}');
+    const props = { topic, topicIds: topics.map(({ id }) => id) };
+    const { unmount } = render(<PostExperience {...props} />);
+    const follow = screen.getByRole("button", { name: `关注${topic.author.name}` });
+    expect(follow.getAttribute("aria-pressed")).toBe("false");
+    fireEvent.click(follow);
+    expect(follow.textContent).toBe("已关注");
+    expect(localStorage.getItem(`ahsd:following:v1:${topic.author.handle}`)).toBe("true");
+    unmount();
+    render(<PostExperience {...props} />);
+    const restored = screen.getByRole("button", { name: `关注${topic.author.name}` });
+    expect(restored.getAttribute("aria-pressed")).toBe("true");
+    fireEvent.click(restored);
+    expect(restored.getAttribute("aria-pressed")).toBe("false");
+    expect(localStorage.getItem(PROGRESS_KEY)).toBe('{"existing":"unchanged"}');
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("存储受限时关注仍可来回切换", () => {
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => { throw new Error("blocked"); });
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("blocked"); });
+    render(<PostFormat topic={toPublicTopic(topics[4])} />);
+    const follow = screen.getByRole("button", { name: /^关注/ });
+    fireEvent.click(follow);
+    expect(follow.getAttribute("aria-pressed")).toBe("true");
+    fireEvent.click(follow);
+    expect(follow.getAttribute("aria-pressed")).toBe("false");
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("点赞与收藏独立切换，转发实际复制本页链接，不影响判题与贴纸", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText } });
+    render(<PostExperience topic={toPublicTopic(topics[4])} topicIds={topics.map(({ id }) => id)} />);
+    for (const label of ["点赞", "收藏"]) {
+      const action = screen.getByRole("button", { name: label });
+      fireEvent.click(action);
+      expect(action.getAttribute("aria-pressed")).toBe("true");
+      fireEvent.click(action);
+      expect(action.getAttribute("aria-pressed")).toBe("false");
+    }
+    fireEvent.click(screen.getByRole("button", { name: /^转发/ }));
+    expect(screen.getByLabelText("把这条见闻分享给朋友")).toHaveProperty("value", window.location.href);
+    fireEvent.click(screen.getByRole("button", { name: "复制链接" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "链接已复制" })).toBeTruthy());
+    expect(writeText).toHaveBeenCalledWith(window.location.href);
+    expect(localStorage.getItem(PROGRESS_KEY)).toBeNull();
+    expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("复制受限时展示可手动复制的链接与明确反馈", async () => {
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: vi.fn().mockRejectedValue(new Error("denied")) } });
+    render(<PostFormat topic={toPublicTopic(topics[4])} />);
+    fireEvent.click(screen.getByRole("button", { name: /^转发/ }));
+    fireEvent.click(screen.getByRole("button", { name: "复制链接" }));
+    expect(await screen.findByRole("status")).toHaveProperty("textContent", "复制未完成，可选中上方链接手动复制。");
+    expect(screen.getByLabelText("把这条见闻分享给朋友")).toHaveProperty("value", window.location.href);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+});
+
+describe("两模块共用判题与贴纸闭环", () => {
+  it.each(["H01", "H05"])("%s 可判题、揭晓、再玩一次；重答不重复获得贴纸", async (id) => {
+    const topic = topics.find((topic) => topic.id === id)!;
+    const ids = topics.map(({ id }) => id);
+    const descriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "scrollIntoView");
+    Object.defineProperty(HTMLElement.prototype, "scrollIntoView", { configurable: true, value: vi.fn() });
+    vi.stubGlobal("matchMedia", vi.fn().mockReturnValue({ matches: true }));
+    vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ isTrue: topic.isTrue, isCorrect: true, reveal: topic.reveal, sources: getSourcesForTopic(topic), rewriteOptions: topic.rewriteOptions }) } as Response);
+    try {
+      render(<PostExperience topic={toPublicTopic(topic)} topicIds={ids} />);
+      fireEvent.click(screen.getByRole("radio", { name: topic.isTrue ? "是真的" : "是假的" }));
+      fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+      const sticker = await screen.findByRole("region", { name: "本题贴纸" });
+      expect(sticker.textContent).toContain("获得贴纸：");
+      expect(screen.getByRole("button", { name: "生成查证卡" })).toBeTruthy();
+      expect(readCollectionProgress(ids).completedIds).toEqual([id]);
+      fireEvent.click(screen.getByRole("button", { name: "再玩一次" }));
+      expect(screen.queryByRole("region", { name: "本题贴纸" })).toBeNull();
+      expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+      expect(document.activeElement).toBe(screen.getByRole("heading", { name: "这条主张，你信吗？" }));
+      expect(readCollectionProgress(ids).completedIds).toEqual([id]);
+      fireEvent.click(screen.getByRole("radio", { name: topic.isTrue ? "是真的" : "是假的" }));
+      fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
+      expect((await screen.findByRole("region", { name: "本题贴纸" })).textContent).toContain("已收藏");
+      expect(screen.queryByText(/获得贴纸：/)).toBeNull();
+      expect(readCollectionProgress(ids).completedIds).toEqual([id]);
+      expect(fetch).toHaveBeenCalledTimes(2);
+      for (const [url] of vi.mocked(fetch).mock.calls) expect(url).toBe("/api/verdict");
+    } finally {
+      if (descriptor) Object.defineProperty(HTMLElement.prototype, "scrollIntoView", descriptor);
+      else Reflect.deleteProperty(HTMLElement.prototype, "scrollIntoView");
+    }
   });
 });
 

@@ -72,6 +72,13 @@ export const HotTopicSchema = z.strictObject({
     fictitious: z.literal(true),
   }),
   body: nonEmptyText,
+  // 仅报道语气与展示元数据；不得作为新的历史事实或判题依据。
+  news: z.strictObject({
+    outlet: nonEmptyText,
+    lead: nonEmptyText,
+    publishedAt: z.iso.datetime({ offset: true }),
+    related: z.array(nonEmptyText).length(2),
+  }).optional(),
   simulatedHeat: simulatedCount,
   simulatedViews: simulatedCount,
   simulatedLikes: simulatedCount,
@@ -99,6 +106,8 @@ export const HotTopicSchema = z.strictObject({
   reviewBy: z.string().optional(),
   reviewedAt: z.string().optional(),
   assetLicense: z.string().optional(),
+}).refine((topic) => topic.module !== "trending" || !!topic.news, {
+  path: ["news"], message: "热搜需要报道元数据",
 });
 export type HotTopic = z.infer<typeof HotTopicSchema>;
 

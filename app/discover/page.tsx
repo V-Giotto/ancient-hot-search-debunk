@@ -12,11 +12,13 @@ export default function DiscoverPage() {
 
   return (
     <AppShell title="发现">
-      <div className="discover-heading">
-        <div><p className="eyebrow">发现 · 街巷见闻</p><h1>跨时空吃瓜现场</h1></div>
-        <Link href="/trending">去热搜榜 ↗</Link>
+      <div className="discover-page">
+        <div className="discover-heading">
+          <div><p className="eyebrow">发现 · 街巷见闻</p><h1>今天，巷子里聊什么？</h1></div>
+          <Link href="/trending">去热搜榜 ↗</Link>
+        </div>
+        <DiscoverFeed topics={topics} firstTrendingTopicId={allTopics.find((topic) => topic.module === "trending")?.id} />
       </div>
-      <DiscoverFeed topics={topics} firstTrendingTopicId={allTopics.find((topic) => topic.module === "trending")?.id} />
     </AppShell>
   );
 }
