@@ -17,7 +17,7 @@ describe("贴纸墙与本机进度展示", () => {
   it("全题库锁定态不泄题，无可点击帖子；传给客户端的徽记仅有中性主题元数据", () => {
     vi.stubEnv("CONTENT_MODE", "preview");
     const page = MePage();
-    const tabs = page.props.children.props.children[2].props.children;
+    const tabs = page.props.children.props.children[3].props.children;
     expect(tabs.props.stickers).toEqual(stickers);
     expect(tabs.props.firstTopicId).toBe(topics.find(({ rank }) => rank === 1)!.id);
     for (const topic of tabs.props.topics) expect(Object.keys(topic).sort()).toEqual(["id", "module", "title"]);

@@ -14,7 +14,7 @@ const port = process.env.E2E_PORT || "3123";
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
 const output = path.resolve("artifacts/stage-6");
 const screenshots = path.join(output, "screenshots");
-const reviewDir = process.env.E2E_REVIEW_DIR || "/workspace/iter1";
+const reviewDir = process.env.E2E_REVIEW_DIR || "D:/agent_project/_shots";
 const scenarios = [
   { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 2 },
   { id: "H02", answer: true, best: "C", wrong: "A", sourceCount: 3 },
@@ -35,6 +35,10 @@ const displayConstraints = JSON.parse(await readFile("tests/fixtures/display-con
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 const { version: packageVersion } = JSON.parse(await readFile("package.json", "utf8"));
 const allTopics = await Promise.all(scenarios.map(({ id }) => readFile(`data/topics/${id.toLowerCase()}.json`, "utf8").then(JSON.parse)));
+const friendFiles = (await readdir("data/friends")).filter((file) => file.endsWith(".json"));
+const friends = (await Promise.all(friendFiles.map((file) => readFile(path.join("data/friends", file), "utf8").then(JSON.parse))))
+  .sort((a, b) => a.displayOrder - b.displayOrder || a.id.localeCompare(b.id));
+const friendIds = friends.map(({ id }) => id);
 const feedEntries = (await Promise.all(["trending", "discover"].map(async (module) => JSON.parse(await readFile(`data/feed/${module}.json`, "utf8"))))).flat().filter((entry) => allTopics.some(({ id }) => id === entry.topicId)).map((entry) => ({ ...allTopics.find(({ id }) => id === entry.topicId), ...entry }));
 const trendingTopics = feedEntries.filter((entry) => entry.module === "trending");
 const discoverTopics = feedEntries.filter((entry) => entry.module === "discover");
@@ -113,8 +117,9 @@ async function pixelSourceChecks() {
     for (const name of await readdir(folder, { recursive: true })) {
       if (!name.endsWith(".tsx")) continue;
       const file = path.join(folder, name);
+      const portableFile = file.replaceAll("\\", "/");
       const source = await readFile(file, "utf8");
-      if (!file.startsWith("components/pixel/")) assert.doesNotMatch(source, /<svg\b/, `${file} 残留旧 SVG`);
+      if (!portableFile.startsWith("components/pixel/")) assert.doesNotMatch(source, /<svg\b/, `${file} 残留旧 SVG`);
       assert.doesNotMatch(source, /[←→↗↘↙↖↑↓▶▼▲◀⌄⌃✕♥♡★☆🔥👀💬🔗🔍➜↩✔✓✖◫▧]/u, `${file} 残留字符图标`);
       files.push(file);
     }
@@ -229,7 +234,7 @@ async function pixelInteractionChecks(browser, errors) {
       assert.equal(await sheet.locator('[data-pixel-icon="close"]').count(), 1);
       await mobileGeometry(page, "像素转发弹层");
       await sheet.getByRole("button", { name: "关闭转发弹层" }).click();
-      for (const route of ["/discover", "/friends", "/friends/libai", "/friends/dufu"]) {
+      for (const route of ["/discover", "/friends", ...friendIds.map((id) => `/friends/${id}`)]) {
         await page.goto(`${baseURL}${route}`);
         await visible(page.locator(".shell-header"));
         await mobileGeometry(page, `像素入口 ${route}`);
@@ -275,12 +280,11 @@ async function firstLoadChecks(browser, errors) {
 }
 
 async function pixelAssetChecks(browser, errors) {
-  const friends = await Promise.all(["libai", "dufu"].map(async (id) => JSON.parse(await readFile(`data/friends/${id}.json`, "utf8"))));
   const paths = [...new Set([
     ...feedEntries.flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl, ...topic.comments.flatMap((comment) => [comment.avatar, ...(comment.replies ?? []).map((reply) => reply.avatar)])]),
     ...friends.map((friend) => friend.avatarUrl),
   ])].sort();
-  assert.equal(paths.length, 51);
+  assert.equal(paths.length, 62);
   const assets = await Promise.all(paths.map(async (asset) => {
     assert.match(asset, /^\/(covers(?:\/feed)?|avatars|friends)\/[\w-]+\.webp$/);
     const response = await fetch(`${baseURL}${asset}`);
@@ -317,7 +321,7 @@ async function pixelAssetChecks(browser, errors) {
       });
       const page = await context.newPage();
       page.on("pageerror", (error) => errors.push(error.message));
-      for (const route of ["/trending", "/discover", "/friends", "/friends/libai", "/friends/dufu", ...allTopics.map((topic) => `/post/${topic.id}`)]) {
+      for (const route of ["/trending", "/discover", "/friends", "/friends/libai", "/friends/dufu", "/friends/sushi", "/friends/kongzi", "/friends/kangxi", ...allTopics.map((topic) => `/post/${topic.id}`)]) {
         await page.goto(`${baseURL}${route}`);
         await page.waitForLoadState("networkidle");
         await page.evaluate(async () => {
@@ -349,7 +353,7 @@ async function pixelAssetChecks(browser, errors) {
     } finally { await context.close(); }
   }
   assert.deepEqual(failures, [], "出现图片 404 或加载失败");
-  assert.deepEqual([...decoded].sort(), paths, "全部 51 张 WebP 须通过浏览器解码");
+  assert.deepEqual([...decoded].sort(), paths, "全部 62 张 WebP 须通过浏览器解码");
   // 现有查证卡没有封面；单独验证同版本 html-to-image 的 SVG foreignObject 可内嵌 WebP。
   const exportContext = await browser.newContext();
   let webpExport;
@@ -765,14 +769,11 @@ async function persistentSocialFlow(page, viewport, geometry) {
     await trigger.click();
     const sheet = page.getByRole("dialog", { name: "转发给好友", exact: true });
     assert.equal(await sheet.getAttribute("aria-modal"), "true");
-    await visible(sheet.getByRole("link", { name: "转发给李白", exact: true }));
-    await visible(sheet.getByRole("link", { name: "转发给杜甫", exact: true }));
+    for (const friend of friends) await visible(sheet.getByRole("link", { name: `转发给${friend.name}`, exact: true }));
     await visible(sheet.getByRole("button", { name: "复制链接", exact: true }));
     await sheet.locator("img.friend-avatar").evaluateAll(async (images) => { await Promise.all(images.map((image) => image.decode())); });
-    assert.deepEqual(await sheet.locator("img.friend-avatar").evaluateAll((images) => images.map((image) => ({ src: image.getAttribute("src"), alt: image.alt, fit: getComputedStyle(image).objectFit, size: image.getBoundingClientRect().width }))), [
-      { src: "/friends/dufu.webp", alt: "杜甫", fit: "cover", size: 44 },
-      { src: "/friends/libai.webp", alt: "李白", fit: "cover", size: 44 },
-    ]);
+    assert.deepEqual(await sheet.locator("img.friend-avatar").evaluateAll((images) => images.map((image) => ({ src: image.getAttribute("src"), alt: image.alt, fit: getComputedStyle(image).objectFit, size: image.getBoundingClientRect().width }))),
+      friends.map((friend) => ({ src: friend.avatarUrl, alt: friend.name, fit: "cover", size: 44 })));
     await focused(sheet.getByRole("button", { name: "关闭转发弹层", exact: true }));
     await page.keyboard.press("Shift+Tab"); await focused(sheet.getByRole("textbox"));
     await page.keyboard.press("Tab"); await focused(sheet.getByRole("button", { name: "关闭转发弹层", exact: true }));
@@ -824,7 +825,7 @@ async function friendsFlow(page, viewport, geometry) {
   const navigation = page.getByRole("navigation", { name: "主导航", exact: true });
   await navigationChecks(page);
   assert.equal(await navigation.getByRole("link", { name: "好友", exact: true }).getAttribute("aria-current"), "page");
-  assert.equal(await page.locator(".friends-list .friend-avatar").count(), 2);
+  assert.equal(await page.locator(".friends-list .friend-avatar").count(), 13);
   geometry.push(await mobileGeometry(page, "好友列表"));
   if (viewport.width === 390) await versionScreenshot(page, "friends", packageVersion);
 
@@ -883,7 +884,6 @@ async function friendsFlow(page, viewport, geometry) {
     assert.ok(sides.composerBottom <= sides.tabsTop, "输入框不得被导航遮挡");
     geometry.push({ ...await mobileGeometry(page, "好友 mock 回复"), sides });
     if (viewport.width === 390) {
-      // mock 对话截图只留在 artifacts；指定交付截图仅为好友列表。
       await page.screenshot({ path: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`), animations: "disabled" });
     }
     reply = "此事吾不敢妄言。".repeat(120);
@@ -915,6 +915,24 @@ async function friendsFlow(page, viewport, geometry) {
   await page.getByRole("link", { name: "与杜甫对话", exact: true }).click();
   await visible(page.getByRole("heading", { name: "杜甫", exact: true }));
   geometry.push(await mobileGeometry(page, "杜甫对话初始"));
+  if (viewport.width === 390) {
+    for (const { id, name, message, reply } of [
+      { id: "sushi", name: "苏轼", message: "今天有点累。", reply: "（递上一盏热茶）先暖暖手，东坡听着。今日不必急着把所有事做完，挑最要紧的一件便好。" },
+      { id: "kongzi", name: "孔子", message: "最近总怕自己学得不够好。", reply: "（拱手，放缓语气）丘听见了。学问不必一日尽得，汝今日能想明白一处，便是一处实在的进步。" },
+      { id: "kangxi", name: "康熙", message: "我总把计划排得太满。", reply: "（搁下笔）知道了。先删去一件并不紧要的事，给自己留些余地；能长久做下去，比一日排满更要紧。" },
+    ]) {
+      await page.goto(`${baseURL}/friends/${id}`);
+      await visible(page.getByRole("heading", { name, exact: true }));
+      await page.route("**/api/chat", (route) => route.fulfill({ status: 200, json: { reply } }));
+      const mockInput = page.getByRole("textbox", { name: `写给${name}`, exact: true });
+      await mockInput.fill(message);
+      await page.getByRole("button", { name: "发送消息", exact: true }).click();
+      await visible(page.getByRole("log").getByText(reply, { exact: true }));
+      geometry.push(await mobileGeometry(page, `${name} mock 对话`));
+      await page.screenshot({ path: path.join(reviewDir, `v${packageVersion}-chat-${id}-390x844.png`), animations: "disabled" });
+      await page.unroute("**/api/chat");
+    }
+  }
   const missing = await page.goto(`${baseURL}/friends/missing-friend`);
   assert.equal(missing.status(), 404);
   await visible(page.getByRole("heading", { name: "这位好友还没加入", exact: true }));
@@ -2126,7 +2144,7 @@ try {
   }
   const desktopChecks = [];
   await page.setViewportSize({ width: 1440, height: 900 });
-  for (const route of ["/", "/discover", "/me", "/me?tab=favorites", "/friends", "/friends/libai", "/friends/dufu", ...scenarios.map(({ id }) => `/post/${id}`), "/post/DOES-NOT-EXIST", "/missing-page"]) {
+  for (const route of ["/", "/discover", "/me", "/me?tab=favorites", "/friends", ...friendIds.map((id) => `/friends/${id}`), ...scenarios.map(({ id }) => `/post/${id}`), "/post/DOES-NOT-EXIST", "/missing-page"]) {
     await page.goto(`${baseURL}${route}`);
     await visible(page.getByRole("heading", { level: 1 }));
     if (route === "/") await mobileGeometry(page, "1440×900 桌面居中列");
@@ -2178,7 +2196,7 @@ try {
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
   assert.deepEqual(errors, [], "新增信息流浏览器出现运行错误");
-  const summary = { passed: true, phase4: previewBuild.phase4, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H14 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十四题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "7:7", feedEntries: 44, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/读者评论/本机评论与回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, phase4: previewBuild.phase4, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: friendIds, shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", ...friendIds.map((id) => `/friends/${id}`), "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshots: ["sushi", "kongzi", "kangxi"].map((id) => path.join(reviewDir, `v${packageVersion}-chat-${id}-390x844.png`)) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H14 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十四题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "7:7", feedEntries: 44, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/读者评论/本机评论与回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   const eraDetails = geometry.filter((record) => record.eraChip);
   summary.displayContent = {
     version: packageVersion,

@@ -111,7 +111,7 @@ it("components / app 没有旧内联 SVG 或 Unicode 图标，绘图仅由像素
   }
   for (const file of [...files("components"), ...files("app")]) {
     const source = readFileSync(file, "utf8");
-    if (!file.startsWith("components/pixel/")) expect(source, file).not.toMatch(/<svg\b/);
+    if (!file.replaceAll("\\", "/").startsWith("components/pixel/")) expect(source, file).not.toMatch(/<svg\b/);
     expect(source, file).not.toMatch(/[←→↗↘↙↖↑↓▶▼▲◀⌄⌃✕♥♡★☆🔥👀💬🔗🔍➜↩✔✓✖◫▧]/u);
   }
 });

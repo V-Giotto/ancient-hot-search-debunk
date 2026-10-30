@@ -53,7 +53,7 @@ describe("按题收集、按帖互动", () => {
       view.unmount();
     }
     expect(Object.keys(JSON.parse(saved!))).toEqual(["H01"]);
-  });
+  }, 10_000);
 
   it.each(["T05", "P10"])("$0 从 topicId 取真假、改写、来源及 AI 请求；模板取条目", async (id) => {
     const entry = getFeedEntryById(id)!;

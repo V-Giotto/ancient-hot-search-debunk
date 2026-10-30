@@ -418,7 +418,7 @@ summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .social-experience .reply-thread { border-color: #e8b6a0; background: #fdf7f3; border-radius: 0 16px 16px 0; padding: 14px 10px; }
 .social-experience .author-badge { border-color: #ce6a4a40; color: #b24c33; background: #fff1e9; }
 
-/* 好友延续纸张、朱砂与墨色；原创山月、汀草纹样作为头像。 */
+/* 好友延续纸张、朱砂与墨色；统一使用已提供的复古像素风头像。 */
 .friends-intro { position: relative; overflow: hidden; padding: 24px 20px; border: 1px solid #d6ad7245; border-radius: 16px; background: #eee9df; }
 .friends-eyebrow { color: #78614a; font-size: 10px; letter-spacing: .16em; }
 .friends-intro h1 { margin-block: 10px 12px; font-size: 30px; font-weight: 650; letter-spacing: .12em; }

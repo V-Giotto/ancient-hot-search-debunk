@@ -22,12 +22,16 @@ async function main() {
   }
   const port = Number(rawPort);
   const hostname = option("--hostname", "-H");
+  // Windows allows a wildcard/IPv6 listener to coexist with an occupied IPv4
+  // loopback port. Probe the address Next's local URL uses unless the caller
+  // explicitly selected another hostname.
+  const probeHostname = hostname || "127.0.0.1";
   const probe = createServer();
   await new Promise((resolve, reject) => {
     probe.once("error", (error) => reject(new Error(error.code === "EADDRINUSE"
       ? `端口 ${port} 已被占用。请先确认并停止该端口的旧服务，或用 PORT / --port 选择其他端口；启动已取消。`
       : `无法检查端口 ${port}，请检查监听地址与端口权限。`)));
-    probe.listen({ port, ...(hostname ? { host: hostname } : {}) }, () => probe.close(resolve));
+    probe.listen({ port, host: probeHostname }, () => probe.close(resolve));
   });
   console.log(`端口 ${port} 可用${start ? "，正在启动当前构建。" : "。"}`);
   if (!start) return;

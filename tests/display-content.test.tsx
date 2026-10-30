@@ -28,7 +28,8 @@ afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 describe("v0.21.0 展示内容边界", () => {
   it("旧题原指纹不变；来源只放行登记的 H14 扩充，其余旧来源逐字段不变", () => {
     const baselineBytes = readFileSync("tests/fixtures/source-index-v0.23.0.json");
-    expect(createHash("sha256").update(baselineBytes).digest("hex")).toBe(integrity.sourceIndexSha256);
+    const canonicalBaselineBytes = Buffer.from(baselineBytes.toString("utf8").replaceAll("\r\n", "\n"));
+    expect(createHash("sha256").update(canonicalBaselineBytes).digest("hex")).toBe(integrity.sourceIndexSha256);
     const baseline = JSON.parse(baselineBytes.toString());
     const current = JSON.parse(readFileSync("data/source-index.json", "utf8"));
     expect(current.slice(0, 28).map((source: { id: string }) => source.id)).toEqual(baseline.map((source: { id: string }) => source.id));

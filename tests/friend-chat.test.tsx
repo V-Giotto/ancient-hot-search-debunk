@@ -20,9 +20,9 @@ describe("好友列表与即时对话", () => {
     const list = screen.getByRole("list", { name: "好友列表" });
     expect(within(list).getByRole("link", { name: "与李白对话" }).getAttribute("href")).toBe("/friends/libai");
     expect(within(list).getByRole("link", { name: "与杜甫对话" }).getAttribute("href")).toBe("/friends/dufu");
-    expect(list.querySelectorAll("img.friend-avatar")).toHaveLength(2);
+    expect(list.querySelectorAll("img.friend-avatar")).toHaveLength(13);
     expect(list.querySelectorAll("svg.friend-avatar, image, script")).toHaveLength(0);
-    for (const [id, name] of [["libai", "李白"], ["dufu", "杜甫"]]) {
+    for (const [id, name] of [["libai", "李白"], ["dufu", "杜甫"], ["sushi", "苏轼"], ["kongzi", "孔子"], ["kangxi", "康熙"]]) {
       const image = within(list).getByRole("img", { name });
       expect(image.getAttribute("src")).toBe(`/friends/${id}.webp`);
       expect(image.getAttribute("width")).toBe("64");

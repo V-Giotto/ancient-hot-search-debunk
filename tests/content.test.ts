@@ -207,13 +207,13 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     }
   });
 
-  it("十四张封面、五张作者/评论头像与两张好友头像均为已登记的本地 WebP，旧 SVG 已移除", () => {
+  it("十四张封面、五张作者/评论头像与十三张好友头像均为已登记的本地 WebP，旧 SVG 已移除", () => {
     const assets = new Set([
       ...getAllTopics().flatMap((topic) => [topic.coverUrl, topic.author.avatarUrl,
         ...topic.comments.flatMap((comment) => [comment.avatar!, ...(comment.replies ?? []).map((reply) => reply.avatar!)])]),
       ...getAllFriends().map((friend) => friend.avatarUrl),
     ]);
-    expect(assets.size).toBe(21);
+    expect(assets.size).toBe(32);
     const licenses = readFileSync(path.join(process.cwd(), "docs/ASSET_LICENSES.md"), "utf8");
     for (const asset of assets) {
       expect(asset).toMatch(/^\/(covers|avatars|friends)\/[\w-]+\.webp$/);

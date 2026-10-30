@@ -1,5 +1,25 @@
 # 原创素材登记
 
+## v0.25.0 · 11 张新增好友头像
+
+以下头像由用户安排的外部流程生成并放入 `public/friends/`，本次实现只接入与校验文件，没有重新生成、重编码或裁切。统一属性为 **AI 生成原创复古像素风头像**：深紫背景、亮绿高光、粗描边，与既有李白／杜甫头像同一视觉系统；不含真实品牌或 logo，不是真实肖像、文物图像或历史复原，也不能作为人物服饰、器物、生平与时代细节的证据。生成工具／模型、许可证与逐图原始提示词由外部素材提供方后续补录；全部状态为 **待 Giotto 审核**。
+
+| 文件 | 用途 | 尺寸 | 审核状态 |
+| --- | --- | --- | --- |
+| `public/friends/sushi.webp` | 苏轼好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/liqingzhao.webp` | 李清照好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/kongzi.webp` | 孔子好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/quyuan.webp` | 屈原好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/qinshihuang.webp` | 秦始皇好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/simaguang.webp` | 司马光好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/zhugeliang.webp` | 诸葛亮好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/wangxizhi.webp` | 王羲之好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/chengjisihan.webp` | 成吉思汗好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/wangyangming.webp` | 王阳明好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+| `public/friends/kangxi.webp` | 康熙好友头像 | 256×256 | AI 生成 · 待 Giotto 审核 |
+
+李白与杜甫继续使用 v0.19.0 已登记的 `libai.webp`、`dufu.webp`；本版没有修改二者文件。
+
 ## v0.24.0 · H13/H14 封面
 
 | 文件 | 用途 | 属性 | 审核状态 |
