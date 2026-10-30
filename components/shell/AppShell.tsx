@@ -22,9 +22,6 @@ export function AppShell({ children }: { children: ReactNode }) {
               <p className="mt-0.5 text-xs text-muted">让古人上热搜，让你来辟谣。</p>
             </div>
           </Link>
-          <span className="rounded-full border border-gold/40 bg-gold/10 px-3 py-0.5 text-[11px] text-ink">
-            古代互联网·架空演绎
-          </span>
         </div>
       </header>
       <div className="shell-content px-4 pt-6">

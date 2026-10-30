@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: { default: "古代热搜辟谣局", template: "%s · 古代热搜辟谣局" },
-  description: "让古人上热搜，让你来辟谣。古代互联网·架空演绎。",
+  description: "让古人上热搜，让你来辟谣。",
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };

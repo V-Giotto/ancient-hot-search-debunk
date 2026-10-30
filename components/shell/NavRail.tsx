@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const navigation = [
   { href: "/trending", label: "热搜榜", symbol: "#" },
   { href: "/discover", label: "发现", symbol: "◫" },
+  { href: "/stickers", label: "贴纸", symbol: "▧" },
 ];
 
 export function NavRail() {
@@ -13,7 +14,7 @@ export function NavRail() {
 
   return (
     <nav aria-label="主导航" className="bottom-tabs border-t border-ink/10 bg-card">
-      <ul className="grid grid-cols-2 gap-2 px-3 py-2">
+      <ul className="grid grid-cols-3 gap-2 px-3 py-2">
         {navigation.map((item) => {
           const active = pathname === item.href;
           return (

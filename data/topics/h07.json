@@ -5,10 +5,10 @@
   "tags": ["蹴鞠", "首创争议", "体育史待查证"],
   "title": "#宋代体育圈申请首创：蹴鞠真到这时才诞生？#",
   "coverUrl": "/covers/h07.svg",
-  "coverAlt": "虚构蹴鞠场景与首创争议体育资讯卡原创插画，艺术创作·非史料，不是古代场地或比赛规则复原",
+  "coverAlt": "蹴鞠场景与首创争议体育资讯卡插画",
   "author": {
     "name": "宋代蹴鞠第一资讯",
-    "bio": "虚构体育资讯号｜首创申请先排队，证据材料请带齐。",
+    "bio": "体育资讯号｜首创申请先排队，证据材料请带齐。",
     "avatarUrl": "/avatars/hype.svg",
     "fictitious": true
   },
@@ -22,7 +22,7 @@
     { "id": "H07-C01", "author": "球迷从不缺席", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "球还没看见，评论区的嗓子已经完成热身。围观席还有位置吗？", "simulatedLikes": 438 },
     { "id": "H07-C02", "author": "时间线先排队", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "先把记载按时间排好，再讨论首创。标题里的荣誉可不能靠音量投票。", "simulatedLikes": 612 },
     { "id": "H07-C03", "author": "体坛热搜加速器", "avatar": "/avatars/hype.svg", "role": "troll", "text": "奖杯我负责画，掌声你们负责刷，查资料的网友先别划走啊！", "simulatedLikes": 209 },
-    { "id": "H07-C04", "author": "宋代球场候补", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本虚构网友刚报到，就被拉进荣誉申请群。能先让我喘口气吗？", "simulatedLikes": 327 },
+    { "id": "H07-C04", "author": "宋代球场候补", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本网友刚报到，就被拉进荣誉申请群。能先让我喘口气吗？", "simulatedLikes": 327 },
     { "id": "H07-C05", "author": "体育词条慢读员", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "记载说的是开展、发展还是起源？这几个词最好逐个读清楚。", "simulatedLikes": 558 },
     { "id": "H07-C06", "author": "看台常驻吃瓜人", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我只是路过体育区，没想到要先学会看资料才能加入群聊。", "simulatedLikes": 281 },
     { "id": "H07-C07", "author": "赛后闲聊候场中", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本账号的赛后感想先存草稿，今天大家似乎更想讨论海报署名。", "simulatedLikes": 264 },

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
   <title id="title">蹴鞠首创争议，奖杯先等等</title>
-  <desc id="desc">虚构蹴鞠人物与现代体育资讯卡。原创矢量插画，艺术创作·非史料，不是古代球场、球具、服饰或比赛规则复原。</desc>
+  <desc id="desc">蹴鞠场景与首创争议体育资讯卡插画。</desc>
   <rect width="1200" height="675" fill="#f7f5f0" />
   <circle cx="1060" cy="135" r="270" fill="#eee4d4" />
   <path d="M0 547Q350 495 670 550T1200 520V675H0Z" fill="#e3cfb0" />
@@ -29,16 +29,12 @@
     <rect x="8" y="9" width="425" height="222" rx="20" fill="#d6ad72" opacity=".3" />
     <rect width="425" height="222" rx="20" fill="#f7f5f0" stroke="#d6ad72" stroke-width="2" />
     <rect x="24" y="21" width="150" height="30" rx="15" fill="#e84e48" />
-    <text x="99" y="43" text-anchor="middle" font-size="18" fill="#fff">虚构体育快讯</text>
+    <text x="99" y="43" text-anchor="middle" font-size="18" fill="#fff">体育快讯</text>
     <text x="25" y="110" font-size="48" font-weight="800" fill="#26252c">首创争议？</text>
     <path d="M26 139H399" stroke="#e3cfb0" stroke-width="2" />
     <text x="27" y="177" font-size="22" fill="#7d5b32">先找记载 · 再谈荣誉</text>
-    <text x="27" y="207" font-size="17" fill="#7d5b32">场景为创作，不复原比赛规则</text>
   </g>
   <rect x="70" y="578" width="345" height="43" rx="21" fill="#f7f5f0" />
   <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#7d5b32">体育资讯 · 起源待查证</text>
   <text x="1130" y="98" text-anchor="end" font-family="sans-serif" font-size="18" letter-spacing="2" fill="#7d5b32">热搜档案 / H07</text>
-  <rect x="834" y="578" width="296" height="43" rx="21" fill="#ffffff" stroke="#d6ad72" />
-  <circle cx="861" cy="600" r="5" fill="#e84e48" />
-  <text x="991" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#7d5b32">艺术创作·非史料</text>
 </svg>

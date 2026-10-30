@@ -6,6 +6,7 @@ import sources from "@/data/source-index.json";
 import { Comments } from "@/components/post/Comments";
 import { RewriteExercise } from "@/components/post/RewriteExercise";
 import { VerdictTask } from "@/components/post/VerdictTask";
+import { PostExperience } from "@/components/post/PostExperience";
 import { toPublicTopic } from "@/lib/public-topic";
 import { HotTopicSchema, SourceSchema } from "@/lib/schemas";
 import { PROGRESS_KEY, readProgress, saveProgress } from "@/lib/progress";
@@ -35,6 +36,16 @@ afterEach(() => {
 });
 
 describe("真假判断与揭晓", () => {
+  it("帖子与评论保留数字，移除账号、图注和互动免责声明", () => {
+    const { container } = render(<PostExperience topic={publicTopic} />);
+    expect(container.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
+    expect(screen.getByLabelText("互动统计").textContent).toContain(topic.simulatedLikes.toLocaleString("zh-CN"));
+    expect(container.querySelector("figcaption")).toBeNull();
+    expect(container.querySelectorAll("img").length).toBeGreaterThan(0);
+    for (const image of container.querySelectorAll("img")) expect(image.alt).not.toMatch(/虚构|架空|非史料/);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
   it("未选禁用提交，提交前可以改选，提交后锁定且显示假题、答对文案", async () => {
     render(<VerdictTask topic={publicTopic} />);
     expect(screen.getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
@@ -57,6 +68,7 @@ describe("真假判断与揭晓", () => {
     expect(fetch).toHaveBeenCalledWith("/api/verdict", expect.objectContaining({ body: JSON.stringify({ topicId: "H03", answer: false }) }));
     expect(readProgress("H03")?.revealed).toBe(true);
     expect(readProgress("H03")?.selectedAnswer).toBe(false);
+    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("饭局手记 · 已解锁");
     expect(screen.getAllByText("待人工审核")).toHaveLength(3);
   });
 
@@ -66,6 +78,8 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(screen.getByRole("radio", { name: "是真的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("这次答错了，带走一个新知识。")).toBeTruthy();
+    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("饭局手记 · 已解锁");
+    expect(readProgress("H03")?.revealed).toBe(true);
     expect(screen.getByRole("button", { name: "生成查证卡" })).toHaveProperty("disabled", false);
   });
 
@@ -106,7 +120,7 @@ describe("真假判断与揭晓", () => {
     saveProgress({ topicId: "H03", selectedAnswer: false, submittedAt: "2026-10-29T12:00:00Z", revealed: true, selectedRewriteOptionId: "C" });
     const before = localStorage.getItem(PROGRESS_KEY);
     render(<VerdictTask topic={publicTopic} />);
-    expect(await screen.findByText("重温本条 · 已恢复上次答案，不重复计分。")).toBeTruthy();
+    expect(await screen.findByText("重温本条 · 已恢复上次答案，不重复累计。")).toBeTruthy();
     expect(fetch).toHaveBeenCalledWith("/api/verdict", expect.objectContaining({ body: JSON.stringify({ topicId: "H03", answer: false }) }));
     expect(screen.getByText("改写正确，这样说更准确。")).toBeTruthy();
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
@@ -120,6 +134,7 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByRole("alert")).toBeTruthy();
+    expect(screen.queryByRole("region", { name: "本题贴纸" })).toBeNull();
     expect(scrollIntoView).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("谣言退散")).toBeTruthy();
@@ -133,7 +148,7 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(await screen.findByRole("button", { name: "重试恢复" }));
     await screen.findByText("谣言退散");
     expect(screen.getByRole("radio", { name: "是真的" }).matches(":disabled")).toBe(true);
-    expect(screen.getByText("重温本条 · 已恢复上次答案，不重复计分。")).toBeTruthy();
+    expect(screen.getByText("重温本条 · 已恢复上次答案，不重复累计。")).toBeTruthy();
   });
 
   it("localStorage 抛错时仍可提交揭晓", async () => {
@@ -143,6 +158,7 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     await screen.findByText("谣言退散");
     expect(screen.getByText(/本机存储不可用/)).toBeTruthy();
+    expect(screen.getByRole("region", { name: "本题贴纸" }).textContent).toContain("本次已解锁");
   });
 });
 

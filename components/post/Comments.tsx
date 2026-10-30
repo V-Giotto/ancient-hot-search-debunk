@@ -13,19 +13,18 @@ export function Comments({ comments }: { comments: Comment[] }) {
     <section className="panel" aria-labelledby="comments-heading">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 id="comments-heading" className="text-lg font-bold">评论区，开锅了</h2>
-        <span className="text-xs text-muted">预制评论 · 架空演绎</span>
       </div>
       <ul id="post-comments" className="mt-3 divide-y divide-ink/7">
         {(expanded ? comments : comments.slice(0, 4)).map((comment) => (
           <li key={comment.id} className="flex gap-3 py-5">
-            {comment.avatar && <img src={comment.avatar} alt="原创架空头像" width={38} height={38} className="size-10 shrink-0 rounded-xl" />}
+            {comment.avatar && <img src={comment.avatar} alt={`${comment.author}头像`} width={38} height={38} className="size-10 shrink-0 rounded-xl" />}
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm font-semibold">{comment.author}</span>
                 <span className="rounded bg-background px-2 py-0.5 text-[11px] text-muted">{roles[comment.role]}</span>
               </div>
               <p className="mt-2 text-sm leading-7">{comment.text}</p>
-              <p className="mt-2 text-xs text-muted">模拟赞 {comment.simulatedLikes.toLocaleString("zh-CN")}</p>
+              <p className="mt-2 text-xs text-muted">赞 {comment.simulatedLikes.toLocaleString("zh-CN")}</p>
             </div>
           </li>
         ))}

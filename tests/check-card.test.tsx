@@ -43,6 +43,8 @@ describe("手机查证卡预览与导出", () => {
   it("预览随容器等比缩放，准确说法可直接阅读，下载仍使用 1200×675", async () => {
     render(<CheckCardDialog topic={toPublicTopic(topic)} result={result} onClose={() => {}} />);
     const card = screen.getByTestId("check-card");
+    expect(card.textContent).not.toMatch(/架空|虚构|模拟|非史料/);
+    expect(card.textContent).toContain("开发预览：本条史实尚待人工审核");
     expect(card.parentElement!.style.transform).toBe(`scale(${320 / 1200})`);
     previewWidth = 280;
     act(() => resize());

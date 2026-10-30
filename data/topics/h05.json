@@ -5,10 +5,10 @@
   "tags": ["唐三彩", "名字与颜色", "器物待查证"],
   "title": "#唐三彩名字惹争议：调色盘真被限定三种颜色？#",
   "coverUrl": "/covers/h05.svg",
-  "coverAlt": "虚构彩釉陶器与带问号的配色卡原创插画，艺术创作·非史料，不是馆藏器物或釉色复原",
+  "coverAlt": "彩釉陶器与带问号的配色卡插画",
   "author": {
     "name": "三彩本人在线维权",
-    "bio": "虚构器物拟人账号｜名字引发的争议，请交给证据处理。",
+    "bio": "釉彩分享号｜名字引发的争议，请交给证据处理。",
     "avatarUrl": "/avatars/pepper.svg",
     "fictitious": true
   },
@@ -22,10 +22,10 @@
     { "id": "H05-C01", "author": "调色盘加班中", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我只是来选个头像底色，怎么突然参加了命名听证会？", "simulatedLikes": 421 },
     { "id": "H05-C02", "author": "器物说明先读完", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "先看器物说明里的用词，再决定怎么数颜色，别只盯着名字里的数字。", "simulatedLikes": 587 },
     { "id": "H05-C03", "author": "彩釉区气氛组", "avatar": "/avatars/hype.svg", "role": "troll", "text": "标题我都想好了：一个名字，让整个美术区集体开会！", "simulatedLikes": 196 },
-    { "id": "H05-C04", "author": "虚构陶器邻居", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "隔壁围观的器物申请轻拿轻放，吵架的音量倒是可以再放低一点。", "simulatedLikes": 328 },
+    { "id": "H05-C04", "author": "陶器邻居", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "隔壁围观的器物申请轻拿轻放，吵架的音量倒是可以再放低一点。", "simulatedLikes": 328 },
     { "id": "H05-C05", "author": "先关滤镜再讨论", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "器物介绍和配图要对着看，屏幕滤镜可不能充当查证工具。", "simulatedLikes": 536 },
     { "id": "H05-C06", "author": "收藏夹负责围观", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我的配色审美还没上线，收藏夹已经先替我占好座了。", "simulatedLikes": 279 },
-    { "id": "H05-C07", "author": "器物穿搭待定", "avatar": "/avatars/pepper.svg", "role": "in_world", "text": "本虚构器物今天的穿搭投票暂停，先把评论区的色卡收齐。", "simulatedLikes": 304 },
+    { "id": "H05-C07", "author": "器物穿搭待定", "avatar": "/avatars/pepper.svg", "role": "in_world", "text": "本器物今天的穿搭投票暂停，先把评论区的色卡收齐。", "simulatedLikes": 304 },
     { "id": "H05-C08", "author": "热搜配色总监", "avatar": "/avatars/hype.svg", "role": "troll", "text": "别人做配色，我给争论加高光。表情包已经备好，就等你们开麦。", "simulatedLikes": 175 }
   ],
   "claim": "唐三彩只有三种釉色。",

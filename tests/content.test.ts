@@ -12,6 +12,7 @@ import {
   TopicProgressSchema,
 } from "@/lib/schemas";
 import { getAllTopics, validateContentSet } from "@/lib/topics";
+import { toPublicTopic } from "@/lib/public-topic";
 import { makeSource, makeTopic, makeTopics } from "./fixtures";
 
 const sources = [makeSource()];
@@ -178,7 +179,7 @@ describe("validateContentSet：当前题目的完整性规则", () => {
   });
 
   it.each([
-    { id: "H01", best: "A", sources: ["S-H01-01", "S-H01-02"], corrected: "李白与杜甫在唐代相识并有交游记载；现代互关说法只是创作。" },
+    { id: "H01", best: "A", sources: ["S-H01-01", "S-H01-02"], corrected: "李白与杜甫在唐代相识并有交游记载。" },
     { id: "H02", best: "C", sources: ["S-H02-01", "S-H02-02", "S-H02-03"], corrected: "宋代部分城市已有购买现成饭食、代买送食等服务，与现代外卖平台不同。" },
     { id: "H03", best: "C", sources: ["S-H03-01", "S-H03-02", "S-H03-03"], corrected: "唐代有胡椒、花椒等辛香料，但来自美洲的辣椒约在明末传入中国。" },
     { id: "H04", best: "B", sources: ["S-H04-01", "S-H04-02", "S-H04-03"], corrected: "北宋四川出现交子，并经历民间使用到官府发行的发展过程。" },
@@ -212,9 +213,21 @@ describe("validateContentSet：当前题目的完整性规则", () => {
     for (const asset of assets) {
       expect(asset).toMatch(/^\/(covers|avatars)\/[\w-]+\.svg$/);
       const svg = readFileSync(path.join(process.cwd(), "public", asset), "utf8");
-      expect(svg).toContain("艺术创作·非史料");
+      expect(svg).not.toMatch(/虚构|架空|模拟|非史料|非实物复原|不是实物复原|仅作戏仿|场景为创作/);
+      expect(svg).not.toContain('<rect x="834" y="578"');
+      expect(svg).not.toContain('<circle cx="861" cy="600"');
       expect(svg).not.toMatch(/(?:href|src)=["']https?:/);
       expect(licenses).toContain(`public${asset}`);
+    }
+  });
+
+  it("题面、账号、评论及揭晓不含虚构标签，保留内部素材登记与 AI 事实边界", () => {
+    for (const topic of getAllTopics()) {
+      const displayed = JSON.stringify({ ...toPublicTopic(topic), reveal: topic.reveal, rewriteOptions: topic.rewriteOptions });
+      expect(displayed).not.toMatch(/虚构|架空|模拟|非史料|只是创作|只是梗|均为现代演绎|拟人账号/);
+      expect(topic.aiLimitations.length).toBeGreaterThan(0);
+      expect(topic.assetLicense).toContain("艺术创作·非史料");
+      expect(topic.reviewStatus).toBe("pending");
     }
   });
 

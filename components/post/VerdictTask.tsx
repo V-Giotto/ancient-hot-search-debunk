@@ -6,6 +6,9 @@ import { readProgress, saveProgress } from "@/lib/progress";
 import type { PublicTopic } from "@/lib/public-topic";
 import type { TopicProgress } from "@/lib/schemas";
 import type { VerdictResult } from "@/lib/verdict";
+import Link from "next/link";
+import { getSticker } from "@/lib/stickers";
+import { StickerBadge } from "@/components/stickers/StickerBadge";
 import { CheckCardDialog } from "./CheckCardDialog";
 import { RewriteExercise } from "./RewriteExercise";
 import { VerdictReveal } from "./VerdictReveal";
@@ -139,6 +142,14 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
       </section>
       {result && <>
         <VerdictReveal result={result} revisiting={revisiting} headingRef={revealHeadingRef} />
+        <section className="panel flex flex-wrap items-center gap-4" aria-label="本题贴纸">
+          <StickerBadge sticker={getSticker(topic.id)} unlocked />
+          <div className="min-w-0 flex-1">
+            <h2 className="font-bold">{getSticker(topic.id).name} · 已解锁</h2>
+            <p className="mt-1 text-xs text-muted">{storageFailed ? "本次已解锁，存储不可用时刷新可能丢失。" : "仅保存在本机，重温不重复收集。"}</p>
+            <Link href="/stickers" className="mt-1 text-sm text-accent hover:underline">去贴纸墙 →</Link>
+          </div>
+        </section>
         <AskPanel key={topic.id} topicId={topic.id} sources={result.sources} />
         <RewriteExercise options={result.rewriteOptions} selectedId={rewriteId} onSelect={chooseRewrite} />
         <section className="panel flex flex-wrap items-center justify-between gap-5">

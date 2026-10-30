@@ -5,10 +5,10 @@
   "tags": ["青铜冰鉴", "冰饮开箱", "古代器物"],
   "title": "#战国冰饮开箱引围观：青铜器也能给酒饮降温？#",
   "coverUrl": "/covers/h06.svg",
-  "coverAlt": "虚构青铜套器与现代冰饮开箱贴纸原创插画，艺术创作·非史料，仅为结构示意而非馆藏器物复原",
+  "coverAlt": "青铜套器与冰饮开箱贴纸插画",
   "author": {
     "name": "楚地贵族生活家",
-    "bio": "虚构生活分享号｜开箱可以有排面，结论还得有依据。",
+    "bio": "生活分享号｜开箱可以有排面，结论还得有依据。",
     "avatarUrl": "/avatars/changan.svg",
     "fictitious": true
   },
@@ -22,7 +22,7 @@
     { "id": "H06-C01", "author": "夏天离不开凉快", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "开箱还没开始，我已经把空杯子拿来了。围观能附赠一点凉快吗？", "simulatedLikes": 473 },
     { "id": "H06-C02", "author": "结构图先别滑走", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "先把盛酒的位置和器物之间的空间分开看，别只盯着开箱标签。", "simulatedLikes": 604 },
     { "id": "H06-C03", "author": "开箱标题批发部", "avatar": "/avatars/hype.svg", "role": "troll", "text": "封面排面给满，标题热度拉高。至于杯子，评论区请自备！", "simulatedLikes": 218 },
-    { "id": "H06-C04", "author": "楚地宴席围观员", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本虚构宴席网友先申请坐下，主家的开箱话题比我的杯子还抢镜。", "simulatedLikes": 315 },
+    { "id": "H06-C04", "author": "楚地宴席围观员", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "本宴席网友先申请坐下，主家的开箱话题比我的杯子还抢镜。", "simulatedLikes": 315 },
     { "id": "H06-C05", "author": "器物说明慢慢读", "avatar": "/avatars/reader.svg", "role": "history_nerd", "text": "现代起的外号和器物实际怎么工作，要不要分别查一遍？", "simulatedLikes": 562 },
     { "id": "H06-C06", "author": "杯子已经就位", "avatar": "/avatars/spectator.svg", "role": "spectator", "text": "我从茶水间一路围观过来，今日份摸鱼终于有了学术气氛。", "simulatedLikes": 289 },
     { "id": "H06-C07", "author": "宴席座位候补", "avatar": "/avatars/changan.svg", "role": "in_world", "text": "座次表先留一格给我，论吃瓜积极程度，本账号不接受调剂。", "simulatedLikes": 271 },

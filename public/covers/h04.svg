@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
   <title id="title">北宋财经，纸币时代？</title>
-  <desc id="desc">虚构古代商人与原创财经资讯卡。艺术创作·非史料，不是交子票面、印版、会子版或历史器物复原。</desc>
+  <desc id="desc">古代商人面对写有纸币时代问号的财经资讯卡插画。</desc>
   <rect width="1200" height="675" fill="#f7f5f0" />
   <circle cx="1060" cy="135" r="270" fill="#eee4d4" />
   <path d="M0 547Q350 495 670 550T1200 520V675H0Z" fill="#e3cfb0" />
@@ -28,11 +28,10 @@
     <rect x="9" y="10" width="454" height="241" rx="20" fill="#b28b59" opacity=".3" />
     <rect width="454" height="241" rx="20" fill="#f7f5f0" stroke="#b28b59" stroke-width="2" />
     <rect x="25" y="21" width="150" height="30" rx="15" fill="#e84e48" />
-    <text x="100" y="43" text-anchor="middle" font-size="18" fill="#fff">虚构财经资讯</text>
+    <text x="100" y="43" text-anchor="middle" font-size="18" fill="#fff">财经资讯</text>
     <text x="25" y="111" font-size="51" font-weight="800" fill="#426b58">纸币时代？</text>
     <path d="M27 139H425" stroke="#efc99c" stroke-width="2" />
     <text x="28" y="177" font-size="23" fill="#7d5b32">民间怎么用 · 官府怎么管</text>
-    <text x="28" y="215" font-size="18" fill="#767680">资讯卡仅作戏仿，非纸币票面</text>
   </g>
   <g transform="translate(112 485)">
     <path d="M-29-22H28L19-4Q57 47 0 51Q-57 47-19-4Z" fill="#b28b59" />
@@ -42,7 +41,4 @@
   <rect x="70" y="578" width="345" height="43" rx="21" fill="#f7f5f0" />
   <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#7d5b32">交子话题 · 制度待查证</text>
   <text x="1130" y="98" text-anchor="end" font-family="sans-serif" font-size="18" letter-spacing="2" fill="#7d5b32">热搜档案 / H04</text>
-  <rect x="834" y="578" width="296" height="43" rx="21" fill="#ffffff" stroke="#d6ad72" />
-  <circle cx="861" cy="600" r="5" fill="#e84e48" />
-  <text x="991" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#7d5b32">艺术创作·非史料</text>
 </svg>

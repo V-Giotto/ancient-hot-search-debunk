@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
   <title id="title">汴京饭点，午饭进度？</title>
-  <desc id="desc">虚构街头提食盒人物与现代订单卡的戏仿组合。原创矢量插画，艺术创作·非史料，不代表宋代配送制度或真实界面。</desc>
+  <desc id="desc">街头提食盒人物与带问号的订单进度卡插画。</desc>
   <rect width="1200" height="675" fill="#f7f5f0" />
   <circle cx="1060" cy="135" r="270" fill="#eee4d4" />
   <path d="M0 547Q350 495 670 550T1200 520V675H0Z" fill="#e3cfb0" />
@@ -32,7 +32,7 @@
   <g transform="translate(690 307)" font-family="sans-serif">
     <rect width="400" height="227" rx="23" fill="#f7f5f0" stroke="#d6ad72" stroke-width="2" />
     <rect x="23" y="20" width="141" height="29" rx="14" fill="#eee4d4" />
-    <text x="94" y="41" text-anchor="middle" font-size="17" fill="#7d5b32">虚构订单卡</text>
+    <text x="94" y="41" text-anchor="middle" font-size="17" fill="#7d5b32">订单卡</text>
     <text x="25" y="94" font-size="33" font-weight="750" fill="#26252c">饭碗已就位</text>
     <path d="M44 145H352" stroke="#e3cfb0" stroke-width="5" stroke-dasharray="9 9" />
     <g fill="#e84e48">
@@ -47,9 +47,6 @@
     </g>
   </g>
   <rect x="70" y="578" width="345" height="43" rx="21" fill="#f7f5f0" />
-  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#426b58">现代类比 · 饭点待查证</text>
+  <text x="242" y="607" text-anchor="middle" font-family="sans-serif" font-size="21" fill="#426b58">街巷食记 · 饭点待查证</text>
   <text x="1130" y="98" text-anchor="end" font-family="sans-serif" font-size="18" letter-spacing="2" fill="#7d5b32">热搜档案 / H02</text>
-  <rect x="834" y="578" width="296" height="43" rx="21" fill="#ffffff" stroke="#d6ad72" />
-  <circle cx="861" cy="600" r="5" fill="#e84e48" />
-  <text x="991" y="607" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#7d5b32">艺术创作·非史料</text>
 </svg>

@@ -1,0 +1,17 @@
+/** 原创主题文字徽记；名称只描述题材，不包含史实结论。 */
+export type Sticker = { id: string; name: string; mark: string };
+
+const themes: Record<string, { name: string; mark: string }> = {
+  H01: { name: "诗友手记", mark: "诗" },
+  H02: { name: "街巷食记", mark: "巷" },
+  H03: { name: "饭局手记", mark: "食" },
+  H04: { name: "纸上手记", mark: "纸" },
+  H05: { name: "釉彩手记", mark: "彩" },
+  H06: { name: "器物手记", mark: "器" },
+  H07: { name: "球场手记", mark: "球" },
+  H08: { name: "晨间手记", mark: "晨" },
+};
+
+export function getSticker(topicId: string): Sticker {
+  return { id: topicId, ...(themes[topicId] ?? { name: "话题手记", mark: "记" }) };
+}

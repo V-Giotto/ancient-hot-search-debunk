@@ -7,7 +7,7 @@
   --gold: #D6AD72;
   --ink: #26252C;
   --muted: #767680;
-  --shell-header-height: calc(104px + env(safe-area-inset-top, 0px));
+  --shell-header-height: calc(80px + env(safe-area-inset-top, 0px));
   --bottom-tabs-height: calc(65px + env(safe-area-inset-bottom, 0px));
   --system-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
@@ -147,6 +147,13 @@ a, button, summary { transition: color 180ms, background-color 180ms, border-col
 summary { cursor: pointer; color: #b33f39; font-weight: 600; }
 .verdict-stamp { display: inline-block; flex-shrink: 0; padding: 9px 13px; border: 3px double #b33f39; border-radius: 6px; color: #b33f39; font-size: 22px; font-weight: 850; transform: rotate(-8deg); animation: verdict-stamp 600ms ease-out both; }
 .stamp-true { border-color: #426b58; color: #426b58; }
+.collection-meter { appearance: none; border: 0; border-radius: 99px; overflow: hidden; background: #f0ece5; }
+.collection-meter::-webkit-progress-bar { background: #f0ece5; }
+.collection-meter::-webkit-progress-value { background: var(--accent); border-radius: 99px; }
+.collection-meter::-moz-progress-bar { background: var(--accent); border-radius: 99px; }
+.sticker-badge { display: inline-flex; width: 64px; height: 64px; flex-shrink: 0; align-items: center; justify-content: center; border-radius: 18px; font-size: 28px; font-weight: 750; }
+.sticker-unlocked { border: 3px double var(--gold); background: #d6ad7214; color: #b33f39; transform: rotate(-6deg); }
+.sticker-locked { border: 1px dashed #76768060; background: var(--background); color: #767680; }
 @keyframes verdict-stamp {
   0% { opacity: 0; transform: scale(1.6) rotate(-16deg); }
   65% { opacity: 1; transform: scale(0.95) rotate(-8deg); }

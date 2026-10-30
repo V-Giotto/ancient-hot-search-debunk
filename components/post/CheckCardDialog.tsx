@@ -91,7 +91,7 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
             <p style={{ margin: "15px 0", fontSize: 21, lineHeight: 1.7 }}>{result.reveal.shortExplanation}</p>
             <div style={{ marginTop: "auto", borderTop: "1px solid #dfd9ce", paddingTop: 14, fontSize: 16, lineHeight: 1.8, color: "#6d6559" }}>
               <p style={{ margin: 0 }}>来源：{result.sources.map((source) => source.organization).join(" / ")}</p>
-              <div style={{ display: "flex", justifyContent: "space-between" }}><span>架空社交演绎 · 角色发言与热度为模拟</span><strong>开发预览：本条史实尚待人工审核</strong></div>
+              <p style={{ margin: 0 }}><strong>开发预览：本条史实尚待人工审核</strong></p>
             </div>
           </div>
         </div>

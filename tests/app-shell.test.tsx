@@ -1,6 +1,8 @@
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AppShell } from "@/components/shell/AppShell";
+import TrendingPage from "@/app/trending/page";
+import DiscoverPage from "@/app/discover/page";
 
 const route = vi.hoisted(() => ({ pathname: "/trending" }));
 vi.mock("next/navigation", () => ({ usePathname: () => route.pathname }));
@@ -27,12 +29,12 @@ describe("AppShell 内容模式提示", () => {
 });
 
 describe("移动端共用壳层", () => {
-  it.each(["/trending", "/discover", "/post/H03", "/missing"])("%s 保留双 Tab 与主内容内可展开的公告、守则", (pathname) => {
+  it.each(["/trending", "/discover", "/stickers", "/post/H03", "/missing"])("%s 保留三 Tab 与主内容内可展开的公告、守则", (pathname) => {
     route.pathname = pathname;
     render(<AppShell><h1>页面内容</h1></AppShell>);
     const navigation = screen.getByRole("navigation", { name: "主导航" });
     const links = within(navigation).getAllByRole("link");
-    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"]]);
+    expect(links.map((link) => [link.textContent?.trim(), link.getAttribute("href")])).toEqual([["#热搜榜", "/trending"], ["◫发现", "/discover"], ["▧贴纸", "/stickers"]]);
     for (const link of links) expect(link.getAttribute("aria-current")).toBe(pathname === link.getAttribute("href") ? "page" : null);
     const main = screen.getByRole("main");
     const information = within(main).getByRole("complementary", { name: "辟谣局信息" });
@@ -43,8 +45,16 @@ describe("移动端共用壳层", () => {
       fireEvent.click(summary);
       expect(details.open).toBe(true);
     }
-    expect(within(information).getByText(/不是历史人物原话或真实热榜/)).toBeTruthy();
-    expect(within(information).getByText(/现代类比，不等于古代原貌/)).toBeTruthy();
+    expect(within(information).getByText(/提交后可查看结论与来源/)).toBeTruthy();
+    expect(within(information).getByText(/查阅来源，留意时间与范围/)).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料|不是历史人物原话|现代类比/);
     expect(screen.queryByText(/二维码|扫码|QR/)).toBeNull();
+  });
+
+  it.each([TrendingPage, DiscoverPage])("列表页移除标签，保留话题、统计和来源阅读入口：%s", (Page) => {
+    render(<AppShell>{Page()}</AppShell>);
+    expect(document.body.textContent).not.toMatch(/虚构|架空|模拟|非史料/);
+    expect(screen.getByRole("main").querySelectorAll('a[href^="/post/"]')).toHaveLength(8);
+    expect(screen.getByText(/热度 1,286,400|点赞 35,600/)).toBeTruthy();
   });
 });

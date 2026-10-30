@@ -11,7 +11,7 @@ export function VerdictReveal({ result, revisiting, headingRef }: { result: Verd
         </div>
         <span className={`verdict-stamp ${result.isTrue ? "stamp-true" : ""}`}>{result.isTrue ? "查证属实" : "谣言退散"}</span>
       </div>
-      <p role="status" className="mt-5 text-sm text-muted">{revisiting ? "重温本条 · 已恢复上次答案，不重复计分。" : result.isCorrect ? "答对了！这次吃瓜有依据。" : "这次答错了，带走一个新知识。"}</p>
+      <p role="status" className="mt-5 text-sm text-muted">{revisiting ? "重温本条 · 已恢复上次答案，不重复累计。" : result.isCorrect ? "答对了！这次吃瓜有依据。" : "这次答错了，带走一个新知识。"}</p>
       <div className="mt-6 space-y-6 leading-8">
         <section><h3 className="result-heading">01 · 明确答案</h3><p className="mt-2 font-medium">核心主张为{result.isTrue ? "真" : "假"}。</p></section>
         <section>

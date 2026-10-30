@@ -21,7 +21,7 @@ describe("POST /api/verdict（真实 H01–H08 数据）", () => {
   });
 
   it.each([
-    { topicId: "H01", isTrue: false, best: "A", sourceCount: 2, corrected: "李白与杜甫在唐代相识并有交游记载；现代互关说法只是创作。" },
+    { topicId: "H01", isTrue: false, best: "A", sourceCount: 2, corrected: "李白与杜甫在唐代相识并有交游记载。" },
     { topicId: "H02", isTrue: true, best: "C", sourceCount: 3, corrected: "宋代部分城市已有购买现成饭食、代买送食等服务，与现代外卖平台不同。" },
     { topicId: "H03", isTrue: false, best: "C", sourceCount: 3, corrected: "唐代有胡椒、花椒等辛香料，但来自美洲的辣椒约在明末传入中国。" },
     { topicId: "H04", isTrue: true, best: "B", sourceCount: 3, corrected: "北宋四川出现交子，并经历民间使用到官府发行的发展过程。" },

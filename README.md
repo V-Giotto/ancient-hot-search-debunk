@@ -75,7 +75,7 @@ npm run build
 CHROME_PATH=/usr/bin/google-chrome npm run test:e2e
 ```
 
-脚本自动启动生产服务（默认端口 3123），使用 Playwright 与系统 Chrome；`CHROME_PATH` 可指定其他浏览器，`E2E_PORT` 可改端口，`E2E_BASE_URL` 可接已有服务。三个手机视口均检查热榜、双列发现、全部八题、两种 404，以及判题/揭晓/展开来源/改写/AI/弹窗状态：`scrollWidth <= clientWidth`、触控范围宽高 ≥44px（radio 按关联 label）、底部导航无遮挡。390×844 完成八题真实判题、来源、改写、PNG 下载及刷新恢复，另验答错可揭晓；H03 在三尺寸下载均为 1200×675。保留首次 HTML 无答案、PNG 非空与无裁切、焦点循环/返回、减少动态效果，并检查一次 1440×900 居中 390px 列。AI 加载、503、重试和超长回答仅用浏览器 mock 检查布局，不调用模型。结果与下载在忽略的 `artifacts/stage-5/`，`screenshots/` 含 9 张 390×844 状态截图和 1 张桌面截图。
+脚本自动启动生产服务（默认端口 3123），使用 Playwright 与系统 Chrome；`CHROME_PATH` 可指定其他浏览器，`E2E_PORT` 可改端口，`E2E_BASE_URL` 可接已有服务。三个手机视口均检查热榜、双列发现、全部八题、两种 404，以及判题/揭晓/展开来源/改写/AI/弹窗状态：`scrollWidth <= clientWidth`、触控范围宽高 ≥44px（radio 按关联 label）、底部导航无遮挡。390×844 完成八题真实判题、来源、改写、PNG 下载及刷新恢复，另验答错可揭晓；H03 在三尺寸下载均为 1200×675。保留首次 HTML 无答案、PNG 非空与无裁切、焦点循环/返回、减少动态效果，并检查一次 1440×900 居中 390px 列。AI 加载、503、重试和超长回答仅用浏览器 mock 检查布局，不调用模型。结果与下载在忽略的 `artifacts/stage-5/`，`screenshots/` 含 11 张 390×844 状态截图（新增贴纸墙与答一题后的热榜进度）和 1 张桌面截图。
 
 ## 数据约定
 
@@ -84,8 +84,14 @@ CHROME_PATH=/usr/bin/google-chrome npm run test:e2e
 - `getAllTopics()` 校验并按 rank 升序返回，`getTopicById(id)` 对未知 ID 返回 `undefined`，页面调用 `notFound()`；`getSourcesForTopic(topic)` 按 `sourceIds` 顺序返回来源。
 - `validateContentSet(topics, sources, { expectedCount })` 校验失败时抛错。默认按当前题目数量检查从 1 开始的连续排名；显式传入 `expectedCount: 8` 时额外要求总数为 8 且真假 4:4。
 - 当前加载器按已有题目数量校验，允许空题库与 `pending` 的开发预览。正式发布前仍须完成任务书中的人工审核与仅发布 `reviewed` 题目的要求；结构校验不代表史实已审核或引用语义已匹配。
-- `simulatedReposts`、`simulatedBookmarks` 补齐转发和收藏统计，与点赞、评论一样只作模拟值展示。
+- `simulatedReposts`、`simulatedBookmarks` 补齐转发和收藏统计，与点赞、评论一样只作预制数字展示；UI 不附加虚构/模拟标签。
 - `public/covers/`、`public/avatars/` 存放 H01–H08 原创封面与复用的原创头像；`public/decorations/` 继续预留。使用系统中文无衬线字体，不提交字体文件。
+
+## 本机贴纸与完成度
+
+提交任意话题的判断后，无论答对答错都会解锁该题的原创主题徽记。热榜显示“已查证 x/N”，底部第三个 Tab 进入 `/stickers`；锁定贴纸不泄露答案，解锁后可回帖重温。沿用 `ahsd:progress:v1` 的版本化 localStorage，仅统计当前题库中成功提交的不同题目，刷新恢复、重温去重、清除归零；存储异常时仍可答题，无登录或云同步。
+
+界面、封面/头像与查证卡已移除虚构类标签，史料引用、真假揭晓和 pending/preview 提示保留；逐项文件清单见 `docs/UI_LABEL_REMOVALS.md`，素材属性见 `docs/ASSET_LICENSES.md`。
 
 ## AI 接口与环境变量
 
