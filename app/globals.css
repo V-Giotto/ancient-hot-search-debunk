@@ -88,6 +88,40 @@
 
 .task-panel, #task-heading, .reveal-panel, #reveal-heading, #ask-heading { scroll-margin-top: var(--reveal-scroll-margin); }
 
+.participation-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.participation-heading h2 { font-size: 16px; font-weight: 750; }
+.participation-heading a, .comment-text-button { color: #a63d37; font-size: 13px; }
+.scenario-panel { margin-top: 8px; border-bottom: 1px solid #26252c14; }
+.scenario-panel summary { font-size: 14px; font-weight: 650; cursor: pointer; }
+.scenario-prompt { margin: 8px 0 12px; font-size: 14px; line-height: 1.9; }
+.scenario-options { display: grid; gap: 8px; }
+.scenario-options button { width: 100%; justify-content: flex-start; text-align: left; }
+.scenario-options [aria-pressed="true"], .wording-toggle[aria-pressed="true"] { border-color: #a63d37; background: #fff1ec; }
+.participation-feedback { padding: 12px; margin: 12px 0; border-radius: 10px; background: #f7f5f0; font-size: 13px; line-height: 1.9; }
+.wording-toggle { margin-top: 12px; }
+.wording-panel { margin-top: 12px; }
+.wording-panel blockquote { margin-top: 12px; padding: 12px; border-left: 3px solid var(--gold); font-size: 15px; line-height: 2; }
+.wording-token { display: inline-block; min-width: 44px; min-height: 44px; padding: 8px 4px; margin: 2px; border: 1px dashed #a63d37; border-radius: 6px; background: #fff4e2; color: #94302c; font: inherit; cursor: pointer; vertical-align: baseline; }
+.wording-token[aria-pressed="true"] { background: #f5d5bb; border-style: solid; }
+.debate-thread { margin-top: 16px; padding: 14px; border: 1px solid #d6ad7266; border-radius: 14px; background: #fffcf5; }
+.debate-thread .eyebrow { margin-bottom: 12px; }
+.debate-thread .reply-text { line-height: 1.9; }
+.debate-correction { margin-top: 12px; padding: 12px; border-left: 3px solid #478365; background: #f0f7f1; font-size: 13px; line-height: 1.9; }
+.debate-correction p + p { margin-top: 8px; }
+.debate-correction a { color: #32624b; }
+.comment-text-button { display: inline-flex; align-items: center; justify-content: center; padding: 8px; cursor: pointer; }
+.local-discussion-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
+.local-comment-form { margin-top: 16px; padding: 12px; border: 1px solid #d6ad7266; border-radius: 12px; background: var(--background); }
+.local-comment-form label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 650; }
+.local-comment-form textarea { display: block; width: 100%; min-width: 0; box-sizing: border-box; padding: 10px; margin-bottom: 8px; border: 1px solid #786d88; border-radius: 8px; background: white; font-size: 16px; resize: vertical; }
+.local-comment-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.local-replies { margin-top: 12px; padding-left: 10px; border-left: 2px solid #d6ad724d; }
+.local-replies > li { padding-block: 12px; }
+.local-comment-byline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; }
+.local-comment-byline span { color: var(--muted); font-size: 11px; }
+.local-comment-text { white-space: pre-wrap; margin-top: 6px; font-size: 14px; overflow-wrap: anywhere; }
+.local-replies .local-replies .local-replies { padding-left: 0; border-left: 0; }
+
 @media (min-width: 600px) {
   .app-shell, .bottom-tabs { width: 390px; }
 }

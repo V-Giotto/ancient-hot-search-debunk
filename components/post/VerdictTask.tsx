@@ -24,8 +24,8 @@ async function requestVerdict(topicId: string, answer: boolean, signal: AbortSig
   return response.json();
 }
 
-export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
-  topic: PublicTopic; topicIds: readonly string[]; onReplay?: () => void; collectedTopics?: Set<string>;
+export function VerdictTask({ topic, topicIds, onReplay, onResult, collectedTopics }: {
+  topic: PublicTopic; topicIds: readonly string[]; onReplay?: () => void; onResult?: (result: VerdictResult) => void; collectedTopics?: Set<string>;
 }) {
   const topicId = topic.topicId;
   const collectionProgress = useCollectionProgress(topicIds);
@@ -69,6 +69,7 @@ export function VerdictTask({ topic, topicIds, onReplay, collectedTopics }: {
       if (controller.signal.aborted) return;
       focusRevealRef.current = true;
       setResult(data);
+      onResult?.(data);
       const collection = readCollectionProgress(topicIds);
       const collected = collectedTopics ?? localCollectionRef.current;
       const firstUnlock = !collection.completedIds.includes(topicId) && !collected.has(topicId);

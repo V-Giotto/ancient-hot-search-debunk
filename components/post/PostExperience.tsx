@@ -11,8 +11,22 @@ import { VerdictTask } from "./VerdictTask";
 import { PostFormat } from "./formats";
 import type { RelatedEntry } from "@/lib/feed";
 import { SameTopic } from "./SameTopic";
+import { Participation } from "./Participation";
+import type { VerdictResult } from "@/lib/verdict";
 
-export function PostExperience({ topic, topicIds, friends = [], relatedEntries = [] }: { topic: PublicTopic; topicIds: readonly string[]; friends?: readonly FriendProfile[]; relatedEntries?: readonly RelatedEntry[] }) {
+type Props = { topic: PublicTopic; topicIds: readonly string[]; friends?: readonly FriendProfile[]; relatedEntries?: readonly RelatedEntry[] };
+
+function PostSession({ topic, topicIds, friends, relatedEntries = [], replay, collectedTopics }: Props & { replay: () => void; collectedTopics: Set<string> }) {
+  const [verdict, setVerdict] = useState<VerdictResult>();
+  return <Participation topic={topic} post={<PostFormat topic={topic} friends={friends} />}>
+    <Comments comments={topic.comments} author={topic.author.name} title={topic.title} module={topic.module} contentId={topic.id} topicId={topic.topicId} verdict={verdict} />
+    <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} onResult={setVerdict} collectedTopics={collectedTopics} />
+    <SameTopic entries={relatedEntries} />
+    <Link href={topic.module === "trending" ? "/trending" : "/discover"} className="inline-block py-2 text-sm text-accent hover:underline"><PixelIcon name="back" size={16} /> 返回{topic.module === "trending" ? "热搜榜，继续阅读" : "发现，继续围观"}</Link>
+  </Participation>;
+}
+
+export function PostExperience({ topic, topicIds, friends = [], relatedEntries = [] }: Props) {
   const [attempt, setAttempt] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const focusTaskRef = useRef(false);
@@ -47,11 +61,7 @@ export function PostExperience({ topic, topicIds, friends = [], relatedEntries =
 
   return (
     <div key={`${topic.id}:${attempt}`} ref={contentRef} className={`post-experience ${topic.module === "trending" ? "news-experience" : "social-experience"} space-y-6`}>
-      <PostFormat topic={topic} friends={friends} />
-      <Comments comments={topic.comments} author={topic.author.name} title={topic.title} module={topic.module} />
-      <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} collectedTopics={collectedTopics.current} />
-      <SameTopic entries={relatedEntries} />
-      <Link href={topic.module === "trending" ? "/trending" : "/discover"} className="inline-block py-2 text-sm text-accent hover:underline"><PixelIcon name="back" size={16} /> 返回{topic.module === "trending" ? "热搜榜，继续阅读" : "发现，继续围观"}</Link>
+      <PostSession topic={topic} topicIds={topicIds} friends={friends} relatedEntries={relatedEntries} replay={replay} collectedTopics={collectedTopics.current} />
     </div>
   );
 }

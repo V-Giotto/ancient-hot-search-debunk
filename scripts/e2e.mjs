@@ -6,6 +6,7 @@ import { spawn } from "node:child_process";
 import { createServer } from "node:net";
 import { setTimeout } from "node:timers/promises";
 import { chromium } from "playwright";
+import { phase3Checks } from "./e2e-phase3.mjs";
 
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
 const port = process.env.E2E_PORT || "3123";
@@ -1682,6 +1683,7 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  const phase3 = await phase3Checks({ browser, baseURL, errors, geometryCheck: mobileGeometry, screenshot: versionScreenshot, version: packageVersion, topics: allTopics.map((topic) => ({ ...topic, sources: sourceIndex })) });
   const feedExpansion = await feedExpansionChecks(browser, errors);
   const performanceChecks = await firstLoadChecks(browser, errors);
   const pixelAssets = await pixelAssetChecks(browser, errors);
@@ -1850,7 +1852,7 @@ try {
     await mobileGeometry(page, `${id} 揭晓与展开来源`);
     if (id === "H03") await revealScreenshot(page, "post-H03-reveal-390x844.png");
     if (id === "H11") await revealScreenshot(page, "post-H11-reveal-390x844.png");
-    const links = await page.locator('a[target="_blank"]').evaluateAll((nodes) => nodes.map((node) => ({ href: node.href, rel: node.rel })));
+    const links = await reveal.locator('a[target="_blank"]').evaluateAll((nodes) => nodes.map((node) => ({ href: node.href, rel: node.rel })));
     assert.deepEqual(links.map((link) => link.href), topic.sourceIds.map((sourceId) => new URL(sourceIndex.find((source) => source.id === sourceId).url).href));
     assert.ok(links.every((link) => link.rel.includes("noopener")));
     await page.getByRole("button", { name: new RegExp(`^${wrong} `) }).click();
@@ -2158,20 +2160,21 @@ try {
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
   assert.deepEqual(errors, [], "新增信息流浏览器出现运行错误");
-  const summary = { passed: true, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "6:6", feedEntries: 42, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/只读读者评论与作者回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/只读评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
+  const summary = { passed: true, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: ["libai", "dufu"], shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", "/friends/libai", "/friends/dufu", "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshot: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H12 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十二题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "6:6", feedEntries: 42, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/读者评论/本机评论与回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   const eraDetails = geometry.filter((record) => record.eraChip);
   summary.displayContent = {
     version: packageVersion,
     topics: allTopics.length,
     comments: allTopics.reduce((count, topic) => count + topic.comments.length, 0),
     replies: allTopics.reduce((count, topic) => count + topic.comments.reduce((total, comment) => total + (comment.replies?.length ?? 0), 0), 0),
-    readOnlyCommentsInBothModules: true,
+    localCommentsAndRepliesInBothModules: true,
     expandedCommentsCheckedBeforeAnswer: true,
     answerKeywordsByTopic: Object.keys(displayConstraints.answerKeywords),
     noFalseInteractionLabels: true,
     noDisclaimerLabels: true,
     noHashtagTitles: true,
   };
+  summary.phase3 = phase3;
   assert.equal(eraDetails.length, allTopics.length * 3, "十二题的年代 chip 须在三种手机视口全部通过");
   summary.era = { detailChecks: eraDetails.length, h12FirstScreenChecks: eraDetails.filter((record) => record.eraChip.firstScreen).length, screenshot: path.join(reviewDir, `v${packageVersion}-era-390x844.png`) };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));

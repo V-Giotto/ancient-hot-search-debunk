@@ -185,6 +185,7 @@ describe("两模块共用判题与贴纸闭环", () => {
       fireEvent.click(screen.getByRole("radio", { name: topic.isTrue ? "是真的" : "是假的" }));
       fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
       expect((await screen.findByRole("region", { name: "本题贴纸" })).textContent).toContain("已收藏");
+      await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("heading", { name: topic.reveal.verdictHeadline })));
       expect(screen.queryByText(/获得贴纸：/)).toBeNull();
       expect(readCollectionProgress(ids).completedIds).toEqual([id]);
       expect(fetch).toHaveBeenCalledTimes(2);

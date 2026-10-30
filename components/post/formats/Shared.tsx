@@ -2,6 +2,7 @@ import type { PublicTopic } from "@/lib/public-topic";
 import { newsTimestamp } from "@/lib/news-display";
 import { postRelativeTime } from "@/lib/social-display";
 import { AuthorRow } from "@/components/social/AuthorRow";
+import { WordingText } from "../Participation";
 
 export function Author({ topic }: { topic: PublicTopic }) {
   return <AuthorRow name={topic.author.name} handle={topic.author.handle} avatarUrl={topic.author.avatarUrl} relativeTime={topic.publishedAt ? newsTimestamp(topic.publishedAt) : postRelativeTime(topic.rank)} isAuthor={topic.module === "discover"} />;
@@ -16,7 +17,7 @@ export function EraChip({ topic }: { topic: PublicTopic }) {
 }
 
 export function Body({ topic }: { topic: PublicTopic }) {
-  return <p className="post-body">{topic.body}</p>;
+  return <p className="post-body"><WordingText text={topic.body} /></p>;
 }
 
 export function Tags({ topic }: { topic: PublicTopic }) {
