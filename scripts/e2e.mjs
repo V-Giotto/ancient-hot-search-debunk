@@ -12,14 +12,14 @@ const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${port}`;
 const output = path.resolve("artifacts/stage-4");
 const screenshots = path.join(output, "screenshots");
 const scenarios = [
-  { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 1 },
+  { id: "H01", answer: false, best: "A", wrong: "B", sourceCount: 2 },
   { id: "H02", answer: true, best: "C", wrong: "A", sourceCount: 3 },
   { id: "H03", answer: false, best: "C", wrong: "A", sourceCount: 3 },
   { id: "H04", answer: true, best: "B", wrong: "A", sourceCount: 3 },
-  { id: "H05", answer: false, best: "B", wrong: "A", sourceCount: 1 },
+  { id: "H05", answer: false, best: "B", wrong: "A", sourceCount: 2 },
   { id: "H06", answer: true, best: "A", wrong: "B", sourceCount: 2 },
-  { id: "H07", answer: false, best: "C", wrong: "A", sourceCount: 1 },
-  { id: "H08", answer: true, best: "B", wrong: "A", sourceCount: 1 },
+  { id: "H07", answer: false, best: "C", wrong: "A", sourceCount: 2 },
+  { id: "H08", answer: true, best: "B", wrong: "A", sourceCount: 2 },
 ];
 const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
 await mkdir(output, { recursive: true });

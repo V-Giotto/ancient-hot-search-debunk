@@ -21,14 +21,14 @@ describe("POST /api/verdict（真实 H01–H08 数据）", () => {
   });
 
   it.each([
-    { topicId: "H01", isTrue: false, best: "A", sourceCount: 1, corrected: "李白与杜甫在唐代相识并有交游记载；现代互关说法只是创作。" },
+    { topicId: "H01", isTrue: false, best: "A", sourceCount: 2, corrected: "李白与杜甫在唐代相识并有交游记载；现代互关说法只是创作。" },
     { topicId: "H02", isTrue: true, best: "C", sourceCount: 3, corrected: "宋代部分城市已有购买现成饭食、代买送食等服务，与现代外卖平台不同。" },
     { topicId: "H03", isTrue: false, best: "C", sourceCount: 3, corrected: "唐代有胡椒、花椒等辛香料，但来自美洲的辣椒约在明末传入中国。" },
     { topicId: "H04", isTrue: true, best: "B", sourceCount: 3, corrected: "北宋四川出现交子，并经历民间使用到官府发行的发展过程。" },
-    { topicId: "H05", isTrue: false, best: "B", sourceCount: 1, corrected: "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。" },
+    { topicId: "H05", isTrue: false, best: "B", sourceCount: 2, corrected: "唐三彩是多种釉色的唐代彩釉陶器，并非严格只有三种颜色。" },
     { topicId: "H06", isTrue: true, best: "A", sourceCount: 2, corrected: "战国已有可借助冰块冷却酒饮的冰鉴等器具，不等于电冰箱。" },
-    { topicId: "H07", isTrue: false, best: "C", sourceCount: 1, corrected: "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。" },
-    { topicId: "H08", isTrue: true, best: "B", sourceCount: 1, corrected: "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。" },
+    { topicId: "H07", isTrue: false, best: "C", sourceCount: 2, corrected: "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。" },
+    { topicId: "H08", isTrue: true, best: "B", sourceCount: 2, corrected: "唐代遗址发现带植毛孔的牙刷柄，可证明当时已有这种器具。" },
   ].flatMap((scenario) => [false, true].map((answer) => ({ ...scenario, answer }))))("$topicId 提交 $answer 后返回本题揭晓与改写，不缓存", async ({ topicId, isTrue, best, sourceCount, corrected, answer }) => {
     const response = await POST(request({ topicId, answer }));
     expect(response.status).toBe(200);
