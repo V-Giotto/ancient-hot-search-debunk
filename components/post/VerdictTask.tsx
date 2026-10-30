@@ -38,7 +38,12 @@ export function VerdictTask({ topic }: { topic: PublicTopic }) {
   useEffect(() => {
     if (result && focusRevealRef.current) {
       focusRevealRef.current = false;
-      revealHeadingRef.current?.focus();
+      const heading = revealHeadingRef.current;
+      heading?.focus({ preventScroll: true });
+      heading?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        block: "start",
+      });
     }
   }, [result]);
 

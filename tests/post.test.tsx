@@ -13,15 +13,26 @@ import type { VerdictResult } from "@/lib/verdict";
 
 const topic = HotTopicSchema.parse(h03);
 const publicTopic = toPublicTopic(topic);
+const scrollIntoView = vi.fn();
+const scrollIntoViewDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "scrollIntoView");
 function result(overrides: Partial<VerdictResult> = {}): VerdictResult {
   return { isTrue: false, isCorrect: true, reveal: topic.reveal, sources: sources.filter((source) => topic.sourceIds.includes(source.id)).map((source) => SourceSchema.parse(source)), rewriteOptions: topic.rewriteOptions, ...overrides };
 }
 
 beforeEach(() => {
   localStorage.clear();
+  scrollIntoView.mockReset();
+  Object.defineProperty(HTMLElement.prototype, "scrollIntoView", { configurable: true, value: scrollIntoView });
+  vi.stubGlobal("matchMedia", vi.fn().mockReturnValue({ matches: false }));
   vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => result() }));
 });
-afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+  if (scrollIntoViewDescriptor) Object.defineProperty(HTMLElement.prototype, "scrollIntoView", scrollIntoViewDescriptor);
+  else Reflect.deleteProperty(HTMLElement.prototype, "scrollIntoView");
+});
 
 describe("真假判断与揭晓", () => {
   it("未选禁用提交，提交前可以改选，提交后锁定且显示假题、答对文案", async () => {
@@ -58,14 +69,27 @@ describe("真假判断与揭晓", () => {
     expect(screen.getByRole("button", { name: "生成查证卡" })).toHaveProperty("disabled", false);
   });
 
-  it("主动提交后焦点移至揭晓标题，下一步可继续用键盘查阅依据", async () => {
+  it.each([
+    { reducedMotion: false, behavior: "smooth" },
+    { reducedMotion: true, behavior: "instant" },
+  ])("主动提交后聚焦并滚动到揭晓标题：reducedMotion=$reducedMotion，behavior=$behavior", async ({ reducedMotion, behavior }) => {
+    vi.mocked(window.matchMedia).mockReturnValue({ matches: reducedMotion } as MediaQueryList);
     render(<VerdictTask topic={publicTopic} />);
+    const focus = vi.spyOn(HTMLElement.prototype, "focus");
+    expect(scrollIntoView).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     const submit = screen.getByRole("button", { name: "提交判断" });
     submit.focus();
     fireEvent.click(submit);
     await screen.findByText("谣言退散");
-    expect(document.activeElement).toBe(screen.getByRole("heading", { name: topic.reveal.verdictHeadline }));
+    const heading = screen.getByRole("heading", { name: topic.reveal.verdictHeadline });
+    expect(document.activeElement).toBe(heading);
+    expect(focus).toHaveBeenLastCalledWith({ preventScroll: true });
+    expect(window.matchMedia).toHaveBeenCalledWith("(prefers-reduced-motion: reduce)");
+    expect(scrollIntoView).toHaveBeenCalledExactlyOnceWith({ behavior, block: "start" });
+    expect(scrollIntoView.mock.contexts[0]).toBe(heading);
+    fireEvent.click(screen.getByRole("button", { name: /^C / }));
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 
   it("合成真题显示查证属实（不新增正式题目）", async () => {
@@ -87,6 +111,7 @@ describe("真假判断与揭晓", () => {
     expect(screen.getByText("改写正确，这样说更准确。")).toBeTruthy();
     expect(localStorage.getItem(PROGRESS_KEY)).toBe(before);
     expect(document.activeElement).not.toBe(screen.getByRole("heading", { name: topic.reveal.verdictHeadline }));
+    expect(scrollIntoView).not.toHaveBeenCalled();
   });
 
   it("请求失败保留选择，可再次提交", async () => {
@@ -95,8 +120,10 @@ describe("真假判断与揭晓", () => {
     fireEvent.click(screen.getByRole("radio", { name: "是假的" }));
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByRole("alert")).toBeTruthy();
+    expect(scrollIntoView).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: "提交判断" }));
     expect(await screen.findByText("谣言退散")).toBeTruthy();
+    expect(scrollIntoView).toHaveBeenCalledExactlyOnceWith({ behavior: "smooth", block: "start" });
   });
 
   it("恢复接口失败后可重试，仍锁定旧答案", async () => {

@@ -4,6 +4,8 @@ import { NavRail } from "./NavRail";
 import { RightRail } from "./RightRail";
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const preview = process.env.CONTENT_MODE === "preview";
+
   return (
     <>
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-card focus:p-3">
@@ -28,10 +30,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="shell-grid mx-auto max-w-[1600px] px-8 py-8">
         <NavRail />
         <main id="main-content" tabIndex={-1} className="min-w-0 wrap-break-word">
-          <div role="note" className="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-gold/40 bg-gold/10 px-4 py-3 text-xs leading-6 text-muted">
+          {preview && <div role="note" className="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-gold/40 bg-gold/10 px-4 py-3 text-xs leading-6 text-muted">
             <span className="rounded-md bg-gold/15 px-2.5 py-1 font-medium text-ink">开发预览模式</span>
             <span>开发预览：本条史实尚待人工审核</span>
-          </div>
+          </div>}
           {children}
         </main>
         <RightRail />
