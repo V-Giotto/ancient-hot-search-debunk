@@ -4,7 +4,6 @@
 
 - 热搜页顶部右上角原放大的粉色像素图标替换为原创像素徽记：挂着的红灯笼配一枚小月牙（深紫粗描边、青柠绿提梁与穗子），并隐藏与之重叠的绿色虚线装饰。
 - README 按《作品介绍》重写：标语、仓库与项目网址、七个章节。
-- README 包含本地运行说明：Node.js 与 npm 要求，安装与启动命令（`npm ci`、`cp .env.example .env.local`、`npm run dev`），未配置 AI Key 时可用的功能，AI 环境变量（`AI_API_KEY`、`AI_BASE_URL`、`AI_MODEL`、`AI_TIMEOUT_MS`），常用命令表，以及文档链接。
 
 ## v0.29.0 — 2026-10-31
 
