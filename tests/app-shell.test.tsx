@@ -49,7 +49,7 @@ describe("移动端共用壳层", () => {
   });
 
   it.each([
-    [DiscoverPage, "发现"], [MePage, "我的"], [NotFound, "页面未找到"],
+    [MePage, "我的"], [NotFound, "页面未找到"],
   ] as const)("%s 使用返回与页面标题的紧凑顶栏", (Page, title) => {
     render(Page());
     const header = screen.getByRole("banner");

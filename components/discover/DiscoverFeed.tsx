@@ -4,7 +4,7 @@ import { PixelIcon } from "@/components/pixel/PixelIcon";
 
 import { useState } from "react";
 import Link from "next/link";
-import type { PublicTopic } from "@/lib/public-topic";
+import { filterDiscoverTopics, type DiscoverTopic } from "@/lib/discover";
 import { EmptyState } from "@/components/shell/EmptyState";
 import { StartFirstTopic } from "@/components/shell/StartFirstTopic";
 import { SocialIcon } from "@/components/social/SocialIcon";
@@ -12,20 +12,22 @@ import { useSocialState } from "@/components/social/useSocialState";
 import { interactionCount } from "@/lib/social-storage";
 import { compactCount } from "@/lib/social-display";
 
-export type DiscoverTopic = Pick<PublicTopic, "id" | "rank" | "title" | "category" | "tags" | "author" | "coverUrl" | "coverAlt" | "simulatedLikes">;
+export type { DiscoverTopic } from "@/lib/discover";
 
 export function DiscoverFeed({ topics, firstTrendingTopicId = topics.find((topic) => topic.rank === 1)?.id }: { topics: readonly DiscoverTopic[]; firstTrendingTopicId?: string }) {
   const { state } = useSocialState();
   const [query, setQuery] = useState("");
-  const keyword = query.trim().toLocaleLowerCase("zh-CN");
-  const filtered = topics.filter((topic) => [topic.title, topic.category, ...topic.tags, topic.author.name].some((text) => text.toLocaleLowerCase("zh-CN").includes(keyword)));
+  const filtered = filterDiscoverTopics(topics, query);
 
   if (topics.length === 0) return <EmptyState />;
 
   return <>
     <form role="search" aria-label="筛选发现话题" className="discover-search" onSubmit={(event) => event.preventDefault()}>
-      <label htmlFor="discover-query" className="text-sm font-semibold"><PixelIcon name="search" size={16} /> 筛选话题</label>
-      <input id="discover-query" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索标题、分类或作者" aria-controls="discover-results" />
+      <label htmlFor="discover-query" className="sr-only">筛选话题</label>
+      <div className="discover-search-field">
+        <PixelIcon name="search" size={24} />
+        <input id="discover-query" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索标题、分类或作者…" aria-controls="discover-results" />
+      </div>
       {query && <button type="button" className="secondary-button" onClick={() => setQuery("")}><PixelIcon name="close" size={16} />清除筛选</button>}
     </form>
     <p role="status" aria-live="polite" aria-atomic="true" className="mb-3 text-xs text-muted">{filtered.length} 条话题</p>

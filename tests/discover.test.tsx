@@ -4,11 +4,39 @@ import DiscoverPage from "@/app/discover/page";
 import { getAllTopics } from "@/lib/topics";
 import { getAllFeedEntries } from "@/lib/feed";
 import { DiscoverFeed } from "@/components/discover/DiscoverFeed";
+import { DISCOVER_TAGLINE } from "@/lib/copy";
+import { filterDiscoverTopics } from "@/lib/discover";
 
 beforeEach(() => vi.stubEnv("CONTENT_MODE", "preview"));
 afterEach(() => { cleanup(); vi.unstubAllEnvs(); });
 
 describe("发现页", () => {
+  it("横幅标题、可配置标语和搜索框按顺序呈现，沿用返回热榜行为", () => {
+    render(DiscoverPage());
+    expect(DISCOVER_TAGLINE).toBe("今天，巷子里聊什么？");
+    const header = screen.getByRole("banner");
+    const title = within(header).getByRole("heading", { level: 1, name: "发现" });
+    const tagline = within(header).getByText(DISCOVER_TAGLINE);
+    const input = screen.getByRole("searchbox", { name: "筛选话题" });
+    expect(title.compareDocumentPosition(tagline) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(tagline.compareDocumentPosition(input) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(input.getAttribute("placeholder")).toBe("搜索标题、分类或作者…");
+    expect(within(header).getByRole("link", { name: "返回热搜榜" }).getAttribute("href")).toBe("/trending");
+    expect(header.querySelector("img")?.getAttribute("src")).toBe("/banners/discover-night.webp");
+  });
+
+  it("搜索函数保留空查询、大小写与标签匹配，不修改原数据", () => {
+    const topics = getAllFeedEntries().filter(({ module }) => module === "discover");
+    expect(filterDiscoverTopics(topics, "  ")).toEqual(topics);
+    expect(filterDiscoverTopics([], "作者")).toEqual([]);
+    const sample = { ...topics[0], title: "Pixel夜话" };
+    expect(filterDiscoverTopics([sample], " PIXEL ")).toEqual([sample]);
+    for (const query of [sample.category, sample.author.name, sample.tags[0]]) {
+      expect(filterDiscoverTopics([sample], query)).toEqual([sample]);
+    }
+    expect(filterDiscoverTopics([sample], "无匹配关键词")).toEqual([]);
+    expect(sample.title).toBe("Pixel夜话");
+  });
   it("实际发现页仅有发现题目，无匹配时仍能前往热榜第一条", () => {
     render(DiscoverPage());
     const firstTrending = getAllTopics().find((topic) => topic.module === "trending")!;

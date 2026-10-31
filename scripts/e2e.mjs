@@ -9,6 +9,7 @@ import { chromium } from "playwright";
 import { phase3Checks } from "./e2e-phase3.mjs";
 import { phase4Checks } from "./e2e-phase4.mjs";
 import { clickAndWaitForResponse } from "./e2e-interactions.mjs";
+import { discoverHeaderChecks, nightThemeChecks } from "./e2e-night-theme.mjs";
 import { chatLayoutChecks } from "./e2e-chat-layout.mjs";
 
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
@@ -75,6 +76,7 @@ async function requireFreePort() {
 }
 
 async function compactHeaderChecks(page, title) {
+  if (title === "发现") return discoverHeaderChecks(page);
   const header = page.locator(".shell-header");
   assert.equal(await header.count(), 1);
   assert.equal(await header.locator(".shell-page-title").textContent(), title);
@@ -256,7 +258,7 @@ async function pixelInteractionChecks(browser, errors) {
       await sheet.getByRole("button", { name: "关闭转发弹层" }).click();
       for (const route of ["/discover", "/friends", ...friendIds.map((id) => `/friends/${id}`)]) {
         await page.goto(`${baseURL}${route}`);
-        await visible(page.locator(".shell-header"));
+        await visible(page.locator(route === "/discover" ? ".discover-hero" : ".shell-header"));
         await mobileGeometry(page, `像素入口 ${route}`);
       }
       records.push({ viewport, unlocked: 2, locked: scenarios.length - 2, contrasts });
@@ -292,7 +294,7 @@ async function firstLoadChecks(browser, errors) {
       const encodedBytes = sum("encodedBytes");
       assert.ok(encodedBytes < 300000, `${route} 首屏压缩 JS 超过 300KB：${encodedBytes} 字节`);
       assert.ok(scripts.every((script) => !exportChunks.includes(script.path)), `${route} 首屏提前请求 html-to-image`);
-      const images = await page.evaluate(() => performance.getEntriesByType("resource").filter((entry) => /\/(covers|avatars|friends)\/.+\.webp$/.test(new URL(entry.name).pathname)).map((entry) => ({ path: new URL(entry.name).pathname, encodedBytes: entry.encodedBodySize })));
+      const images = await page.evaluate(() => performance.getEntriesByType("resource").filter((entry) => /\/(covers|avatars|friends|banners|backgrounds)\/.+\.webp$/.test(new URL(entry.name).pathname)).map((entry) => ({ path: new URL(entry.name).pathname, encodedBytes: entry.encodedBodySize })));
       routes.push({ route, encodedBytes, decodedBytes: sum("decodedBytes"), transferBytes: sum("transferBytes"), scripts, imageBytes: images.reduce((total, image) => total + image.encodedBytes, 0), images });
     } finally { await context.close(); }
   }
@@ -323,7 +325,7 @@ async function pixelAssetChecks(browser, errors) {
     const context = await browser.newContext({ viewport, isMobile: true, hasTouch: true });
     try {
       // 延迟图片到达，验证预留空间能在真实加载期间避免明显 CLS。
-      await context.route(/\/(covers|avatars|friends)\/.+\.webp$/, async (route) => { await setTimeout(150); await route.continue(); });
+      await context.route(/\/(covers|avatars|friends|banners|backgrounds)\/.+\.webp$/, async (route) => { await setTimeout(150); await route.continue(); });
       context.on("response", (response) => { if (response.request().resourceType() === "image" && response.status() >= 400) failures.push({ url: response.url(), status: response.status() }); });
       context.on("requestfailed", (request) => { if (request.resourceType() === "image") failures.push({ url: request.url(), error: request.failure()?.errorText }); });
       await context.addInitScript(() => {
@@ -1817,6 +1819,7 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  const nightTheme = await nightThemeChecks({ browser, baseURL, errors, topics: discoverTopics });
   const chatLayout = await chatLayoutChecks({ browser, baseURL, errors, screenshots, reviewDir, version: packageVersion });
   const phase3 = await phase3Checks({ browser, baseURL, errors, geometryCheck: mobileGeometry, screenshot: versionScreenshot, version: packageVersion, topics: allTopics.map((topic) => ({ ...topic, sources: sourceIndex })) });
   const feedExpansion = await feedExpansionChecks(browser, errors);
@@ -2398,6 +2401,7 @@ try {
   };
   summary.phase3 = phase3;
   summary.chatLayout = chatLayout;
+  summary.nightTheme = nightTheme;
   assert.equal(eraDetails.length, allTopics.length * 3, "二十二题的年代 chip 须在三种手机视口全部通过");
   summary.era = { detailChecks: eraDetails.length, h12FirstScreenChecks: eraDetails.filter((record) => record.eraChip.firstScreen).length, screenshot: path.join(reviewDir, `v${packageVersion}-era-390x844.png`) };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));

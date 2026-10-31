@@ -1,5 +1,14 @@
 # 原创素材登记
 
+## v0.29.0 · 发现横幅与全站夜景
+
+| 文件 | 用途 | 尺寸 / 大小 | 来源与审核 |
+| --- | --- | --- | --- |
+| `public/banners/discover-night.webp` | 发现页无文字像素夜景横幅 | 1200×675 / 99,760 bytes | 用户提供的原创生成素材，复制自 `/workspace/iter1/discover-banner.webp`；待 Giotto 审核 |
+| `public/backgrounds/night-lake.webp` | 全站固定夜湖背景 | 780×1388 / 47,396 bytes | 用户提供的原创生成素材，复制自 `/workspace/iter1/bg-night-portrait.webp`；待 Giotto 审核 |
+
+本次仅复制已生成 WebP，不重新生成、裁切或转码。`/workspace/prompts/discover-header-ref.png` 与 `bg-ref-*.png` 仅用于风格参考，未纳入发布素材；标题与标语均为 HTML。生成工具、模型版本与逐图提示词未随素材提供，不推定第三方许可；素材审核状态为 pending / Giotto。夜景用于界面装饰，不作为历史建筑或器物复原证据。
+
 ## v0.28.2 · H15铜卡尺封面修订
 
 `public/covers/h15.webp`：内置imagegen编辑，1200×675 WebP，pending / Giotto。替换现封面的现代游标卡尺形象；实际打开[国博科技专题](https://www.chnmuseum.cn/portals/0/web/zt/202012kxyjs/)及其[始建国元年卡尺参考图](https://www.chnmuseum.cn/portals/0/web/zt/202012kxyjs/images/1-2-2-1.jpg)，参考仅用于外形。原始参考副本在`/workspace/iter1/h15-museum-reference.jpg`，不将馆方图片纳入仓库发布。新图保留紫色像素展柜、暖色灯光，器物采用长槽、钝L形爪和环，删除现代游标刻度、旋钮、尖上爪和深度杆；无新增铭文。内置工具生成PNG后仅缩放编码为WebP，未使用额外图像API或密钥。
