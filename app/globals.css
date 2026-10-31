@@ -107,7 +107,7 @@ to { opacity: 1; transform: translateY(0); } }
 /* 热榜以独立横幅呈现品牌；其余页面使用 48px 返回顶栏。 */
 .app-shell:has(.trending-page) main > [role="note"] { margin: 16px; }
 .trending-page { min-width: 0; }
-.trending-pattern svg { width: 128px; height: 128px; }
+.trending-pattern svg { display: block; }
 .trending-categories [role="tab"]:focus-visible { outline-offset: -5px; border-radius: 2px; }
 .collection-compact .collection-meter { margin-top: 6px; height: 4px; }
 .trending-copy { min-width: 0; }
@@ -248,12 +248,12 @@ textarea::placeholder { color: #aa9ab9; opacity: 1; }
 .app-shell:has(.trending-page) .shell-content { padding: 0 0 calc(var(--bottom-tabs-height) + 28px); }
 .app-shell:has(.news-experience) .shell-content { padding-inline: 10px; }
 .trending-hero { position: relative; isolation: isolate; overflow: hidden; height: calc(96px + env(safe-area-inset-top, 0px)); padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 8px; border-bottom: 3px solid var(--accent); background: #28134c; box-shadow: inset 0 -6px 0 #160a29; }
-.trending-hero::after { position: absolute; right: 18px; bottom: 14px; width: 54px; height: 10px; background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px); content: ""; opacity: .9; }
+.trending-hero::after { display: none; position: absolute; right: 18px; bottom: 14px; width: 54px; height: 10px; background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px); content: ""; opacity: .9; }
 .trending-eyebrow { display: flex; align-items: center; gap: 7px; letter-spacing: 0.18em; color: var(--accent); font-size: 9px; font-weight: 800; }
 .trending-eyebrow > span { width: 6px; height: 6px; transform: rotate(45deg); background: var(--pixel-pink); box-shadow: 2px 2px 0 var(--pixel-shadow); }
 .trending-hero h1 { position: relative; margin-top: 3px; line-height: 1.35; color: var(--ink); font-size: 24px; font-weight: 900; letter-spacing: .04em; text-shadow: 3px 3px 0 #6f3caf; }
 .trending-slogan { position: relative; margin-top: 3px; color: #d8cce4; font-size: 11px; }
-.trending-pattern { position: absolute; z-index: -1; right: -12px; top: -16px; width: 128px; color: var(--pixel-pink); opacity: .75; }
+.trending-pattern { position: absolute; z-index: 0; right: 16px; top: calc(6px + env(safe-area-inset-top, 0px)); filter: drop-shadow(2px 2px 0 #0a0412); }
 .trending-categories { display: flex; gap: 6px; overflow-x: auto; overscroll-behavior-x: contain; padding-inline: 12px; scrollbar-width: thin; border-bottom: 2px solid #5a317f; background: #150929; scrollbar-color: var(--accent) #150929; }
 .trending-categories [role="tab"] { position: relative; flex: 0 0 auto; min-width: 48px; min-height: 44px; padding: 0 10px; border: 0; background: transparent; font-size: 13px; white-space: nowrap; cursor: pointer; color: #c6b8d6; font-weight: 700; }
 .trending-categories [aria-selected="true"] { color: var(--accent); font-weight: 850; }

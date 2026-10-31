@@ -1,4 +1,5 @@
 "use client";
+import { TrendingEmblem } from "@/components/pixel/TrendingEmblem";
 
 import { PixelIcon } from "@/components/pixel/PixelIcon";
 
@@ -47,7 +48,7 @@ export function TrendingBoard({ topics, topicIds = topics.map((topic) => topic.i
     <div className="trending-page">
       <header className="trending-hero">
         <div aria-hidden="true" className="trending-pattern">
-          <PixelIcon name="spark" size={32} />
+          <TrendingEmblem />
         </div>
         <p className="trending-eyebrow"><span aria-hidden="true" />跨朝代 · 热点档案</p>
         <h1>古代热搜辟谣局</h1>
