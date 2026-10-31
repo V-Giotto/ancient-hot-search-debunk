@@ -9,6 +9,7 @@ import { chromium } from "playwright";
 import { phase3Checks } from "./e2e-phase3.mjs";
 import { phase4Checks } from "./e2e-phase4.mjs";
 import { clickAndWaitForResponse } from "./e2e-interactions.mjs";
+import { chatLayoutChecks } from "./e2e-chat-layout.mjs";
 
 // 使用真实生产服务、真实接口和真实下载，不 mock 判题或导出。
 const port = process.env.E2E_PORT || "3123";
@@ -903,7 +904,7 @@ async function friendsFlow(page, viewport, geometry) {
     assert.ok(sides.composerBottom <= sides.tabsTop, "输入框不得被导航遮挡");
     geometry.push({ ...await mobileGeometry(page, "好友 mock 回复"), sides });
     if (viewport.width === 390) {
-      await versionScreenshot(page, "chat", packageVersion);
+      await versionScreenshot(page, "chat-mock", packageVersion);
       await page.screenshot({ path: path.join(screenshots, `v${packageVersion}-chat-mock-390x844.png`), animations: "disabled" });
     }
     reply = "此事吾不敢妄言。".repeat(120);
@@ -1781,6 +1782,7 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  const chatLayout = await chatLayoutChecks({ browser, baseURL, errors, screenshots, reviewDir, version: packageVersion });
   const phase3 = await phase3Checks({ browser, baseURL, errors, geometryCheck: mobileGeometry, screenshot: versionScreenshot, version: packageVersion, topics: allTopics.map((topic) => ({ ...topic, sources: sourceIndex })) });
   const feedExpansion = await feedExpansionChecks(browser, errors);
   const performanceChecks = await firstLoadChecks(browser, errors);
@@ -2294,7 +2296,7 @@ try {
     await reviewPage.getByRole("textbox", { name: "写给李白", exact: true }).fill("你好");
     await reviewPage.getByRole("button", { name: "发送消息", exact: true }).click();
     await visible(reviewPage.getByRole("log").getByText(reply, { exact: true }));
-    await versionScreenshot(reviewPage, "chat", packageVersion);
+    await versionScreenshot(reviewPage, "chat-mock", packageVersion);
     // Use a real deterministic verdict to show both a collected sticker and
     // locked ones, without seeding progress or contacting an AI provider.
     await reviewPage.goto(`${baseURL}/post/H01`);
@@ -2332,6 +2334,7 @@ try {
     noHashtagTitles: true,
   };
   summary.phase3 = phase3;
+  summary.chatLayout = chatLayout;
   assert.equal(eraDetails.length, allTopics.length * 3, "二十二题的年代 chip 须在三种手机视口全部通过");
   summary.era = { detailChecks: eraDetails.length, h12FirstScreenChecks: eraDetails.filter((record) => record.eraChip.firstScreen).length, screenshot: path.join(reviewDir, `v${packageVersion}-era-390x844.png`) };
   await writeFile(path.join(output, "result.json"), JSON.stringify(summary, null, 2));

@@ -19,7 +19,8 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
   const [sharing, setSharing] = useState<string | null>(null);
   const [error, setError] = useState<{ status: number; text: string } | null>(null);
   const active = useRef<AbortController | null>(null);
-  const latest = useRef<HTMLDivElement>(null);
+  const chatRoot = useRef<HTMLElement>(null);
+  const transcript = useRef<HTMLDivElement>(null);
   const clearedShares = useRef(new Set<string>());
   const shareKey = incomingShare?.token;
   const incomingRef = useRef(incomingShare);
@@ -84,7 +85,32 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
     // 每次路由重新显示从本机恢复；分享 token 去重，避免刷新重复插卡或请求。
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [friend.id, shareKey]);
-  useEffect(() => { latest.current?.scrollIntoView?.({ block: "nearest" }); }, [messages, pending, sharing, error]);
+  useEffect(() => {
+    const shell = chatRoot.current?.closest<HTMLElement>(".app-shell");
+    const viewport = window.visualViewport;
+    if (!shell || !viewport) return;
+    // 内嵌浏览器的软键盘可能只缩小 visualViewport，布局视口与 dvh 不变。
+    const resize = () => {
+      if (viewport.scale !== 1) return;
+      shell.style.setProperty("--chat-viewport-height", `${viewport.height}px`);
+      shell.style.setProperty("--chat-viewport-top", `${viewport.offsetTop}px`);
+      shell.toggleAttribute("data-chat-compact", viewport.height < 500);
+    };
+    resize();
+    viewport.addEventListener("resize", resize);
+    viewport.addEventListener("scroll", resize);
+    return () => {
+      viewport.removeEventListener("resize", resize);
+      viewport.removeEventListener("scroll", resize);
+      shell.style.removeProperty("--chat-viewport-height");
+      shell.style.removeProperty("--chat-viewport-top");
+      shell.removeAttribute("data-chat-compact");
+    };
+  }, []);
+  useEffect(() => {
+    const node = transcript.current;
+    if (node) node.scrollTop = node.scrollHeight;
+  }, [messages, pending, sharing, error]);
 
   async function send(event?: FormEvent) {
     event?.preventDefault();
@@ -133,14 +159,13 @@ export function FriendChat({ friend, incomingShare }: { friend: FriendProfile; i
     </li>;
   }
   const busy = Boolean(pending || sharing);
-  return <section className="friend-chat" aria-labelledby="friend-chat-heading">
+  return <section ref={chatRoot} className="friend-chat" aria-labelledby="friend-chat-heading">
     <div className="chat-profile"><FriendAvatar friend={friend} /><div><h1 id="friend-chat-heading">{friend.name}</h1><p>{friend.bio}</p></div></div>
     <div className="chat-session-tools"><p>闲谈保存在本机 · 最多 {CHAT_STORAGE_MAX_ENTRIES} 条</p><button type="button" className="secondary-button" onClick={clear} disabled={!messages.length && !busy}><PixelIcon name="trash" size={16} />清空对话</button></div>
-    <div className="chat-transcript" role="log" aria-label={`与${friend.name}的对话`} aria-live="polite" aria-relevant="additions text">
+    <div ref={transcript} className="chat-transcript" role="log" aria-label={`与${friend.name}的对话`} aria-live="polite" aria-relevant="additions text">
       <ol>{bubble({ role: "assistant", content: friend.greeting }, "greeting")}{messages.map((message, index) => bubble(message, index))}{pending && bubble({ role: "user", content: pending }, "pending")}</ol>
       {busy && <p className="chat-waiting" role="status">{friend.name}正在回信…</p>}
       {error && <div className="chat-error" role="alert"><p className="chat-error-title">{error.status === 503 ? "好友暂时不在线" : "这封信稍等一会儿"}</p><p>{error.text}</p><button type="button" onClick={() => void send()} disabled={busy}>重试发送</button></div>}
-      <div ref={latest} />
     </div>
     <form className="chat-composer" aria-label="发送消息" onSubmit={(event) => void send(event)}>
       <div className="chat-composer-label"><label htmlFor="chat-message">写给{friend.name}</label><span id="chat-message-count">{draft.length}/{CHAT_MESSAGE_MAX_LENGTH}</span></div>
