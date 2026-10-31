@@ -55,23 +55,43 @@
           "replyTo": "H11-C01",
           "author": "不想再被劝大度",
           "avatar": "/avatars/reader.webp",
-          "text": "先别急着换，问答里的署名和截图上的署名得对一对吧？"
+          "text": "先别急着换，问答里的署名和截图上的署名得对一对吧？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H11-C01-R2",
           "replyTo": "H11-C01-R1",
           "author": "语录转发核对组",
           "avatar": "/avatars/reader.webp",
-          "text": "我也想核对“或曰”到回答这段，截图偏偏把上下文切掉了。"
+          "text": "我也想核对“或曰”到回答这段，截图偏偏把上下文切掉了。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H11-C01-R3",
           "replyTo": "H11-C01-R2",
           "author": "先收进签名库",
           "avatar": "/avatars/spectator.webp",
-          "text": "好，签名先不动，群里的“受教了”也先缓一缓。"
+          "text": "好，签名先不动，群里的“受教了”也先缓一缓。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H11-C02",
@@ -82,7 +102,12 @@
       "simulatedLikes": 483,
       "simulatedReplies": 13,
       "simulatedReposts": 6,
-      "simulatedViews": 4636
+      "simulatedViews": 4636,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H11-C03",
@@ -93,7 +118,12 @@
       "simulatedLikes": 446,
       "simulatedReplies": 14,
       "simulatedReposts": 1,
-      "simulatedViews": 4438
+      "simulatedViews": 4438,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H11-C04",
@@ -104,7 +134,12 @@
       "simulatedLikes": 409,
       "simulatedReplies": 15,
       "simulatedReposts": 4,
-      "simulatedViews": 4240
+      "simulatedViews": 4240,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H11-C05",
@@ -115,7 +150,12 @@
       "simulatedLikes": 372,
       "simulatedReplies": 16,
       "simulatedReposts": 7,
-      "simulatedViews": 4042
+      "simulatedViews": 4042,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H11-C06",
@@ -126,7 +166,12 @@
       "simulatedLikes": 335,
       "simulatedReplies": 17,
       "simulatedReposts": 2,
-      "simulatedViews": 3844
+      "simulatedViews": 3844,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "“以德报怨”是孔子主张的处世原则。",

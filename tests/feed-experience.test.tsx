@@ -38,6 +38,22 @@ async function submit(answer = false) {
 }
 
 describe("按题收集、按帖互动", () => {
+  it("写存储失败后切换T02/P03/P04仍只奖励H02一次，恢复存储时可落盘", async () => {
+    const write = vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("测试配额耗尽"); });
+    for (const [index, id] of ["T02", "P03", "P04"].entries()) {
+      const view = render(<PostExperience topic={publicEntry(id)} topicIds={topicIds} />);
+      const sticker = await submit();
+      expect(sticker.textContent).toContain(index ? "街巷食记 · 已收藏" : "获得贴纸：街巷食记");
+      expect(readCollectionProgress(topicIds).completedIds).toEqual(["H02"]);
+      view.unmount();
+    }
+    write.mockRestore();
+    const view = render(<PostExperience topic={publicEntry("H02")} topicIds={topicIds} />);
+    expect((await submit()).textContent).toContain("街巷食记 · 已收藏");
+    expect(Object.keys(JSON.parse(localStorage.getItem(PROGRESS_KEY)!))).toEqual(["H02"]);
+    view.unmount();
+  });
+
   it("T01/P01/P02/H01 反复作答只收集 H01 一次；进度恢复而帖子每次重玩", async () => {
     let saved: string | null = null;
     for (const [index, id] of ["T01", "P01", "P02", "H01"].entries()) {

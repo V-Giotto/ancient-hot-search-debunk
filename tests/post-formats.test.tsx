@@ -85,7 +85,7 @@ describe("按 format 选择帖子模板", () => {
     expect(container.textContent).not.toMatch(/辟谣局公告|今天的吃瓜守则/);
     expect(screen.getByRole("link", { name: /返回.*继续/ }).getAttribute("href")).toBe(`/${topic.module}`);
     expect(container.textContent).not.toContain(topic.reveal.correctedClaim);
-    expect(container.textContent).not.toMatch(/架空|模拟|艺术创作|非史料/);
+    expect(container.textContent).not.toMatch(/架空|模拟|非史料/);
     expect(fetch).not.toHaveBeenCalled();
   });
 

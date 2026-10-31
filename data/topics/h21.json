@@ -40,68 +40,108 @@
   "simulatedBookmarks": 342,
   "comments": [
     {
-      "id": "H21-C01",
-      "author": "工单先挂起",
+      "id": "H21-V282-C01",
+      "author": "今天也想请假",
       "avatar": "/avatars/spectator.webp",
       "role": "troll",
-      "text": "别人的工作日志要翻史书，我的只要翻日历。",
-      "simulatedLikes": 83,
+      "text": "看到留任，我先猜是本人一点也不想回家。",
+      "simulatedLikes": 76,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      },
       "replies": [
         {
-          "id": "H21-C01-R1",
-          "replyTo": "H21-C01",
+          "id": "H21-V282-C01-R1",
+          "replyTo": "H21-V282-C01",
           "author": "大明职场摸鱼指南",
           "avatar": "/avatars/pepper.webp",
-          "text": "工作日志先留白，我去核对奏请与决定的次序。"
+          "text": "这么看，‘请假’和‘准不准假’是两码事；他自己心里怎么想，还真不能靠热搜猜。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-31T00:33:00-07:00"
+          }
         },
         {
-          "id": "H21-C01-R2",
-          "replyTo": "H21-C01-R1",
-          "author": "原文书签夹",
-          "avatar": "/avatars/hype.webp",
-          "text": "把人物意向与事件记载分开读，别用结果倒推心理。"
+          "id": "H21-V282-C01-R2",
+          "replyTo": "H21-V282-C01-R1",
+          "author": "今天也想请假",
+          "avatar": "/avatars/spectator.webp",
+          "text": "好，那个一点也不想是我脑补的，先删。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-31T00:33:00-07:00"
+          }
         }
       ]
     },
     {
-      "id": "H21-C02",
-      "author": "小板凳占座",
-      "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "我只看了留任两个字，前面是不是还漏了步骤？",
-      "simulatedLikes": 72
-    },
-    {
-      "id": "H21-C03",
-      "author": "书签核对员",
+      "id": "H21-V282-C02",
+      "author": "明史读者",
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
-      "text": "先把申请与决定的顺序查清楚。",
-      "simulatedLikes": 61
+      "text": "先后程序和内心意愿不是同一件事，别替人补心理。",
+      "simulatedLikes": 67,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
     },
     {
-      "id": "H21-C04",
-      "author": "街口等消息",
+      "id": "H21-V282-C03",
+      "author": "请假条写了又删",
       "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我只是路过，没想到请假也能刷到历史讨论。",
+      "simulatedLikes": 58,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
+    },
+    {
+      "id": "H21-V282-C04",
+      "author": "职场古今假如号",
+      "avatar": "/avatars/pepper.webp",
       "role": "in_world",
-      "text": "办公室经验先收一收，朝堂问题得看材料。",
-      "simulatedLikes": 50
+      "text": "假如借来玩职场梗，也不能套成现代人事审批。",
+      "simulatedLikes": 49,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
     },
     {
-      "id": "H21-C05",
-      "author": "材料慢慢翻",
-      "avatar": "/avatars/hype.webp",
-      "role": "history_nerd",
-      "text": "人物心里怎么想，不能只看最后的结果吧？",
-      "simulatedLikes": 39
-    },
-    {
-      "id": "H21-C06",
-      "author": "按住转发键",
+      "id": "H21-V282-C05",
+      "author": "奏请与决定两栏",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "摸鱼暂停，这次先核对原文。",
-      "simulatedLikes": 28
+      "text": "谁提出什么、谁作决定，能不能按记载分别写？",
+      "simulatedLikes": 40,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
+    },
+    {
+      "id": "H21-V282-C06",
+      "author": "私人密谈别加戏",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "如果没有对话记录，就别替他们安排一场谈心。",
+      "simulatedLikes": 31,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
     }
   ],
   "claim": "万历五年，张居正因父丧奏请守制，明神宗下令夺情，使其继续任职。",

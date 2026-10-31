@@ -27,11 +27,15 @@ const claims = [
 afterEach(() => { cleanup(); vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 
 describe("H15–H22 Giotto 核心审核与展示边界", () => {
-  it("保留H13/H14文件与审核签名，八题编号、命题和5真3假采用审核原文", () => {
-    for (const [file, hash] of [
-      ["h13", "98e13182ccab82af1f724619354bea154f3751f53f4dd127e70ae7266e345202"],
-      ["h14", "91d5b5760149c5112f23a608f19ddfd07e642000d349ae87a27847f614067e55"],
-    ]) expect(createHash("sha256").update(readFileSync(`data/topics/${file}.json`)).digest("hex")).toBe(hash);
+  it("保留H13/H14原内容与审核签名，仅登记展示审核和作者头像，八题编号、命题和5真3假采用审核原文", () => {
+    for (const [file, hash] of [["h13", "42808b42bf5105393e4f363427d597c1837b1789e845ec2faa7468a1e30b3e42"], ["h14", "7ededc2eea7c35b3f712c98d3c2cd1cbb0f2915c2f8b6b4e6f6e34010a3eda85"]]) {
+      const raw = JSON.parse(readFileSync(`data/topics/${file}.json`, "utf8"));
+      for (const comment of raw.comments) {
+        delete comment.reviewStatus;
+        for (const reply of comment.replies ?? []) delete reply.reviewStatus;
+      }
+      expect(createHash("sha256").update(JSON.stringify(raw)).digest("hex")).toBe(hash);
+    }
     expect(added.map(({ id }) => id)).toEqual(["H15", "H16", "H17", "H18", "H19", "H20", "H21", "H22"]);
     expect(added.map(({ claim }) => claim)).toEqual(claims);
     expect(added.map(({ isTrue }) => isTrue)).toEqual([false, true, true, false, false, true, true, true]);

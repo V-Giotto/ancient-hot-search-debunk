@@ -40,23 +40,43 @@
             "replyTo": "H05-C01",
             "author": "三彩本人在线维权",
             "avatar": "/avatars/pepper.webp",
-            "text": "按这个逻辑，名字里带数字的都得严格按数量交货？"
+            "text": "按这个逻辑，名字里带数字的都得严格按数量交货？",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H05-C01-R2",
             "replyTo": "H05-C01-R1",
             "author": "器物说明书",
             "avatar": "/avatars/hype.webp",
-            "text": "别急着定上限，先把博物馆介绍里的名称解释看完。"
+            "text": "别急着定上限，先把博物馆介绍里的名称解释看完。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H05-C01-R3",
             "replyTo": "H05-C01-R2",
             "author": "三种颜色够用了",
             "avatar": "/avatars/spectator.webp",
-            "text": "那我先放下计数器，免得越数问题越多。"
+            "text": "那我先放下计数器，免得越数问题越多。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           }
-        ]
+        ],
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H05-C02",
@@ -67,7 +87,12 @@
         "simulatedLikes": 587,
         "simulatedReplies": 7,
         "simulatedReposts": 2,
-        "simulatedViews": 4746
+        "simulatedViews": 4746,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H05-C03",
@@ -78,7 +103,12 @@
         "simulatedLikes": 196,
         "simulatedReplies": 8,
         "simulatedReposts": 7,
-        "simulatedViews": 2070
+        "simulatedViews": 2070,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H05-C04",
@@ -89,7 +119,12 @@
         "simulatedLikes": 328,
         "simulatedReplies": 9,
         "simulatedReposts": 4,
-        "simulatedViews": 3055
+        "simulatedViews": 3055,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H05-C05",
@@ -100,7 +135,12 @@
         "simulatedLikes": 536,
         "simulatedReplies": 10,
         "simulatedReposts": 1,
-        "simulatedViews": 4572
+        "simulatedViews": 4572,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H05-C06",
@@ -111,7 +151,12 @@
         "simulatedLikes": 279,
         "simulatedReplies": 11,
         "simulatedReposts": 6,
-        "simulatedViews": 2834
+        "simulatedViews": 2834,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       }
     ],
     "id": "H05",
@@ -122,7 +167,12 @@
     "publishedAt": "2026-10-30T08:01:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "reviewed",
+    "editorialReview": {
+      "status": "reviewed",
+      "reviewer": "Giotto",
+      "reviewedAt": "2026-10-30T22:44:00-07:00"
+    }
   },
   {
     "category": "科技文物",
@@ -165,23 +215,43 @@
             "replyTo": "H06-C01",
             "author": "器物研究员",
             "avatar": "/avatars/reader.webp",
-            "text": "别急着认亲，外形像不像和怎样工作，是两个问题。"
+            "text": "别急着认亲，外形像不像和怎样工作，是两个问题。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H06-C01-R2",
             "replyTo": "H06-C01-R1",
             "author": "楚地贵族生活家",
             "avatar": "/avatars/changan.webp",
-            "text": "就从国博的青铜冰鉴介绍看起，先把内外结构认清，再回来给它起外号。"
+            "text": "就从国博的青铜冰鉴介绍看起，先把内外结构认清，再回来给它起外号。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H06-C01-R3",
             "replyTo": "H06-C01-R2",
             "author": "现代冰箱代言人",
             "avatar": "/avatars/spectator.webp",
-            "text": "明白，认亲仪式暂停，我先看说明书。"
+            "text": "明白，认亲仪式暂停，我先看说明书。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           }
-        ]
+        ],
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H06-C02",
@@ -192,7 +262,12 @@
         "simulatedLikes": 604,
         "simulatedReplies": 8,
         "simulatedReposts": 4,
-        "simulatedViews": 4968
+        "simulatedViews": 4968,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H06-C03",
@@ -203,7 +278,12 @@
         "simulatedLikes": 218,
         "simulatedReplies": 9,
         "simulatedReposts": 2,
-        "simulatedViews": 2327
+        "simulatedViews": 2327,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H06-C04",
@@ -214,7 +294,12 @@
         "simulatedLikes": 315,
         "simulatedReplies": 10,
         "simulatedReposts": 0,
-        "simulatedViews": 3067
+        "simulatedViews": 3067,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H06-C05",
@@ -225,7 +310,12 @@
         "simulatedLikes": 562,
         "simulatedReplies": 11,
         "simulatedReposts": 6,
-        "simulatedViews": 4857
+        "simulatedViews": 4857,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H06-C06",
@@ -236,7 +326,12 @@
         "simulatedLikes": 289,
         "simulatedReplies": 12,
         "simulatedReposts": 4,
-        "simulatedViews": 3007
+        "simulatedViews": 3007,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       }
     ],
     "id": "H06",
@@ -247,7 +342,12 @@
     "publishedAt": "2026-10-30T08:02:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "reviewed",
+    "editorialReview": {
+      "status": "reviewed",
+      "reviewer": "Giotto",
+      "reviewedAt": "2026-10-30T22:44:00-07:00"
+    }
   },
   {
     "category": "古代日常",
@@ -256,7 +356,7 @@
       "牙刷考古",
       "古代生活"
     ],
-    "title": "谁说古人不讲究口腔卫生？这件小东西有点眼熟",
+    "title": "唐代这根骨柄上的小孔，真是给刷毛留的？",
     "coverUrl": "/covers/h08.webp",
     "coverAlt": "唐风角色与带孔骨柄示意卡插画",
     "author": {
@@ -290,23 +390,43 @@
             "replyTo": "H08-C01",
             "author": "文物观察员",
             "avatar": "/avatars/reader.webp",
-            "text": "像是第一印象，用途还得看介绍；也别顺手推成人人都用。"
+            "text": "像是第一印象，用途还得看介绍；也别顺手推成人人都用。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H08-C01-R2",
             "replyTo": "H08-C01-R1",
             "author": "大唐晨间Routine研究所",
             "avatar": "/avatars/changan.webp",
-            "text": "我也是卡在小孔这里，先读博物馆的器物介绍，再补晨间清单。"
+            "text": "我也是卡在小孔这里，先读博物馆的器物介绍，再补晨间清单。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H08-C01-R3",
             "replyTo": "H08-C01-R2",
             "author": "看着很眼熟",
             "avatar": "/avatars/spectator.webp",
-            "text": "收到，我先保留这个猜测，不替整条街安排刷牙。"
+            "text": "收到，我先保留这个猜测，不替整条街安排刷牙。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           }
-        ]
+        ],
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H08-C02",
@@ -317,7 +437,12 @@
         "simulatedLikes": 596,
         "simulatedReplies": 10,
         "simulatedReposts": 0,
-        "simulatedViews": 5118
+        "simulatedViews": 5118,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H08-C03",
@@ -328,7 +453,12 @@
         "simulatedLikes": 204,
         "simulatedReplies": 11,
         "simulatedReposts": 0,
-        "simulatedViews": 2435
+        "simulatedViews": 2435,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H08-C04",
@@ -339,7 +469,12 @@
         "simulatedLikes": 332,
         "simulatedReplies": 12,
         "simulatedReposts": 0,
-        "simulatedViews": 3392
+        "simulatedViews": 3392,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H08-C05",
@@ -350,7 +485,12 @@
         "simulatedLikes": 551,
         "simulatedReplies": 13,
         "simulatedReposts": 0,
-        "simulatedViews": 4986
+        "simulatedViews": 4986,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H08-C06",
@@ -361,7 +501,12 @@
         "simulatedLikes": 287,
         "simulatedReplies": 14,
         "simulatedReposts": 0,
-        "simulatedViews": 3199
+        "simulatedViews": 3199,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       }
     ],
     "id": "H08",
@@ -372,7 +517,12 @@
     "publishedAt": "2026-10-30T08:03:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "reviewed",
+    "editorialReview": {
+      "status": "reviewed",
+      "reviewer": "Giotto",
+      "reviewedAt": "2026-10-30T22:44:00-07:00"
+    }
   },
   {
     "category": "印刷手记",
@@ -415,23 +565,43 @@
             "replyTo": "H10-C01",
             "author": "字块收纳员",
             "avatar": "/avatars/reader.webp",
-            "text": "主意听着不错，可重新组合之前，是不是还得先把字找到？"
+            "text": "主意听着不错，可重新组合之前，是不是还得先把字找到？",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H10-C01-R2",
             "replyTo": "H10-C01-R1",
             "author": "活版手作观察员",
             "avatar": "/avatars/reader.webp",
-            "text": "我也想看制作和排版怎么衔接，先读《梦溪笔谈》，收纳方案别靠脑补。"
+            "text": "我也想看制作和排版怎么衔接，先读《梦溪笔谈》，收纳方案别靠脑补。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H10-C01-R3",
             "replyTo": "H10-C01-R2",
             "author": "一字一块听着靠谱",
             "avatar": "/avatars/spectator.webp",
-            "text": "那我先把教程关掉，给原文留个窗口。"
+            "text": "那我先把教程关掉，给原文留个窗口。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           }
-        ]
+        ],
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H10-C02",
@@ -442,7 +612,12 @@
         "simulatedLikes": 483,
         "simulatedReplies": 12,
         "simulatedReposts": 4,
-        "simulatedViews": 4533
+        "simulatedViews": 4533,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H10-C03",
@@ -453,7 +628,12 @@
         "simulatedLikes": 446,
         "simulatedReplies": 13,
         "simulatedReposts": 6,
-        "simulatedViews": 4335
+        "simulatedViews": 4335,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H10-C04",
@@ -464,7 +644,12 @@
         "simulatedLikes": 409,
         "simulatedReplies": 14,
         "simulatedReposts": 0,
-        "simulatedViews": 4137
+        "simulatedViews": 4137,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H10-C05",
@@ -475,7 +660,12 @@
         "simulatedLikes": 372,
         "simulatedReplies": 15,
         "simulatedReposts": 2,
-        "simulatedViews": 3939
+        "simulatedViews": 3939,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H10-C06",
@@ -486,7 +676,12 @@
         "simulatedLikes": 335,
         "simulatedReplies": 16,
         "simulatedReposts": 4,
-        "simulatedViews": 3741
+        "simulatedViews": 3741,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       }
     ],
     "id": "H10",
@@ -497,7 +692,12 @@
     "publishedAt": "2026-10-30T08:04:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "reviewed",
+    "editorialReview": {
+      "status": "reviewed",
+      "reviewer": "Giotto",
+      "reviewedAt": "2026-10-30T22:44:00-07:00"
+    }
   },
   {
     "category": "语录查证",
@@ -540,23 +740,43 @@
             "replyTo": "H11-C01",
             "author": "不想再被劝大度",
             "avatar": "/avatars/reader.webp",
-            "text": "先别急着换，问答里的署名和截图上的署名得对一对吧？"
+            "text": "先别急着换，问答里的署名和截图上的署名得对一对吧？",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H11-C01-R2",
             "replyTo": "H11-C01-R1",
             "author": "语录转发核对组",
             "avatar": "/avatars/reader.webp",
-            "text": "我也想核对“或曰”到回答这段，截图偏偏把上下文切掉了。"
+            "text": "我也想核对“或曰”到回答这段，截图偏偏把上下文切掉了。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H11-C01-R3",
             "replyTo": "H11-C01-R2",
             "author": "先收进签名库",
             "avatar": "/avatars/spectator.webp",
-            "text": "好，签名先不动，群里的“受教了”也先缓一缓。"
+            "text": "好，签名先不动，群里的“受教了”也先缓一缓。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           }
-        ]
+        ],
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H11-C02",
@@ -567,7 +787,12 @@
         "simulatedLikes": 483,
         "simulatedReplies": 13,
         "simulatedReposts": 6,
-        "simulatedViews": 4636
+        "simulatedViews": 4636,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H11-C03",
@@ -578,7 +803,12 @@
         "simulatedLikes": 446,
         "simulatedReplies": 14,
         "simulatedReposts": 1,
-        "simulatedViews": 4438
+        "simulatedViews": 4438,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H11-C04",
@@ -589,7 +819,12 @@
         "simulatedLikes": 409,
         "simulatedReplies": 15,
         "simulatedReposts": 4,
-        "simulatedViews": 4240
+        "simulatedViews": 4240,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H11-C05",
@@ -600,7 +835,12 @@
         "simulatedLikes": 372,
         "simulatedReplies": 16,
         "simulatedReposts": 7,
-        "simulatedViews": 4042
+        "simulatedViews": 4042,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H11-C06",
@@ -611,7 +851,12 @@
         "simulatedLikes": 335,
         "simulatedReplies": 17,
         "simulatedReposts": 2,
-        "simulatedViews": 3844
+        "simulatedViews": 3844,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       }
     ],
     "id": "H11",
@@ -622,7 +867,12 @@
     "publishedAt": "2026-10-30T08:05:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "reviewed",
+    "editorialReview": {
+      "status": "reviewed",
+      "reviewer": "Giotto",
+      "reviewedAt": "2026-10-30T22:44:00-07:00"
+    }
   },
   {
     "category": "兵书辨名",
@@ -665,23 +915,43 @@
             "replyTo": "H12-C01",
             "author": "名字辨识困难户",
             "avatar": "/avatars/reader.webp",
-            "text": "名字像就合并，那书单也太容易瘦身了，材料还没看呢。"
+            "text": "名字像就合并，那书单也太容易瘦身了，材料还没看呢。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H12-C01-R2",
             "replyTo": "H12-C01-R1",
             "author": "兵书对照读书会",
             "avatar": "/avatars/reader.webp",
-            "text": "今天读书会改成材料核对会，先把银雀山竹简这条线索记下。"
+            "text": "今天读书会改成材料核对会，先把银雀山竹简这条线索记下。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H12-C01-R3",
             "replyTo": "H12-C01-R2",
             "author": "书单合并大师",
             "avatar": "/avatars/spectator.webp",
-            "text": "收到，阅读任务暂缓缩水，书签先分开放。"
+            "text": "收到，阅读任务暂缓缩水，书签先分开放。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           }
-        ]
+        ],
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H12-C02",
@@ -692,7 +962,12 @@
         "simulatedLikes": 483,
         "simulatedReplies": 14,
         "simulatedReposts": 0,
-        "simulatedViews": 4739
+        "simulatedViews": 4739,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H12-C03",
@@ -703,7 +978,12 @@
         "simulatedLikes": 446,
         "simulatedReplies": 15,
         "simulatedReposts": 4,
-        "simulatedViews": 4541
+        "simulatedViews": 4541,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H12-C04",
@@ -714,7 +994,12 @@
         "simulatedLikes": 409,
         "simulatedReplies": 16,
         "simulatedReposts": 0,
-        "simulatedViews": 4343
+        "simulatedViews": 4343,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H12-C05",
@@ -725,7 +1010,12 @@
         "simulatedLikes": 372,
         "simulatedReplies": 17,
         "simulatedReposts": 4,
-        "simulatedViews": 4145
+        "simulatedViews": 4145,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H12-C06",
@@ -736,7 +1026,12 @@
         "simulatedLikes": 335,
         "simulatedReplies": 18,
         "simulatedReposts": 0,
-        "simulatedViews": 3947
+        "simulatedViews": 3947,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       }
     ],
     "id": "H12",
@@ -747,7 +1042,12 @@
     "publishedAt": "2026-10-30T08:06:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "reviewed",
+    "editorialReview": {
+      "status": "reviewed",
+      "reviewer": "Giotto",
+      "reviewedAt": "2026-10-30T22:44:00-07:00"
+    }
   },
   {
     "category": "文人八卦",
@@ -775,74 +1075,108 @@
     "simulatedBookmarks": 137,
     "comments": [
       {
-        "id": "P01-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "本来想吃瓜，结果被迫重读唐诗。",
-        "simulatedLikes": 84,
+        "id": "P01-V282-C01",
+        "author": "杜诗入坑新人",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "诗人写给另一个人的诗，究竟能支持‘相识’还是‘曾经同游’？",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P01-R1",
-            "replyTo": "P01-C1",
+            "id": "P01-V282-C01-R1",
+            "replyTo": "P01-V282-C01",
             "author": "诗坛瓜田管理员",
             "avatar": "/avatars/hype.webp",
-            "text": "先别急着分析关系，把前提放到桌上。"
+            "text": "先找明确写到相处的诗文，再分别说证据强弱。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P01-R2",
-            "replyTo": "P01-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/hype.webp",
-            "text": "瓜没吃完，阅读计划先排上了。"
+            "id": "P01-V282-C01-R2",
+            "replyTo": "P01-V282-C01-R1",
+            "author": "杜诗入坑新人",
+            "avatar": "/avatars/spectator.webp",
+            "text": "行，我那句太忙没空见先撤回成问题。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P01-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/spectator.webp",
-        "role": "history_nerd",
-        "text": "“从未”这么大的范围，真的能靠印象确定吗？",
-        "simulatedLikes": 72
-      },
-      {
-        "id": "P01-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/reader.webp",
-        "role": "spectator",
-        "text": "关系图我先不画了，留张空白等核对。",
-        "simulatedLikes": 60
-      },
-      {
-        "id": "P01-C4",
-        "author": "问题记在纸上",
+        "id": "P01-V282-C02",
+        "author": "诗坛关系图画师",
         "avatar": "/avatars/hype.webp",
-        "role": "in_world",
-        "text": "有人只用没合照来解释，我有点被说服又有点犹豫。",
-        "simulatedLikes": 48
-      },
-      {
-        "id": "P01-C5",
-        "author": "杜诗收藏家",
-        "avatar": "/avatars/reader.webp",
         "role": "history_nerd",
-        "text": "《与李十二白同寻范十隐居》这个标题值得先读一遍，正文也别跳过。",
-        "simulatedLikes": 689,
-        "simulatedReplies": 4,
-        "simulatedReposts": 3,
-        "simulatedViews": 5109
+        "text": "合理想象还不是证据，诗文里的交游线索值得找。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P01-C6",
-        "author": "关系图重画中",
+        "id": "P01-V282-C03",
+        "author": "瓜子快吃完了",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "本来只想吃瓜，现在开始给诗做书签。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P01-V282-C04",
+        "author": "洛阳雅集假如号",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如办诗会，我也不能凭粉丝热度替人排交情。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P01-V282-C05",
+        "author": "诗文阅读慢半拍",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "一句里说到同行，究竟能支持到什么程度？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P01-V282-C06",
+        "author": "朋友关系别脑补",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "“从未”管的是全部交往，不能只挑一段时间来看吧？",
-        "simulatedLikes": 472,
-        "simulatedReplies": 7,
-        "simulatedReposts": 6,
-        "simulatedViews": 3773
+        "text": "就算找到见面的线索，也别编每次见面的私聊。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P01",
@@ -853,7 +1187,12 @@
     "publishedAt": "2026-10-30T09:01:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "文人八卦",
@@ -881,74 +1220,108 @@
     "simulatedBookmarks": 144,
     "comments": [
       {
-        "id": "P02-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "没合照的友情，都要被我的相册除名吗？",
-        "simulatedLikes": 85,
+        "id": "P02-V282-C01",
+        "author": "没有合照就不算见过",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "缺一张合照，友情鉴定怎么过关？",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P02-R1",
-            "replyTo": "P02-C1",
+            "id": "P02-V282-C01-R1",
+            "replyTo": "P02-V282-C01",
             "author": "诗文线索观察员",
             "avatar": "/avatars/hype.webp",
-            "text": "相册标准先暂停，诗文才是这次要看的。"
+            "text": "把证据标准谈清楚，再决定关系图怎么画。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P02-R2",
-            "replyTo": "P02-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/hype.webp",
-            "text": "我的放大镜终于不用盯着照片了。"
+            "id": "P02-V282-C01-R2",
+            "replyTo": "P02-V282-C01-R1",
+            "author": "没有合照就不算见过",
+            "avatar": "/avatars/spectator.webp",
+            "text": "那我暂时辞去合照裁判，文字也算进来。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P02-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/spectator.webp",
-        "role": "history_nerd",
-        "text": "你这标准，古诗选本都得出来申诉。",
-        "simulatedLikes": 73
-      },
-      {
-        "id": "P02-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/reader.webp",
-        "role": "spectator",
-        "text": "我会先读标题，但怕读到一半就下结论。",
-        "simulatedLikes": 61
-      },
-      {
-        "id": "P02-C4",
-        "author": "问题记在纸上",
+        "id": "P02-V282-C02",
+        "author": "古诗读本管理员",
         "avatar": "/avatars/hype.webp",
-        "role": "in_world",
-        "text": "一首诗能证明多少，得看诗里到底写了什么。",
-        "simulatedLikes": 49
-      },
-      {
-        "id": "P02-C5",
-        "author": "杜诗收藏家",
-        "avatar": "/avatars/reader.webp",
         "role": "history_nerd",
-        "text": "《与李十二白同寻范十隐居》这个标题值得先读一遍，正文也别跳过。",
-        "simulatedLikes": 689,
-        "simulatedReplies": 4,
-        "simulatedReposts": 3,
-        "simulatedViews": 5109
+        "text": "别给古人套今天的拍照习惯，文字线索也能考察。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P02-C6",
-        "author": "关系图重画中",
+        "id": "P02-V282-C03",
+        "author": "群相册管理员",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我们同学聚会也常忘拍照，这标准我第一个不服。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P02-V282-C04",
+        "author": "同行地图练习册",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如把诗里地点画出来，哪些能连线还得看文字。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P02-V282-C05",
+        "author": "诗题不等于全诗",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "标题读完了，正文我想再慢慢看。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P02-V282-C06",
+        "author": "会面次数别竞猜",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "“从未”管的是全部交往，不能只挑一段时间来看吧？",
-        "simulatedLikes": 472,
-        "simulatedReplies": 7,
-        "simulatedReposts": 6,
-        "simulatedViews": 3773
+        "text": "这帖问有无交游，不用顺手报一个总次数吧。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P02",
@@ -959,7 +1332,12 @@
     "publishedAt": "2026-10-30T09:02:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代生活",
@@ -987,74 +1365,108 @@
     "simulatedBookmarks": 151,
     "comments": [
       {
-        "id": "P03-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "我和古人的共同语言，可能就从午饭开始。",
-        "simulatedLikes": 86,
+        "id": "P03-V282-C01",
+        "author": "中午困得发慌",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "城里有现成饭食，我知道了；那托别人代买又是另一回事吧？",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P03-R1",
-            "replyTo": "P03-C1",
+            "id": "P03-V282-C01-R1",
+            "replyTo": "P03-V282-C01",
             "author": "汴京午饭困难户",
             "avatar": "/avatars/changan.webp",
-            "text": "今天只解决吃饭范围，界面先不用设计。"
+            "text": "对，先把街头购食和代买送食分别查清，不要合并成现代平台。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P03-R2",
-            "replyTo": "P03-R1",
-            "author": "路过留张书签",
+            "id": "P03-V282-C01-R2",
+            "replyTo": "P03-V282-C01-R1",
+            "author": "中午困得发慌",
             "avatar": "/avatars/spectator.webp",
-            "text": "饭点的问题，总能让人认真读字。"
+            "text": "也是，我是想吃饭，不是先下载软件。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P03-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "先说明白想买什么，别让讨论跟着饿肚子。",
-        "simulatedLikes": 74
-      },
-      {
-        "id": "P03-C3",
-        "author": "路过留张书签",
+        "id": "P03-V282-C02",
+        "author": "宋代小店主假如号",
         "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "没手机就不能买现成饭？我想再想想。",
-        "simulatedLikes": 62
+        "role": "history_nerd",
+        "text": "手机和买饭是两个问题，别让今天的工具替服务设门槛。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P03-C4",
-        "author": "问题记在纸上",
+        "id": "P03-V282-C03",
+        "author": "饭点还在加班",
         "avatar": "/avatars/spectator.webp",
-        "role": "in_world",
-        "text": "锅还没刷，这题已经让我开始研究吃饭了。",
-        "simulatedLikes": 50
+        "role": "spectator",
+        "text": "看了半天讨论，我的午休快结束了。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P03-C5",
-        "author": "严谨的吃货",
+        "id": "P03-V282-C04",
+        "author": "汴京午饭计划本",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如住在那里，我先问哪里买，再问能否托人。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P03-V282-C05",
+        "author": "饭食关键词圈圈",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "购食和代买的文字线索，能分两栏吗？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P03-V282-C06",
+        "author": "店门口等朋友",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "《东京梦华录》可以对照着读；有人代买和手机下单得分开问。",
-        "simulatedLikes": 259,
-        "simulatedReplies": 5,
-        "simulatedReposts": 6,
-        "simulatedViews": 2202
-      },
-      {
-        "id": "P03-C6",
-        "author": "不想洗碗的人",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "大家的午饭想得很周全，我还停在吃完谁洗碗。",
-        "simulatedLikes": 304,
-        "simulatedReplies": 8,
-        "simulatedReposts": 4,
-        "simulatedViews": 2700
+        "text": "只问能不能吃上饭，不急着复刻现代平台。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P03",
@@ -1065,7 +1477,12 @@
     "publishedAt": "2026-10-30T09:03:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代生活",
@@ -1093,74 +1510,108 @@
     "simulatedBookmarks": 158,
     "comments": [
       {
-        "id": "P04-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "谁开始问算法调度，我就得重新画框。",
-        "simulatedLikes": 87,
+        "id": "P04-V282-C01",
+        "author": "探店打卡不看菜单",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "有人替我买饭，那就和平台配送完全一样嘛。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P04-R1",
-            "replyTo": "P04-C1",
+            "id": "P04-V282-C01-R1",
+            "replyTo": "P04-V282-C01",
             "author": "东京食客观察日记",
             "avatar": "/avatars/changan.webp",
-            "text": "先留住问题的边界，别替材料加功能。"
+            "text": "这个类比有趣，原文与后世释读各自说了什么要分开。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P04-R2",
-            "replyTo": "P04-R1",
-            "author": "路过留张书签",
+            "id": "P04-V282-C01-R2",
+            "replyTo": "P04-V282-C01-R1",
+            "author": "探店打卡不看菜单",
             "avatar": "/avatars/spectator.webp",
-            "text": "两个框画完，我的菜单还是空的。"
+            "text": "好，我把完全一样四个字先擦掉。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P04-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "我只关心饭，你们已经聊到界面怎么排了。",
-        "simulatedLikes": 75
-      },
-      {
-        "id": "P04-C3",
-        "author": "路过留张书签",
+        "id": "P04-V282-C02",
+        "author": "现代骑手",
         "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "类比挺方便，范围会不会被顺手扩大？",
-        "simulatedLikes": 63
+        "role": "history_nerd",
+        "text": "派单、付款、配送不能见到买饭两个字就全补上。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P04-C4",
-        "author": "问题记在纸上",
+        "id": "P04-V282-C03",
+        "author": "午饭照片拍糊了",
         "avatar": "/avatars/spectator.webp",
-        "role": "in_world",
-        "text": "买现成饭这件事，值得单独问清楚。",
-        "simulatedLikes": 51
+        "role": "spectator",
+        "text": "你们讨论服务史，我只想知道谁把饭拍这么香。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P04-C5",
-        "author": "严谨的吃货",
+        "id": "P04-V282-C04",
+        "author": "东京食客假想日记",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如写一天吃饭记录，也只能算情境，不能当原始证据。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P04-V282-C05",
+        "author": "原文释读两色笔",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "原文说的和后人解释的，我想用两种颜色记。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P04-V282-C06",
+        "author": "类比别走太远",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "《东京梦华录》可以对照着读；有人代买和手机下单得分开问。",
-        "simulatedLikes": 259,
-        "simulatedReplies": 5,
-        "simulatedReposts": 6,
-        "simulatedViews": 2202
-      },
-      {
-        "id": "P04-C6",
-        "author": "不想洗碗的人",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "大家的午饭想得很周全，我还停在吃完谁洗碗。",
-        "simulatedLikes": 304,
-        "simulatedReplies": 8,
-        "simulatedReposts": 4,
-        "simulatedViews": 2700
+        "text": "外卖这个词方便理解，边界还是得留着。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P04",
@@ -1171,7 +1622,12 @@
     "publishedAt": "2026-10-30T09:04:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代美食",
@@ -1199,74 +1655,108 @@
     "simulatedBookmarks": 165,
     "comments": [
       {
-        "id": "P05-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/pepper.webp",
-        "role": "spectator",
-        "text": "没开火就开始返工，效率也算很高。",
-        "simulatedLikes": 88,
+        "id": "P05-V282-C01",
+        "author": "美食复原新手",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "按今天的辣椒口味做出一锅唐风菜，还能叫历史复原吗？",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P05-R1",
-            "replyTo": "P05-C1",
+            "id": "P05-V282-C01-R1",
+            "replyTo": "P05-V282-C01",
             "author": "长安美食挑战者",
             "avatar": "/avatars/changan.webp",
-            "text": "我先把清单留空，等材料核对完再填。"
+            "text": "能做创意料理，但要称唐代复原，得逐项核对食材年代。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P05-R2",
-            "replyTo": "P05-R1",
-            "author": "路过留张书签",
+            "id": "P05-V282-C01-R2",
+            "replyTo": "P05-V282-C01-R1",
+            "author": "美食复原新手",
             "avatar": "/avatars/spectator.webp",
-            "text": "这次最忙的厨具是笔。"
+            "text": "那袋先留给今天的饭，复原计划慢一步。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P05-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/changan.webp",
+        "id": "P05-V282-C02",
+        "author": "调味料研究员",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "我以为能吃辣，就可以直接放辣椒。",
-        "simulatedLikes": 76
+        "text": "从画的颜色跳到食材年代，采购单是不是走快了？",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P05-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/reader.webp",
-        "role": "spectator",
-        "text": "采购清单比锅先热闹起来了。",
-        "simulatedLikes": 64
-      },
-      {
-        "id": "P05-C4",
-        "author": "问题记在纸上",
+        "id": "P05-V282-C03",
+        "author": "冰箱塞不下了",
         "avatar": "/avatars/spectator.webp",
-        "role": "in_world",
-        "text": "先审食材，再谈风味，顺序安排明白。",
-        "simulatedLikes": 52
-      },
-      {
-        "id": "P05-C5",
-        "author": "配料表阅读员",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "先分清胡椒、花椒和这次问的美洲辣椒，再查各自的材料，别只看一个“辣”字。",
-        "simulatedLikes": 593,
-        "simulatedReplies": 6,
-        "simulatedReposts": 1,
-        "simulatedViews": 4643
-      },
-      {
-        "id": "P05-C6",
-        "author": "只负责涮菜",
-        "avatar": "/avatars/reader.webp",
         "role": "spectator",
-        "text": "香归香，“大唐同款”这几个字我还想多问一句。",
-        "simulatedLikes": 381,
-        "simulatedReplies": 9,
-        "simulatedReposts": 2,
-        "simulatedViews": 3342
+        "text": "我只关心买错的菜还能不能拿来做晚饭。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P05-V282-C04",
+        "author": "长安厨房假如号",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如试做一桌，食材来源先标问号，不靠插画定配方。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P05-V282-C05",
+        "author": "配方截图保存员",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "现代拟制的食谱图可以好看，但参考依据想另看。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P05-V282-C06",
+        "author": "香辛味问题本",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "辣味从哪来和美洲辣椒什么时候出现，我想分别问。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P05",
@@ -1277,7 +1767,12 @@
     "publishedAt": "2026-10-30T09:05:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代美食",
@@ -1296,7 +1791,7 @@
       "avatarUrl": "/avatars/changan.webp",
       "fictitious": true
     },
-    "body": "如果给调料开个群，话题大概会这样走：\n\n花椒：一聊辛辣味，能不能也看看我？\n胡椒：我也想问。\n辣椒：先确认一下，这次聊的是哪个时代？\n管理员：先不争，今天只核对唐代调味里的美洲辣椒主张。名字带不带椒，不能省掉材料这一关。",
+    "body": "假如调料们开了一个跨时代群聊：\n\n花椒：一聊辛辣味，能不能也看看我？\n胡椒：我也想问。\n辣椒：先确认一下，这次聊的是哪个时代？\n管理员：先不争，今天只核对唐代调味里的美洲辣椒主张。名字带不带椒，不能省掉材料这一关。",
     "simulatedHeat": 504000,
     "simulatedViews": 45780,
     "simulatedLikes": 2018,
@@ -1305,74 +1800,108 @@
     "simulatedBookmarks": 172,
     "comments": [
       {
-        "id": "P06-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/pepper.webp",
-        "role": "spectator",
-        "text": "姜：我还在门外，先旁听一下。",
-        "simulatedLikes": 89,
+        "id": "P06-V282-C01",
+        "author": "辣椒入群申请中",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "群名写大唐，我直接按同意入群了。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P06-R1",
-            "replyTo": "P06-C1",
+            "id": "P06-V282-C01-R1",
+            "replyTo": "P06-V282-C01",
             "author": "调料聊天管理员",
             "avatar": "/avatars/changan.webp",
-            "text": "先让问题进群，调料暂时别抢答。"
+            "text": "保留假如的玩法，真正要核的是唐代与美洲辣椒的关系。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P06-R2",
-            "replyTo": "P06-R1",
-            "author": "路过留张书签",
+            "id": "P06-V282-C01-R2",
+            "replyTo": "P06-V282-C01-R1",
+            "author": "辣椒入群申请中",
             "avatar": "/avatars/spectator.webp",
-            "text": "群公告写好了：打开配料表。"
+            "text": "收到，群管理员不能兼职历史证明人。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P06-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/changan.webp",
+        "id": "P06-V282-C02",
+        "author": "姜本人假如号",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "群名该叫配料核对，别叫谁最能辣。",
-        "simulatedLikes": 77
+        "text": "这是个假如的群聊，入群笑话可不能给食材断代。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P06-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/reader.webp",
-        "role": "spectator",
-        "text": "我先按现代习惯猜，感觉可能踩坑。",
-        "simulatedLikes": 65
-      },
-      {
-        "id": "P06-C4",
-        "author": "问题记在纸上",
+        "id": "P06-V282-C03",
+        "author": "调料柜快关不上",
         "avatar": "/avatars/spectator.webp",
-        "role": "in_world",
-        "text": "时间线不问，群聊很容易聊成一锅。",
-        "simulatedLikes": 53
-      },
-      {
-        "id": "P06-C5",
-        "author": "配料表阅读员",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "先分清胡椒、花椒和这次问的美洲辣椒，再查各自的材料，别只看一个“辣”字。",
-        "simulatedLikes": 593,
-        "simulatedReplies": 6,
-        "simulatedReposts": 1,
-        "simulatedViews": 4643
-      },
-      {
-        "id": "P06-C6",
-        "author": "只负责涮菜",
-        "avatar": "/avatars/reader.webp",
         "role": "spectator",
-        "text": "香归香，“大唐同款”这几个字我还想多问一句。",
-        "simulatedLikes": 381,
-        "simulatedReplies": 9,
-        "simulatedReposts": 2,
-        "simulatedViews": 3342
+        "text": "你们群聊吵架，我家调料已经在争收纳格。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P06-V282-C04",
+        "author": "花椒想象小号",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如轮到我发言，我先问群里的年代牌谁挂的。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P06-V282-C05",
+        "author": "菜单群聊旁听",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "聊天图可以接梗，历史问题得另找材料。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P06-V282-C06",
+        "author": "食谱穿帮捕捉员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "美洲辣椒这个限定别丢，不然容易聊成所有辣味。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P06",
@@ -1383,7 +1912,12 @@
     "publishedAt": "2026-10-30T09:06:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代商业",
@@ -1411,74 +1945,108 @@
     "simulatedBookmarks": 179,
     "comments": [
       {
-        "id": "P07-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "肩膀已经准备投赞成，脑子说等一下。",
-        "simulatedLikes": 90,
+        "id": "P07-V282-C01",
+        "author": "肩膀申请减负",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "纸一轻，所有人肯定就抢着换了吧。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P07-R1",
-            "replyTo": "P07-C1",
+            "id": "P07-V282-C01-R1",
+            "replyTo": "P07-V282-C01",
             "author": "钱袋负重训练员",
             "avatar": "/avatars/hype.webp",
-            "text": "先解决肯不肯收，再讨论怎么装。"
+            "text": "钱包减重还得过信任这一关，先后阶段也要留出来。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P07-R2",
-            "replyTo": "P07-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/hype.webp",
-            "text": "钱袋暂时保留岗位，等核对。"
+            "id": "P07-V282-C01-R2",
+            "replyTo": "P07-V282-C01-R1",
+            "author": "肩膀申请减负",
+            "avatar": "/avatars/spectator.webp",
+            "text": "那我先不给所有人代签同意书。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P07-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
+        "id": "P07-V282-C02",
+        "author": "成都行商假如号",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "纸轻我信，但我想先看凭据。",
-        "simulatedLikes": 78
+        "text": "假如我做买卖，除了轻，还得问对方肯不肯收。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P07-C3",
-        "author": "路过留张书签",
+        "id": "P07-V282-C03",
+        "author": "零钱包拉链坏了",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "我的钱包首先需要解决里面有没有钱。",
-        "simulatedLikes": 66
+        "text": "每天整理零钱，突然理解了减重的诱惑。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P07-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/hype.webp",
+        "id": "P07-V282-C04",
+        "author": "信用栏还没填",
+        "avatar": "/avatars/pepper.webp",
         "role": "in_world",
-        "text": "这张纸到底对应什么，不能只看图猜。",
-        "simulatedLikes": 54
+        "text": "谁担保、怎么兑，两个空格都不能省。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P07-C5",
-        "author": "历史财经博主",
+        "id": "P07-V282-C05",
+        "author": "发行时间对照本",
         "avatar": "/avatars/spectator.webp",
-        "role": "history_nerd",
-        "text": "民间交子和官交子的时间线得分开看，别把两个阶段混成一次发明。",
-        "simulatedLikes": 367,
-        "simulatedReplies": 7,
-        "simulatedReposts": 4,
-        "simulatedViews": 3164
+        "role": "spectator",
+        "text": "不同阶段的做法别压成同一天发生。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P07-C6",
-        "author": "收款前再想想",
-        "avatar": "/avatars/changan.webp",
+        "id": "P07-V282-C06",
+        "author": "票据设计看热闹",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "我更想核对的不是纸多轻，而是这张纸为什么会被接受。",
-        "simulatedLikes": 286,
-        "simulatedReplies": 10,
-        "simulatedReposts": 0,
-        "simulatedViews": 2780
+        "text": "图案好不好看不能证明能不能换到东西。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P07",
@@ -1489,7 +2057,12 @@
     "publishedAt": "2026-10-30T09:07:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代商业",
@@ -1517,74 +2090,108 @@
     "simulatedBookmarks": 186,
     "comments": [
       {
-        "id": "P08-C1",
-        "author": "读到这里想一想",
-        "avatar": "/avatars/changan.webp",
-        "role": "spectator",
-        "text": "我以前把纸币一概想成很晚的事。",
-        "simulatedLikes": 91,
+        "id": "P08-V282-C01",
+        "author": "纸币收藏新手",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "网上这张交子图，我准备当存世实物图收藏。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P08-R1",
-            "replyTo": "P08-C1",
+            "id": "P08-V282-C01-R1",
+            "replyTo": "P08-V282-C01",
             "author": "古代财经读书角",
             "avatar": "/avatars/hype.webp",
-            "text": "先核对北宋有没有，再把阶段慢慢理清。"
+            "text": "这帖的重点是交子的出现，具体形制不凭网图复原。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P08-R2",
-            "replyTo": "P08-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/hype.webp",
-            "text": "我的记账本多了一栏：还要查。"
+            "id": "P08-V282-C01-R2",
+            "replyTo": "P08-V282-C01-R1",
+            "author": "纸币收藏新手",
+            "avatar": "/avatars/spectator.webp",
+            "text": "好，我给那张图先补一个来源待查。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P08-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
+        "id": "P08-V282-C02",
+        "author": "史料阅读者",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "别看一张图就把票面也认定了吧。",
-        "simulatedLikes": 79
+        "text": "先问图的出处和性质，示意图不能直接当实物照。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P08-C3",
-        "author": "路过留张书签",
+        "id": "P08-V282-C03",
+        "author": "相册分组强迫症",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "记账本已经翻开，知识账还没对上。",
-        "simulatedLikes": 67
+        "text": "我得新建一栏了，不然照片和想象图全混着。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P08-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/hype.webp",
+        "id": "P08-V282-C04",
+        "author": "纸票画稿练习生",
+        "avatar": "/avatars/pepper.webp",
         "role": "in_world",
-        "text": "两个阶段分开，应该比较不容易绕晕。",
-        "simulatedLikes": 55
+        "text": "假如画一张封面，也不能替文物造一个确定长相。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P08-C5",
-        "author": "历史财经博主",
+        "id": "P08-V282-C05",
+        "author": "书页边的问号",
         "avatar": "/avatars/spectator.webp",
-        "role": "history_nerd",
-        "text": "民间交子和官交子的时间线得分开看，别把两个阶段混成一次发明。",
-        "simulatedLikes": 367,
-        "simulatedReplies": 7,
-        "simulatedReposts": 4,
-        "simulatedViews": 3164
+        "role": "spectator",
+        "text": "出现纸币和今天能看到什么实物，是不是两件事？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P08-C6",
-        "author": "收款前再想想",
-        "avatar": "/avatars/changan.webp",
+        "id": "P08-V282-C06",
+        "author": "货币常识暂停键",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "我更想核对的不是纸多轻，而是这张纸为什么会被接受。",
-        "simulatedLikes": 286,
-        "simulatedReplies": 10,
-        "simulatedReposts": 0,
-        "simulatedViews": 2780
+        "text": "先把朋友那句常识写成问题，别急着转给下一群。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P08",
@@ -1595,7 +2202,12 @@
     "publishedAt": "2026-10-30T09:08:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "科技文物",
@@ -1623,74 +2235,108 @@
     "simulatedBookmarks": 193,
     "comments": [
       {
-        "id": "P09-C1",
-        "author": "读到这里想一想",
+        "id": "P09-V282-C01",
+        "author": "三色限定粉",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "调色盘：岗位还没分完，就被要求缩编。",
-        "simulatedLikes": 92,
+        "role": "troll",
+        "text": "馆里看着是一个色，回家翻照片又变了；我数的是釉色还是灯光？",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P09-R1",
-            "replyTo": "P09-C1",
+            "id": "P09-V282-C01-R1",
+            "replyTo": "P09-V282-C01",
             "author": "古代时尚观察室",
             "avatar": "/avatars/pepper.webp",
-            "text": "先统一数什么，免得各数各的。"
+            "text": "展柜光线和器物釉色需要分开，颜色数量还得看专业说明。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P09-R2",
-            "replyTo": "P09-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "我的色卡暂时没有被没收，松口气。"
+            "id": "P09-V282-C01-R2",
+            "replyTo": "P09-V282-C01-R1",
+            "author": "三色限定粉",
+            "avatar": "/avatars/spectator.webp",
+            "text": "我的三色购物车先暂停付款。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P09-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "命名不是数学题，数字能直接列等式吗？",
-        "simulatedLikes": 80
-      },
-      {
-        "id": "P09-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "我先按三种猜，理由就是名字够直白。",
-        "simulatedLikes": 68
-      },
-      {
-        "id": "P09-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "单件和类别总得先分清，再开始数吧。",
-        "simulatedLikes": 56
-      },
-      {
-        "id": "P09-C5",
-        "author": "器物说明书",
+        "id": "P09-V282-C02",
+        "author": "看过国博展的",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "国博和故宫的器物介绍都可以对照着看，先读说明，再回来数。",
-        "simulatedLikes": 196,
-        "simulatedReplies": 8,
-        "simulatedReposts": 7,
-        "simulatedViews": 2070
+        "text": "先看器物和名称怎么解释，别只按字面给颜色设上限。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P09-C6",
-        "author": "颜色还没数完",
+        "id": "P09-V282-C03",
+        "author": "穿搭选色困难户",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我搭三种都嫌乱，这楼怎么越看越复杂。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P09-V282-C04",
+        "author": "古代衣柜假如号",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如给文物做穿搭测评，也不能拿现代配色规则当古制。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P09-V282-C05",
+        "author": "釉面反光观察簿",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "照片上的光影和真正釉色，我想分清再数。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P09-V282-C06",
+        "author": "展签名称慢读员",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "数的是名字、单件器物，还是整个类别？大家先统一题目吧。",
-        "simulatedLikes": 279,
-        "simulatedReplies": 11,
-        "simulatedReposts": 6,
-        "simulatedViews": 2834
+        "text": "今天怎么叫这类器物，不一定等于古人如何自称。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P09",
@@ -1701,7 +2347,12 @@
     "publishedAt": "2026-10-30T09:09:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "科技文物",
@@ -1729,74 +2380,108 @@
     "simulatedBookmarks": 200,
     "comments": [
       {
-        "id": "P10-C1",
-        "author": "读到这里想一想",
+        "id": "P10-V282-C01",
+        "author": "博物馆猜谜玩家",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "我第一反应是收纳盒，先别笑我。",
-        "simulatedLikes": 93,
+        "role": "troll",
+        "text": "我猜就是套盒，里面那件只为了好收纳。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P10-R1",
-            "replyTo": "P10-C1",
+            "id": "P10-V282-C01-R1",
+            "replyTo": "P10-V282-C01",
             "author": "博物馆结构观察员",
             "avatar": "/avatars/changan.webp",
-            "text": "收纳盒这个猜法先保留，等说明来检验。"
+            "text": "猜想可以留着，等结构核对完再决定它能不能站住。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P10-R2",
-            "replyTo": "P10-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "猜错也没事，至少开始仔细看了。"
+            "id": "P10-V282-C01-R2",
+            "replyTo": "P10-V282-C01-R1",
+            "author": "博物馆猜谜玩家",
+            "avatar": "/avatars/spectator.webp",
+            "text": "收纳器这个答案先放回候选，不抢答了。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P10-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "中间的空隙，总不能只靠好看解释吧。",
-        "simulatedLikes": 81
-      },
-      {
-        "id": "P10-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "猜用途比猜名字难，我先盯着结构。",
-        "simulatedLikes": 69
-      },
-      {
-        "id": "P10-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "如果和降温有关，我想知道怎么放。",
-        "simulatedLikes": 57
-      },
-      {
-        "id": "P10-C5",
+        "id": "P10-V282-C02",
         "author": "冷饮爱好者",
         "avatar": "/avatars/hype.webp",
-        "role": "in_world",
-        "text": "如果和降温有关，冰块放哪里，酒又放哪里？我想先找张结构图。",
-        "simulatedLikes": 218,
-        "simulatedReplies": 9,
-        "simulatedReposts": 2,
-        "simulatedViews": 2327
+        "role": "history_nerd",
+        "text": "只凭套着就定用途有点快，内外结构也要看。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P10-C6",
-        "author": "不想给它插电",
+        "id": "P10-V282-C03",
+        "author": "一边看展一边口渴",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "看到“冰箱”两个字就想找电线，这个习惯得先停一下。",
-        "simulatedLikes": 289,
-        "simulatedReplies": 12,
-        "simulatedReposts": 4,
-        "simulatedViews": 3007
+        "text": "猜了半天更想喝冰饮了。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P10-V282-C04",
+        "author": "青铜结构假想台",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如能看剖面，哪些空间相通、哪些分开会更清楚。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P10-V282-C05",
+        "author": "器名又读错了",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "外面和里面叫什么，能不能对着图记一次？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P10-V282-C06",
+        "author": "展柜边蹲下看",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "观察角度换了，刚才猜的轮廓又不像了。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P10",
@@ -1807,7 +2492,12 @@
     "publishedAt": "2026-10-30T09:10:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代体育",
@@ -1826,7 +2516,7 @@
       "avatarUrl": "/avatars/hype.webp",
       "fictitious": true
     },
-    "body": "假如给球迷开个讨论串：\n\n宋代球迷：蹴鞠这么有名，起源我也想填宋代。\n另一位球迷：先别用名气给起点排座位吧。\n看台观众：比赛我会看，文字记载我还得读。\n主持人：今天只问蹴鞠是不是始创于宋代。发言可以热闹，判断得回到材料。",
+    "body": "假如不同时代的球迷同场聊球：\n\n宋代球迷：蹴鞠这么有名，起源我也想填宋代。\n另一位球迷：先别用名气给起点排座位吧。\n看台观众：比赛我会看，文字记载我还得读。\n主持人：今天只问蹴鞠是不是始创于宋代。发言可以热闹，判断得回到材料。",
     "simulatedHeat": 424000,
     "simulatedViews": 43930,
     "simulatedLikes": 1783,
@@ -1835,74 +2525,108 @@
     "simulatedBookmarks": 207,
     "comments": [
       {
-        "id": "P11-C1",
-        "author": "读到这里想一想",
+        "id": "P11-V282-C01",
+        "author": "宋代主场球迷",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "球还没开踢，历史资格赛先开始了。",
-        "simulatedLikes": 94,
+        "role": "troll",
+        "text": "主场最热闹，起源署名也该归主场吧。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P11-R1",
-            "replyTo": "P11-C1",
+            "id": "P11-V282-C01-R1",
+            "replyTo": "P11-V282-C01",
             "author": "球场话题观察员",
             "avatar": "/avatars/hype.webp",
-            "text": "看台声音可以大，核对时还是要读字。"
+            "text": "这串假如的球迷对话可以玩，历史主张还得单独判断。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P11-R2",
-            "replyTo": "P11-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "我把加油声先换成翻书声。"
+            "id": "P11-V282-C01-R2",
+            "replyTo": "P11-V282-C01-R1",
+            "author": "宋代主场球迷",
+            "avatar": "/avatars/spectator.webp",
+            "text": "行，主场音量先不计入起源积分。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P11-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "流行程度和起源别填同一张表。",
-        "simulatedLikes": 82
-      },
-      {
-        "id": "P11-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "我承认自己是按最有名的时代猜的。",
-        "simulatedLikes": 70
-      },
-      {
-        "id": "P11-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "先不抢署名，谁有材料就先看谁的。",
-        "simulatedLikes": 58
-      },
-      {
-        "id": "P11-C5",
-        "author": "时间线球迷",
+        "id": "P11-V282-C02",
+        "author": "球场话题旁听员",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "《史记·苏秦列传》可以加入核对清单，先读原文，再排时间线。",
-        "simulatedLikes": 209,
-        "simulatedReplies": 10,
-        "simulatedReposts": 5,
-        "simulatedViews": 2367
+        "text": "热闹与始创不是一项统计，先别拿人气作证。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P11-C6",
-        "author": "看台最后一排",
+        "id": "P11-V282-C03",
+        "author": "看台零食管理员",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "“有名”这张票我有，“始创”那张谁给补个检票规则？",
-        "simulatedLikes": 281,
-        "simulatedReplies": 13,
-        "simulatedReposts": 2,
-        "simulatedViews": 3054
+        "text": "球还没踢，瓜子已经补了两轮。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P11-V282-C04",
+        "author": "跨朝球迷假如号",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如各朝球迷同场，只能算跨朝代戏仿吧。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P11-V282-C05",
+        "author": "体育史问题框",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "蹴鞠这个题目别突然换成现代足球独占起源。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P11-V282-C06",
+        "author": "起源判据草稿纸",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "要认始创，需要看到什么材料？我想听证据标准。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P11",
@@ -1913,7 +2637,12 @@
     "publishedAt": "2026-10-30T09:11:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代体育",
@@ -1941,74 +2670,108 @@
     "simulatedBookmarks": 214,
     "comments": [
       {
-        "id": "P12-C1",
-        "author": "读到这里想一想",
+        "id": "P12-V282-C01",
+        "author": "十秒抢答者",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "我以为来学体育，结果还得读逻辑。",
-        "simulatedLikes": 95,
+        "role": "troll",
+        "text": "宋代蹴鞠出名，我差点没看完就点了。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P12-R1",
-            "replyTo": "P12-C1",
+            "id": "P12-V282-C01-R1",
+            "replyTo": "P12-V282-C01",
             "author": "体育史十秒挑战",
             "avatar": "/avatars/hype.webp",
-            "text": "题面只盯“始创”这个词，先选再看。"
+            "text": "提交前读准主张，直觉快也得让问题说完。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P12-R2",
-            "replyTo": "P12-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "抢答铃放下了，这次慢慢读。"
+            "id": "P12-V282-C01-R2",
+            "replyTo": "P12-V282-C01-R1",
+            "author": "十秒抢答者",
+            "avatar": "/avatars/spectator.webp",
+            "text": "手指收回来了，这题给眼睛多两秒。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P12-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "名气这么大，直觉就替我把时代填上了。",
-        "simulatedLikes": 83
-      },
-      {
-        "id": "P12-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "起点和高光时刻，可能得各写一栏。",
-        "simulatedLikes": 71
-      },
-      {
-        "id": "P12-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "先别暗示答案，让我自己试一次。",
-        "simulatedLikes": 59
-      },
-      {
-        "id": "P12-C5",
-        "author": "时间线球迷",
+        "id": "P12-V282-C02",
+        "author": "体育历史老师假如号",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "《史记·苏秦列传》可以加入核对清单，先读原文，再排时间线。",
-        "simulatedLikes": 209,
-        "simulatedReplies": 10,
-        "simulatedReposts": 5,
-        "simulatedViews": 2367
+        "text": "出名和始创不是一个词，题干最后两个字再看一次。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P12-C6",
-        "author": "看台最后一排",
+        "id": "P12-V282-C03",
+        "author": "手速比脑快",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "“有名”这张票我有，“始创”那张谁给补个检票规则？",
-        "simulatedLikes": 281,
-        "simulatedReplies": 13,
-        "simulatedReposts": 2,
-        "simulatedViews": 3054
+        "text": "我连题还没读完，手指就悬上去了。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P12-V282-C04",
+        "author": "计时器暂停一下",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如只留十秒，也该先把要判断的主张划出来。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P12-V282-C05",
+        "author": "名气排行榜观众",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "排行榜能说明人气，能直接说明最早出现吗？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P12-V282-C06",
+        "author": "题干逐字读",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "我只圈始创，不替没读到的史料猜年代。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P12",
@@ -2019,7 +2782,12 @@
     "publishedAt": "2026-10-30T09:12:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "古代日常",
@@ -2047,74 +2815,108 @@
     "simulatedBookmarks": 221,
     "comments": [
       {
-        "id": "P13-C1",
-        "author": "读到这里想一想",
+        "id": "P13-V282-C01",
+        "author": "旅行清单编辑",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "穿越清单写到这里，我也停住了。",
-        "simulatedLikes": 96,
+        "role": "troll",
+        "text": "骨柄看着眼熟，我给所有唐人都配一支吧。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P13-R1",
-            "replyTo": "P13-C1",
+            "id": "P13-V282-C01-R1",
+            "replyTo": "P13-V282-C01",
             "author": "穿越生活提问员",
             "avatar": "/avatars/changan.webp",
-            "text": "清单上先写个问号，别急着打包。"
+            "text": "这份假如的生活清单只借器物提问，不替所有唐人配日用品。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P13-R2",
-            "replyTo": "P13-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "行李还没收，待阅读页面先收好了。"
+            "id": "P13-V282-C01-R2",
+            "replyTo": "P13-V282-C01-R1",
+            "author": "旅行清单编辑",
+            "avatar": "/avatars/spectator.webp",
+            "text": "好，批量采购按钮先关掉。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P13-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "存在和普及是两步，别一起打勾。",
-        "simulatedLikes": 84
-      },
-      {
-        "id": "P13-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "我想先按现代牙刷猜用途，会不会太快？",
-        "simulatedLikes": 72
-      },
-      {
-        "id": "P13-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "先看器物，再替生活清单填字。",
-        "simulatedLikes": 60
-      },
-      {
-        "id": "P13-C5",
-        "author": "认真研究小孔",
+        "id": "P13-V282-C02",
+        "author": "器物研究生",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "成都中医药大学博物馆有器物资料，小孔用途这一项我想先对上。",
-        "simulatedLikes": 204,
-        "simulatedReplies": 11,
-        "simulatedReposts": 0,
-        "simulatedViews": 2435
+        "text": "一件器物和普及到每个人，中间还有证据距离。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P13-C6",
-        "author": "牙杯还没摆好",
+        "id": "P13-V282-C03",
+        "author": "洗漱包忘带了",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "大家讨论到唐代了，我今天的起床进度还没跟上。",
-        "simulatedLikes": 287,
-        "simulatedReplies": 14,
-        "simulatedReposts": 0,
-        "simulatedViews": 3199
+        "text": "出门最怕漏牙刷，这份清单我看得很认真。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P13-V282-C04",
+        "author": "唐朝旅行假如号",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如穿越的清单只是情境，别当成古代生活实录。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P13-V282-C05",
+        "author": "小孔排列好奇者",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我想先看柄上孔的位置和展签解释。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P13-V282-C06",
+        "author": "背包减重日记",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "证据没到的生活细节，清单里先留问号。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P13",
@@ -2125,7 +2927,12 @@
     "publishedAt": "2026-10-30T09:13:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "城市守望",
@@ -2153,74 +2960,108 @@
     "simulatedBookmarks": 228,
     "comments": [
       {
-        "id": "P14-C1",
-        "author": "读到这里想一想",
+        "id": "P14-V282-C01",
+        "author": "东京街坊假如号",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "发现和处理，确实不能混成一个动作。",
-        "simulatedLikes": 97,
+        "role": "troll",
+        "text": "如果我真是东京街坊，发现起火应该向哪里报？谁能听到？",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P14-R1",
-            "replyTo": "P14-C1",
+            "id": "P14-V282-C01-R1",
+            "replyTo": "P14-V282-C01",
             "author": "东京街巷提问员",
             "avatar": "/avatars/reader.webp",
-            "text": "先把发现之后的问号留住，再找记载。"
+            "text": "这是假设情境，能够核实的仍是史料中的值守和处置安排。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P14-R2",
-            "replyTo": "P14-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "这次我的问题终于从楼顶走下来了。"
+            "id": "P14-V282-C01-R2",
+            "replyTo": "P14-V282-C01-R1",
+            "author": "东京街坊假如号",
+            "avatar": "/avatars/spectator.webp",
+            "text": "我先不画只有一个瞭望人的简图了。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P14-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "我以前听见楼名，就只想到楼顶。",
-        "simulatedLikes": 85
-      },
-      {
-        "id": "P14-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "问题写到楼下，才发现自己没问完整。",
-        "simulatedLikes": 73
-      },
-      {
-        "id": "P14-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "别凭名字替所有岗位安排工作吧。",
-        "simulatedLikes": 61
-      },
-      {
-        "id": "P14-C5",
-        "author": "古籍检索员",
+        "id": "P14-V282-C02",
+        "author": "应急研究员",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "《东京梦华录》里有值得核对的细节，别只看示意图，楼上楼下分开读。",
-        "simulatedLikes": 446,
-        "simulatedReplies": 12,
-        "simulatedReposts": 3,
-        "simulatedViews": 4232
+        "text": "发现火情和实际处置得接起来，别漏掉后一步。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P14-C6",
-        "author": "东京散步中",
+        "id": "P14-V282-C03",
+        "author": "小区演习刚回来",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "本来想认一座楼，结果带着一张楼层功能表回来了。",
-        "simulatedLikes": 335,
-        "simulatedReplies": 15,
-        "simulatedReposts": 6,
-        "simulatedViews": 3638
+        "text": "我们排队走楼梯都能卡住，看到这题开始认真了。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P14-V282-C04",
+        "author": "火情路线草稿",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如住在那里，我会先找谁能响应，再谈路线。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P14-V282-C05",
+        "author": "楼顶楼下两栏表",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我把人员、器具和观察位置分栏，免得只盯楼高。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P14-V282-C06",
+        "author": "古今类比慢一点",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "能类比某些功能，不代表古今组织整套相同。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P14",
@@ -2231,7 +3072,12 @@
     "publishedAt": "2026-10-30T09:14:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "城市守望",
@@ -2259,74 +3105,108 @@
     "simulatedBookmarks": 235,
     "comments": [
       {
-        "id": "P15-C1",
-        "author": "读到这里想一想",
+        "id": "P15-V282-C01",
+        "author": "古建筑手绘师",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "从楼名猜用途，是我读建筑的偷懒方式。",
-        "simulatedLikes": 98,
+        "role": "troll",
+        "text": "楼的外形画出来了，可站岗的人、楼下器具怎么画才不乱编？",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "P15-R1",
-            "replyTo": "P15-C1",
+            "id": "P15-V282-C01-R1",
+            "replyTo": "P15-V282-C01",
             "author": "古建筑阅读角",
             "avatar": "/avatars/reader.webp",
-            "text": "两栏先都留着，没材料的地方不硬填。"
+            "text": "把建筑本体和有文字依据的人员器具分开画。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "P15-R2",
-            "replyTo": "P15-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "空白保留，比我凭感觉补全强。"
+            "id": "P15-V282-C01-R2",
+            "replyTo": "P15-V282-C01-R1",
+            "author": "古建筑手绘师",
+            "avatar": "/avatars/spectator.webp",
+            "text": "我那张只有瞭望箭头的图先不交稿。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P15-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "只问发现，不问处理，好像还差一半。",
-        "simulatedLikes": 86
-      },
-      {
-        "id": "P15-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "笔记本终于不用只画屋顶了。",
-        "simulatedLikes": 74
-      },
-      {
-        "id": "P15-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "图能帮助想象，具体安排还得看记载。",
-        "simulatedLikes": 62
-      },
-      {
-        "id": "P15-C5",
-        "author": "古籍检索员",
+        "id": "P15-V282-C02",
+        "author": "东京防火史读者",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "《东京梦华录》里有值得核对的细节，别只看示意图，楼上楼下分开读。",
-        "simulatedLikes": 446,
-        "simulatedReplies": 12,
-        "simulatedReposts": 3,
-        "simulatedViews": 4232
+        "text": "名字未必包办全部功能，人员与器具的记载也要看。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "P15-C6",
-        "author": "东京散步中",
+        "id": "P15-V282-C03",
+        "author": "楼下住户有点急",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "本来想认一座楼，结果带着一张楼层功能表回来了。",
-        "simulatedLikes": 335,
-        "simulatedReplies": 15,
-        "simulatedReposts": 6,
-        "simulatedViews": 3638
+        "text": "发现火和有人赶来之间，我最关心后半段。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P15-V282-C04",
+        "author": "建筑功能假想簿",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如画一张功能图，楼体和处置人员各有一栏。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P15-V282-C05",
+        "author": "图纸边缘添一笔",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "别光画漂亮屋顶，楼下空间也想看看。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "P15-V282-C06",
+        "author": "文字说明找漏项",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "先把能对应到文字的功能标出来，没依据的不补。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "id": "P15",
@@ -2337,7 +3217,12 @@
     "publishedAt": "2026-10-30T09:15:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "印刷手记",
@@ -2365,74 +3250,108 @@
     "simulatedBookmarks": 242,
     "comments": [
       {
-        "id": "P16-C1",
-        "author": "读到这里想一想",
+        "id": "P16-V282-C01",
+        "author": "活字手作新手",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "你负责研究，我负责隔空表示支持。",
-        "simulatedLikes": 99,
+        "role": "troll",
+        "text": "做错一个字，我怕整版都得重新来。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P16-R1",
-            "replyTo": "P16-C1",
+            "id": "P16-V282-C01-R1",
+            "replyTo": "P16-V282-C01",
             "author": "手工区慢慢来",
             "avatar": "/avatars/reader.webp",
-            "text": "还没开工，先把能确定的部分读完。"
+            "text": "先读懂已经核过的文字步骤，再决定手作挑战能做哪一段。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P16-R2",
-            "replyTo": "P16-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "本次手作成果：一页问号。"
+            "id": "P16-V282-C01-R2",
+            "replyTo": "P16-V282-C01-R1",
+            "author": "活字手作新手",
+            "avatar": "/avatars/spectator.webp",
+            "text": "好，我先不扔整版，问题再拆小一点。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P16-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "我第一反应是太麻烦，这样想会不会漏了好处？",
-        "simulatedLikes": 87
-      },
-      {
-        "id": "P16-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "桌上最先做好的，是问题清单。",
-        "simulatedLikes": 75
-      },
-      {
-        "id": "P16-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "工艺别凭脑补，先把原有步骤读清楚。",
-        "simulatedLikes": 63
-      },
-      {
-        "id": "P16-C5",
-        "author": "读过梦溪笔谈",
+        "id": "P16-V282-C02",
+        "author": "印版观察者",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "别急着脑补整套工厂流程，沈括《梦溪笔谈》的记载可以先看。",
-        "simulatedLikes": 446,
-        "simulatedReplies": 13,
-        "simulatedReposts": 6,
-        "simulatedViews": 4335
+        "text": "先分清一个字块和整版的关系，别把步骤混在一起。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P16-C6",
-        "author": "印版观察中",
+        "id": "P16-V282-C03",
+        "author": "手工区慢慢来观众",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我还卡在桌面清空，工具都没拿出来。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P16-V282-C04",
+        "author": "排版台假如练习",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如照图开工，也不能替原文增加胶水配方吧。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P16-V282-C05",
+        "author": "原文步骤荧光笔",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我想把文字真正提到的操作圈出来。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P16-V282-C06",
+        "author": "手作视频暂停党",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "制作和排版到底怎么衔接？我想把这两步分开读，先不猜工艺。",
-        "simulatedLikes": 335,
-        "simulatedReplies": 16,
-        "simulatedReposts": 4,
-        "simulatedViews": 3741
+        "text": "视频里的设备细节不少，哪些有依据我还没看明白。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P16",
@@ -2443,7 +3362,12 @@
     "publishedAt": "2026-10-30T09:16:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "语录查证",
@@ -2471,74 +3395,108 @@
     "simulatedBookmarks": 249,
     "comments": [
       {
-        "id": "P17-C1",
-        "author": "读到这里想一想",
+        "id": "P17-V282-C01",
+        "author": "家族群潜水者",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "先说“我找到原文了”，听起来比较好接话。",
-        "simulatedLikes": 100,
+        "role": "troll",
+        "text": "转发卡有孔子头像，我就不敢再问了。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P17-R1",
-            "replyTo": "P17-C1",
+            "id": "P17-V282-C01-R1",
+            "replyTo": "P17-V282-C01",
             "author": "家族群考据专员",
             "avatar": "/avatars/reader.webp",
-            "text": "我先练习把上下文说完整，语气慢一点。"
+            "text": "我准备以请教的语气发上下文，不替长辈下结论。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P17-R2",
-            "replyTo": "P17-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "这次不抢最后一句，先让原文出场。"
+            "id": "P17-V282-C01-R2",
+            "replyTo": "P17-V282-C01-R1",
+            "author": "家族群潜水者",
+            "avatar": "/avatars/spectator.webp",
+            "text": "这个开头我能用，先别急着按发送。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P17-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "把提问和回答一起贴，比甩半句省事。",
-        "simulatedLikes": 88
-      },
-      {
-        "id": "P17-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "我以前见到署名就信，这次先缓缓。",
-        "simulatedLikes": 76
-      },
-      {
-        "id": "P17-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "家庭群暂时安静，原文窗口很热闹。",
-        "simulatedLikes": 64
-      },
-      {
-        "id": "P17-C5",
-        "author": "原文搬运员",
+        "id": "P17-V282-C02",
+        "author": "礼貌沟通练习生",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "先看《论语·宪问》的“或曰”，再往下读回答，把说话的人分清。",
-        "simulatedLikes": 446,
-        "simulatedReplies": 14,
-        "simulatedReposts": 1,
-        "simulatedViews": 4438
+        "text": "头像不能替上下文作证，可以一起读完整问答再聊。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P17-C6",
-        "author": "上下文别裁掉",
+        "id": "P17-V282-C03",
+        "author": "过年不想吵架",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我只想吃完这顿饭，不想群里突然开辩论会。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P17-V282-C04",
+        "author": "语录卡假想编辑",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如重排图片，给前后问答留点位置会不会更清楚？",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P17-V282-C05",
+        "author": "私聊开头写三遍",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "想问这句话从哪来，怎么说不显得训人？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P17-V282-C06",
+        "author": "引文上下句夹",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "问句和答句能不能放在同一张图里？我不想来回翻相册找半句话。",
-        "simulatedLikes": 335,
-        "simulatedReplies": 17,
-        "simulatedReposts": 2,
-        "simulatedViews": 3844
+        "text": "带完整文段比单甩一句你错了更容易聊下去。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P17",
@@ -2549,7 +3507,12 @@
     "publishedAt": "2026-10-30T09:17:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "category": "兵书辨名",
@@ -2577,74 +3540,108 @@
     "simulatedBookmarks": 256,
     "comments": [
       {
-        "id": "P18-C1",
-        "author": "读到这里想一想",
+        "id": "P18-V282-C01",
+        "author": "书架整理员",
         "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "分类表：合并之前能不能先问问我？",
-        "simulatedLikes": 101,
+        "role": "troll",
+        "text": "名字这么像，合并以后分类省一半空间。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "P18-R1",
-            "replyTo": "P18-C1",
+            "id": "P18-V282-C01-R1",
+            "replyTo": "P18-V282-C01",
             "author": "阅读清单管理员",
             "avatar": "/avatars/reader.webp",
-            "text": "书单已经存草稿，先把这个问题弄明白。"
+            "text": "阅读清单先撤回合并操作，核对完再决定分类。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "P18-R2",
-            "replyTo": "P18-R1",
-            "author": "路过留张书签",
-            "avatar": "/avatars/changan.webp",
-            "text": "我的阅读目标暂时没有偷偷缩水。"
+            "id": "P18-V282-C01-R2",
+            "replyTo": "P18-V282-C01-R1",
+            "author": "书架整理员",
+            "avatar": "/avatars/spectator.webp",
+            "text": "好，书架挤一点也比删错书强。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "P18-C2",
-        "author": "先别急着下结论",
-        "avatar": "/avatars/reader.webp",
-        "role": "history_nerd",
-        "text": "我也差点按名字合并，实在太像了。",
-        "simulatedLikes": 89
-      },
-      {
-        "id": "P18-C3",
-        "author": "路过留张书签",
-        "avatar": "/avatars/hype.webp",
-        "role": "spectator",
-        "text": "材料窗口先打开，合并按钮等一下。",
-        "simulatedLikes": 77
-      },
-      {
-        "id": "P18-C4",
-        "author": "问题记在纸上",
-        "avatar": "/avatars/changan.webp",
-        "role": "in_world",
-        "text": "阅读计划别靠猜书名来减量啊。",
-        "simulatedLikes": 65
-      },
-      {
-        "id": "P18-C5",
-        "author": "竹简研究爱好者",
+        "id": "P18-V282-C02",
+        "author": "银雀山竹简爱好者",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "银雀山汉墓竹简是一条可以追下去的线索，先看材料，再决定书单怎么排。",
-        "simulatedLikes": 446,
-        "simulatedReplies": 15,
-        "simulatedReposts": 4,
-        "simulatedViews": 4541
+        "text": "省空间不能证明是同一本，先把材料和书目对上。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "P18-C6",
-        "author": "慢慢读完再说",
+        "id": "P18-V282-C03",
+        "author": "搬家纸箱不够",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "看到省空间就心动，看到核对又默默拿回胶带。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P18-V282-C04",
+        "author": "目录假如实习号",
+        "avatar": "/avatars/pepper.webp",
+        "role": "in_world",
+        "text": "假如录入书单，书名相似也不该直接设成同一条。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P18-V282-C05",
+        "author": "封面贴反抢救中",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我先给两张封面贴不同便签，免得越理越乱。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "P18-V282-C06",
+        "author": "年代暂留空白",
+        "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "我想把两份书名对应的材料放在一起核对，投票理由先留空。",
-        "simulatedLikes": 335,
-        "simulatedReplies": 18,
-        "simulatedReposts": 0,
-        "simulatedViews": 3947
+        "text": "先核书名与材料关系，成书年别顺手编一个。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "id": "P18",
@@ -2655,7 +3652,12 @@
     "publishedAt": "2026-10-30T09:18:00+08:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "id": "H13",
@@ -2698,16 +3700,31 @@
             "replyTo": "H13-C01",
             "author": "调色盘先别收",
             "avatar": "/avatars/pepper.webp",
-            "text": "我现在卡的就是：我画的是眼前的外观，还是刚制作完成的样子？"
+            "text": "我现在卡的就是：我画的是眼前的外观，还是刚制作完成的样子？",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           },
           {
             "id": "H13-C01-R2",
             "replyTo": "H13-C01-R1",
             "author": "器物观察笔记",
             "avatar": "/avatars/hype.webp",
-            "text": "两件事先分开，再找制作与保护的介绍，光看照片不够。"
+            "text": "两件事先分开，再找制作与保护的介绍，光看照片不够。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T22:44:00-07:00"
+            }
           }
-        ]
+        ],
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H13-C02",
@@ -2715,7 +3732,12 @@
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
         "text": "今天的外观能不能代表刚做好的外观？这个得分开问。",
-        "simulatedLikes": 72
+        "simulatedLikes": 72,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H13-C03",
@@ -2723,7 +3745,12 @@
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
         "text": "我的笔已经举起来了，现在等一个配色依据。",
-        "simulatedLikes": 61
+        "simulatedLikes": 61,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H13-C04",
@@ -2731,7 +3758,12 @@
         "avatar": "/avatars/pepper.webp",
         "role": "in_world",
         "text": "先别替调色盘办退场手续，我也想看这题怎么查。",
-        "simulatedLikes": 50
+        "simulatedLikes": 50,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H13-C05",
@@ -2739,7 +3771,12 @@
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
         "text": "博物院的保护介绍值得翻翻，别只看网上的图片。",
-        "simulatedLikes": 39
+        "simulatedLikes": 39,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       },
       {
         "id": "H13-C06",
@@ -2747,7 +3784,12 @@
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
         "text": "我存的图一张一个样，图片好看和能作证是两回事。",
-        "simulatedLikes": 28
+        "simulatedLikes": 28,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T22:44:00-07:00"
+        }
       }
     ],
     "topicId": "H13",
@@ -2755,7 +3797,12 @@
     "publishedAt": "2026-10-30T12:00:00-07:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "reviewed",
+    "editorialReview": {
+      "status": "reviewed",
+      "reviewer": "Giotto",
+      "reviewedAt": "2026-10-30T22:44:00-07:00"
+    }
   },
   {
     "id": "H18",
@@ -2786,68 +3833,108 @@
     "simulatedBookmarks": 366,
     "comments": [
       {
-        "id": "H18-C01",
-        "author": "工单先挂起",
+        "id": "H18-V282-C01",
+        "author": "求职软件未读99",
         "avatar": "/avatars/spectator.webp",
         "role": "troll",
-        "text": "我简历写了八页，评论区只劝我填会踢。",
-        "simulatedLikes": 83,
+        "text": "踢一脚就能当太尉，我这份简历还写什么。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "H18-C01-R1",
-            "replyTo": "H18-C01",
+            "id": "H18-V282-C01-R1",
+            "replyTo": "H18-V282-C01",
             "author": "大宋求职避雷指南",
             "avatar": "/avatars/pepper.webp",
-            "text": "我先把简历放好，去找这段故事里的时间词。"
+            "text": "先别急着打印太尉任命书，故事里还有几年升迁没讲完呢。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "H18-C01-R2",
-            "replyTo": "H18-C01-R1",
-            "author": "原文书签夹",
-            "avatar": "/avatars/hype.webp",
-            "text": "把受赏识和授官分成两栏，看看中间究竟写了什么。"
+            "id": "H18-V282-C01-R2",
+            "replyTo": "H18-V282-C01-R1",
+            "author": "求职软件未读99",
+            "avatar": "/avatars/spectator.webp",
+            "text": "简历先捡回来，球鞋也先不下单了。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "H18-C02",
-        "author": "小板凳占座",
-        "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "隐藏招聘渠道在哪？我先把球放购物车。",
-        "simulatedLikes": 72
-      },
-      {
-        "id": "H18-C03",
-        "author": "书签核对员",
+        "id": "H18-V282-C02",
+        "author": "职官制度爱好者",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "标题里的当场二字，最好拿时间线核对。",
-        "simulatedLikes": 61
+        "text": "受赏识、升迁与具体官称先别挤成同一个瞬间。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "H18-C04",
-        "author": "街口等消息",
+        "id": "H18-V282-C03",
+        "author": "面试路上蹲瓜",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "这标题让我在地铁里差点坐过站。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "H18-V282-C04",
+        "author": "大宋求职假想号",
+        "avatar": "/avatars/pepper.webp",
         "role": "in_world",
-        "text": "球先别买，我连材料都还没看完。",
-        "simulatedLikes": 50
+        "text": "假如拿故事当求职教程，第一步就可能学歪了。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "H18-C05",
-        "author": "材料慢慢翻",
-        "avatar": "/avatars/hype.webp",
-        "role": "history_nerd",
-        "text": "受赏识和授官能省掉中间的步骤吗？",
-        "simulatedLikes": 39
-      },
-      {
-        "id": "H18-C06",
-        "author": "按住转发键",
+        "id": "H18-V282-C05",
+        "author": "笔记段落对读员",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "技能栏暂时不改，蹲一个原文位置。",
-        "simulatedLikes": 28
+        "text": "我想看《挥麈录》到底写了哪些阶段，不靠标题补官名。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "H18-V282-C06",
+        "author": "球技与履历两栏",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "球踢得如何和授官过程，要分别看什么材料？",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "topicId": "H18",
@@ -2855,7 +3942,12 @@
     "publishedAt": "2026-10-30T17:28:00-07:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "id": "H19",
@@ -2886,68 +3978,108 @@
     "simulatedBookmarks": 358,
     "comments": [
       {
-        "id": "H19-C01",
-        "author": "工单先挂起",
+        "id": "H19-V282-C01",
+        "author": "戏台案卷分不清",
         "avatar": "/avatars/spectator.webp",
         "role": "troll",
-        "text": "追剧笔记翻得比史料索引快，我先自查。",
-        "simulatedLikes": 83,
+        "text": "戏里包拯审得那么细，应该就是宋代案卷吧。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "H19-C01-R1",
-            "replyTo": "H19-C01",
+            "id": "H19-V282-C01-R1",
+            "replyTo": "H19-V282-C01",
             "author": "古代塌房研究所",
             "avatar": "/avatars/pepper.webp",
-            "text": "追剧笔记先合上，我去找题材研究的摘要。"
+            "text": "本题核完整故事的史料依据，不把宋史缺载当绝不存在的证明。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "H19-C01-R2",
-            "replyTo": "H19-C01-R1",
-            "author": "原文书签夹",
-            "avatar": "/avatars/hype.webp",
-            "text": "记得看研究讨论的对象，别把剧情与案卷混在一起。"
+            "id": "H19-V282-C01-R2",
+            "replyTo": "H19-V282-C01-R1",
+            "author": "戏台案卷分不清",
+            "avatar": "/avatars/spectator.webp",
+            "text": "那我把案卷两个字改成戏剧情节，接着看。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "H19-C02",
-        "author": "小板凳占座",
-        "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "故事我能背，案卷在哪却没问过。",
-        "simulatedLikes": 72
-      },
-      {
-        "id": "H19-C03",
-        "author": "书签核对员",
+        "id": "H19-V282-C02",
+        "author": "戏曲史研究者",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "情节熟悉和出处可靠，先分开打分。",
-        "simulatedLikes": 61
+        "text": "戏台情节不能直接当案卷，故事流传也得看材料层次。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "H19-C04",
-        "author": "街口等消息",
+        "id": "H19-V282-C03",
+        "author": "追剧追到查书",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "昨晚还在看戏，今天已经开始给阅读器充电。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "H19-V282-C04",
+        "author": "同名人物假想档案",
+        "avatar": "/avatars/pepper.webp",
         "role": "in_world",
-        "text": "戏台边的小板凳已摆好，书也借来了。",
-        "simulatedLikes": 50
+        "text": "假如遇到同名的人，也不能自动给他套整出戏的经历。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "H19-C05",
-        "author": "材料慢慢翻",
-        "avatar": "/avatars/hype.webp",
-        "role": "history_nerd",
-        "text": "这题得查题材的来路，别只拼谁记得全。",
-        "simulatedLikes": 39
-      },
-      {
-        "id": "H19-C06",
-        "author": "按住转发键",
+        "id": "H19-V282-C05",
+        "author": "缺载逻辑小纸条",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "我先按住转发键，等大家把材料找齐。",
-        "simulatedLikes": 28
+        "text": "一本史书没写，能直接推出所有同名人物都不存在吗？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "H19-V282-C06",
+        "author": "完整故事核对簿",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "我只想问这整桩案子有没有史料支持，不给名字判生死。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "topicId": "H19",
@@ -2955,7 +4087,12 @@
     "publishedAt": "2026-10-30T17:28:00-07:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "id": "H21",
@@ -2986,68 +4123,108 @@
     "simulatedBookmarks": 342,
     "comments": [
       {
-        "id": "H21-C01",
-        "author": "工单先挂起",
+        "id": "H21-V282-C01",
+        "author": "今天也想请假",
         "avatar": "/avatars/spectator.webp",
         "role": "troll",
-        "text": "别人的工作日志要翻史书，我的只要翻日历。",
-        "simulatedLikes": 83,
+        "text": "看到留任，我先猜是本人一点也不想回家。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        },
         "replies": [
           {
-            "id": "H21-C01-R1",
-            "replyTo": "H21-C01",
+            "id": "H21-V282-C01-R1",
+            "replyTo": "H21-V282-C01",
             "author": "大明职场摸鱼指南",
             "avatar": "/avatars/pepper.webp",
-            "text": "工作日志先留白，我去核对奏请与决定的次序。"
+            "text": "这么看，‘请假’和‘准不准假’是两码事；他自己心里怎么想，还真不能靠热搜猜。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           },
           {
-            "id": "H21-C01-R2",
-            "replyTo": "H21-C01-R1",
-            "author": "原文书签夹",
-            "avatar": "/avatars/hype.webp",
-            "text": "把人物意向与事件记载分开读，别用结果倒推心理。"
+            "id": "H21-V282-C01-R2",
+            "replyTo": "H21-V282-C01-R1",
+            "author": "今天也想请假",
+            "avatar": "/avatars/spectator.webp",
+            "text": "好，那个一点也不想是我脑补的，先删。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-31T00:33:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "H21-C02",
-        "author": "小板凳占座",
-        "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "我只看了留任两个字，前面是不是还漏了步骤？",
-        "simulatedLikes": 72
-      },
-      {
-        "id": "H21-C03",
-        "author": "书签核对员",
+        "id": "H21-V282-C02",
+        "author": "明史读者",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "先把申请与决定的顺序查清楚。",
-        "simulatedLikes": 61
+        "text": "先后程序和内心意愿不是同一件事，别替人补心理。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "H21-C04",
-        "author": "街口等消息",
+        "id": "H21-V282-C03",
+        "author": "请假条写了又删",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我只是路过，没想到请假也能刷到历史讨论。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "H21-V282-C04",
+        "author": "职场古今假如号",
+        "avatar": "/avatars/pepper.webp",
         "role": "in_world",
-        "text": "办公室经验先收一收，朝堂问题得看材料。",
-        "simulatedLikes": 50
+        "text": "假如借来玩职场梗，也不能套成现代人事审批。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       },
       {
-        "id": "H21-C05",
-        "author": "材料慢慢翻",
-        "avatar": "/avatars/hype.webp",
-        "role": "history_nerd",
-        "text": "人物心里怎么想，不能只看最后的结果吧？",
-        "simulatedLikes": 39
-      },
-      {
-        "id": "H21-C06",
-        "author": "按住转发键",
+        "id": "H21-V282-C05",
+        "author": "奏请与决定两栏",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "摸鱼暂停，这次先核对原文。",
-        "simulatedLikes": 28
+        "text": "谁提出什么、谁作决定，能不能按记载分别写？",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
+      },
+      {
+        "id": "H21-V282-C06",
+        "author": "私人密谈别加戏",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "如果没有对话记录，就别替他们安排一场谈心。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-31T00:33:00-07:00"
+        }
       }
     ],
     "topicId": "H21",
@@ -3055,7 +4232,12 @@
     "publishedAt": "2026-10-30T17:28:00-07:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   },
   {
     "id": "H22",
@@ -3086,68 +4268,108 @@
     "simulatedBookmarks": 334,
     "comments": [
       {
-        "id": "H22-C01",
-        "author": "工单先挂起",
+        "id": "H22-V282-C01",
+        "author": "碑刻放大镜",
         "avatar": "/avatars/spectator.webp",
         "role": "troll",
-        "text": "放大镜刚到位，评论已经开始读心了。",
-        "simulatedLikes": 83,
+        "text": "看出改刻痕迹，原先哪个字也就能认定了吧。",
+        "simulatedLikes": 76,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        },
         "replies": [
           {
-            "id": "H22-C01-R1",
-            "replyTo": "H22-C01",
+            "id": "H22-V282-C01-R1",
+            "replyTo": "H22-V282-C01",
             "author": "墓志细节观察",
             "avatar": "/avatars/pepper.webp",
-            "text": "放大镜先留给字迹，心事等有材料再说。"
+            "text": "只核隐字位置的磨改痕迹，不给原字或改刻原因定案。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           },
           {
-            "id": "H22-C01-R2",
-            "replyTo": "H22-C01-R1",
-            "author": "原文书签夹",
-            "avatar": "/avatars/hype.webp",
-            "text": "把观察、辨字和解释拆开，先看能核对的那一步。"
+            "id": "H22-V282-C01-R2",
+            "replyTo": "H22-V282-C01-R1",
+            "author": "碑刻放大镜",
+            "avatar": "/avatars/spectator.webp",
+            "text": "收到，放大镜不是时光机，我先把结论缩回来。",
+            "reviewStatus": {
+              "status": "reviewed",
+              "reviewer": "Giotto",
+              "reviewedAt": "2026-10-30T23:59:00-07:00"
+            }
           }
         ]
       },
       {
-        "id": "H22-C02",
-        "author": "小板凳占座",
-        "avatar": "/avatars/spectator.webp",
-        "role": "spectator",
-        "text": "一个字的地方，能塞进多少猜测？",
-        "simulatedLikes": 72
-      },
-      {
-        "id": "H22-C03",
-        "author": "书签核对员",
+        "id": "H22-V282-C02",
+        "author": "唐史考据者",
         "avatar": "/avatars/hype.webp",
         "role": "history_nerd",
-        "text": "痕迹与原字解读，先分两步问。",
-        "simulatedLikes": 61
+        "text": "看见痕迹和认定原字是两步，不同解释要留着。",
+        "simulatedLikes": 67,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "H22-C04",
-        "author": "街口等消息",
+        "id": "H22-V282-C03",
+        "author": "照片越放越糊",
         "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我已经把屏幕放大到只剩像素了。",
+        "simulatedLikes": 58,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "H22-V282-C04",
+        "author": "刻字工位假如号",
+        "avatar": "/avatars/pepper.webp",
         "role": "in_world",
-        "text": "刻字者的心事我先不猜，看看材料怎么说。",
-        "simulatedLikes": 50
+        "text": "假如只拿一张图推原因，我连第一笔是谁刻的都不敢猜。",
+        "simulatedLikes": 49,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       },
       {
-        "id": "H22-C05",
-        "author": "材料慢慢翻",
-        "avatar": "/avatars/hype.webp",
-        "role": "history_nerd",
-        "text": "出土、追回、收藏，也别挤成同一年。",
-        "simulatedLikes": 39
-      },
-      {
-        "id": "H22-C06",
-        "author": "按住转发键",
+        "id": "H22-V282-C05",
+        "author": "文物时间轴三栏",
         "avatar": "/avatars/spectator.webp",
         "role": "spectator",
-        "text": "这次先做细节观察员，暂不申请心理分析岗。",
-        "simulatedLikes": 28
+        "text": "出土、追回、移交别挤成一个日期，新闻时间也要分。",
+        "simulatedLikes": 40,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
+      },
+      {
+        "id": "H22-V282-C06",
+        "author": "拓片边界观察簿",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "能确认的位置和还不能确认的字，最好分别写。",
+        "simulatedLikes": 31,
+        "reviewStatus": {
+          "status": "reviewed",
+          "reviewer": "Giotto",
+          "reviewedAt": "2026-10-30T23:59:00-07:00"
+        }
       }
     ],
     "topicId": "H22",
@@ -3155,6 +4377,11 @@
     "publishedAt": "2026-10-30T17:28:00-07:00",
     "fictionalFraming": true,
     "statisticsOrigin": "design",
-    "editorialReviewStatus": "pending"
+    "editorialReviewStatus": "pending",
+    "editorialReview": {
+      "status": "pending",
+      "reviewer": "Giotto",
+      "reviewedAt": null
+    }
   }
 ]

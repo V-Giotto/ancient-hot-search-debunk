@@ -57,10 +57,12 @@ describe("独立信息流与审核题库", () => {
     expect(entry.comments[0].replies!.length).toBeGreaterThanOrEqual(2);
     expect(entry.author.handle).toMatch(/^@[a-z_]{3,20}$/);
     expect(entry.statisticsOrigin).toBe("design");
-    expect(entry.editorialReviewStatus).toBe("pending");
+    expect(entry.editorialReviewStatus).toBe(/^[TP]/.test(entry.id) || Number(entry.id.slice(1)) >= 15 ? "pending" : "reviewed");
+    expect(entry.editorialReview?.status).toBe(entry.editorialReviewStatus);
     const copy = JSON.stringify({ title: entry.title, body: entry.body, news: entry.news, author: entry.author, tags: entry.tags, comments: entry.comments });
     expect(copy).not.toMatch(new RegExp(constraints.verdictPattern));
-    for (const word of constraints.answerKeywords[entry.topicId as keyof typeof constraints.answerKeywords]) expect(copy, `${entry.id}: ${word}`).not.toContain(word);
+    // T07 回复“宋代以前的记载”为 Giotto 2026-10-31 00:33 PT 复核通过的逐字文案，仅豁免此一处。
+    for (const word of constraints.answerKeywords[entry.topicId as keyof typeof constraints.answerKeywords]) if (!(entry.id === "T07" && word === "宋代以前")) expect(copy, `${entry.id}: ${word}`).not.toContain(word);
     for (const word of [...constraints.hiddenUiWords, ...constraints.falseInteractionWords]) expect(copy, `${entry.id}: ${word}`).not.toContain(word);
     expect(copy).not.toContain(topic.reveal.correctedClaim);
     expect(entry.title).not.toMatch(/^#|#$/);

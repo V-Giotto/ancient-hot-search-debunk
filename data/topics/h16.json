@@ -40,68 +40,108 @@
   "simulatedBookmarks": 382,
   "comments": [
     {
-      "id": "H16-C01",
-      "author": "工单先挂起",
+      "id": "H16-V282-C01",
+      "author": "朝局时间轴整理员",
       "avatar": "/avatars/spectator.webp",
       "role": "troll",
-      "text": "人事变动消息太密，我的时间线还没排完。",
-      "simulatedLikes": 83,
+      "text": "一发生宫门事变，身份就立刻变了吧？",
+      "simulatedLikes": 76,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      },
       "replies": [
         {
-          "id": "H16-C01-R1",
-          "replyTo": "H16-C01",
+          "id": "H16-V282-C01-R1",
+          "replyTo": "H16-V282-C01",
           "author": "大唐朝局观察站",
-          "avatar": "/avatars/pepper.webp",
-          "text": "我先按住消息合并键，去排一下先后顺序。"
+          "avatar": "/avatars/hype.webp",
+          "text": "这条讨论身份变化，政治动机不压成一种解释。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         },
         {
-          "id": "H16-C01-R2",
-          "replyTo": "H16-C01-R1",
-          "author": "原文书签夹",
-          "avatar": "/avatars/hype.webp",
-          "text": "对应条目分开贴，别把几个节点挤成一刻。"
+          "id": "H16-V282-C01-R2",
+          "replyTo": "H16-V282-C01-R1",
+          "author": "朝局时间轴整理员",
+          "avatar": "/avatars/spectator.webp",
+          "text": "我把立刻改成问号，时间轴留点空位。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         }
       ]
     },
     {
-      "id": "H16-C02",
-      "author": "小板凳占座",
-      "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "把几个节点剪成一条消息，读起来倒是很省事。",
-      "simulatedLikes": 72
-    },
-    {
-      "id": "H16-C03",
-      "author": "书签核对员",
+      "id": "H16-V282-C02",
+      "author": "唐史读者",
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
-      "text": "省事归省事，先后顺序得去原文里找。",
-      "simulatedLikes": 61
+      "text": "几个节点可能不是同一时刻，先后顺序得按记载排。",
+      "simulatedLikes": 67,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H16-C04",
-      "author": "街口等消息",
+      "id": "H16-V282-C03",
+      "author": "年表画到手酸",
       "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "画箭头比背故事难，橡皮已经快用完了。",
+      "simulatedLikes": 58,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H16-V282-C04",
+      "author": "宫门假想值班号",
+      "avatar": "/avatars/pepper.webp",
       "role": "in_world",
-      "text": "群聊名单先不改，我等对应条目。",
-      "simulatedLikes": 50
+      "text": "假如写当日简报，也不能替所有人补一段心理活动。",
+      "simulatedLikes": 49,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H16-C05",
-      "author": "材料慢慢翻",
-      "avatar": "/avatars/hype.webp",
-      "role": "history_nerd",
-      "text": "人物动机也能只凭一句话拍板吗？",
-      "simulatedLikes": 39
-    },
-    {
-      "id": "H16-C06",
-      "author": "按住转发键",
+      "id": "H16-V282-C05",
+      "author": "动机问题收藏员",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "书签备好了，今天只理顺这一段。",
-      "simulatedLikes": 28
+      "text": "叙事里的动机判断是谁在说，也该标出来。",
+      "simulatedLikes": 40,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H16-V282-C06",
+      "author": "不同文本对读中",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "先后与记日有不同写法时，我想把各自原文留着。",
+      "simulatedLikes": 31,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     }
   ],
   "claim": "玄武门之变后，李世民被立为皇太子。",

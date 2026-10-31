@@ -23,7 +23,7 @@
   ],
   "title": "王莽身份被扒：铜卡尺能当穿越铁证吗",
   "coverUrl": "/covers/h15.webp",
-  "coverAlt": "铜卡尺与人物档案的像素插画",
+  "coverAlt": "铜卡尺像素插画，艺术创作示意",
   "author": {
     "name": "时空异常观察社",
     "handle": "@time_clue",
@@ -40,68 +40,108 @@
   "simulatedBookmarks": 390,
   "comments": [
     {
-      "id": "H15-C01",
-      "author": "工单先挂起",
+      "id": "H15-V282-C01",
+      "author": "时空客服实习生",
       "avatar": "/avatars/spectator.webp",
       "role": "troll",
-      "text": "时空管理局实习第一天，工单就跨了这么远。",
-      "simulatedLikes": 83,
+      "text": "工具长得像，穿越身份证是不是能办了？",
+      "simulatedLikes": 76,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      },
       "replies": [
         {
-          "id": "H15-C01-R1",
-          "replyTo": "H15-C01",
+          "id": "H15-V282-C01-R1",
+          "replyTo": "H15-V282-C01",
           "author": "时空异常观察社",
-          "avatar": "/avatars/pepper.webp",
-          "text": "身份工单先挂起，我先去读器物介绍。"
+          "avatar": "/avatars/hype.webp",
+          "text": "先把器物和身份分成两个问题，插画只作艺术创作示意。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         },
         {
-          "id": "H15-C01-R2",
-          "replyTo": "H15-C01-R1",
-          "author": "原文书签夹",
-          "avatar": "/avatars/hype.webp",
-          "text": "别让外形替人的来历签字，出处也带回来。"
+          "id": "H15-V282-C01-R2",
+          "replyTo": "H15-V282-C01-R1",
+          "author": "时空客服实习生",
+          "avatar": "/avatars/spectator.webp",
+          "text": "那张未来身份证暂缓打印，我先把尺子认清。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         }
       ]
     },
     {
-      "id": "H15-C02",
-      "author": "小板凳占座",
-      "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "我还在找尺子，评论已经开始查返程车票了。",
-      "simulatedLikes": 72
-    },
-    {
-      "id": "H15-C03",
-      "author": "书签核对员",
+      "id": "H15-V282-C02",
+      "author": "古代测量爱好者",
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
-      "text": "先分清器物的年代和人的身份，需要的证据一样吗？",
-      "simulatedLikes": 61
+      "text": "器物形制和人物来历不是同一张证明，别跨步太大。",
+      "simulatedLikes": 67,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H15-C04",
-      "author": "街口等消息",
+      "id": "H15-V282-C03",
+      "author": "返程车票没抢到",
       "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我自己的票还没买到，先替王莽操心了。",
+      "simulatedLikes": 58,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H15-V282-C04",
+      "author": "展柜轮廓速写员",
+      "avatar": "/avatars/pepper.webp",
       "role": "in_world",
-      "text": "科技树讨论先暂停，我想看看器物说明。",
-      "simulatedLikes": 50
+      "text": "假如按这张插画认物，还得回去对照馆藏图像。",
+      "simulatedLikes": 49,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H15-C05",
-      "author": "材料慢慢翻",
-      "avatar": "/avatars/hype.webp",
-      "role": "history_nerd",
-      "text": "别只盯外形，出处和结构都得查。",
-      "simulatedLikes": 39
-    },
-    {
-      "id": "H15-C06",
-      "author": "按住转发键",
+      "id": "H15-V282-C05",
+      "author": "铜色不等于年代",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "我的量尺还没找到，这个瓜先放收藏夹。",
-      "simulatedLikes": 28
+      "text": "看颜色就断代也不稳，想看器物说明。",
+      "simulatedLikes": 40,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H15-V282-C06",
+      "author": "身份论证旁听生",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "从一把尺子走到一个人的身份，中间少了哪些证据？",
+      "simulatedLikes": 31,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     }
   ],
   "claim": "王莽时期出现的铜卡尺能够证明王莽是现代穿越者。",

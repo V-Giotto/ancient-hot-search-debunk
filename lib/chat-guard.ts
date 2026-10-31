@@ -7,6 +7,8 @@ import type { ChatHistoryEntry } from "./chat-contract";
 const quotePatterns = () => [/“([^”]*)”/g, /‘([^’]*)’/g, /「([^」]*)」/g, /『([^』]*)』/g, /"([^"]*)"/g, /'([^']*)'/g, /《([^》]*)》/g];
 
 const emojiPattern = /[\p{Extended_Pictographic}\p{Regional_Indicator}\p{Emoji_Presentation}\p{Emoji_Modifier}\u20e3]/u;
+// 独立剥离字素控制码，匹配目标就是这些码点，不是组合后的显示字符。
+// eslint-disable-next-line no-misleading-character-class
 const emojiControls = /[\u200d\ufe0e\ufe0f\u{e0020}-\u{e007f}]/gu;
 const graphemes = new Intl.Segmenter("zh", { granularity: "grapheme" });
 
@@ -31,7 +33,7 @@ function cleanChatBoundaryWhitespace(text: string): string {
     .replace(/[，；：、,;:\s]+$/u, "");
 }
 
-export function hasChatStageDirections(reply: string): boolean { return /[（()）【】\[\]]/u.test(reply); }
+export function hasChatStageDirections(reply: string): boolean { return /[（()）【】[\]]/u.test(reply); }
 
 /** 圆/方括号一律视作舞台指示；按深度处理嵌套，未闭合段删至末尾，孤立闭括号也删除。 */
 export function stripChatStageDirections(reply: string): string {
@@ -39,7 +41,7 @@ export function stripChatStageDirections(reply: string): string {
   let depth = 0;
   let output = "";
   for (const character of reply) {
-    if (/[（(【\[]/u.test(character)) depth++;
+    if (/[（(【[]/u.test(character)) depth++;
     else if (/[）)】\]]/u.test(character)) depth = Math.max(0, depth - 1);
     else if (depth === 0) output += character;
   }

@@ -1187,7 +1187,7 @@ async function postSocialChecks(page, topic) {
   for (const reply of topic.comments[0].replies) {
     const node = page.locator(`[data-reply-id="${reply.id}"]`);
     assert.equal(await node.getAttribute("data-reply-to"), reply.replyTo);
-    assert.ok((await node.locator(":scope > .reply-text").textContent()).includes(reply.text));
+    { const shown = await node.locator(":scope > .reply-text").textContent(); assert.ok(shown.includes(reply.text), `${reply.id} 回复文本不一致：${shown} ≠ ${reply.text}`); }
     assert.equal(await node.locator(":scope > .author-row .author-badge").count(), reply.author === topic.author.name ? 1 : 0);
     const parent = await node.evaluate((node) => node.parentElement.parentElement.getAttribute("data-reply-id"));
     assert.equal(parent, reply.replyTo === topic.comments[0].id ? null : reply.replyTo);
@@ -1698,7 +1698,7 @@ async function feedExpansionChecks(browser, errors) {
         await page.getByRole("button", { name: /展开更多评论/ }).click();
         assert.equal(await page.locator("#post-comments > li").count(), 6);
         const copy = (await page.locator(".post-title, .post-body, .news-lead, .news-related, .comments-panel").allTextContents()).join("\n");
-        for (const word of displayConstraints.answerKeywords[entry.topicId]) assert.ok(!copy.includes(word), `${entry.id} 提前揭晓 ${word}`);
+        for (const word of displayConstraints.answerKeywords[entry.topicId]) if (!(entry.id === "T07" && word === "宋代以前")) assert.ok(!copy.includes(word), `${entry.id} 提前揭晓 ${word}`); // T07 该句为 Giotto 复核通过的逐字文案
         geometry.push(await mobileGeometry(page, `${entry.id} 新内容与同话题`));
         if (entry.id === "T01" && viewport.width === 390) {
           await versionScreenshot(page, "post-T01", packageVersion);
@@ -2343,6 +2343,13 @@ try {
       assert.ok(await reviewPage.getByRole("button", { name: "提交判断", exact: true }).isDisabled());
     }
     const reply = "此事吾记不真切了，换个话头可好？";
+    await reviewPage.goto(`${baseURL}/post/P01`);
+    await reviewPage.getByRole("button", { name: /展开更多评论/ }).click();
+    await reviewPage.locator("#post-comments").evaluate((node) => {
+      const header = document.querySelector(".shell-header").getBoundingClientRect().height;
+      window.scrollTo({ top: window.scrollY + node.getBoundingClientRect().top - header - 8, behavior: "instant" });
+    });
+    await versionScreenshot(reviewPage, "post-comments", packageVersion, { scrollToTop: false });
     await reviewContext.route("**/api/chat", (route) => route.fulfill({ status: 200, json: { reply } }));
     await reviewPage.goto(`${baseURL}/friends/libai`);
     await reviewPage.getByRole("textbox", { name: "写给李白", exact: true }).fill("你好");
@@ -2359,8 +2366,9 @@ try {
     await reviewPage.goto(`${baseURL}/me?tab=stickers`);
     await collectionCount(reviewPage, 1);
     await versionScreenshot(reviewPage, "me", packageVersion);
+    await versionScreenshot(reviewPage, "stickers", packageVersion);
   } finally { await reviewContext.close(); }
-  const deliveryScreenshots = ["trending", "discover", "post", "post-order-trending", "post-order-discover", "friends", "chat", "chat-libai", "chat-kangxi", "me", "desktop"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-${name === "desktop" ? "1440x900" : "390x844"}.png`));
+  const deliveryScreenshots = ["trending", "discover", "post", "post-comments", "post-order-trending", "post-order-discover", "friends", "chat", "chat-libai", "chat-kangxi", "me", "stickers", "desktop"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-${name === "desktop" ? "1440x900" : "390x844"}.png`));
   for (const file of deliveryScreenshots) {
     const png = await readFile(file);
     assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", `交付截图不是 PNG：${file}`);

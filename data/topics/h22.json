@@ -40,68 +40,108 @@
   "simulatedBookmarks": 334,
   "comments": [
     {
-      "id": "H22-C01",
-      "author": "工单先挂起",
+      "id": "H22-V282-C01",
+      "author": "碑刻放大镜",
       "avatar": "/avatars/spectator.webp",
       "role": "troll",
-      "text": "放大镜刚到位，评论已经开始读心了。",
-      "simulatedLikes": 83,
+      "text": "看出改刻痕迹，原先哪个字也就能认定了吧。",
+      "simulatedLikes": 76,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      },
       "replies": [
         {
-          "id": "H22-C01-R1",
-          "replyTo": "H22-C01",
+          "id": "H22-V282-C01-R1",
+          "replyTo": "H22-V282-C01",
           "author": "墓志细节观察",
           "avatar": "/avatars/pepper.webp",
-          "text": "放大镜先留给字迹，心事等有材料再说。"
+          "text": "只核隐字位置的磨改痕迹，不给原字或改刻原因定案。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         },
         {
-          "id": "H22-C01-R2",
-          "replyTo": "H22-C01-R1",
-          "author": "原文书签夹",
-          "avatar": "/avatars/hype.webp",
-          "text": "把观察、辨字和解释拆开，先看能核对的那一步。"
+          "id": "H22-V282-C01-R2",
+          "replyTo": "H22-V282-C01-R1",
+          "author": "碑刻放大镜",
+          "avatar": "/avatars/spectator.webp",
+          "text": "收到，放大镜不是时光机，我先把结论缩回来。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         }
       ]
     },
     {
-      "id": "H22-C02",
-      "author": "小板凳占座",
-      "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "一个字的地方，能塞进多少猜测？",
-      "simulatedLikes": 72
-    },
-    {
-      "id": "H22-C03",
-      "author": "书签核对员",
+      "id": "H22-V282-C02",
+      "author": "唐史考据者",
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
-      "text": "痕迹与原字解读，先分两步问。",
-      "simulatedLikes": 61
+      "text": "看见痕迹和认定原字是两步，不同解释要留着。",
+      "simulatedLikes": 67,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H22-C04",
-      "author": "街口等消息",
+      "id": "H22-V282-C03",
+      "author": "照片越放越糊",
       "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我已经把屏幕放大到只剩像素了。",
+      "simulatedLikes": 58,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H22-V282-C04",
+      "author": "刻字工位假如号",
+      "avatar": "/avatars/pepper.webp",
       "role": "in_world",
-      "text": "刻字者的心事我先不猜，看看材料怎么说。",
-      "simulatedLikes": 50
+      "text": "假如只拿一张图推原因，我连第一笔是谁刻的都不敢猜。",
+      "simulatedLikes": 49,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H22-C05",
-      "author": "材料慢慢翻",
-      "avatar": "/avatars/hype.webp",
-      "role": "history_nerd",
-      "text": "出土、追回、收藏，也别挤成同一年。",
-      "simulatedLikes": 39
-    },
-    {
-      "id": "H22-C06",
-      "author": "按住转发键",
+      "id": "H22-V282-C05",
+      "author": "文物时间轴三栏",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "这次先做细节观察员，暂不申请心理分析岗。",
-      "simulatedLikes": 28
+      "text": "出土、追回、移交别挤成一个日期，新闻时间也要分。",
+      "simulatedLikes": 40,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H22-V282-C06",
+      "author": "拓片边界观察簿",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "能确认的位置和还不能确认的字，最好分别写。",
+      "simulatedLikes": 31,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     }
   ],
   "claim": "李建成墓志中谥号“隐”字的位置存在磨改重刻痕迹。",

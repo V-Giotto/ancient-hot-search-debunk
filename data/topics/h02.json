@@ -54,23 +54,43 @@
           "replyTo": "H02-C01",
           "author": "严谨的吃货",
           "avatar": "/avatars/hype.webp",
-          "text": "懒得开火我也懂，不过愿望归愿望，有没有这种服务还得看材料吧？"
+          "text": "懒得开火我也懂，不过愿望归愿望，有没有这种服务还得看材料吧？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H02-C01-R2",
           "replyTo": "H02-C01-R1",
           "author": "汴京探店阿宋",
           "avatar": "/avatars/changan.webp",
-          "text": "对，先分清要核对哪种服务，再看《东京梦华录》，别把今天的点餐流程搬过去。"
+          "text": "对，先分清要核对哪种服务，再看《东京梦华录》，别把今天的点餐流程搬过去。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H02-C01-R3",
           "replyTo": "H02-C01-R2",
           "author": "汴京吃货",
           "avatar": "/avatars/changan.webp",
-          "text": "那我先不研究怎么点，继续研究想吃什么。"
+          "text": "那我先不研究怎么点，继续研究想吃什么。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H02-C02",
@@ -81,7 +101,12 @@
       "simulatedLikes": 731,
       "simulatedReplies": 4,
       "simulatedReposts": 4,
-      "simulatedViews": 5445
+      "simulatedViews": 5445,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H02-C03",
@@ -92,7 +117,12 @@
       "simulatedLikes": 259,
       "simulatedReplies": 5,
       "simulatedReposts": 6,
-      "simulatedViews": 2202
+      "simulatedViews": 2202,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H02-C04",
@@ -103,7 +133,12 @@
       "simulatedLikes": 486,
       "simulatedReplies": 6,
       "simulatedReposts": 0,
-      "simulatedViews": 3852
+      "simulatedViews": 3852,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H02-C05",
@@ -114,7 +149,12 @@
       "simulatedLikes": 618,
       "simulatedReplies": 7,
       "simulatedReposts": 2,
-      "simulatedViews": 4837
+      "simulatedViews": 4837,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H02-C06",
@@ -125,7 +165,12 @@
       "simulatedLikes": 304,
       "simulatedReplies": 8,
       "simulatedReposts": 4,
-      "simulatedViews": 2700
+      "simulatedViews": 2700,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "宋代城市出现过购买现成食物并由他人代买或配送的服务。",

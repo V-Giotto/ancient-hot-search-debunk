@@ -54,23 +54,43 @@
           "replyTo": "H01-C01",
           "author": "诗仙超话管理员",
           "avatar": "/avatars/spectator.webp",
-          "text": "拿合照当门槛，是不是把今天的相册习惯带进唐诗了？"
+          "text": "拿合照当门槛，是不是把今天的相册习惯带进唐诗了？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H01-C01-R2",
           "replyTo": "H01-C01-R1",
           "author": "诗坛八卦搬运工",
           "avatar": "/avatars/hype.webp",
-          "text": "先把《与李十二白同寻范十隐居》放在旁边对读，关系图稍后再画。"
+          "text": "先把《与李十二白同寻范十隐居》放在旁边对读，关系图稍后再画。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H01-C01-R3",
           "replyTo": "H01-C01-R2",
           "author": "只看标题的路人",
           "avatar": "/avatars/changan.webp",
-          "text": "好，我先撤掉合照这一栏，诗集阅读量突然增加了。"
+          "text": "好，我先撤掉合照这一栏，诗集阅读量突然增加了。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H01-C02",
@@ -81,7 +101,12 @@
       "simulatedLikes": 526,
       "simulatedReplies": 3,
       "simulatedReposts": 2,
-      "simulatedViews": 3907
+      "simulatedViews": 3907,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H01-C03",
@@ -92,7 +117,12 @@
       "simulatedLikes": 689,
       "simulatedReplies": 4,
       "simulatedReposts": 3,
-      "simulatedViews": 5109
+      "simulatedViews": 5109,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H01-C04",
@@ -103,7 +133,12 @@
       "simulatedLikes": 281,
       "simulatedReplies": 5,
       "simulatedReposts": 4,
-      "simulatedViews": 2314
+      "simulatedViews": 2314,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H01-C05",
@@ -114,7 +149,12 @@
       "simulatedLikes": 314,
       "simulatedReplies": 6,
       "simulatedReposts": 5,
-      "simulatedViews": 2606
+      "simulatedViews": 2606,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H01-C06",
@@ -125,7 +165,12 @@
       "simulatedLikes": 472,
       "simulatedReplies": 7,
       "simulatedReposts": 6,
-      "simulatedViews": 3773
+      "simulatedViews": 3773,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "李白与杜甫从未见过面。",

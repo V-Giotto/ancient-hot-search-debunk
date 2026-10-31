@@ -1,10 +1,17 @@
 {
   "id": "H12",
-  "era": { "label": "春秋战国", "order": 1 },
+  "era": {
+    "label": "春秋战国",
+    "order": 1
+  },
   "rumorEra": "不限定",
   "coreContext": "春秋孙武、战国孙膑",
   "evidenceEra": "西汉竹简、1972年出土",
-  "eraReview": { "status": "reviewed", "by": "Giotto", "at": "2026-10-30T07:32:00-07:00" },
+  "eraReview": {
+    "status": "reviewed",
+    "by": "Giotto",
+    "at": "2026-10-30T07:32:00-07:00"
+  },
   "rank": 12,
   "module": "discover",
   "format": "poll",
@@ -48,23 +55,43 @@
           "replyTo": "H12-C01",
           "author": "名字辨识困难户",
           "avatar": "/avatars/reader.webp",
-          "text": "名字像就合并，那书单也太容易瘦身了，材料还没看呢。"
+          "text": "名字像就合并，那书单也太容易瘦身了，材料还没看呢。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H12-C01-R2",
           "replyTo": "H12-C01-R1",
           "author": "兵书对照读书会",
           "avatar": "/avatars/reader.webp",
-          "text": "今天读书会改成材料核对会，先把银雀山竹简这条线索记下。"
+          "text": "今天读书会改成材料核对会，先把银雀山竹简这条线索记下。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H12-C01-R3",
           "replyTo": "H12-C01-R2",
           "author": "书单合并大师",
           "avatar": "/avatars/spectator.webp",
-          "text": "收到，阅读任务暂缓缩水，书签先分开放。"
+          "text": "收到，阅读任务暂缓缩水，书签先分开放。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H12-C02",
@@ -75,7 +102,12 @@
       "simulatedLikes": 483,
       "simulatedReplies": 14,
       "simulatedReposts": 0,
-      "simulatedViews": 4739
+      "simulatedViews": 4739,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H12-C03",
@@ -86,7 +118,12 @@
       "simulatedLikes": 446,
       "simulatedReplies": 15,
       "simulatedReposts": 4,
-      "simulatedViews": 4541
+      "simulatedViews": 4541,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H12-C04",
@@ -97,7 +134,12 @@
       "simulatedLikes": 409,
       "simulatedReplies": 16,
       "simulatedReposts": 0,
-      "simulatedViews": 4343
+      "simulatedViews": 4343,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H12-C05",
@@ -108,7 +150,12 @@
       "simulatedLikes": 372,
       "simulatedReplies": 17,
       "simulatedReposts": 4,
-      "simulatedViews": 4145
+      "simulatedViews": 4145,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H12-C06",
@@ -119,7 +166,12 @@
       "simulatedLikes": 335,
       "simulatedReplies": 18,
       "simulatedReposts": 0,
-      "simulatedViews": 3947
+      "simulatedViews": 3947,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "《孙子兵法》和《孙膑兵法》其实是同一部书。",

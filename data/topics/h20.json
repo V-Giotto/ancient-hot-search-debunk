@@ -40,68 +40,108 @@
   "simulatedBookmarks": 350,
   "comments": [
     {
-      "id": "H20-C01",
-      "author": "工单先挂起",
+      "id": "H20-V282-C01",
+      "author": "考古日历管理员",
       "avatar": "/avatars/spectator.webp",
       "role": "troll",
-      "text": "刚想看人物档案，评论又开始排幕后名单了。",
-      "simulatedLikes": 83,
+      "text": "发掘和公布不在一个月，难道挖了两回？",
+      "simulatedLikes": 76,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      },
       "replies": [
         {
-          "id": "H20-C01-R1",
-          "replyTo": "H20-C01",
+          "id": "H20-V282-C01-R1",
+          "replyTo": "H20-V282-C01",
           "author": "长安考古观察",
-          "avatar": "/avatars/pepper.webp",
-          "text": "先把身份与受损分两栏，再去核对材料。"
+          "avatar": "/avatars/hype.webp",
+          "text": "墓主身份与受损责任分开核，推断不要写成确定的责任人。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         },
         {
-          "id": "H20-C01-R2",
-          "replyTo": "H20-C01-R1",
-          "author": "原文书签夹",
-          "avatar": "/avatars/hype.webp",
-          "text": "时间也分开记，发现与发布消息各占一行。"
+          "id": "H20-V282-C01-R2",
+          "replyTo": "H20-V282-C01-R1",
+          "author": "考古日历管理员",
+          "avatar": "/avatars/spectator.webp",
+          "text": "原来是我把新闻发布日期当成铲土日期了。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         }
       ]
     },
     {
-      "id": "H20-C02",
-      "author": "小板凳占座",
-      "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "线索不是脑补通行证，这句先记下来。",
-      "simulatedLikes": 72
-    },
-    {
-      "id": "H20-C03",
-      "author": "书签核对员",
+      "id": "H20-V282-C02",
+      "author": "墓志阅读者",
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
-      "text": "发现时间和发布消息的时间，需要分别核对。",
-      "simulatedLikes": 61
+      "text": "发掘、确认与公开消息是不同节点，先别把日期混起来。",
+      "simulatedLikes": 67,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H20-C04",
-      "author": "街口等消息",
+      "id": "H20-V282-C03",
+      "author": "展览门票已收藏",
       "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "没看明白时间线就开始约朋友看展了。",
+      "simulatedLikes": 58,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H20-V282-C04",
+      "author": "工地记录假想号",
+      "avatar": "/avatars/pepper.webp",
       "role": "in_world",
-      "text": "现场图片我看了，还想看看文字依据。",
-      "simulatedLikes": 50
+      "text": "假如记现场日志，我会把发现和发布分成两栏。",
+      "simulatedLikes": 49,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H20-C05",
-      "author": "材料慢慢翻",
-      "avatar": "/avatars/hype.webp",
-      "role": "history_nerd",
-      "text": "身份问题和受损原因，可以分两栏问吧？",
-      "simulatedLikes": 39
-    },
-    {
-      "id": "H20-C06",
-      "author": "按住转发键",
+      "id": "H20-V282-C05",
+      "author": "残损原因问号本",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "我的记录表空着，等材料来填。",
-      "simulatedLikes": 28
+      "text": "身份能讨论，受损原因是不是还得另找证据？",
+      "simulatedLikes": 40,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H20-V282-C06",
+      "author": "报道日期核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "报道晚一点发，不能直接倒推发现也晚了。",
+      "simulatedLikes": 31,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     }
   ],
   "claim": "2013年考古发现的墓志为确认上官婉儿墓主身份提供了关键证据。",

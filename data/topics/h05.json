@@ -54,23 +54,43 @@
           "replyTo": "H05-C01",
           "author": "三彩本人在线维权",
           "avatar": "/avatars/pepper.webp",
-          "text": "按这个逻辑，名字里带数字的都得严格按数量交货？"
+          "text": "按这个逻辑，名字里带数字的都得严格按数量交货？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H05-C01-R2",
           "replyTo": "H05-C01-R1",
           "author": "器物说明书",
           "avatar": "/avatars/hype.webp",
-          "text": "别急着定上限，先把博物馆介绍里的名称解释看完。"
+          "text": "别急着定上限，先把博物馆介绍里的名称解释看完。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H05-C01-R3",
           "replyTo": "H05-C01-R2",
           "author": "三种颜色够用了",
           "avatar": "/avatars/spectator.webp",
-          "text": "那我先放下计数器，免得越数问题越多。"
+          "text": "那我先放下计数器，免得越数问题越多。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H05-C02",
@@ -81,7 +101,12 @@
       "simulatedLikes": 587,
       "simulatedReplies": 7,
       "simulatedReposts": 2,
-      "simulatedViews": 4746
+      "simulatedViews": 4746,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H05-C03",
@@ -92,7 +117,12 @@
       "simulatedLikes": 196,
       "simulatedReplies": 8,
       "simulatedReposts": 7,
-      "simulatedViews": 2070
+      "simulatedViews": 2070,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H05-C04",
@@ -103,7 +133,12 @@
       "simulatedLikes": 328,
       "simulatedReplies": 9,
       "simulatedReposts": 4,
-      "simulatedViews": 3055
+      "simulatedViews": 3055,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H05-C05",
@@ -114,7 +149,12 @@
       "simulatedLikes": 536,
       "simulatedReplies": 10,
       "simulatedReposts": 1,
-      "simulatedViews": 4572
+      "simulatedViews": 4572,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H05-C06",
@@ -125,7 +165,12 @@
       "simulatedLikes": 279,
       "simulatedReplies": 11,
       "simulatedReposts": 6,
-      "simulatedViews": 2834
+      "simulatedViews": 2834,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "唐三彩只有三种釉色。",

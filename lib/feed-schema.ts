@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HotTopicSchema } from "./schemas";
+import { HotTopicSchema, EditorialReviewSchema } from "./schemas";
 
 export const FeedIdSchema = z.string().regex(/^(?:H\d{2,3}|T(?:0[1-9]|1[0-2])|P(?:0[1-9]|1[0-8]))$/);
 const display = HotTopicSchema.shape;
@@ -29,14 +29,18 @@ export const FeedEntrySchema = z.strictObject({
   comments: display.comments.max(10),
   fictionalFraming: z.literal(true),
   statisticsOrigin: z.literal("design"),
-  editorialReviewStatus: z.literal("pending"),
+  editorialReviewStatus: z.enum(["pending", "reviewed"]),
+  editorialReview: EditorialReviewSchema.optional(),
 }).superRefine((entry, ctx) => {
   const issue = (path: string, message: string) => ctx.addIssue({ code: "custom", path: [path], message });
+  if (entry.editorialReviewStatus === "reviewed" && entry.editorialReview?.status !== "reviewed") issue("editorialReview", "已审展示须有签名");
+  if (entry.editorialReview && entry.editorialReviewStatus !== entry.editorialReview.status) issue("editorialReview", "展示审核状态不一致");
   if (entry.module === "trending" && (!entry.news || entry.format !== "news")) issue("news", "热搜须有新闻模板与报道元数据");
   if (/^[TP]/.test(entry.id) && entry.coverUrl !== `/covers/feed/${entry.id.toLowerCase()}.webp`) issue("coverUrl", "新增条目须使用独立 WebP 封面");
   if (entry.news && entry.news.publishedAt !== entry.publishedAt) issue("publishedAt", "发布时间须一致");
   const ids = new Set<string>();
   for (const comment of entry.comments) {
+    if ((comment.replies ?? []).some((reply) => reply.author === entry.author.name && reply.avatar !== entry.author.avatarUrl)) issue("comments", "作者回复头像须与帖子作者一致");
     if (ids.has(comment.id)) issue("comments", "评论 ID 重复");
     ids.add(comment.id);
     const thread = new Set([comment.id]);

@@ -9,6 +9,7 @@ import { getAllTopics } from "@/lib/topics";
 import constraints from "./fixtures/display-constraints.json";
 import integrity from "./fixtures/content-integrity.json";
 import approvedEraReview from "./fixtures/approved-era-review.json";
+import approvedCopyReview from "./fixtures/approved-copy-review-v0.28.2.json";
 
 const topics = getAllTopics();
 const topicIds = topics.map(({ id }) => id);
@@ -52,6 +53,11 @@ describe("v0.21.0 展示内容边界", () => {
       const { title: _title, body: _body, tags: _tags, comments: _comments, author, news, ...rest } = raw;
       const { name: _name, bio: _bio, ...protectedAuthor } = author;
       const protectedFields = { ...rest, author: protectedAuthor };
+      const copyPatch = approvedCopyReview[topic.id as keyof typeof approvedCopyReview];
+      if (copyPatch) {
+        for (const [field, value] of Object.entries(copyPatch.after)) expect(raw[field]).toEqual(value);
+        Object.assign(protectedFields, copyPatch.before);
+      }
       const eraPatch = approvedEraReview[topic.id as keyof typeof approvedEraReview];
       if (eraPatch) {
         // 先逐字段核对本次明确批准的值，再还原到改写前元数据计算原指纹。

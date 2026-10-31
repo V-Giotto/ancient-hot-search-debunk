@@ -55,23 +55,43 @@
           "replyTo": "H10-C01",
           "author": "字块收纳员",
           "avatar": "/avatars/reader.webp",
-          "text": "主意听着不错，可重新组合之前，是不是还得先把字找到？"
+          "text": "主意听着不错，可重新组合之前，是不是还得先把字找到？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H10-C01-R2",
           "replyTo": "H10-C01-R1",
           "author": "活版手作观察员",
           "avatar": "/avatars/reader.webp",
-          "text": "我也想看制作和排版怎么衔接，先读《梦溪笔谈》，收纳方案别靠脑补。"
+          "text": "我也想看制作和排版怎么衔接，先读《梦溪笔谈》，收纳方案别靠脑补。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H10-C01-R3",
           "replyTo": "H10-C01-R2",
           "author": "一字一块听着靠谱",
           "avatar": "/avatars/spectator.webp",
-          "text": "那我先把教程关掉，给原文留个窗口。"
+          "text": "那我先把教程关掉，给原文留个窗口。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H10-C02",
@@ -82,7 +102,12 @@
       "simulatedLikes": 483,
       "simulatedReplies": 12,
       "simulatedReposts": 4,
-      "simulatedViews": 4533
+      "simulatedViews": 4533,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H10-C03",
@@ -93,7 +118,12 @@
       "simulatedLikes": 446,
       "simulatedReplies": 13,
       "simulatedReposts": 6,
-      "simulatedViews": 4335
+      "simulatedViews": 4335,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H10-C04",
@@ -104,7 +134,12 @@
       "simulatedLikes": 409,
       "simulatedReplies": 14,
       "simulatedReposts": 0,
-      "simulatedViews": 4137
+      "simulatedViews": 4137,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H10-C05",
@@ -115,7 +150,12 @@
       "simulatedLikes": 372,
       "simulatedReplies": 15,
       "simulatedReposts": 2,
-      "simulatedViews": 3939
+      "simulatedViews": 3939,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H10-C06",
@@ -126,7 +166,12 @@
       "simulatedLikes": 335,
       "simulatedReplies": 16,
       "simulatedReposts": 4,
-      "simulatedViews": 3741
+      "simulatedViews": 3741,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "北宋时期，平民毕昇发明了用胶泥刻字的活字印刷（活版）。",

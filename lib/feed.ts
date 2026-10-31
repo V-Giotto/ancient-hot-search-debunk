@@ -9,11 +9,18 @@ import { toPublicTopic, type PublicTopic } from "./public-topic";
 export function validateFeedSet(input: unknown, topicIds: readonly string[]): FeedEntry[] {
   const entries = z.array(FeedEntrySchema).parse(input);
   const ids = new Set<string>();
+  const commentIds = new Set<string>();
   for (const entry of entries) {
     if (ids.has(entry.id)) throw new Error(`信息流 ID 重复：${entry.id}`);
     if (!topicIds.includes(entry.topicId)) throw new Error(`${entry.id} 的 topicId 不存在：${entry.topicId}`);
     if (entry.id.startsWith("H") && entry.id !== entry.topicId) throw new Error(`旧链接映射不一致：${entry.id}`);
     ids.add(entry.id);
+    for (const comment of entry.comments) {
+      for (const node of [comment, ...(comment.replies ?? [])]) {
+        if (commentIds.has(node.id)) throw new Error(`跨帖评论 ID 重复：${node.id}`);
+        commentIds.add(node.id);
+      }
+    }
   }
   for (const module of ["trending", "discover"] as const) {
     const ordered = entries.filter((entry) => entry.module === module).sort((a, b) => a.rank - b.rank);

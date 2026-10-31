@@ -1,10 +1,17 @@
 {
   "id": "H07",
-  "era": { "label": "战国", "order": 2 },
+  "era": {
+    "label": "战国",
+    "order": 2
+  },
   "rumorEra": "宋代",
   "coreContext": "战国齐国临淄",
   "evidenceEra": "后世文献记载战国史事",
-  "eraReview": { "status": "reviewed", "by": "Giotto", "at": "2026-10-30T07:32:00-07:00" },
+  "eraReview": {
+    "status": "reviewed",
+    "by": "Giotto",
+    "at": "2026-10-30T07:32:00-07:00"
+  },
   "rank": 7,
   "module": "trending",
   "category": "古代体育",
@@ -13,7 +20,7 @@
     "体育史",
     "起源署名"
   ],
-  "title": "宋代蹴鞠申请足球起源独家署名",
+  "title": "蹴鞠在宋代这么火，始创也能算宋代？",
   "coverUrl": "/covers/h07.webp",
   "coverAlt": "蹴鞠场景与首创争议体育资讯卡插画",
   "author": {
@@ -47,23 +54,43 @@
           "replyTo": "H07-C01",
           "author": "历史裁判",
           "avatar": "/avatars/reader.webp",
-          "text": "你这一填，从人气栏直接跳到了发明栏，中间的依据呢？"
+          "text": "你这一填，从人气栏直接跳到了发明栏，中间的依据呢？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H07-C01-R2",
           "replyTo": "H07-C01-R1",
           "author": "宋代蹴鞠第一资讯",
           "avatar": "/avatars/hype.webp",
-          "text": "先把《史记·苏秦列传》放进阅读清单，按记载核对，别让热度代填年代。"
+          "text": "先把《史记·苏秦列传》放进阅读清单，按记载核对，别让热度代填年代。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H07-C01-R3",
           "replyTo": "H07-C01-R2",
           "author": "宋代球迷前排",
           "avatar": "/avatars/spectator.webp",
-          "text": "那我先收起签字笔，等材料也进场。"
+          "text": "那我先收起签字笔，等材料也进场。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H07-C02",
@@ -74,7 +101,12 @@
       "simulatedLikes": 612,
       "simulatedReplies": 9,
       "simulatedReposts": 6,
-      "simulatedViews": 5127
+      "simulatedViews": 5127,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H07-C03",
@@ -85,7 +117,12 @@
       "simulatedLikes": 209,
       "simulatedReplies": 10,
       "simulatedReposts": 5,
-      "simulatedViews": 2367
+      "simulatedViews": 2367,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H07-C04",
@@ -96,7 +133,12 @@
       "simulatedLikes": 327,
       "simulatedReplies": 11,
       "simulatedReposts": 4,
-      "simulatedViews": 3254
+      "simulatedViews": 3254,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H07-C05",
@@ -107,7 +149,12 @@
       "simulatedLikes": 558,
       "simulatedReplies": 12,
       "simulatedReposts": 3,
-      "simulatedViews": 4932
+      "simulatedViews": 4932,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H07-C06",
@@ -118,7 +165,12 @@
       "simulatedLikes": 281,
       "simulatedReplies": 13,
       "simulatedReposts": 2,
-      "simulatedViews": 3054
+      "simulatedViews": 3054,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "蹴鞠始创于宋代。",
@@ -130,11 +182,29 @@
     "correctedClaim": "早在战国时期，齐国临淄就已经流行蹴鞠。宋代是蹴鞠高度发展的时期，而非其起源时期。",
     "funFact": "文章介绍，蹴鞠于2006年列入第一批国家级非物质文化遗产名录。了解传统体育，也要分清历史记载与现代比赛方式。"
   },
-  "sourceIds": ["S-H07-01", "S-H07-02"],
+  "sourceIds": [
+    "S-H07-01",
+    "S-H07-02"
+  ],
   "rewriteOptions": [
-    { "id": "A", "text": "蹴鞠到宋代才突然诞生，此前没有相关记载。", "isBest": false, "feedback": "给定文章介绍了宋代之前的记载和汉代发展，不能把宋代的繁荣写成首次出现。" },
-    { "id": "B", "text": "现代足球的全部规则都源自战国蹴鞠，两者比赛方式完全一样。", "isBest": false, "feedback": "文章明确区分古代蹴鞠与现代足球的方式，早期记载不能证明现代规则全部来自蹴鞠。" },
-    { "id": "C", "text": "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。", "isBest": true, "feedback": "这个版本区分已有记载与进一步发展，没有把宋代繁荣当成起源，也没有套用现代足球规则。" }
+    {
+      "id": "A",
+      "text": "蹴鞠到宋代才突然诞生，此前没有相关记载。",
+      "isBest": false,
+      "feedback": "给定文章介绍了宋代之前的记载和汉代发展，不能把宋代的繁荣写成首次出现。"
+    },
+    {
+      "id": "B",
+      "text": "现代足球的全部规则都源自战国蹴鞠，两者比赛方式完全一样。",
+      "isBest": false,
+      "feedback": "文章明确区分古代蹴鞠与现代足球的方式，早期记载不能证明现代规则全部来自蹴鞠。"
+    },
+    {
+      "id": "C",
+      "text": "蹴鞠在宋代以前已有记载，宋代进一步发展，不能说起源于宋代。",
+      "isBest": true,
+      "feedback": "这个版本区分已有记载与进一步发展，没有把宋代繁荣当成起源，也没有套用现代足球规则。"
+    }
   ],
   "aiFacts": [
     "[S-H07-01] 国家体育总局转载《中国体育报》的文章（2018-03-26）介绍，《战国策》《史记》描述临淄‘其民无不吹竽、鼓瑟……六博、蹋鞠者’，文章称这是中国开展蹴鞠最早也最明确的记载。",

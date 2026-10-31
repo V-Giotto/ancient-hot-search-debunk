@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { HotTopicSchema, type HotTopic, type CommentReply } from "@/lib/schemas";
 
 const dir = join(process.cwd(), "data/topics");
-const topics = readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => JSON.parse(readFileSync(join(dir, f), "utf8")));
+const topics = readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => HotTopicSchema.parse(JSON.parse(readFileSync(join(dir, f), "utf8"))));
 
-function replies(t: any): any[] {
-  const out: any[] = [];
+function replies(t: HotTopic): CommentReply[] {
+  const out: CommentReply[] = [];
   for (const c of t.comments ?? []) for (const r of c.replies ?? []) out.push(r);
   return out;
 }

@@ -20,9 +20,9 @@
     "配料表",
     "辛辣味"
   ],
-  "title": "唐朝火锅里的红辣椒，配料表经得起查吗",
+  "title": "现代拟制的大唐食谱图：红辣椒配料经得起查吗",
   "coverUrl": "/covers/h03.webp",
-  "coverAlt": "唐风角色围观一锅夸张红汤的插画",
+  "coverAlt": "现代拟制的大唐食谱图，红汤与调味料的艺术创作示意",
   "author": {
     "name": "长安吃货观察局",
     "handle": "@changan_chihuo",
@@ -54,23 +54,43 @@
           "replyTo": "H03-C01",
           "author": "长安吃货",
           "avatar": "/avatars/changan.webp",
-          "text": "你把“能吃辣”和“有这种辣椒”连成一件事了，中间是不是还差一步？"
+          "text": "你把“能吃辣”和“有这种辣椒”连成一件事了，中间是不是还差一步？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H03-C01-R2",
           "replyTo": "H03-C01-R1",
           "author": "长安吃货观察局",
           "avatar": "/avatars/changan.webp",
-          "text": "对，这次查的是美洲辣椒当时是否传入，别让红汤的颜色替配料作证。"
+          "text": "对，这次查的是美洲辣椒当时是否传入，别让红汤的颜色替配料作证。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H03-C01-R3",
           "replyTo": "H03-C01-R2",
           "author": "见辣就想吃",
           "avatar": "/avatars/pepper.webp",
-          "text": "明白了，我的食欲暂时不能担任审核员。"
+          "text": "明白了，我的食欲暂时不能担任审核员。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H03-C02",
@@ -81,7 +101,12 @@
       "simulatedLikes": 412,
       "simulatedReplies": 5,
       "simulatedReposts": 6,
-      "simulatedViews": 3315
+      "simulatedViews": 3315,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H03-C03",
@@ -92,7 +117,12 @@
       "simulatedLikes": 593,
       "simulatedReplies": 6,
       "simulatedReposts": 1,
-      "simulatedViews": 4643
+      "simulatedViews": 4643,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H03-C04",
@@ -103,7 +133,12 @@
       "simulatedLikes": 287,
       "simulatedReplies": 7,
       "simulatedReposts": 4,
-      "simulatedViews": 2562
+      "simulatedViews": 2562,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H03-C05",
@@ -114,7 +149,12 @@
       "simulatedLikes": 165,
       "simulatedReplies": 8,
       "simulatedReposts": 7,
-      "simulatedViews": 1769
+      "simulatedViews": 1769,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H03-C06",
@@ -125,7 +165,12 @@
       "simulatedLikes": 381,
       "simulatedReplies": 9,
       "simulatedReposts": 2,
-      "simulatedViews": 3342
+      "simulatedViews": 3342,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "唐代中国已经使用原产美洲的辣椒进行调味。",

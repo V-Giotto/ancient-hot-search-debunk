@@ -1,5 +1,17 @@
 # 原创素材登记
 
+## v0.28.2 · H15铜卡尺封面修订
+
+`public/covers/h15.webp`：内置imagegen编辑，1200×675 WebP，pending / Giotto。替换现封面的现代游标卡尺形象；实际打开[国博科技专题](https://www.chnmuseum.cn/portals/0/web/zt/202012kxyjs/)及其[始建国元年卡尺参考图](https://www.chnmuseum.cn/portals/0/web/zt/202012kxyjs/images/1-2-2-1.jpg)，参考仅用于外形。原始参考副本在`/workspace/iter1/h15-museum-reference.jpg`，不将馆方图片纳入仓库发布。新图保留紫色像素展柜、暖色灯光，器物采用长槽、钝L形爪和环，删除现代游标刻度、旋钮、尖上爪和深度杆；无新增铭文。内置工具生成PNG后仅缩放编码为WebP，未使用额外图像API或密钥。
+
+配图为**艺术创作示意**，不是器物实拍、古代原图或精确考古复原；此说明同时写入H15的coverAlt及配图下方可见说明。原审核未视觉逐像素核对，新图由实施方对照参考检查，仍待Giotto审核。生成工具未返回具体模型版本，不推定；不新增外部素材许可证授权。
+
+最终提示词（内置工具模式）：
+
+```text
+Use case: precise-object-edit. Asset type: H15 cover for a Chinese historical fact-checking app. Input image 1 is the edit target, a purple pixel-art museum scene. Input image 2 is a museum artifact shape reference only. Replace only the erroneous modern vernier caliper in image 1 with a bronze sliding caliper matching the simple silhouette in image 2: flat horizontal rectangular bronze bars, long open guide slot along upper bar, two broad blunt L-shaped jaws pointing down on the right, small ring below the bar close to the jaws, dark aged bronze. Keep the purple museum backdrop, amber spotlight, glass case, display base, landscape 16:9 composition, retro pixel-art style. Avoid modern vernier scale, thumb wheel, adjustment screw, sharp upper measuring jaws, depth rod, dial, digital display, readable invented inscriptions or numbers. No added objects, text, watermark, or people. This is an artistic schematic, not a claimed archaeological reconstruction. Preserve simple blocky square pixel texture and make the artifact clearly visible.
+```
+
 ## v0.25.0 · 11 张新增好友头像
 
 以下头像由用户安排的外部流程生成并放入 `public/friends/`，本次实现只接入与校验文件，没有重新生成、重编码或裁切。统一属性为 **AI 生成原创复古像素风头像**：深紫背景、亮绿高光、粗描边，与既有李白／杜甫头像同一视觉系统；不含真实品牌或 logo，不是真实肖像、文物图像或历史复原，也不能作为人物服饰、器物、生平与时代细节的证据。生成工具／模型、许可证与逐图原始提示词由外部素材提供方后续补录；全部状态为 **待 Giotto 审核**。

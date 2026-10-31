@@ -54,23 +54,43 @@
           "replyTo": "H06-C01",
           "author": "器物研究员",
           "avatar": "/avatars/reader.webp",
-          "text": "别急着认亲，外形像不像和怎样工作，是两个问题。"
+          "text": "别急着认亲，外形像不像和怎样工作，是两个问题。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H06-C01-R2",
           "replyTo": "H06-C01-R1",
           "author": "楚地贵族生活家",
           "avatar": "/avatars/changan.webp",
-          "text": "就从国博的青铜冰鉴介绍看起，先把内外结构认清，再回来给它起外号。"
+          "text": "就从国博的青铜冰鉴介绍看起，先把内外结构认清，再回来给它起外号。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H06-C01-R3",
           "replyTo": "H06-C01-R2",
           "author": "现代冰箱代言人",
           "avatar": "/avatars/spectator.webp",
-          "text": "明白，认亲仪式暂停，我先看说明书。"
+          "text": "明白，认亲仪式暂停，我先看说明书。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H06-C02",
@@ -81,7 +101,12 @@
       "simulatedLikes": 604,
       "simulatedReplies": 8,
       "simulatedReposts": 4,
-      "simulatedViews": 4968
+      "simulatedViews": 4968,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H06-C03",
@@ -92,7 +117,12 @@
       "simulatedLikes": 218,
       "simulatedReplies": 9,
       "simulatedReposts": 2,
-      "simulatedViews": 2327
+      "simulatedViews": 2327,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H06-C04",
@@ -103,7 +133,12 @@
       "simulatedLikes": 315,
       "simulatedReplies": 10,
       "simulatedReposts": 0,
-      "simulatedViews": 3067
+      "simulatedViews": 3067,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H06-C05",
@@ -114,7 +149,12 @@
       "simulatedLikes": 562,
       "simulatedReplies": 11,
       "simulatedReposts": 6,
-      "simulatedViews": 4857
+      "simulatedViews": 4857,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H06-C06",
@@ -125,7 +165,12 @@
       "simulatedLikes": 289,
       "simulatedReplies": 12,
       "simulatedReposts": 4,
-      "simulatedViews": 3007
+      "simulatedViews": 3007,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "战国时期存在利用冰块冷却酒饮的青铜器具。",

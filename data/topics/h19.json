@@ -40,68 +40,108 @@
   "simulatedBookmarks": 358,
   "comments": [
     {
-      "id": "H19-C01",
-      "author": "工单先挂起",
+      "id": "H19-V282-C01",
+      "author": "戏台案卷分不清",
       "avatar": "/avatars/spectator.webp",
       "role": "troll",
-      "text": "追剧笔记翻得比史料索引快，我先自查。",
-      "simulatedLikes": 83,
+      "text": "戏里包拯审得那么细，应该就是宋代案卷吧。",
+      "simulatedLikes": 76,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      },
       "replies": [
         {
-          "id": "H19-C01-R1",
-          "replyTo": "H19-C01",
+          "id": "H19-V282-C01-R1",
+          "replyTo": "H19-V282-C01",
           "author": "古代塌房研究所",
           "avatar": "/avatars/pepper.webp",
-          "text": "追剧笔记先合上，我去找题材研究的摘要。"
+          "text": "本题核完整故事的史料依据，不把宋史缺载当绝不存在的证明。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         },
         {
-          "id": "H19-C01-R2",
-          "replyTo": "H19-C01-R1",
-          "author": "原文书签夹",
-          "avatar": "/avatars/hype.webp",
-          "text": "记得看研究讨论的对象，别把剧情与案卷混在一起。"
+          "id": "H19-V282-C01-R2",
+          "replyTo": "H19-V282-C01-R1",
+          "author": "戏台案卷分不清",
+          "avatar": "/avatars/spectator.webp",
+          "text": "那我把案卷两个字改成戏剧情节，接着看。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T23:59:00-07:00"
+          }
         }
       ]
     },
     {
-      "id": "H19-C02",
-      "author": "小板凳占座",
-      "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "故事我能背，案卷在哪却没问过。",
-      "simulatedLikes": 72
-    },
-    {
-      "id": "H19-C03",
-      "author": "书签核对员",
+      "id": "H19-V282-C02",
+      "author": "戏曲史研究者",
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
-      "text": "情节熟悉和出处可靠，先分开打分。",
-      "simulatedLikes": 61
+      "text": "戏台情节不能直接当案卷，故事流传也得看材料层次。",
+      "simulatedLikes": 67,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H19-C04",
-      "author": "街口等消息",
+      "id": "H19-V282-C03",
+      "author": "追剧追到查书",
       "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "昨晚还在看戏，今天已经开始给阅读器充电。",
+      "simulatedLikes": 58,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H19-V282-C04",
+      "author": "同名人物假想档案",
+      "avatar": "/avatars/pepper.webp",
       "role": "in_world",
-      "text": "戏台边的小板凳已摆好，书也借来了。",
-      "simulatedLikes": 50
+      "text": "假如遇到同名的人，也不能自动给他套整出戏的经历。",
+      "simulatedLikes": 49,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     },
     {
-      "id": "H19-C05",
-      "author": "材料慢慢翻",
-      "avatar": "/avatars/hype.webp",
-      "role": "history_nerd",
-      "text": "这题得查题材的来路，别只拼谁记得全。",
-      "simulatedLikes": 39
-    },
-    {
-      "id": "H19-C06",
-      "author": "按住转发键",
+      "id": "H19-V282-C05",
+      "author": "缺载逻辑小纸条",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "我先按住转发键，等大家把材料找齐。",
-      "simulatedLikes": 28
+      "text": "一本史书没写，能直接推出所有同名人物都不存在吗？",
+      "simulatedLikes": 40,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
+    },
+    {
+      "id": "H19-V282-C06",
+      "author": "完整故事核对簿",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "我只想问这整桩案子有没有史料支持，不给名字判生死。",
+      "simulatedLikes": 31,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T23:59:00-07:00"
+      }
     }
   ],
   "claim": "《铡美案》中陈世美被包拯处决的故事，是有史料证实的宋代真实案件。",

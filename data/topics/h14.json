@@ -60,17 +60,32 @@
           "id": "H14-C01-R1",
           "replyTo": "H14-C01",
           "author": "街巷夜读",
-          "avatar": "/avatars/pepper.webp",
-          "text": "你是拿自己的作息猜的吗？我现在缺的是书里对应街市的时段。"
+          "avatar": "/avatars/hype.webp",
+          "text": "你是拿自己的作息猜的吗？我现在缺的是书里对应街市的时段。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H14-C01-R2",
           "replyTo": "H14-C01-R1",
           "author": "读书先看地名",
           "avatar": "/avatars/hype.webp",
-          "text": "那先把街市名和上下文找全，别替所有店铺填同一张表。"
+          "text": "那先把街市名和上下文找全，别替所有店铺填同一张表。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H14-C02",
@@ -78,7 +93,12 @@
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
       "text": "先把书里提到的地方圈出来，别一下替全城安排作息。",
-      "simulatedLikes": 72
+      "simulatedLikes": 72,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H14-C03",
@@ -86,7 +106,12 @@
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
       "text": "我只想吃点东西，结果先领到一道阅读理解。",
-      "simulatedLikes": 61
+      "simulatedLikes": 61,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H14-C04",
@@ -94,7 +119,12 @@
       "avatar": "/avatars/pepper.webp",
       "role": "in_world",
       "text": "到底几点能买到？别光在评论里喊饿啊。",
-      "simulatedLikes": 50
+      "simulatedLikes": 50,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H14-C05",
@@ -102,7 +132,12 @@
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
       "text": "《东京梦华录》可以找找，地名和前后文都别略过。",
-      "simulatedLikes": 39
+      "simulatedLikes": 39,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H14-C06",
@@ -110,7 +145,12 @@
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
       "text": "我先记时段，暂时不把所有店都塞进同一张营业表。",
-      "simulatedLikes": 28
+      "simulatedLikes": 28,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "北宋东京有夜市营业至三更，并在五更重新开张。",

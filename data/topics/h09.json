@@ -55,23 +55,43 @@
           "replyTo": "H09-C01",
           "author": "东京街巷居民",
           "avatar": "/avatars/reader.webp",
-          "text": "你只安排了看见，那看见以后谁来处理，这一步还空着呢。"
+          "text": "你只安排了看见，那看见以后谁来处理，这一步还空着呢。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H09-C01-R2",
           "replyTo": "H09-C01-R1",
           "author": "东京街巷快讯",
           "avatar": "/avatars/reader.webp",
-          "text": "这个空白留给记载回答，先读《东京梦华录》的防火一段，把人员和器具分别找出来。"
+          "text": "这个空白留给记载回答，先读《东京梦华录》的防火一段，把人员和器具分别找出来。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H09-C01-R3",
           "replyTo": "H09-C01-R2",
           "author": "楼名理解满分",
           "avatar": "/avatars/spectator.webp",
-          "text": "好，楼名阅读满分撤回，全文阅读准备开始。"
+          "text": "好，楼名阅读满分撤回，全文阅读准备开始。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H09-C02",
@@ -82,7 +102,12 @@
       "simulatedLikes": 483,
       "simulatedReplies": 11,
       "simulatedReposts": 2,
-      "simulatedViews": 4430
+      "simulatedViews": 4430,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H09-C03",
@@ -93,7 +118,12 @@
       "simulatedLikes": 446,
       "simulatedReplies": 12,
       "simulatedReposts": 3,
-      "simulatedViews": 4232
+      "simulatedViews": 4232,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H09-C04",
@@ -104,7 +134,12 @@
       "simulatedLikes": 409,
       "simulatedReplies": 13,
       "simulatedReposts": 4,
-      "simulatedViews": 4034
+      "simulatedViews": 4034,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H09-C05",
@@ -115,7 +150,12 @@
       "simulatedLikes": 372,
       "simulatedReplies": 14,
       "simulatedReposts": 5,
-      "simulatedViews": 3836
+      "simulatedViews": 3836,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H09-C06",
@@ -126,7 +166,12 @@
       "simulatedLikes": 335,
       "simulatedReplies": 15,
       "simulatedReposts": 6,
-      "simulatedViews": 3638
+      "simulatedViews": 3638,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "北宋都城东京设有望火楼瞭望火情，楼下驻有专门救火的军兵并备有救火器具。",

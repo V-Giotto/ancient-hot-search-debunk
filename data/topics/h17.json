@@ -21,7 +21,7 @@
     "秦始皇本纪",
     "印玺"
   ],
-  "title": "嫪毐假用王玺发兵，《史记》怎么写",
+  "title": "嫪毐矫用秦王御玺及太后玺，《史记》怎么写",
   "coverUrl": "/covers/h17.webp",
   "coverAlt": "秦宫印玺与军情文书的像素插画",
   "author": {
@@ -40,68 +40,108 @@
   "simulatedBookmarks": 374,
   "comments": [
     {
-      "id": "H17-C01",
-      "author": "工单先挂起",
+      "id": "H17-V282-C01",
+      "author": "秦廷印章假想号",
       "avatar": "/avatars/spectator.webp",
       "role": "troll",
-      "text": "以为搬来小板凳就够了，结果还要带书签。",
-      "simulatedLikes": 83,
+      "text": "一提印玺我就以为只有一枚，原文到底提了哪些？",
+      "simulatedLikes": 76,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      },
       "replies": [
         {
-          "id": "H17-C01-R1",
-          "replyTo": "H17-C01",
+          "id": "H17-V282-C01-R1",
+          "replyTo": "H17-V282-C01",
           "author": "秦廷消息观察",
-          "avatar": "/avatars/pepper.webp",
-          "text": "权限的比喻先放下，我去找对应篇目。"
+          "avatar": "/avatars/hype.webp",
+          "text": "先对照《史记·秦始皇本纪》这一段；不能用现代授权流程补写古代细节。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-31T00:33:00-07:00"
+          }
         },
         {
-          "id": "H17-C01-R2",
-          "replyTo": "H17-C01-R1",
-          "author": "原文书签夹",
-          "avatar": "/avatars/hype.webp",
-          "text": "书页找到后再聊，评论补的密谈先别算进去。"
+          "id": "H17-V282-C01-R2",
+          "replyTo": "H17-V282-C01-R1",
+          "author": "秦廷印章假想号",
+          "avatar": "/avatars/spectator.webp",
+          "text": "好，我刚才只盯着简称了，回去读全。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-31T00:33:00-07:00"
+          }
         }
       ]
     },
     {
-      "id": "H17-C02",
-      "author": "小板凳占座",
-      "avatar": "/avatars/spectator.webp",
-      "role": "spectator",
-      "text": "权限问题听着熟，具体用在哪里可得查。",
-      "simulatedLikes": 72
-    },
-    {
-      "id": "H17-C03",
-      "author": "书签核对员",
+      "id": "H17-V282-C02",
+      "author": "史记读者",
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
-      "text": "先找对应篇目，别让一句比喻代替整段材料。",
-      "simulatedLikes": 61
+      "text": "涉及哪些印不能只看简称，原文范围要看全。",
+      "simulatedLikes": 67,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
     },
     {
-      "id": "H17-C04",
-      "author": "街口等消息",
+      "id": "H17-V282-C03",
+      "author": "印章收纳困难户",
       "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我连印泥都找不到，这楼已经在追发兵流程。",
+      "simulatedLikes": 58,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
+    },
+    {
+      "id": "H17-V282-C04",
+      "author": "秦廷公文练习号",
+      "avatar": "/avatars/pepper.webp",
       "role": "in_world",
-      "text": "盖章之前查用途，转发之前查出处。",
-      "simulatedLikes": 50
+      "text": "假如拟一份读书笔记，矫用和真实授权可不能混写。",
+      "simulatedLikes": 49,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
     },
     {
-      "id": "H17-C05",
-      "author": "材料慢慢翻",
-      "avatar": "/avatars/hype.webp",
-      "role": "history_nerd",
-      "text": "评论补的密谈越来越长，有人贴原文位置吗？",
-      "simulatedLikes": 39
-    },
-    {
-      "id": "H17-C06",
-      "author": "按住转发键",
+      "id": "H17-V282-C05",
+      "author": "文献证据分层员",
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
-      "text": "这瓜先放稳，我去核对书页。",
-      "simulatedLikes": 28
+      "text": "书上有记载和每个细节都被独立证实，也得分开。",
+      "simulatedLikes": 40,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
+    },
+    {
+      "id": "H17-V282-C06",
+      "author": "本纪页码夹",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "我想对照这段前后文，别拿另一件事补空白。",
+      "simulatedLikes": 31,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-31T00:33:00-07:00"
+      }
     }
   ],
   "claim": "《史记·秦始皇本纪》记载，嫪毐曾矫用秦王御玺及太后玺，调发兵众发动叛乱。",

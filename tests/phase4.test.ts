@@ -33,7 +33,7 @@ describe("Phase 4 已审新题与展示审核边界", () => {
     expect(getAvailableTopics()).toHaveLength(22);
     expect(getAvailableFeedEntries()).toHaveLength(52);
     for (const topic of candidates) {
-      expect(getAvailableFeedEntryById(topic.id)?.editorialReviewStatus).toBe("pending");
+      expect(getAvailableFeedEntryById(topic.id)?.editorialReviewStatus).toBe("reviewed");
       expect((await generateMetadata({ params: Promise.resolve({ id: topic.id }) })).title).toBe(topic.title);
       const page = await PostPage({ params: Promise.resolve({ id: topic.id }) });
       expect(page.props.children.props.topicIds).toHaveLength(22);

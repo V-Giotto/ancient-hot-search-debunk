@@ -4,7 +4,7 @@ import { PixelIcon } from "@/components/pixel/PixelIcon";
 
 import { useEffect, useRef, useState } from "react";
 import { AskPanel } from "@/components/ai/AskPanel";
-import { readCollectionProgress, saveProgress } from "@/lib/progress";
+import { collectTopic } from "@/lib/progress";
 import type { PublicTopic } from "@/lib/public-topic";
 import type { VerdictResult } from "@/lib/verdict";
 import Link from "next/link";
@@ -24,8 +24,8 @@ async function requestVerdict(topicId: string, answer: boolean, signal: AbortSig
   return response.json();
 }
 
-export function VerdictTask({ topic, topicIds, onReplay, onResult, collectedTopics }: {
-  topic: PublicTopic; topicIds: readonly string[]; onReplay?: () => void; onResult?: (result: VerdictResult) => void; collectedTopics?: Set<string>;
+export function VerdictTask({ topic, topicIds, onReplay, onResult }: {
+  topic: PublicTopic; topicIds: readonly string[]; onReplay?: () => void; onResult?: (result: VerdictResult) => void;
 }) {
   const topicId = topic.topicId;
   const collectionProgress = useCollectionProgress(topicIds);
@@ -37,7 +37,6 @@ export function VerdictTask({ topic, topicIds, onReplay, onResult, collectedTopi
   const [rewriteId, setRewriteId] = useState<string>();
   const [showCard, setShowCard] = useState(false);
   const [earnedProgress, setEarnedProgress] = useState<{ completed: number; total: number; firstUnlock: boolean }>();
-  const localCollectionRef = useRef(new Set<string>());
   const controllerRef = useRef<AbortController | null>(null);
   const pendingRef = useRef(false);
   const revealHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -70,17 +69,9 @@ export function VerdictTask({ topic, topicIds, onReplay, onResult, collectedTopi
       focusRevealRef.current = true;
       setResult(data);
       onResult?.(data);
-      const collection = readCollectionProgress(topicIds);
-      const collected = collectedTopics ?? localCollectionRef.current;
-      const firstUnlock = !collection.completedIds.includes(topicId) && !collected.has(topicId);
-      // 兼容旧版已揭晓记录，但不恢复答案/改写；选题和重玩不覆盖持久收集。
-      if (!collection.completedIds.includes(topicId)) {
-        const saved = saveProgress({ topicId: topicId, selectedAnswer: answer, submittedAt: new Date().toISOString(), revealed: true });
-        setStorageFailed(!saved);
-        if (saved) collected.delete(topicId);
-        else collected.add(topicId);
-      }
-      setEarnedProgress({ completed: new Set([...collection.completedIds, ...collected, topicId].filter((id) => topicIds.includes(id))).size, total: collection.total, firstUnlock });
+      const collection = collectTopic({ topicId, selectedAnswer: answer, submittedAt: new Date().toISOString(), revealed: true }, topicIds);
+      setStorageFailed(!collection.saved);
+      setEarnedProgress(collection);
     } catch {
       if (!controller.signal.aborted) setError("判题暂时不可用，请重试。你的选择仍然保留。");
     } finally {

@@ -52,16 +52,31 @@
           "replyTo": "H13-C01",
           "author": "调色盘先别收",
           "avatar": "/avatars/pepper.webp",
-          "text": "我现在卡的就是：我画的是眼前的外观，还是刚制作完成的样子？"
+          "text": "我现在卡的就是：我画的是眼前的外观，还是刚制作完成的样子？",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H13-C01-R2",
           "replyTo": "H13-C01-R1",
           "author": "器物观察笔记",
           "avatar": "/avatars/hype.webp",
-          "text": "两件事先分开，再找制作与保护的介绍，光看照片不够。"
+          "text": "两件事先分开，再找制作与保护的介绍，光看照片不够。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H13-C02",
@@ -69,7 +84,12 @@
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
       "text": "今天的外观能不能代表刚做好的外观？这个得分开问。",
-      "simulatedLikes": 72
+      "simulatedLikes": 72,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H13-C03",
@@ -77,7 +97,12 @@
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
       "text": "我的笔已经举起来了，现在等一个配色依据。",
-      "simulatedLikes": 61
+      "simulatedLikes": 61,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H13-C04",
@@ -85,7 +110,12 @@
       "avatar": "/avatars/pepper.webp",
       "role": "in_world",
       "text": "先别替调色盘办退场手续，我也想看这题怎么查。",
-      "simulatedLikes": 50
+      "simulatedLikes": 50,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H13-C05",
@@ -93,7 +123,12 @@
       "avatar": "/avatars/hype.webp",
       "role": "history_nerd",
       "text": "博物院的保护介绍值得翻翻，别只看网上的图片。",
-      "simulatedLikes": 39
+      "simulatedLikes": 39,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H13-C06",
@@ -101,7 +136,12 @@
       "avatar": "/avatars/spectator.webp",
       "role": "spectator",
       "text": "我存的图一张一个样，图片好看和能作证是两回事。",
-      "simulatedLikes": 28
+      "simulatedLikes": 28,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "秦兵马俑制作之初就只有灰色（不施彩绘）。",

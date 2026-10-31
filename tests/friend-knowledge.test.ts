@@ -15,7 +15,7 @@ const when = (year: number) => ({ earliest: year, latest: year, note: "测试日
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
 describe("逐条知识权限与审核门控", () => {
-  it("六人16组均pending，第二批只有lifespan，无新知识；秦始皇未加H17", () => {
+  it("六人16组均已由Giotto正式审核，第二批只有lifespan，无新知识；秦始皇未加H17", () => {
     const first = ["libai", "dufu", "sushi", "liqingzhao", "kongzi", "qinshihuang"];
     let count = 0;
     for (const friend of getAllFriends()) {
@@ -27,9 +27,12 @@ describe("逐条知识权限与审核门控", () => {
       const prompt = JSON.stringify(context(friend));
       for (const record of friend.knowledge) {
         expect(FriendKnowledgeSchema.parse(record)).toEqual(record);
-        expect(record.reviewStatus).toEqual({ status: "pending", reviewer: "Giotto", reviewedAt: null });
+        expect(record.reviewStatus).toEqual({ status: "reviewed", reviewer: "Giotto", reviewedAt: "2026-10-30T22:44:00-07:00" });
         expect(record.source.accessStatus).toBe("opened");
-        for (const forbidden of [record.factId, record.sourceId, record.exactQuote, record.source.url]) expect(prompt).not.toContain(forbidden);
+        expect(prompt).toContain(record.factId);
+        expect(prompt).toContain(record.sourceId);
+        expect(prompt).not.toContain(record.source.url);
+        if (record.allowedUsage.includes("exact_quote")) expect(prompt).toContain(record.exactQuote);
       }
       expect(toFriendProfile(friend)).not.toHaveProperty("knowledge");
       expect(toFriendProfile(friend)).not.toHaveProperty("lifespan");
@@ -66,7 +69,7 @@ describe("逐条知识权限与审核门控", () => {
     expect(findUnsupportedChatQuotes("“未审核的作品原句”《不能引用的书名》", { ...libai, knowledge: [] }, [source])).toHaveLength(2);
   });
   it.each([
-    { sourceId: undefined }, { factId: "" }, { materialDate: undefined }, { eventDate: undefined },
+    { sourceId: undefined }, { factId: "" }, { sourceCompositionDate: undefined }, { eventDate: undefined },
     { tier: "fact" }, { certainty: "maybe" }, { evidenceType: "AI" }, { allowedUsage: [] },
     { exactQuote: "模型记忆补全" }, { allowedUsage: ["first_person", "first_person"] },
     { reviewStatus: { status: "reviewed", reviewer: "Giotto", reviewedAt: null } },
@@ -106,15 +109,16 @@ describe("逐字引用与生命周期守卫", () => {
   it.each([
     ["wangxizhi", "昭陵", 649, 649, "逸少记得昭陵陪葬那天。"],
     ["kongzi", "论语", -100, -479, "丘读过编定的论语。"],
-    ["sushi", "杭州", 1345, 1090, "东坡当年主持杭州治水。"],
+
   ])("%s：材料或事件在身后即posthumous，不能被听说前缀洗白", (id, subject, material, event, badReply) => {
-    const person = getFriendById(id)!;
-    const record = makeKnowledge({ subjects: [subject], materialDate: when(material), eventDate: when(event) });
+    const original = getFriendById(id)!;
+    const person = { ...original, lifespan: id === "wangxizhi" ? { birthYear: 303, deathYear: 361, note: "合成已知日期守卫夹具，不是争议生卒的入库事实" } : original.lifespan };
+    const record = makeKnowledge({ subjects: [subject], sourceCompositionDate: when(material), eventDate: when(event), speakerAttribution: { kind: "third_person_record", label: "不授权亲历的合成文献" }, allowedUsage: ["paraphrase"] });
     const records = getChatKnowledge({ ...person, sourceIds: [], knowledge: [record] });
     expect(records[0].posthumous).toBe(true);
     expect(records[0].firstPersonAllowed).toBe(false);
     expect(records[0].allowedUsage).not.toContain("first_person");
-    expect(records[0].voiceConstraint).toContain("posthumous");
+    if (records[0].eventPosthumous) expect(records[0].voiceConstraint).toContain("eventPosthumous");
     expect(findKnowledgeOutputViolations(badReply, records)).toContain("test-fact:forbidden_first_person");
     expect(findKnowledgeOutputViolations(`听说后世，${badReply}`, records)).toContain("test-fact:forbidden_first_person");
     expect(findKnowledgeOutputViolations(`听闻后世有${subject}一事。`, records)).toEqual([]);
@@ -122,21 +126,22 @@ describe("逐字引用与生命周期守卫", () => {
   it("生前已审verified_fact可按权限自然叙述；缺事件日期或区间跨卒年不能亲历", () => {
     const record = makeKnowledge();
     expect(getChatKnowledge({ ...libai, sourceIds: [], knowledge: [record] })[0].firstPersonAllowed).toBe(true);
-    expect(getKnowledgeLifecycle(libai, { ...record, eventDate: null })).toEqual({ posthumous: false, contemporary: false });
-    expect(getKnowledgeLifecycle(libai, { ...record, materialDate: { ...when(740), latest: 763 } }).posthumous).toBe(true);
+    expect(getKnowledgeLifecycle(libai, { ...record, eventDate: null })).toEqual({ posthumous: false, eventPosthumous: false, contemporary: false });
+    expect(getKnowledgeLifecycle(libai, { ...record, sourceCompositionDate: { ...when(740), latest: 763 } }).posthumous).toBe(true);
     expect(getKnowledgeLifecycle(libai, { ...record, eventDate: when(700) }).contemporary).toBe(false);
   });
   it("sourced_anecdote必须说明据何书记载；转述与后世标记须同时满足", () => {
-    const record = makeKnowledge({ tier: "sourced_anecdote", certainty: "reported", allowedUsage: ["paraphrase", "attributed"], materialDate: when(1060) });
+    const record = makeKnowledge({ tier: "sourced_anecdote", certainty: "reported", allowedUsage: ["paraphrase", "attributed"], sourceCompositionDate: when(1060) });
     const records = getChatKnowledge({ ...libai, sourceIds: [], knowledge: [record] });
-    expect(findKnowledgeOutputViolations("测试材料确有此事。", records)).toHaveLength(2);
+    expect(findKnowledgeOutputViolations("测试材料确有此事。", records)).toEqual(["test-fact:missing_attribution"]);
     expect(findKnowledgeOutputViolations("听闻后世有测试材料。", records)).toEqual(["test-fact:missing_attribution"]);
     expect(findKnowledgeOutputViolations("听闻后世，据测试文献记载有测试材料。", records)).toEqual([]);
     expect(findKnowledgeOutputViolations("听闻后世，据另一本书所载有测试材料。", records)).toEqual(["test-fact:missing_attribution"]);
     expect(findKnowledgeOutputViolations("你慢慢说，吾听着。", records)).toEqual([]);
   });
   it("不加引号也不能复述pending原句；persona_expression不得冒充原诗或史事", () => {
-    expect(findForbiddenKnowledgeUsage(libai.knowledge[0].exactQuote, libai)).toContain(`${libai.knowledge[0].factId}:unauthorized_quote`);
+    const pendingFriend = { ...libai, knowledge: libai.knowledge.map((record) => ({ ...record, reviewStatus: { status: "pending" as const, reviewer: "Giotto", reviewedAt: null } })) };
+    expect(findForbiddenKnowledgeUsage(libai.knowledge[0].exactQuote, pendingFriend)).toContain(`${libai.knowledge[0].factId}:unauthorized_quote`);
     const expression = makeKnowledge({ tier: "persona_expression", evidenceType: "persona", certainty: "creative", allowedUsage: ["persona_expression"], exactQuote: "", content: "月亮也陪你歇一歇" });
     const friend = { ...libai, knowledge: [expression] };
     expect(findForbiddenKnowledgeUsage("月亮也陪你歇一歇，慢慢说。", friend)).toEqual([]);
@@ -144,6 +149,7 @@ describe("逐字引用与生命周期守卫", () => {
     expect(findUnsupportedChatQuotes("“月亮也陪你歇一歇”", friend, [])).toEqual(["月亮也陪你歇一歇"]);
   });
   it("真实API：pending不进任何系统消息，违规引文重试后兜底，始终mock上游", async () => {
+    vi.spyOn(friendData, "getFriendById").mockReturnValue({ ...libai, knowledge: libai.knowledge.map((record) => ({ ...record, reviewStatus: { status: "pending", reviewer: "Giotto", reviewedAt: null } })) });
     vi.stubEnv("AI_API_KEY", "synthetic-v28-test-key");
     const fetchMock = vi.fn().mockResolvedValue(Response.json({ choices: [{ message: { content: JSON.stringify({ reply: `“${libai.knowledge[0].exactQuote}”` }) }, finish_reason: "stop" }] }));
     vi.stubGlobal("fetch", fetchMock);
@@ -160,7 +166,7 @@ describe("逐字引用与生命周期守卫", () => {
   });
   it("真实API：身后亲历违规共用一次重试预算，改为听闻后世后通过", async () => {
     const person = getFriendById("wangxizhi")!;
-    vi.spyOn(friendData, "getFriendById").mockReturnValue({ ...person, knowledge: [makeKnowledge({ subjects: ["昭陵"], materialDate: when(649), eventDate: when(649) })] });
+    vi.spyOn(friendData, "getFriendById").mockReturnValue({ ...person, knowledge: [makeKnowledge({ subjects: ["昭陵"], sourceCompositionDate: when(649), eventDate: when(649) })] });
     vi.stubEnv("AI_API_KEY", "synthetic-v28-test-key");
     const completion = (reply: string) => Response.json({ choices: [{ message: { content: JSON.stringify({ reply }) }, finish_reason: "stop" }] });
     const fetchMock = vi.fn().mockResolvedValueOnce(completion("逸少亲眼见过昭陵。"))

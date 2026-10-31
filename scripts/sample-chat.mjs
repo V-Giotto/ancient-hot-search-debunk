@@ -14,6 +14,8 @@ let key = "";
 async function main() {
   let localEnv = {};
   try { localEnv = parseEnv(await readFile(new URL("../.env.local", import.meta.url), "utf8")); }
+  // 不附加可能含本机配置片段的cause，避免真实采样脚本意外记录密钥。
+  // eslint-disable-next-line preserve-caught-error
   catch (error) { if (error.code !== "ENOENT") throw new Error("无法读取本机配置。"); }
   const env = { ...localEnv, ...process.env };
   key = env.AI_API_KEY?.trim() || "";

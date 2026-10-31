@@ -16,11 +16,11 @@ import type { VerdictResult } from "@/lib/verdict";
 
 type Props = { topic: PublicTopic; topicIds: readonly string[]; friends?: readonly FriendProfile[]; relatedEntries?: readonly RelatedEntry[] };
 
-function PostSession({ topic, topicIds, friends, relatedEntries = [], replay, collectedTopics }: Props & { replay: () => void; collectedTopics: Set<string> }) {
+function PostSession({ topic, topicIds, friends, relatedEntries = [], replay }: Props & { replay: () => void }) {
   const [verdict, setVerdict] = useState<VerdictResult>();
   return <Participation topic={topic} post={<PostFormat topic={topic} friends={friends} />}
     comments={<Comments comments={topic.comments} author={topic.author.name} title={topic.title} module={topic.module} contentId={topic.id} topicId={topic.topicId} verdict={verdict} />}>
-    <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} onResult={setVerdict} collectedTopics={collectedTopics} />
+    <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} onResult={setVerdict} />
     <SameTopic entries={relatedEntries} />
     <Link href={topic.module === "trending" ? "/trending" : "/discover"} className="inline-block py-2 text-sm text-accent hover:underline"><PixelIcon name="back" size={16} /> 返回{topic.module === "trending" ? "热搜榜，继续阅读" : "发现，继续围观"}</Link>
   </Participation>;
@@ -30,8 +30,6 @@ export function PostExperience({ topic, topicIds, friends = [], relatedEntries =
   const [attempt, setAttempt] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const focusTaskRef = useRef(false);
-  // 存储不可用时，同一次页面体验内重玩也不重复提示获得贴纸。
-  const collectedTopics = useRef(new Set<string>());
 
   useLayoutEffect(() => {
     // Next 的路由 Activity 再次显示时会重新运行 effect，历史返回也从新题面开始。
@@ -61,7 +59,7 @@ export function PostExperience({ topic, topicIds, friends = [], relatedEntries =
 
   return (
     <div key={`${topic.id}:${attempt}`} ref={contentRef} className={`post-experience ${topic.module === "trending" ? "news-experience" : "social-experience"} space-y-6`}>
-      <PostSession topic={topic} topicIds={topicIds} friends={friends} relatedEntries={relatedEntries} replay={replay} collectedTopics={collectedTopics.current} />
+      <PostSession topic={topic} topicIds={topicIds} friends={friends} relatedEntries={relatedEntries} replay={replay} />
     </div>
   );
 }

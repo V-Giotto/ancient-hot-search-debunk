@@ -132,7 +132,7 @@ describe("本机评论与回复", () => {
     write(" <script>这里按文字显示</script> "); save();
     expect(screen.getByText("<script>这里按文字显示</script>")).toBeTruthy();
     expect(document.querySelector(".local-replies script")).toBeNull();
-    let rows = parseLocalComments(localStorage.getItem(commentStorageKey("H03")), []);
+    const rows = parseLocalComments(localStorage.getItem(commentStorageKey("H03")), []);
     const root = rows[0].id;
     fireEvent.click(screen.getByRole("button", { name: `回复我：${root}` })); write("自己的楼中楼"); save(true);
     const preset = entry.comments[0];

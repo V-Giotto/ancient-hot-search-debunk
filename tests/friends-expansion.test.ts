@@ -44,7 +44,7 @@ describe("十三位人设与事实边界", () => {
     }
     const context = JSON.parse(buildChatMessages(friend, getFriendSources(friend), "你好")[1].content.split("\n")[1]);
     expect(context.friend.persona).toEqual(friend.persona);
-    expect(context.sourceIds).toEqual(friend.sourceIds);
+    expect(context.sourceIds).toEqual([...new Set([...friend.knowledge.map(({ sourceId }) => sourceId), ...friend.sourceIds])]);
     expect(context.knowledge.every((record: { reviewStatus: { status: string } }) => record.reviewStatus.status === "reviewed")).toBe(true);
     expect(toFriendProfile(friend)).not.toHaveProperty("personaReview");
     expect(toFriendProfile(friend)).not.toHaveProperty("persona");
@@ -117,7 +117,7 @@ describe("十三位好友的真实路由配合 mock 上游", () => {
     const payload = JSON.parse(fetchMock.mock.calls[0][1]!.body as string);
     const context = JSON.parse(payload.messages[1].content.split("\n")[1]);
     expect(context.friend.persona).toEqual(friend.persona);
-    expect(new Set(context.sourceIds)).toEqual(new Set([...friend.sourceIds, ...getSourcesForTopic(topic).map(({ id }) => id)]));
+    expect(new Set(context.sourceIds)).toEqual(new Set([...friend.knowledge.map(({ sourceId }) => sourceId), ...friend.sourceIds, ...getSourcesForTopic(topic).map(({ id }) => id)]));
     expect(context.sharedTopic.era).toEqual(topic.era);
   });
   it.each(friends)("$name 连续违规共用一次重试，返回本人自称和正确时代的兜底", async (friend) => {

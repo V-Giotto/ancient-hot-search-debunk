@@ -13,6 +13,8 @@ CONTENT_MODE=formal npm start
 
 默认端口 3000；可用 `PORT=3000` 或 `npm start -- --port 3000` 指定。反向代理到该 Node 服务，应用由进程管理器或支持 Next.js 服务端的平台保持运行。公网地址、域名与托管平台尚待团队决定，本次没有部署或发布操作。
 
+已发布版本为v0.28.1；当前工作副本为v0.28.2，尚未发布或部署。
+
 ## 服务端环境变量
 
 | 变量 | 默认值 | 用途 |
@@ -28,8 +30,8 @@ CONTENT_MODE=formal npm start
 ## preview 与 formal
 
 - `preview`：允许 pending 话题及 pending/reviewed 来源进入 AI 上下文，仍排除 rejected；成功响应带 `preview:true`，页面提示开发预览；仅当题目或准许来源含 pending 时提示资料待审核。模式本身不改变审核状态。
-- `formal`：AI 只接受 reviewed 话题，且只传 reviewed 来源；pending/rejected 话题返回 409。当前 12 题及 28 条来源全部 reviewed，可通过 formal 审核门控；未配置 Key 时返回 503。
-- 当前浏览层展示 12 题，来源与查证卡按数据标注审核状态；题目及来源已由 Giotto 单人审核通过，负责人于 2026-10-30 确认，无第二人抽查。环境设置不改变审核状态；后续新增未审内容仍须审核，正式发布须落实仅发布 reviewed 的要求。
+- `formal`：AI 只接受 reviewed 话题，且只传 reviewed 来源；pending/rejected 话题返回 409。当前 22 题及 49 条来源全部 reviewed，可通过 formal 审核门控；未配置 Key 时返回 503。
+- 当前浏览层为22题对应52条信息流（23热搜、29发现），来源与查证卡按数据标注审核状态；题目及来源核心已由 Giotto 单人审核通过；14条原展示本轮通过，38组新评论等展示文案仍pending，负责人于 2026-10-30 确认，无第二人抽查。环境设置不改变审核状态；后续新增未审内容仍须审核，正式发布须落实仅发布 reviewed 的要求。
 
 ## 代理、限流与异常
 

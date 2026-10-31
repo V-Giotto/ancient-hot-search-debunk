@@ -235,7 +235,7 @@ describe("chat 人设违规与引文共用一次重试", () => {
     ["dufu", "（杜甫）此事不敢妄言。", "（杜甫）"],
     ["dufu", "我（杜甫）记不真切了。", "我（杜甫）"],
     ["dufu", "杜甫认为此事尚有疑问。", "杜甫认为"],
-  ])("%s 的违规回复只带数量重试后返回第一人称：%s", async (friendId, invalid, fragment) => {
+  ])("%s 的违规回复只带数量重试后返回第一人称：%s", async (friendId, invalid, _fragment) => {
     const valid = friendId === "libai" ? "此事吾记不真切了，换个话头可好？" : "此事甫不敢妄言，你今日过得如何？";
     fetchMock.mockResolvedValueOnce(result(`这段无关前文不应回灌：${invalid}`)).mockResolvedValueOnce(result(valid));
     const response = await POST(request({ friendId, message: "说说旧事" }));

@@ -20,7 +20,7 @@
     "牙刷考古",
     "古代生活"
   ],
-  "title": "谁说古人不讲究口腔卫生？这件小东西有点眼熟",
+  "title": "唐代这根骨柄上的小孔，真是给刷毛留的？",
   "coverUrl": "/covers/h08.webp",
   "coverAlt": "唐风角色与带孔骨柄示意卡插画",
   "author": {
@@ -54,23 +54,43 @@
           "replyTo": "H08-C01",
           "author": "文物观察员",
           "avatar": "/avatars/reader.webp",
-          "text": "像是第一印象，用途还得看介绍；也别顺手推成人人都用。"
+          "text": "像是第一印象，用途还得看介绍；也别顺手推成人人都用。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H08-C01-R2",
           "replyTo": "H08-C01-R1",
           "author": "大唐晨间Routine研究所",
           "avatar": "/avatars/changan.webp",
-          "text": "我也是卡在小孔这里，先读博物馆的器物介绍，再补晨间清单。"
+          "text": "我也是卡在小孔这里，先读博物馆的器物介绍，再补晨间清单。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H08-C01-R3",
           "replyTo": "H08-C01-R2",
           "author": "看着很眼熟",
           "avatar": "/avatars/spectator.webp",
-          "text": "收到，我先保留这个猜测，不替整条街安排刷牙。"
+          "text": "收到，我先保留这个猜测，不替整条街安排刷牙。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H08-C02",
@@ -81,7 +101,12 @@
       "simulatedLikes": 596,
       "simulatedReplies": 10,
       "simulatedReposts": 0,
-      "simulatedViews": 5118
+      "simulatedViews": 5118,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H08-C03",
@@ -92,7 +117,12 @@
       "simulatedLikes": 204,
       "simulatedReplies": 11,
       "simulatedReposts": 0,
-      "simulatedViews": 2435
+      "simulatedViews": 2435,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H08-C04",
@@ -103,7 +133,12 @@
       "simulatedLikes": 332,
       "simulatedReplies": 12,
       "simulatedReposts": 0,
-      "simulatedViews": 3392
+      "simulatedViews": 3392,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H08-C05",
@@ -114,7 +149,12 @@
       "simulatedLikes": 551,
       "simulatedReplies": 13,
       "simulatedReposts": 0,
-      "simulatedViews": 4986
+      "simulatedViews": 4986,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H08-C06",
@@ -125,7 +165,12 @@
       "simulatedLikes": 287,
       "simulatedReplies": 14,
       "simulatedReposts": 0,
-      "simulatedViews": 3199
+      "simulatedViews": 3199,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "唐代存在具有植毛孔结构的牙刷柄。",

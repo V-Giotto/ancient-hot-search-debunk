@@ -25,5 +25,9 @@ export function Tags({ topic }: { topic: PublicTopic }) {
 }
 
 export function Cover({ topic }: { topic: PublicTopic }) {
-  return <figure className="post-cover"><img src={topic.coverUrl} alt={topic.coverAlt} width={1200} height={675} /></figure>;
+  const caption = topic.topicId === "H03" ? "现代拟制的大唐食谱图" : topic.topicId === "H15" ? "艺术创作示意" : undefined;
+  return <figure className="post-cover">
+    <img src={topic.coverUrl} alt={topic.coverAlt} width={1200} height={675} />
+    {caption && <figcaption className="border-t-2 border-ink/20 bg-card px-3 py-2 text-xs font-semibold text-muted">{caption}</figcaption>}
+  </figure>;
 }

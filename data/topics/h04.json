@@ -54,23 +54,43 @@
           "replyTo": "H04-C01",
           "author": "蜀地行商",
           "avatar": "/avatars/reader.webp",
-          "text": "肩膀同意可不算交易凭据，收不收还得另想。"
+          "text": "肩膀同意可不算交易凭据，收不收还得另想。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H04-C01-R2",
           "replyTo": "H04-C01-R1",
           "author": "汴京财经观察",
           "avatar": "/avatars/hype.webp",
-          "text": "就沿着这个问题看：民间怎样使用、官府怎样管理，时间线分别核对。"
+          "text": "就沿着这个问题看：民间怎样使用、官府怎样管理，时间线分别核对。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         },
         {
           "id": "H04-C01-R3",
           "replyTo": "H04-C01-R2",
           "author": "铜钱搬运工",
           "avatar": "/avatars/changan.webp",
-          "text": "行，肩膀暂时只负责提议，不负责担保。"
+          "text": "行，肩膀暂时只负责提议，不负责担保。",
+          "reviewStatus": {
+            "status": "reviewed",
+            "reviewer": "Giotto",
+            "reviewedAt": "2026-10-30T22:44:00-07:00"
+          }
         }
-      ]
+      ],
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H04-C02",
@@ -81,7 +101,12 @@
       "simulatedLikes": 648,
       "simulatedReplies": 6,
       "simulatedReposts": 0,
-      "simulatedViews": 5070
+      "simulatedViews": 5070,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H04-C03",
@@ -92,7 +117,12 @@
       "simulatedLikes": 367,
       "simulatedReplies": 7,
       "simulatedReposts": 4,
-      "simulatedViews": 3164
+      "simulatedViews": 3164,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H04-C04",
@@ -103,7 +133,12 @@
       "simulatedLikes": 201,
       "simulatedReplies": 8,
       "simulatedReposts": 0,
-      "simulatedViews": 2063
+      "simulatedViews": 2063,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H04-C05",
@@ -114,7 +149,12 @@
       "simulatedLikes": 592,
       "simulatedReplies": 9,
       "simulatedReposts": 4,
-      "simulatedViews": 4861
+      "simulatedViews": 4861,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     },
     {
       "id": "H04-C06",
@@ -125,7 +165,12 @@
       "simulatedLikes": 286,
       "simulatedReplies": 10,
       "simulatedReposts": 0,
-      "simulatedViews": 2780
+      "simulatedViews": 2780,
+      "reviewStatus": {
+        "status": "reviewed",
+        "reviewer": "Giotto",
+        "reviewedAt": "2026-10-30T22:44:00-07:00"
+      }
     }
   ],
   "claim": "北宋时期出现了交子纸币。",

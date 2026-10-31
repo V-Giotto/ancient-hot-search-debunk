@@ -35,12 +35,18 @@ export const SourceSchema = z.strictObject({
 });
 export type Source = z.infer<typeof SourceSchema>;
 
+export const EditorialReviewSchema = z.discriminatedUnion("status", [
+  z.strictObject({ status: z.literal("pending"), reviewer: nonEmptyText, reviewedAt: z.null() }),
+  z.strictObject({ status: z.literal("reviewed"), reviewer: nonEmptyText, reviewedAt: z.iso.datetime({ offset: true }) }),
+]);
+
 export const CommentReplySchema = z.strictObject({
   id: nonEmptyText,
   replyTo: nonEmptyText,
   author: nonEmptyText,
   avatar: z.string().optional(),
   text: nonEmptyText,
+  reviewStatus: EditorialReviewSchema.optional(),
 });
 export type CommentReply = z.infer<typeof CommentReplySchema>;
 
@@ -50,6 +56,7 @@ export const CommentSchema = z.strictObject({
   avatar: z.string().optional(),
   role: z.enum(["spectator", "troll", "history_nerd", "in_world"]),
   text: nonEmptyText,
+  reviewStatus: EditorialReviewSchema.optional(),
   simulatedLikes: simulatedCount,
   simulatedReplies: simulatedCount.optional(),
   simulatedReposts: simulatedCount.optional(),

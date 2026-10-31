@@ -1,5 +1,18 @@
 # QA 报告
 
+
+## v0.28.2 全量正式审核落实（2026-10-31，验收中）
+
+按用户确认的Giotto正式全量审核，签署16条知识并收窄日期、归属与使用权限；77项人设疑点和52条信息流逐条对照，38组评论重写且保持pending，其余14条原展示按批准范围reviewed。第二批7人knowledge仍空，13份personaReview仍pending。H18/H19/H22保留原核查边界，题库核心和来源索引未改；全部条目见[内容审核记录](CONTENT_REVIEW.md)及[逐条落实清单](/workspace/iter1/v0.28.2-review-checklist.md)。
+
+新增16条逐项注入/引用/第一人称/越世权限矩阵、未知创作年与生卒边界、论语第三人称/归语、馆方越权、factId去重、删除内容不存在及38组评论身份/ID/线程校验。贴纸统一按topicId奖励；正常存储、存储写失败后跨同题帖子、恢复落盘均覆盖。全部新增聊天/问答请求仅mock或无key，未执行真实DeepSeek采样；封面编辑单独使用内置imagegen，不接入测试。
+
+ESLint使用10.14.0、flat config、TS推荐规则和React Hooks规则。当前应用TypeScript7.0.2不提供createSourceFile，typescript-eslint8.72.1公布支持范围小于6.1；因此解析依赖隔离在tools/lint workspace（TS6.0.3，包含同层ts-api-utils），应用typecheck/build继续TS7。全新npm ci已成功，实际解析与应用版本分别输出验证，无force/legacy-peer-deps。配置依据：[typescript-eslint版本支持](https://typescript-eslint.io/users/dependency-versions/)、[ESLint flat config](https://eslint.org/docs/latest/use/configure/configuration-files)。
+
+H15参考国博专题藏品图重画，WebP已接入并登记提示词，pending；移除现代游标刻度、旋钮、尖上爪和深度杆。H03封面及标题明确现代拟制，H15配图标艺术创作示意，说明同时给出可见文字和alt；不将插画当器物照片或历史原图。
+
+验证日志`/workspace/iter1/v0.28.2-validation.log`；完整命令链显式清空聊天AI密钥、将兼容上游指向127.0.0.1:1，并设置容器D-Bus隔离。E2E自启formal/preview服务继续无key，成功聊天使用mock。最终命令与截图验收结果将在E2E完成后补记。
+
 最新追加需求为 **v0.28.1 详情页模块顺序**，见下节；此前十三位好友全局对话边界和 v0.27.1 聊天布局修复记录保留。后文 v0.26.0/v0.27.0 为历史记录，旧版缺封面的阻断不代表本轮状态。13份人设、展示表达与素材及首批16组新增知识仍待Giotto审核，本轮没有新增任何正式事实审核签名。
 
 ## v0.28.1 追加：详情页模块顺序（2026-10-30）

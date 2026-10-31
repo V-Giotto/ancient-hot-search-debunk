@@ -44,7 +44,7 @@ describe("真假判断与揭晓", () => {
     expect(screen.getByRole("region", { name: "读者评论" })).toBeTruthy();
     expect(container.querySelector(".news-comments .reply-thread")).toBeTruthy();
     expect(container.textContent).not.toMatch(/\p{Extended_Pictographic}/u);
-    expect(container.querySelector("figcaption")).toBeNull();
+    expect(container.querySelector("figcaption")?.textContent).toBe("现代拟制的大唐食谱图");
     expect(container.querySelectorAll("img").length).toBeGreaterThan(0);
     for (const image of container.querySelectorAll("img")) expect(image.alt).not.toMatch(/虚构|架空|非史料/);
     expect(fetch).not.toHaveBeenCalled();
