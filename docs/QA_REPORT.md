@@ -1,7 +1,63 @@
 # QA 报告
 
-最新结果为 **v0.28.0 好友知识权限与第一批补证**，见下节。后文 v0.26.0/v0.27.0 为历史记录；旧版缺封面的阻断不代表本轮状态。13份人设及首批16组新增知识仍待Giotto审核，本轮没有新增任何正式事实审核签名。
-最新布局修复为下方 v0.27.1；v0.26.0 的未完成验收记录保留供追溯。13份好友人设、展示表达与素材仍待Giotto审核。
+最新追加需求为 **v0.28.1 详情页模块顺序**，见下节；此前十三位好友全局对话边界和 v0.27.1 聊天布局修复记录保留。后文 v0.26.0/v0.27.0 为历史记录，旧版缺封面的阻断不代表本轮状态。13份人设、展示表达与素材及首批16组新增知识仍待Giotto审核，本轮没有新增任何正式事实审核签名。
+
+## v0.28.1 追加：详情页模块顺序（2026-10-30）
+
+按Giotto要求，共用详情组件统一为“正文 → 读者评论/评论区 → 先接一句，再查证 → 真假判断”。`Participation` 在同一措辞上下文中先渲染正文及评论，再渲染完整参与模块，保留“直接判断”“找可疑措辞”和情境选择；判题、揭晓、来源、改写、导出、贴纸与重玩沿用既有交互。
+
+新增52条详情页的单测DOM顺序断言，含T01和P01及所有展示格式；主E2E在现有布局审计中同时校验四个模块的DOM先后、相邻关系与真实几何位置（前块底边不超过后块顶边）。检查覆盖评论展开、情境选择、真实正文/评论措辞点选、判题揭晓、重玩及页面返回，并核对参与模块的“直接判断”锚点、焦点与吸顶栏遮挡。新增截图接入完整E2E交付，自动核验PNG格式及390×844尺寸。
+
+环境：Linux、Node.js v24.22.1、Google Chrome 156.0.8078.47（`/usr/bin/google-chrome`）。最终完整命令链退出码0：
+
+| 检查 | 本轮实际结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 37个文件、1422项全部通过，新增52项详情页DOM顺序断言 |
+| `npm run build` | 通过；BUILD_ID `18f04a49-c9df-4eb8-8ae0-849ec0cd4f22` |
+| `CHROME_PATH=/usr/bin/google-chrome E2E_REVIEW_DIR=/workspace/iter1 timeout 750 npm run test:e2e` | 通过，退出码0；22条主流程、378次主回归几何检查，browserErrors=[] |
+| `git diff --check`、`node --check scripts/e2e.mjs` | 通过 |
+
+模块顺序专项共 **748次** DOM与几何联合检查：390×844为304次、375×667为209次、430×932为209次，三种手机视口分别覆盖全部52条详情页；1440×900为26次、覆盖11页。全部四个模块均有实际宽高，相邻模块最小垂直间隔24px，无顺序颠倒或重叠。参与查证、评论本机保存/回复、情境改选、措辞点选、揭晓及重玩回归通过；新增信息流90条流程通过，所测五路由首屏压缩JS最大197783字节，低于300000字节预算。
+
+两张指定截图均由完整E2E在新会话中打开T01/P01生成，自动核验PNG格式与390×844尺寸，并已逐张目视复核：截图展示评论末尾 → 完整参与模块 → 原真假判断区的真实上下位置；默认折叠状态与像素样式保持，两个参与模块入口清晰可见。截图后实点参与模块的“直接判断”，均聚焦判题标题且不被吸顶栏遮挡，未作答时提交仍禁用。
+
+完整命令链显式清空AI_API_KEY并设置本机无效上游，沿用既有 `DBUS_SESSION_BUS_ADDRESS=disabled:` 容器D-Bus隔离配置；E2E自启formal/preview服务继续显式无key。AI成功回复使用mock，真实AI调用0次。日志：`/workspace/iter1/v0.28.1-post-order-validation.log`；机器结果：`artifacts/stage-6/result.json`（passed=true，`postOrder`保存全部748次检查及两张截图路径）。
+
+- [热搜报道T01模块顺序 390×844](/workspace/iter1/v0.28.1-post-order-trending-390x844.png)
+- [发现帖子P01模块顺序 390×844](/workspace/iter1/v0.28.1-post-order-discover-390x844.png)
+
+保留v0.28.1所有已有未提交改动；不调用真实AI，不打印/提交AI_API_KEY，不新增部署内容，不commit/tag/push。
+
+## v0.28.1 十三位好友全局对话边界（2026-10-30）
+
+- 第一条system提示首段逐字保留Giotto全局边界标题及五条原文，并明确优先级最高，在persona和knowledge之前；保持一两句话为主及原有长度配置。13人的欢迎语、语言风格和示例同步去掉舞台动作，人物审核仍pending。
+- 圆括号（）()、方括号【】[]统一禁止。首次检测使用现有唯一一次重试，重试仍出现则按嵌套深度剥除；未闭合段、孤立闭括号、删除后的空白及标点均有确定性清理。书名和引号不作为舞台段删除，其内空白不归一化。清理后重新校验exactQuote、知识权限、出处、时代与生命周期；空或仅标点返回现有角色/时代兜底。纠错只回传数量和布尔值，不含失败回复或用户隐私。
+- 每份好友JSON显式包含emojiWhitelist：李白[🍶]、苏轼[🌙]、其余11人[]。Unicode字素级过滤整段ZWJ、旗帜、肤色、keycap、标签序列及变体选择符，不留下半个emoji。每条至多一个；最近4条assistant回复出现任意emoji则本条全剥，user消息不计入，白名单和当条可用状态同步进提示。
+- 与HEAD逐字段对照，knowledge、lifespan、sourceIds、personaReview均未改变；首批六人16组知识仍为pending / Giotto / reviewedAt=null。v0.28.0权限、pending不注入与生命周期回归用例保留。package.json及锁文件顶层/根包版本0.28.1，依赖版本未变。
+- 新增 `scripts/sample-chat.mjs`，用法为先 `npm run build`，再手动运行 `node scripts/sample-chat.mjs [friendId] [message]`；默认李白，默认端口3210，可用SAMPLE_CHAT_PORT调整。从环境或.env.local读取AI_API_KEY，独立启动127.0.0.1的next start后请求/api/chat，key只留在服务端环境、不放请求体和输出。未接入单测或E2E，本轮未执行；仅做node --check语法检查。
+
+环境：Node.js v24.22.1、Google Chrome 156.0.8078.47（/usr/bin/google-chrome）。完整命令链退出码0：
+
+| 检查 | 本轮实际结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 37个文件、1370项全部通过；新增86项边界/后处理用例 |
+| `npm run build` | 通过；BUILD_ID `9e06f76c-7dfd-4e10-8341-eb3ec79de734`，页面/API保持动态路由 |
+| `CHROME_PATH=/usr/bin/google-chrome E2E_REVIEW_DIR=/workspace/iter1 timeout 750 npm run test:e2e` | 通过，退出码0；22条主流程、378次主回归几何检查、browserErrors=[] |
+| `node --check scripts/sample-chat.mjs` | 通过；只检查语法，未执行采样 |
+| `git diff --check` | 通过 |
+
+命令链显式设置空AI_API_KEY和本机无效上游；沿用上一版验收使用的 `DBUS_SESSION_BUS_ADDRESS=disabled:` 隔离容器D-Bus会话。单测上游全部mock，E2E自启formal/preview服务显式无key，真实API只验离线/审核状态，成功聊天为浏览器mock；真实AI调用0次。完整日志 `/workspace/iter1/v0.28.1-validation.log`，机器结果 `artifacts/stage-6/result.json`（passed=true）。
+
+专项覆盖13人初始/聊天/错误/恢复、四种手机聊天布局及桌面居中列、22题与来源、分享/本机存储、PNG导出与formal/preview审核边界；首屏所测五路由压缩JS最大197763字节，低于300000字节预算。两张指定截图均核验PNG格式及390×844尺寸并目视复核：欢迎语与回复无舞台动作，康熙无emoji，输入区和底部导航正常。
+
+截图由浏览器mock对话生成，真实AI调用0次：
+
+- [李白聊天390×844](/workspace/iter1/v0.28.1-chat-libai-390x844.png)
+- [康熙聊天390×844](/workspace/iter1/v0.28.1-chat-kangxi-390x844.png)
+
+不改CHANGELOG、不新增部署内容、不commit/tag/push。原有未跟踪D:/目录未改动。
 
 ## v0.27.1 好友聊天输入区贴底（2026-10-30）
 

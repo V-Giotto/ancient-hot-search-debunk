@@ -2,8 +2,69 @@ import type { Friend } from "./friend-schema";
 import type { Source } from "./schemas";
 import { isLaterEra, type Era } from "./era";
 import { findForbiddenKnowledgeUsage, findKnowledgeOutputViolations, getChatKnowledge } from "./friend-knowledge";
+import type { ChatHistoryEntry } from "./chat-contract";
 
 const quotePatterns = () => [/“([^”]*)”/g, /‘([^’]*)’/g, /「([^」]*)」/g, /『([^』]*)』/g, /"([^"]*)"/g, /'([^']*)'/g, /《([^》]*)》/g];
+
+const emojiPattern = /[\p{Extended_Pictographic}\p{Regional_Indicator}\p{Emoji_Presentation}\p{Emoji_Modifier}\u20e3]/u;
+const emojiControls = /[\u200d\ufe0e\ufe0f\u{e0020}-\u{e007f}]/gu;
+const graphemes = new Intl.Segmenter("zh", { granularity: "grapheme" });
+
+export function hasChatEmoji(text: string): boolean { return emojiPattern.test(text); }
+
+export function canUseChatEmoji(history: readonly ChatHistoryEntry[]): boolean {
+  return !history.filter(({ role }) => role === "assistant").slice(-4).some(({ content }) => hasChatEmoji(content));
+}
+
+/** 清理删除片段后的空白与孤立标点；书名、引号及其中的逐字原文保持不变。 */
+function cleanChatBoundaryWhitespace(text: string): string {
+  return text.split(/(“[^”]*”|‘[^’]*’|「[^」]*」|『[^』]*』|"[^"]*"|'[^']*'|《[^》]*》)/gu)
+    .map((part, index) => index % 2 ? part : part
+      .replace(/\s+/gu, " ")
+      .replace(/\s+([，。！？；：、,.!?;:])/gu, "$1")
+      .replace(/([\p{Script=Han}，。！？；：、]) +(?=\p{Script=Han})/gu, "$1")
+      .replace(/([，、；：,;:])[，、；：,;:\s]*([。！？.!?])/gu, "$2")
+      .replace(/([。！？.!?])(?:\s*[。.])+/gu, "$1")
+      .replace(/([，、；：,;:])[，、；：,;:]+/gu, "$1"))
+    .join("").trim()
+    .replace(/^[，。！？；：、,.!?;:\s]+/u, "")
+    .replace(/[，；：、,;:\s]+$/u, "");
+}
+
+export function hasChatStageDirections(reply: string): boolean { return /[（()）【】\[\]]/u.test(reply); }
+
+/** 圆/方括号一律视作舞台指示；按深度处理嵌套，未闭合段删至末尾，孤立闭括号也删除。 */
+export function stripChatStageDirections(reply: string): string {
+  if (!hasChatStageDirections(reply)) return reply;
+  let depth = 0;
+  let output = "";
+  for (const character of reply) {
+    if (/[（(【\[]/u.test(character)) depth++;
+    else if (/[）)】\]]/u.test(character)) depth = Math.max(0, depth - 1);
+    else if (depth === 0) output += character;
+  }
+  return cleanChatBoundaryWhitespace(output);
+}
+
+/** 按完整字素过滤，不能把不获准的 ZWJ 序列拆开后留下其中的白名单 emoji。 */
+export function filterChatEmojis(reply: string, friend: Friend, history: readonly ChatHistoryEntry[] = []): string {
+  let available = canUseChatEmoji(history);
+  let output = "";
+  for (const { segment } of graphemes.segment(reply)) {
+    if (hasChatEmoji(segment)) {
+      const canonical = segment.replace(/[\ufe0e\ufe0f]/gu, "");
+      if (available && friend.emojiWhitelist.some((emoji) => emoji === canonical)) {
+        output += canonical;
+        available = false;
+      }
+    } else output += segment.replace(emojiControls, "");
+  }
+  return output === reply ? reply : cleanChatBoundaryWhitespace(output);
+}
+
+export function hasChatReplyContent(reply: string): boolean {
+  return /[\p{L}\p{N}\p{Extended_Pictographic}\p{Regional_Indicator}]/u.test(reply);
+}
 
 /** 保守校验所有成对引号，避免依赖模型或启发式判断某句话是否是古诗/原话。 */
 export function findUnsupportedChatQuotes(reply: string, friend: Friend, sources: Source[], sharedSourceIds: readonly string[] = []): string[] {
@@ -84,6 +145,7 @@ export function findChatOutputViolations(reply: string, friend: Friend, sources:
   const mixedSelfReferences = (reply.includes("我") && reply.includes("吾")) || hasMixedPersonaSelfReferences(reply, friend);
   const knowledgeViolations = [...findKnowledgeOutputViolations(reply, getChatKnowledge(friend, sources, sharedSourceIds)), ...findForbiddenKnowledgeUsage(reply, friend)];
   return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments], missingEraMarker, mixedSelfReferences,
+    ...(hasChatStageDirections(reply) ? { stageDirections: true } : {}),
     ...(knowledgeViolations.length ? { knowledgeViolations } : {}),
   };
 }

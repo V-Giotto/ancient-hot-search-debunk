@@ -37,6 +37,8 @@ export const FriendSchema = z.strictObject({
   avatar: z.strictObject({ motif: z.enum(["moon", "reeds"]), paper: color, ink: color, accent: color }).optional(),
   bio: text(100),
   greeting: text(200),
+  emojiWhitelist: z.array(z.enum(["🍶", "🌙"])).max(2)
+    .refine((values) => new Set(values).size === values.length, "emoji 白名单不能重复"),
   displayOrder: z.number().int().positive(),
   personaReview: z.strictObject({ status: z.literal("pending"), reviewer: z.literal("Giotto") }),
   // 无已审人物来源时允许为空：可闲聊，不能借用其它人物的史实。

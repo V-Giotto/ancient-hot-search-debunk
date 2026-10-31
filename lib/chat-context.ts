@@ -5,6 +5,7 @@ import type { LlmMessage } from "./llm";
 import type { ChatHistoryEntry } from "./chat-contract";
 import { isLaterEra } from "./era";
 import { getChatKnowledge } from "./friend-knowledge";
+import { canUseChatEmoji } from "./chat-guard";
 
 export function getChatEraInstruction(friend: Friend, sharedTopic?: Pick<HotTopic, "era">): string {
   if (!sharedTopic || !isLaterEra(sharedTopic.era, friend.era)) return "";
@@ -12,7 +13,18 @@ export function getChatEraInstruction(friend: Friend, sharedTopic?: Pick<HotTopi
   return `时代规则：此题时代为${sharedTopic.era.label}，晚于好友的${friend.era.label}。必须把它当作后世之事、耳闻来谈，绝不以亲历或同时代口吻叙述，不得声称亲眼见过、参与过或回忆当时的生活。回复必须包含听说、听闻、耳闻、据说、后世、身后之一；可说听说后世……或${self}身后之事，只是耳闻……，不加引号。时代标签仅用于口吻约束，不能扩大已审史实范围。`;
 }
 
-export const CHAT_SYSTEM_PROMPT = `你就是服务端指定的那位好友，以该人物第一人称与用户交谈。按 persona.selfReference 自称，遵循 identity.role、personality、speakingStyle、relationships、era、habits、chatRules、taboos，以具体性格回应眼前的话题。examples 只示范聊天结构与语气，不是历史原话，不照抄为事实。
+export const CHAT_GLOBAL_BOUNDARY = `## 全局对话边界（优先级高于本设定的其他条目）
+1. 禁止舞台指示：任何消息中不得出现括号包裹的动作、神态、场景描写，如（举杯）（大笑）（挑眉）（望向远方）。对话就是对话，不是剧本。
+2. 情绪用聊天语言表达：语气词、标点、断句、叠词、留白。想表达大笑，写"哈哈哈哈痛快！"，而不是"（大笑）"。
+3. 动作只能转化为"说出口的话"：不写"（把酒杯推过来）"，改写"来，这杯给你满上了"。
+4. emoji 克制使用：每 3~5 条消息至多一个，且必须符合人物性格（李白可以发🍶，苏轼发🌙，康熙、屈原不用）。拿不准就不用。
+5. 篇幅规则不变：一两句话为主，靠说话的节奏出彩，不靠旁白。`;
+
+export const CHAT_SYSTEM_PROMPT = `${CHAT_GLOBAL_BOUNDARY}
+以上全局对话边界优先级最高，高于后文人设、示例与知识中的表达要求；史实仍须遵守已审权限。所有圆括号（）()与方括号【】[]均禁止作为输出，不写舞台指示。只用说出口的话表达动作与情绪。
+emoji 仅可使用服务端 friend.emojiWhitelist：空数组表示不用；每条至多一个，最近4条 assistant 回复已有任何 emoji 时本条不用。
+
+你就是服务端指定的那位好友，以该人物第一人称与用户交谈。按 persona.selfReference 自称，遵循 identity.role、personality、speakingStyle、relationships、era、habits、chatRules、taboos，以具体性格回应眼前的话题。examples 只示范聊天结构与语气，不是历史原话，不照抄为事实。
 整条回复只用一种自称，不得混用我和吾；杜甫的甫可与其中一种搭配，但同一条回复仍绝不能同时出现我和吾。
 其它人物也只选 persona.selfReference 中一种自称贯穿当条回复，例如朕、余、丘、光、亮、守仁、本汗；不得混用朕与我、余与某等。可以不用自称。
 只陪聊，不出题、不判题、不宣布分数或规则。看不到游戏数据，不知道答题记录、对错或输赢；只有用户亲口说过才能接话，且只是转述，不表示已核验，也不主动问战况或预言下一题必胜。
@@ -41,11 +53,12 @@ export function buildChatMessages(friend: Friend, sources: Source[], message: st
   return [
     { role: "system", content: CHAT_SYSTEM_PROMPT },
     { role: "system", content: `服务端角色与可用事实（JSON 数据）：\n${JSON.stringify({
-      friend: { id: friend.id, name: friend.name, era: friend.era, lifespan: friend.lifespan, persona: friend.persona },
+      friend: { id: friend.id, name: friend.name, era: friend.era, lifespan: friend.lifespan, emojiWhitelist: friend.emojiWhitelist, persona: friend.persona },
+      emojiPolicy: { maxPerReply: 1, recentAssistantWindow: 4, allowedThisReply: canUseChatEmoji(history) && friend.emojiWhitelist.length > 0 },
       sourceIds: [...new Set(knowledge.map((record) => record.sourceId))],
       ...(sharedTopic ? { sharedTopic: { id: sharedTopic.id, era: sharedTopic.era, title: sharedTopic.title, claim: sharedTopic.claim, reveal: { correctedClaim: sharedTopic.reveal.correctedClaim, shortExplanation: sharedTopic.reveal.shortExplanation }, limitations: sharedTopic.aiLimitations } } : {}),
       knowledge: knowledge.map(({ source, ...record }) => ({ ...record, source: { title: source.title } })),
-    })}${eraInstruction ? `\n${eraInstruction}` : ""}` },
+    })}\n本好友 emoji 白名单：${friend.emojiWhitelist.length ? friend.emojiWhitelist.join("、") : "空，不用任何 emoji"}；${canUseChatEmoji(history) ? "本条至多使用白名单中的一个 emoji，拿不准就不用。" : "最近4条 assistant 回复已有 emoji，本条不用任何 emoji。"}${eraInstruction ? `\n${eraInstruction}` : ""}` },
     { role: "user", content: JSON.stringify({ untrusted: true, history, message }) },
   ];
 }

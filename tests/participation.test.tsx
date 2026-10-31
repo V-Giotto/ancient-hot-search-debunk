@@ -39,6 +39,23 @@ async function judge() {
 }
 
 describe("Phase 3 参与查证", () => {
+  it.each(getAllFeedEntries())("$module/$id 的 DOM 依次为正文、评论、参与查证和真假判断", (feed) => {
+    const { container } = render(<PostExperience topic={toPublicFeedEntry(feed)} topicIds={topicIds} />);
+    const article = container.querySelector("article[data-format]")!;
+    const comments = screen.getByRole("region", { name: feed.module === "trending" ? "读者评论" : "评论区" });
+    const participation = screen.getByRole("region", { name: "先接一句，再查证" });
+    const task = screen.getByRole("region", { name: "这条主张，你信吗？" });
+    const modules = [article, comments, participation, task];
+    expect([...container.querySelector(".post-experience")!.children].slice(0, 4)).toEqual(modules);
+    for (let i = 0; i < modules.length - 1; i++) {
+      expect(modules[i].compareDocumentPosition(modules[i + 1])).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    }
+    expect(within(participation).getByRole("link", { name: "直接判断" }).getAttribute("href")).toBe(`#${task.getAttribute("aria-labelledby")}`);
+    expect(within(participation).getByRole("button", { name: "找可疑措辞" }).getAttribute("aria-pressed")).toBe("false");
+    expect(within(task).getByRole("button", { name: "提交判断" })).toHaveProperty("disabled", true);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
   it.each(getAllFeedEntries())("$id 的争论、全部情境反馈与措辞解释没有答案字段或答案关键词", (feed) => {
     const topic = topics.find(({ id }) => id === feed.topicId)!;
     const copy = JSON.stringify({ debate: debates[feed.topicId], scenario: scenarios[feed.topicId], wordingRules });

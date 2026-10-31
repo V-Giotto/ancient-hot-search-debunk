@@ -18,8 +18,8 @@ type Props = { topic: PublicTopic; topicIds: readonly string[]; friends?: readon
 
 function PostSession({ topic, topicIds, friends, relatedEntries = [], replay, collectedTopics }: Props & { replay: () => void; collectedTopics: Set<string> }) {
   const [verdict, setVerdict] = useState<VerdictResult>();
-  return <Participation topic={topic} post={<PostFormat topic={topic} friends={friends} />}>
-    <Comments comments={topic.comments} author={topic.author.name} title={topic.title} module={topic.module} contentId={topic.id} topicId={topic.topicId} verdict={verdict} />
+  return <Participation topic={topic} post={<PostFormat topic={topic} friends={friends} />}
+    comments={<Comments comments={topic.comments} author={topic.author.name} title={topic.title} module={topic.module} contentId={topic.id} topicId={topic.topicId} verdict={verdict} />}>
     <VerdictTask topic={topic} topicIds={topicIds} onReplay={replay} onResult={setVerdict} collectedTopics={collectedTopics} />
     <SameTopic entries={relatedEntries} />
     <Link href={topic.module === "trending" ? "/trending" : "/discover"} className="inline-block py-2 text-sm text-accent hover:underline"><PixelIcon name="back" size={16} /> 返回{topic.module === "trending" ? "热搜榜，继续阅读" : "发现，继续围观"}</Link>

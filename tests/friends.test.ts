@@ -83,7 +83,7 @@ describe("角色提示词的事实与指令隔离", () => {
   it("仅包含该好友 reviewed supports，保留事实与存疑原文", () => {
     const messages = buildChatMessages(friend, sources, "何时相识？");
     const context = JSON.parse(messages[1].content.split("\n")[1]);
-    expect(context.friend).toEqual({ id: friend.id, name: friend.name, era: friend.era, lifespan: friend.lifespan, persona: friend.persona });
+    expect(context.friend).toEqual({ id: friend.id, name: friend.name, era: friend.era, lifespan: friend.lifespan, emojiWhitelist: friend.emojiWhitelist, persona: friend.persona });
     expect(context.sourceIds).toEqual(friend.sourceIds);
     expect(context.knowledge.map(({ sourceId, content }: { sourceId: string; content: string }) => ({ sourceId, content })))
       .toEqual(getFriendSources(friend).map(({ id, supports }) => ({ sourceId: id, content: supports })));

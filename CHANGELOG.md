@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.28.1 — 2026-10-30
+
+- 13 位好友加入 Giotto 全局对话边界（系统提示最前、优先级最高）：禁止舞台指示、情绪用聊天语言表达、动作转为说出口的话、emoji 克制、一两句话篇幅。
+- 服务端后处理：括号动作/神态描写触发重写，仍有则剥除（不误伤书名号与引号）；每人 emoji 白名单（李白🍶、苏轼🌙，其余为空），按会话历史约每 4 条至多 1 个。
+- 详情页「先接一句，再查证」模块统一移到「读者评论」下方。
+- 新增手动真实 AI 采样脚本 scripts/sample-chat.mjs（不接入测试）。
+
 ## v0.28.0 — 2026-10-30
 
 - 好友知识权限系统：逐条知识记录（sourceId、factId、tier、evidenceType、certainty、allowedUsage、逐字 exactQuote、reviewStatus），分为 verified_fact / sourced_anecdote / persona_expression 三级；只有 reviewed 条目才进入聊天提示，pending 不注入。

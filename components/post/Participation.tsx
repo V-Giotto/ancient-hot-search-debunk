@@ -16,7 +16,7 @@ export function WordingText({ text }: { text: string }) {
     : part)}</>;
 }
 
-export function Participation({ topic, post, children }: { topic: PublicTopic; post: ReactNode; children: ReactNode }) {
+export function Participation({ topic, post, comments, children }: { topic: PublicTopic; post: ReactNode; comments: ReactNode; children: ReactNode }) {
   const [active, setActive] = useState(false);
   const [selected, select] = useState<string>();
   const [choice, setChoice] = useState<number>();
@@ -24,6 +24,7 @@ export function Participation({ topic, post, children }: { topic: PublicTopic; p
   const rule = wordingRules.find((rule) => rule.words.some((word) => word === selected));
   return <WordingContext value={{ active, selected, select }}>
     {post}
+    {comments}
     <section className="panel participation-panel" aria-labelledby="participation-heading">
       <div className="participation-heading"><h2 id="participation-heading">先接一句，再查证</h2><a href="#task-heading">直接判断</a></div>
       {scenario && <details className="scenario-panel">

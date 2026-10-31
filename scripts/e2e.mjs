@@ -64,6 +64,7 @@ let serverLog = "";
 let browser;
 const revealChecks = [];
 const replayChecks = [];
+const postOrderRecords = [];
 
 async function requireFreePort() {
   const probe = createServer();
@@ -938,9 +939,9 @@ async function friendsFlow(page, viewport, geometry) {
   geometry.push(await mobileGeometry(page, "杜甫对话初始"));
   if (viewport.width === 390) {
     for (const { id, name, message, reply } of [
-      { id: "sushi", name: "苏轼", message: "今天有点累。", reply: "（递上一盏热茶）先暖暖手，东坡听着。今日不必急着把所有事做完，挑最要紧的一件便好。" },
-      { id: "kongzi", name: "孔子", message: "最近总怕自己学得不够好。", reply: "（拱手，放缓语气）丘听见了。学问不必一日尽得，汝今日能想明白一处，便是一处实在的进步。" },
-      { id: "kangxi", name: "康熙", message: "我总把计划排得太满。", reply: "（搁下笔）知道了。先删去一件并不紧要的事，给自己留些余地；能长久做下去，比一日排满更要紧。" },
+      { id: "sushi", name: "苏轼", message: "今天有点累。", reply: "先暖暖手，东坡听着。今日不必急着把所有事做完，挑最要紧的一件便好。" },
+      { id: "kongzi", name: "孔子", message: "最近总怕自己学得不够好。", reply: "丘听见了。学问不必一日尽得，汝今日能想明白一处，便是一处实在的进步。" },
+      { id: "kangxi", name: "康熙", message: "我总把计划排得太满。", reply: "知道了。先删去一件并不紧要的事，给自己留些余地；能长久做下去，比一日排满更要紧。" },
     ]) {
       await page.goto(`${baseURL}/friends/${id}`);
       await visible(page.getByRole("heading", { name, exact: true }));
@@ -1011,6 +1012,39 @@ async function readableTextChecks(page, state) {
   return { checked: result.checked, minimumRatio: result.minimumRatio };
 }
 
+async function postOrderChecks(page, state) {
+  const experience = page.locator(".post-experience:visible");
+  if (!await experience.count()) return null;
+  assert.equal(await experience.count(), 1, `${state} 应只显示一个详情页`);
+  const selectors = ["article[data-format]", ".comments-panel", ".participation-panel", ".task-panel"];
+  const layout = await experience.evaluate((node, selectors) => {
+    const modules = selectors.map((selector) => node.querySelector(selector));
+    return {
+      pathname: location.pathname,
+      module: modules[0]?.getAttribute("data-module"),
+      domOrder: modules.every((module, index) => module && node.children[index] === module
+        && (index === 0 || modules[index - 1].compareDocumentPosition(module) === Node.DOCUMENT_POSITION_FOLLOWING)),
+      boxes: modules.map((module) => {
+        if (!module) return null;
+        const { top, bottom, width, height } = module.getBoundingClientRect();
+        return { top: top + window.scrollY, bottom: bottom + window.scrollY, width, height };
+      }),
+    };
+  }, selectors);
+  assert.ok(layout.domOrder, `${state} DOM 必须依次为正文 → 评论 → 先接一句，再查证 → 真假判断`);
+  for (let i = 0; i < layout.boxes.length; i++) {
+    const box = layout.boxes[i];
+    assert.ok(box && box.width > 0 && box.height > 0, `${state} ${selectors[i]} 未显示`);
+    if (i > 0) assert.ok(layout.boxes[i - 1].bottom <= box.top + 0.5, `${state} 模块上下顺序错误或重叠：${JSON.stringify(layout)}`);
+  }
+  const participation = experience.getByRole("region", { name: "先接一句，再查证", exact: true });
+  assert.equal(await participation.getByRole("link", { name: "直接判断", exact: true }).getAttribute("href"), "#task-heading");
+  assert.equal(await participation.getByRole("button", { name: /^(?:找可疑措辞|结束措辞点选)$/ }).count(), 1);
+  const record = { state, viewport: page.viewportSize(), ...layout };
+  postOrderRecords.push(record);
+  return record;
+}
+
 async function mobileGeometry(page, state) {
   await visible(page.locator(".app-shell"));
   await noOverflow(page);
@@ -1020,6 +1054,7 @@ async function mobileGeometry(page, state) {
   await noHashtagTitles(page);
   await noAuxiliaryContent(page);
   const textContrast = await readableTextChecks(page, state);
+  const postOrder = await postOrderChecks(page, state);
   const small = await page.evaluate(() => {
     const root = document.querySelector("dialog[open]") || document;
     return [...root.querySelectorAll('a[href], button, input, textarea, summary')].flatMap((node) => {
@@ -1037,7 +1072,7 @@ async function mobileGeometry(page, state) {
     const tabs = await page.getByRole("navigation", { name: "主导航", exact: true }).boundingBox();
     assert.ok(Math.abs(tabs.y + tabs.height - viewport.height) < 1 && Math.abs(tabs.width - shell.width) < 1, "底部导航未固定在手机列底部");
   }
-  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px", noAuxiliaryContent: true, noHashtagTitles: true, textContrast };
+  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px", noAuxiliaryContent: true, noHashtagTitles: true, textContrast, postOrder };
 }
 
 async function coverGeometry(page, route) {
@@ -2290,6 +2325,23 @@ try {
       await reviewPage.goto(`${baseURL}${route}`);
       await versionScreenshot(reviewPage, name, packageVersion);
     }
+    for (const [module, id] of [["trending", "T01"], ["discover", "P01"]]) {
+      await reviewPage.goto(`${baseURL}/post/${id}`);
+      await freshPost(reviewPage);
+      await postOrderChecks(reviewPage, `${id} 模块顺序交付截图`);
+      // 展示评论末尾与参与模块交界，保留真实页面内容和默认折叠状态。
+      await reviewPage.locator(".participation-panel").evaluate((node) => {
+        const headerHeight = document.querySelector(".shell-header").getBoundingClientRect().height;
+        window.scrollTo({ top: window.scrollY + node.getBoundingClientRect().top - headerHeight - 260, behavior: "instant" });
+      });
+      await versionScreenshot(reviewPage, `post-order-${module}`, packageVersion, { scrollToTop: false });
+      await reviewPage.getByRole("region", { name: "先接一句，再查证", exact: true }).getByRole("link", { name: "直接判断", exact: true }).click();
+      await focused(reviewPage.locator("#task-heading"));
+      const heading = await reviewPage.locator("#task-heading").boundingBox();
+      const header = await reviewPage.locator(".shell-header").boundingBox();
+      assert.ok(heading.y >= header.y + header.height, `${id} 参与模块的直接判断跳转被顶栏遮挡`);
+      assert.ok(await reviewPage.getByRole("button", { name: "提交判断", exact: true }).isDisabled());
+    }
     const reply = "此事吾记不真切了，换个话头可好？";
     await reviewContext.route("**/api/chat", (route) => route.fulfill({ status: 200, json: { reply } }));
     await reviewPage.goto(`${baseURL}/friends/libai`);
@@ -2308,7 +2360,7 @@ try {
     await collectionCount(reviewPage, 1);
     await versionScreenshot(reviewPage, "me", packageVersion);
   } finally { await reviewContext.close(); }
-  const deliveryScreenshots = ["trending", "discover", "post", "friends", "chat", "chat-libai", "me", "desktop"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-${name === "desktop" ? "1440x900" : "390x844"}.png`));
+  const deliveryScreenshots = ["trending", "discover", "post", "post-order-trending", "post-order-discover", "friends", "chat", "chat-libai", "chat-kangxi", "me", "desktop"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-${name === "desktop" ? "1440x900" : "390x844"}.png`));
   for (const file of deliveryScreenshots) {
     const png = await readFile(file);
     assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", `交付截图不是 PNG：${file}`);
@@ -2321,6 +2373,8 @@ try {
   summary.runtime = { platform: process.platform, node: process.version, browser: browser.version(), executablePath };
   summary.readability = { auditedStates: textContrastRecords.length, checkedTextSamples: textContrastRecords.reduce((sum, record) => sum + record.checked, 0), minimumRatio: Math.min(...textContrastRecords.map((record) => record.minimumRatio)) };
   summary.deliveryScreenshots = deliveryScreenshots;
+  assert.deepEqual([...new Set(postOrderRecords.map(({ pathname }) => pathname))].sort(), feedEntries.map(({ id }) => `/post/${id}`).sort(), "全部 52 条详情页均须通过模块顺序检查");
+  summary.postOrder = { expected: ["正文", "评论", "先接一句，再查证", "真假判断"], routes: 52, checks: postOrderRecords, screenshots: deliveryScreenshots.filter((file) => file.includes("post-order-")) };
   const eraDetails = geometry.filter((record) => record.eraChip);
   summary.displayContent = {
     version: packageVersion,
