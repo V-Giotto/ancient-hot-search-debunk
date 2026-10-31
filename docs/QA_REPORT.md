@@ -1,5 +1,6 @@
 # QA 报告
 
+最新结果为 **v0.28.0 好友知识权限与第一批补证**，见下节。后文 v0.26.0/v0.27.0 为历史记录；旧版缺封面的阻断不代表本轮状态。13份人设及首批16组新增知识仍待Giotto审核，本轮没有新增任何正式事实审核签名。
 最新布局修复为下方 v0.27.1；v0.26.0 的未完成验收记录保留供追溯。13份好友人设、展示表达与素材仍待Giotto审核。
 
 ## v0.27.1 好友聊天输入区贴底（2026-10-30）
@@ -10,6 +11,43 @@
 
 验证结果与交付截图：执行中，完成后补录。所有 AI 交互沿用离线或 mock，真实 AI 调用为 0；版本为 0.27.1，不改 CHANGELOG、不新增部署内容、不 commit。`node_modules` 符号链接保留。
 
+## v0.28.0 好友知识权限与第一批补证（2026-10-31）
+
+### 实现与审核边界
+
+- `lib/friend-knowledge.ts` 定义严格 Zod 三级知识、使用权限、逐字引文、审核签名、材料/事件日期及来源访问状态；`friend-schema` 要求13人均有lifespan及knowledge。`chat-context` 在序列化之前筛除pending和persona_expression事实，禁止从title/supports自动取得引用权；`chat-guard`与API检查文献出处、身后耳闻与禁止亲历，沿用一次重试及角色兜底。
+- 第一批六人共 **16组**（李白3、杜甫3、苏轼3、李清照3、孔子2、秦始皇2），全部 `pending / Giotto / reviewedAt=null`。对应正文均实际打开，逐字核对主文与异文；[第一批审核材料](/workspace/iter1/friends-batch1-review.md) 包含每条原文、出处、URL、打开方式、建议权限及生命周期。现代博物馆材料即使记述生前事件也标posthumous；原作与后世选集编纂不混为亲历。
+- 第二批七人只形成 [来源调研清单](/workspace/iter1/friends-batch2-sources.md)，knowledge保持空数组。失败/只见摘要/只开目录状态有明确区分，不当作核实。HTML和文本快照及SHA-256清单位于 `/workspace/iter1/source-text/`，本版未重新核查的旧题来源明确标legacy_review。
+- 既有sourceIds与旧题审核签名不变。旧reviewed supports只经兼容层继承为sourced_anecdote，exactQuote为空、不得亲历；同sourceId存在逐条新知识时不允许用旧supports绕过审核。秦始皇常设范围未加H17。新批次记录没有挪进全局source-index。
+- 客户端仍只收到id/name/avatarUrl/bio/greeting，未发送knowledge/lifespan/persona；UI未新增虚构/免责/演绎/模拟标签。单测和E2E只使用mock或无key；未调用真实AI，未打印、记录或提交真实密钥。package.json与锁文件顶层/根包版本均0.28.0。
+
+### 自动化验证
+
+环境：Node.js v24.22.1，Google Chrome 156.0.8078.47（`/usr/bin/google-chrome`）。
+
+| 检查 | 本轮实际结果 |
+| --- | --- |
+| `npm run typecheck` | 通过 |
+| `npm test` | 36个文件，1284项全部通过 |
+| `npm run build` | 通过；Next.js 16.4.3生产构建完成，页面/API保持动态路由 |
+| `CHROME_PATH=/usr/bin/google-chrome E2E_REVIEW_DIR=/workspace/iter1 npm run test:e2e` | 隔离D-Bus会话后全套通过；22条主流程，378次主回归几何检查，浏览器错误0 |
+| `git diff --check` | 通过 |
+
+新增测试覆盖：六人16组pending和第二批知识为空、数据权限交叉校验、reviewed来源不能绕过pending记录、未审引文不进入初始或重试系统消息、exactQuote独占引用/不转换繁简和标点/不跨字段拼接、persona_expression不能伪装原话、sourced_anecdote必须使用指定出处、身后事件与后世成书两条时间轴、日期未知/跨卒年/生前边界、王羲之昭陵与孔子编定论语的亲历拦截、真实API配合mock上游的一次重试和兜底。
+
+第一轮E2E被容器D-Bus会话断开引起的Chrome SIGABRT中断；失败记录保留 `/workspace/iter1/v28-e2e-attempt1-dbus.log`。未跳过任何检查；重跑仅给测试进程设置 `DBUS_SESSION_BUS_ADDRESS=disabled:` 隔离容器桌面会话，保留指定CHROME_PATH/E2E_REVIEW_DIR及显式空AI_API_KEY。
+
+E2E覆盖390×844、375×667、430×932和1440×900，包含全部13人列表/聊天、真实无key 503、mock发送/长回复/错误/恢复、22题判题与来源、分享与本机存储、PNG导出及formal/preview审核边界。Phase4专项40条流程/92次几何检查；信息流专项90条流程/93次几何检查；首屏JS所测五路由最大197763字节，低于300000字节预算。机器结果passed=true、browserErrors=[]、AI专项realAiCalls=0。指定两张PNG均已核验文件格式/390×844尺寸并目视复核：像素主题、好友列表与李白mock聊天正常，无新增禁用标签。
+
+### 交付与人工审核
+
+- [好友列表 390×844](/workspace/iter1/v0.28.0-friends-390x844.png)
+- [李白聊天 390×844](/workspace/iter1/v0.28.0-chat-libai-390x844.png)
+- [第一批材料](/workspace/iter1/friends-batch1-review.md)、[第二批来源](/workspace/iter1/friends-batch2-sources.md)。待Giotto逐条审核后才可修改新知识reviewStatus；本轮没有代签。
+
+测试输出 `/workspace/iter1/v28-tests.log`、构建输出 `v28-build.log`、E2E输出 `v28-e2e.log`，机器结果 `artifacts/stage-6/result.json`。生命周期与出处输出守卫为确定性的文本检查，并非史实语义审核；新材料全pending不对真实模型开放，本轮无真实AI联测。
+
+不改CHANGELOG，不新增静态部署内容，不commit/tag/push。原有未跟踪 `D:/` 不纳入本轮改动。
 
 ## v0.26.0 H15–H22 内容导入（2026-10-30，验收未完成）
 

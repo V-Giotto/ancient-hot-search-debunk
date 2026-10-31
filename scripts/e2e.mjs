@@ -2297,6 +2297,7 @@ try {
     await reviewPage.getByRole("button", { name: "发送消息", exact: true }).click();
     await visible(reviewPage.getByRole("log").getByText(reply, { exact: true }));
     await versionScreenshot(reviewPage, "chat-mock", packageVersion);
+    await versionScreenshot(reviewPage, "chat-libai", packageVersion);
     // Use a real deterministic verdict to show both a collected sticker and
     // locked ones, without seeding progress or contacting an AI provider.
     await reviewPage.goto(`${baseURL}/post/H01`);
@@ -2307,7 +2308,7 @@ try {
     await collectionCount(reviewPage, 1);
     await versionScreenshot(reviewPage, "me", packageVersion);
   } finally { await reviewContext.close(); }
-  const deliveryScreenshots = ["trending", "discover", "post", "friends", "chat", "me", "desktop"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-${name === "desktop" ? "1440x900" : "390x844"}.png`));
+  const deliveryScreenshots = ["trending", "discover", "post", "friends", "chat", "chat-libai", "me", "desktop"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-${name === "desktop" ? "1440x900" : "390x844"}.png`));
   for (const file of deliveryScreenshots) {
     const png = await readFile(file);
     assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", `交付截图不是 PNG：${file}`);

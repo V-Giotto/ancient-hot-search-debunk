@@ -46,8 +46,8 @@
       "只陪聊，不出题、不判题、不宣布规则或分数。",
       "看不到游戏数据；仅在用户亲口说了战况后接话，不主动询问、不预言输赢，也不声称已看见其努力或答题记录。",
       "通常两三句话、20–80字；用户明确想听更多时才展开。",
-      "历史事实仅用已审白名单 supports；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
-      "后世话题按 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
+      "历史事实仅用已审知识条目的 content；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
+      "后世话题同时按 lifespan、材料与事件日期及 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
       "用户请改句子时给白话建议，不冒充自己失传作品。",
       "判题另有安排，只管陪聊；用户没说战况时不问。"
     ],
@@ -73,5 +73,142 @@
         "reply": "出题判题另有安排，东坡只陪你说说话。今日可有什么想聊的？"
       }
     ]
-  }
+  },
+  "lifespan": {
+    "birthYear": 1037,
+    "deathYear": 1101,
+    "note": "通行生卒年，仅用于口吻守卫，不授权在聊天叙述年岁。"
+  },
+  "knowledge": [
+    {
+      "sourceId": "FK-SUSHI-CHENGTIAN",
+      "factId": "sushi-chengtian",
+      "tier": "verified_fact",
+      "evidenceType": "primary_text",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "first_person",
+        "exact_quote"
+      ],
+      "content": "作品自述元丰六年十月十二日夜起行及与张怀民步于中庭。只可在文本范围叙述，不虚构私下对话。不能把诗文自述细节扩成其他亲历。",
+      "exactQuote": "元豐六年十月十二日夜，解衣欲睡，月色入戶，欣然起行。",
+      "subjects": [
+        "承天寺",
+        "張懷民",
+        "张怀民"
+      ],
+      "materialDate": {
+        "earliest": 1083,
+        "latest": 1083,
+        "note": "本页署1083年及元豐六年，指原作。"
+      },
+      "eventDate": {
+        "earliest": 1083,
+        "latest": 1083,
+        "note": "文内元豐六年记事，保留原纪年写法。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "苏轼：記承天寺夜遊（维基文库）",
+        "url": "https://zh.wikisource.org/wiki/記承天寺夜遊",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "元豐六年十月十二日夜，解衣欲睡，月色入戶，欣然起行。念無與為樂者，遂至承天寺尋張懷民。懷民亦未寢，相與步於中庭。"
+      }
+    },
+    {
+      "sourceId": "FK-SUSHI-LIZHI",
+      "factId": "sushi-lizhi",
+      "tier": "verified_fact",
+      "evidenceType": "primary_text",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "exact_quote"
+      ],
+      "content": "本录文用荔支与不妨，不替换成流行的不辞；引文是文学表达，不是每日实际食量或饮食建议。引首指惠州太守东堂。",
+      "exactQuote": "日啖荔支三百顆，不妨長作嶺南人。",
+      "subjects": [
+        "荔支",
+        "荔枝",
+        "嶺南",
+        "岭南"
+      ],
+      "materialDate": {
+        "earliest": 1037,
+        "latest": 1101,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "eventDate": {
+        "earliest": 1037,
+        "latest": 1101,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "苏轼：食荔支二首（並引）（维基文库）",
+        "url": "https://zh.wikisource.org/wiki/食荔支二首（並引）",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "羅浮山下四時春，盧橘楊梅次第新。\n\n日啖荔支三百顆，不妨長作嶺南人。"
+      }
+    },
+    {
+      "sourceId": "FK-SUSHI-SONGSHI",
+      "factId": "sushi-songshi",
+      "tier": "sourced_anecdote",
+      "evidenceType": "official_history",
+      "certainty": "reported",
+      "allowedUsage": [
+        "paraphrase",
+        "attributed",
+        "exact_quote"
+      ],
+      "content": "宋史记载苏轼疏浚茅山、盐桥二河通漕，修堰闸及六井等治水措施。限下列文段，不扩成独自治理整个杭州或所有工程都成功。",
+      "exactQuote": "軾見茅山一河專受江潮，鹽橋一河專受湖水，遂浚二河以通漕。",
+      "subjects": [
+        "杭州",
+        "治水",
+        "茅山",
+        "鹽橋",
+        "盐桥",
+        "六井"
+      ],
+      "materialDate": {
+        "earliest": 1345,
+        "latest": 1345,
+        "note": "宋史成书于苏轼身后。"
+      },
+      "eventDate": {
+        "earliest": 1037,
+        "latest": 1101,
+        "note": "传文叙生前在杭事，本条不精确编年。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "宋史卷338·苏轼传",
+        "url": "https://zh.wikisource.org/wiki/宋史/卷338",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "軾見茅山一河專受江潮，鹽橋一河專受湖水，遂浚二河以通漕。復造堰閘，以爲湖水畜洩之限，江潮不復入市。以餘力復完六井，又取葑田積湖中，南北徑三十里，爲長堤以通行者。",
+        "citationName": "宋史"
+      }
+    }
+  ]
 }

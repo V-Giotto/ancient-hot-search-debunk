@@ -45,7 +45,7 @@ describe("十三位人设与事实边界", () => {
     const context = JSON.parse(buildChatMessages(friend, getFriendSources(friend), "你好")[1].content.split("\n")[1]);
     expect(context.friend.persona).toEqual(friend.persona);
     expect(context.sourceIds).toEqual(friend.sourceIds);
-    expect(context.sources.every((source: { status: string }) => source.status === "reviewed")).toBe(true);
+    expect(context.knowledge.every((record: { reviewStatus: { status: string } }) => record.reviewStatus.status === "reviewed")).toBe(true);
     expect(toFriendProfile(friend)).not.toHaveProperty("personaReview");
     expect(toFriendProfile(friend)).not.toHaveProperty("persona");
   });

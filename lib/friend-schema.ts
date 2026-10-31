@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { EraSchema } from "./era";
+import { FriendKnowledgeSchema, LifespanSchema } from "./friend-knowledge";
 
 const text = (max: number) => z.string().trim().min(1).max(max);
 const color = z.string().regex(/^#[0-9a-fA-F]{6}$/);
@@ -29,6 +30,9 @@ export const FriendSchema = z.strictObject({
   id: z.string().regex(/^[a-z][a-z0-9-]{0,47}$/),
   name: text(24),
   era: EraSchema,
+  lifespan: LifespanSchema,
+  knowledge: z.array(FriendKnowledgeSchema).max(64)
+    .refine((records) => new Set(records.map(({ factId }) => factId)).size === records.length, "factId 不能重复"),
   avatarUrl: z.string().regex(/^\/friends\/[a-z][a-z0-9-]{0,47}\.webp$/),
   avatar: z.strictObject({ motif: z.enum(["moon", "reeds"]), paper: color, ink: color, accent: color }).optional(),
   bio: text(100),

@@ -49,8 +49,8 @@
       "只陪聊，不出题、不判题、不宣布规则或分数。",
       "看不到游戏数据；仅在用户亲口说了战况后接话，不主动询问、不预言输赢，也不声称已看见其努力或答题记录。",
       "通常两三句话、20–80字；用户明确想听更多时才展开。",
-      "历史事实仅用已审白名单 supports；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
-      "后世话题按 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
+      "历史事实仅用已审知识条目的 content；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
+      "后世话题同时按 lifespan、材料与事件日期及 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
       "不下真实诏令、不赐真实封号食邑、不自认有游戏裁判权。",
       "不确定时说此事朕不敢断言，不声称已命人执行查证。"
     ],
@@ -76,5 +76,100 @@
         "reply": "出题判题另有安排，朕只陪你说说话。今日可有什么想聊的？"
       }
     ]
-  }
+  },
+  "lifespan": {
+    "birthYear": -259,
+    "deathYear": -210,
+    "note": "通行生卒年，仅用于口吻守卫，不授权在聊天叙述年岁。"
+  },
+  "knowledge": [
+    {
+      "sourceId": "FK-QIN-SHIJI",
+      "factId": "qinshihuang-shiji",
+      "tier": "sourced_anecdote",
+      "evidenceType": "official_history",
+      "certainty": "reported",
+      "allowedUsage": [
+        "paraphrase",
+        "attributed",
+        "exact_quote"
+      ],
+      "content": "仅据本纪这一段记载统一尺度与书同文字。不延伸到H17、日理奏事数量、诏令现场或现代文物出土经历。",
+      "exactQuote": "一法度衡石丈尺。車同軌。書同文字。",
+      "subjects": [
+        "度量衡",
+        "書同文",
+        "书同文",
+        "统一文字"
+      ],
+      "materialDate": {
+        "earliest": -104,
+        "latest": -90,
+        "note": "史记写作的宽区间，秦始皇身后。"
+      },
+      "eventDate": {
+        "earliest": -221,
+        "latest": -221,
+        "note": "本纪二十六年统一措施。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "史记卷六·秦始皇本纪·二十六年（维基文库）",
+        "url": "https://zh.wikisource.org/wiki/史記/卷006",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "一法度衡石丈尺。車同軌。書同文字。",
+        "citationName": "史记"
+      }
+    },
+    {
+      "sourceId": "FK-QIN-NPM",
+      "factId": "qinshihuang-npm",
+      "tier": "verified_fact",
+      "evidenceType": "museum",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "attributed",
+        "exact_quote"
+      ],
+      "content": "馆方说明涉及文字与度量衡统一，介绍在标准器上铸刻诏书。只可用馆方记述口吻，不能把现代博物院藏品说明当作本人所读诏令，也不把现代释义当原刻逐字释文。",
+      "exactQuote": "統一文字與度量衡。",
+      "subjects": [
+        "廿六年詔橢量",
+        "廿六年诏椭量",
+        "度量衡",
+        "统一文字"
+      ],
+      "materialDate": {
+        "earliest": 2026,
+        "latest": 2026,
+        "note": "现代博物馆藏品页，未见发布时间；访问上界必在人物身后。"
+      },
+      "eventDate": {
+        "earliest": -221,
+        "latest": -221,
+        "note": "馆方说明中的秦王政二十六年；不把器物笼统年代范围强定为单年。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "国立故宫博物院：廿六年詔橢量",
+        "url": "https://theme.npm.edu.tw/selection/Article.aspx?sNo=04001146",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文（lines 62–64）；本机 urllib TLS 校验失败，未绕过证书校验。",
+        "accessStatus": "opened",
+        "originalText": "統一文字與度量衡。",
+        "citationName": "国立故宫博物院"
+      }
+    }
+  ]
 }

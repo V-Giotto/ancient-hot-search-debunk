@@ -1,14 +1,15 @@
 import type { Friend } from "./friend-schema";
 import type { Source } from "./schemas";
 import { isLaterEra, type Era } from "./era";
+import { findForbiddenKnowledgeUsage, findKnowledgeOutputViolations, getChatKnowledge } from "./friend-knowledge";
 
 const quotePatterns = () => [/“([^”]*)”/g, /‘([^’]*)’/g, /「([^」]*)」/g, /『([^』]*)』/g, /"([^"]*)"/g, /'([^']*)'/g, /《([^》]*)》/g];
 
 /** 保守校验所有成对引号，避免依赖模型或启发式判断某句话是否是古诗/原话。 */
 export function findUnsupportedChatQuotes(reply: string, friend: Friend, sources: Source[], sharedSourceIds: readonly string[] = []): string[] {
-  const originals = sources
-    .filter((source) => source.status === "reviewed" && (friend.sourceIds.includes(source.id) || sharedSourceIds.includes(source.id)))
-    .flatMap(({ supports, title }) => [supports, title]);
+  const originals = getChatKnowledge(friend, sources, sharedSourceIds)
+    .filter((record) => record.allowedUsage.includes("exact_quote"))
+    .map(({ exactQuote }) => exactQuote);
   const unsupported = new Set<string>();
   // 分别扫描各类括号，保证引号内嵌套的《书名》也会独立校验。
   for (const pattern of quotePatterns()) {
@@ -81,7 +82,10 @@ export function findChatOutputViolations(reply: string, friend: Friend, sources:
 
   const missingEraMarker = Boolean(topicEra && isLaterEra(topicEra, friend.era) && !/听说|听闻|耳闻|据说|后世|身后/u.test(reply));
   const mixedSelfReferences = (reply.includes("我") && reply.includes("吾")) || hasMixedPersonaSelfReferences(reply, friend);
-  return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments], missingEraMarker, mixedSelfReferences };
+  const knowledgeViolations = [...findKnowledgeOutputViolations(reply, getChatKnowledge(friend, sources, sharedSourceIds)), ...findForbiddenKnowledgeUsage(reply, friend)];
+  return { unsupportedQuotes: findUnsupportedChatQuotes(reply, friend, sources, sharedSourceIds), personaFragments: [...personaFragments], missingEraMarker, mixedSelfReferences,
+    ...(knowledgeViolations.length ? { knowledgeViolations } : {}),
+  };
 }
 
 export function getChatSafeReply(friend: Friend, topicEra?: Era): string {

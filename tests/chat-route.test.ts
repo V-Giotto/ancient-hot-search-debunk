@@ -6,6 +6,8 @@ import * as topicData from "@/lib/topics";
 import { CHAT_SYSTEM_PROMPT } from "@/lib/chat-context";
 import { getChatSafeReply } from "@/lib/chat-guard";
 import { getFriendById } from "@/lib/friends";
+import * as friendData from "@/lib/friends";
+import { quoteKnowledge } from "./knowledge-fixtures";
 
 const safeReply = getChatSafeReply(getFriendById("libai")!);
 
@@ -171,7 +173,9 @@ describe("chat 真实上游格式兼容、截断与引用重试", () => {
     expect(await response.json()).toEqual({ reply: safeReply });
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
-  it("违规引用→带违规片段的重试→原文字形通过，且不回灌完整失败回复", async () => {
+  it("违规引用→只带违规数量的重试→获准原文字形通过，不回灌未审引文", async () => {
+    const originalFriend = getFriendById("libai")!;
+    vi.spyOn(friendData, "getFriendById").mockReturnValue({ ...originalFriend, knowledge: [quoteKnowledge("憐君如弟兄")] });
     const invalid = "失败回复的其他部分不应回灌：杜甫说过“怜君如弟兄”，还写过《不存在的诗集》。";
     const valid = "杜甫写过‘憐君如弟兄’，后来是否再见，吾记不真切了。";
     fetchMock.mockResolvedValueOnce(result(invalid)).mockResolvedValueOnce(result(valid));
@@ -182,8 +186,9 @@ describe("chat 真实上游格式兼容、截断与引用重试", () => {
     const messages = outgoing(1).messages;
     expect(messages.slice(0, 3)).toEqual(outgoing().messages);
     expect(messages.at(-1)).toMatchObject({ role: "system" });
-    expect(messages.at(-1).content).toContain('"怜君如弟兄"');
-    expect(messages.at(-1).content).toContain('"不存在的诗集"');
+    expect(messages.at(-1).content).toContain('"unsupportedQuotes":2');
+    expect(messages.at(-1).content).not.toContain("怜君如弟兄");
+    expect(messages.at(-1).content).not.toContain("不存在的诗集");
     expect(messages.at(-1).content).not.toContain("失败回复的其他部分");
   });
   it.each([false, true])("连续两次违规引用直接安全兜底（纯文本=%s），不返回 502", async (plainText) => {
@@ -255,7 +260,8 @@ describe("chat 人设违规与引文共用一次重试", () => {
     fetchMock.mockResolvedValueOnce(result("资料里李白说‘怜君如弟兄’。"));
     await POST(request());
     const correction = outgoing(1).messages.at(-1).content;
-    for (const fragment of ["资料里", "李白说", "怜君如弟兄", "unsupportedQuotes", "personaFragments"]) expect(correction).toContain(fragment);
+    for (const fragment of ["资料里", "李白说", '"unsupportedQuotes":1', "personaFragments"]) expect(correction).toContain(fragment);
+    expect(correction).not.toContain("怜君如弟兄");
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
   it.each(["元话语→引文", "引文→元话语", "格式→元话语", "元话语→格式", "自称→自称"])("跨错误类型仍只重试一次：%s", async (order) => {
@@ -310,19 +316,18 @@ describe("分享话题的服务端白名单", () => {
     expect((await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02", sources: [] }))).status).toBe(400);
     expect(fetchMock).not.toHaveBeenCalled();
   });
-  it("合并好友与分享题 reviewed 来源并去重，加入标题、claim、揭晓范围；引文校验接受分享题原文", async () => {
+  it("合并好友与分享题 reviewed 来源并去重，转换为受限条目，旧title不授引文权限", async () => {
     const { getTopicById, getSourcesForTopic } = await import("@/lib/topics");
     const topic = getTopicById("H02")!;
     const sources = getSourcesForTopic(topic).filter((source) => source.status === "reviewed");
-    const quote = sources[0].title;
-    fetchMock.mockResolvedValue(result(`听说后世有《${quote}》，此事吾不宜妄言。`));
+    fetchMock.mockResolvedValue(result("听说后世有此事，吾不宜妄言。"));
     expect((await POST(request({ friendId: "libai", message: "看看", sharedTopicId: "H02" }))).status).toBe(200);
     expect(fetchMock).toHaveBeenCalledOnce();
     const context = JSON.parse(outgoing().messages[1].content.split("\n")[1]);
     expect(context.sharedTopic).toMatchObject({ id: topic.id, era: topic.era, title: topic.title, claim: topic.claim, reveal: { correctedClaim: topic.reveal.correctedClaim } });
     expect(context.sourceIds).toEqual(expect.arrayContaining(["S-H01-01", "S-H01-02", ...sources.map((source) => source.id)]));
     expect(context.sourceIds).toHaveLength(new Set(context.sourceIds).size);
-    expect(context.sources.every((source: { status: string }) => source.status === "reviewed")).toBe(true);
+    expect(context.knowledge.every((record: { reviewStatus: { status: string } }) => record.reviewStatus.status === "reviewed")).toBe(true);
     expect(context.sourceIds.some((id: string) => id.startsWith("S-H03"))).toBe(false);
   });
   it("分享题不能解锁其他题引文；违规仍重试并按角色兜底", async () => {
@@ -457,7 +462,8 @@ describe("晚于好友时代的分享与讨论", () => {
     const response = await POST(request({ friendId: "libai", sharedTopicId: "H02", message: "看看" }));
     expect(await response.json()).toEqual({ reply: valid });
     const correction = outgoing(1).messages.at(-1).content;
-    for (const fragment of ["unsupportedQuotes", "personaFragments", '"missingEraMarker":true', "不存在的引文", "资料里", "李白说"]) expect(correction).toContain(fragment);
+    for (const fragment of ['"unsupportedQuotes":1', "personaFragments", '"missingEraMarker":true', "资料里", "李白说"]) expect(correction).toContain(fragment);
+    expect(correction).not.toContain("不存在的引文");
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
   it("时代纠正时上游异常仍返回耳闻兜底，无日志", async () => {

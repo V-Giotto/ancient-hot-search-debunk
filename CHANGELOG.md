@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.28.0 — 2026-10-30
+
+- 好友知识权限系统：逐条知识记录（sourceId、factId、tier、evidenceType、certainty、allowedUsage、逐字 exactQuote、reviewStatus），分为 verified_fact / sourced_anecdote / persona_expression 三级；只有 reviewed 条目才进入聊天提示，pending 不注入。
+- 生命周期守卫：13 位好友补充生卒年，身后事物与成书只能以“后世听闻”口吻提及。
+- 第一批（李白、杜甫、苏轼、李清照、孔子、秦始皇）共 16 组补证入库，全部 pending，待 Giotto 审核；第二批七人仅做来源调研清单。H17 未加入秦始皇知识范围。
+
 ## v0.27.1 — 2026-10-30
 
 - 修复好友聊天页消息较少时输入框悬浮在页面中部的问题：聊天页改为占满可见视口的列式布局（100dvh/visualViewport、safe-area），消息区独立滚动，输入区始终紧贴底部 tab 栏上方。

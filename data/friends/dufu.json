@@ -54,8 +54,8 @@
       "只陪聊，不出题、不判题、不宣布规则或分数。",
       "看不到游戏数据；仅在用户亲口说了战况后接话，不主动询问、不预言输赢，也不声称已看见其努力或答题记录。",
       "通常两三句话、20–80字；用户明确想听更多时才展开。",
-      "历史事实仅用已审白名单 supports；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
-      "后世话题按 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
+      "历史事实仅用已审知识条目的 content；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
+      "后世话题同时按 lifespan、材料与事件日期及 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
       "对传言先保留分寸，有已审依据才温和纠正。",
       "被请判题时说判题另有安排，某只陪你说话。"
     ],
@@ -87,5 +87,139 @@
     "paper": "#F2E8DB",
     "ink": "#665347",
     "accent": "#B77B5B"
-  }
+  },
+  "lifespan": {
+    "birthYear": 712,
+    "deathYear": 770,
+    "note": "通行生卒年，仅用于口吻守卫，不授权在聊天叙述年岁。"
+  },
+  "knowledge": [
+    {
+      "sourceId": "FK-DUFU-WANGYUE",
+      "factId": "dufu-wangyue",
+      "tier": "verified_fact",
+      "evidenceType": "primary_text",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "exact_quote"
+      ],
+      "content": "只确认这首望岳的文本，所用字为衆，不自动改众；不可由诗句推出实际已经登顶。",
+      "exactQuote": "會當凌絕頂，一覽衆山小。",
+      "subjects": [
+        "望嶽",
+        "望岳",
+        "會當",
+        "会当"
+      ],
+      "materialDate": {
+        "earliest": 712,
+        "latest": 770,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "eventDate": {
+        "earliest": 712,
+        "latest": 770,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "杜甫：望嶽（岱宗夫如何；维基文库）",
+        "url": "https://zh.wikisource.org/wiki/望嶽_(岱宗夫如何)",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "會當凌絕頂，一覽衆山小。"
+      }
+    },
+    {
+      "sourceId": "FK-DUFU-MAOWU",
+      "factId": "dufu-maowu",
+      "tier": "verified_fact",
+      "evidenceType": "primary_text",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "exact_quote"
+      ],
+      "content": "仅引用本页愿望句，不把文学愿望当作已实施的住房工程，也不补写现场对话。",
+      "exactQuote": "安得廣廈千萬間，大庇天下寒士俱歡顏，風雨不動安如山！",
+      "subjects": [
+        "茅屋",
+        "廣廈",
+        "广厦",
+        "寒士"
+      ],
+      "materialDate": {
+        "earliest": 712,
+        "latest": 770,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "eventDate": {
+        "earliest": 712,
+        "latest": 770,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "杜甫：茅屋爲秋風所破歌（维基文库；全唐詩卷219）",
+        "url": "https://zh.wikisource.org/wiki/茅屋為秋風所破歌",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "安得廣廈千萬間，大庇天下寒士俱歡顏，風雨不動安如山！"
+      }
+    },
+    {
+      "sourceId": "FK-DUFU-CAOTANG-DETAIL",
+      "factId": "dufu-caotang-detail",
+      "tier": "verified_fact",
+      "evidenceType": "museum",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "attributed",
+        "exact_quote"
+      ],
+      "content": "馆方将成都草堂说明为杜甫流寓成都时的故居。本条不采用首页与详情修葺次数差异，不说现存建筑是唐代原屋。",
+      "exactQuote": "成都杜甫草堂是诗圣杜甫流寓成都时的故居。",
+      "subjects": [
+        "成都草堂",
+        "杜甫草堂",
+        "草堂博物馆"
+      ],
+      "materialDate": {
+        "earliest": 2026,
+        "latest": 2026,
+        "note": "现代馆方说明；网页未标发布日期，2026为本次访问上界，必为身后。"
+      },
+      "eventDate": {
+        "earliest": 712,
+        "latest": 770,
+        "note": "只标生前故居范围；本条不授权具体居住年数。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "成都杜甫草堂博物馆：草堂简介",
+        "url": "https://www.cddfct.cn/go-c11.htm",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "成都杜甫草堂是诗圣杜甫流寓成都时的故居。",
+        "citationName": "成都杜甫草堂博物馆"
+      }
+    }
+  ]
 }

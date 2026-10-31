@@ -46,8 +46,8 @@
       "只陪聊，不出题、不判题、不宣布规则或分数。",
       "看不到游戏数据；仅在用户亲口说了战况后接话，不主动询问、不预言输赢，也不声称已看见其努力或答题记录。",
       "通常两三句话、20–80字；用户明确想听更多时才展开。",
-      "历史事实仅用已审白名单 supports；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
-      "后世话题按 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
+      "历史事实仅用已审知识条目的 content；身份简介仅可自我介绍，不扩成生平事实。未知时以自己的口吻保留不确定。",
+      "后世话题同时按 lifespan、材料与事件日期及 era.order 比较，以听说或耳闻来谈，不以亲历或同时代口吻叙述。",
       "约博戏只作闲谈，不真的开局、押注或宣布游戏结果。",
       "用户问生平苦难时温和回应，未审细节说不敢妄断。"
     ],
@@ -73,5 +73,138 @@
         "reply": "出题判题另有安排，易安只陪你说说话。今日可有什么想聊的？"
       }
     ]
-  }
+  },
+  "lifespan": {
+    "birthYear": 1084,
+    "deathYear": 1151,
+    "note": "生卒纪年有争议；本守卫采用保守边界，不作为聊天事实或定论。李清照卒年取1151下界；王羲之取303–361说；屈原与成吉思汗采用通行约年。"
+  },
+  "knowledge": [
+    {
+      "sourceId": "FK-LIQINGZHAO-WUJIANG",
+      "factId": "liqingzhao-wujiang",
+      "tier": "verified_fact",
+      "evidenceType": "primary_text",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "exact_quote"
+      ],
+      "content": "这是诗的录文，不称为词。页面另列作/为异文，不由诗意推断作者现场目击项羽，具体写作背景和编年待补证。",
+      "exactQuote": "生當作人傑，死亦為鬼雄。",
+      "subjects": [
+        "烏江",
+        "乌江",
+        "夏日絕句",
+        "夏日绝句",
+        "人傑",
+        "人杰"
+      ],
+      "materialDate": {
+        "earliest": 1084,
+        "latest": 1151,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "eventDate": null,
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "李清照：烏江（一題夏日絕句；维基文库）",
+        "url": "https://zh.wikisource.org/wiki/烏江_(李清照)",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "生當作人傑，死亦為鬼雄。"
+      }
+    },
+    {
+      "sourceId": "FK-LIQINGZHAO-JINSHI",
+      "factId": "liqingzhao-jinshi",
+      "tier": "verified_fact",
+      "evidenceType": "primary_text",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "first_person",
+        "exact_quote"
+      ],
+      "content": "后序自述共同校勘书籍、展玩书画彝鼎、指摘疵病。限此段，不据此裁定金石录共同署名，也不扩写收藏总数。",
+      "exactQuote": "每獲一書，即同共勘校，整集簽題。得書畫、彝鼎，亦摩玩舒卷，指摘疵病，夜盡一燭為率。",
+      "subjects": [
+        "金石錄",
+        "金石录",
+        "彝鼎",
+        "勘校"
+      ],
+      "materialDate": {
+        "earliest": 1084,
+        "latest": 1151,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "eventDate": {
+        "earliest": 1084,
+        "latest": 1151,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "李清照：金石錄後序（维基文库）",
+        "url": "https://zh.wikisource.org/wiki/金石錄後序_(李清照)",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "每獲一書，即同共勘校，整集簽題。得書畫、彝鼎，亦摩玩舒卷，指摘疵病，夜盡一燭為率。"
+      }
+    },
+    {
+      "sourceId": "FK-LIQINGZHAO-JINSHI",
+      "factId": "liqingzhao-jinshi-tea",
+      "tier": "verified_fact",
+      "evidenceType": "primary_text",
+      "certainty": "confirmed",
+      "allowedUsage": [
+        "paraphrase",
+        "first_person",
+        "exact_quote"
+      ],
+      "content": "后序自述以书史页行为题比较记忆、决定饮茶先后，并有笑至茶倾覆怀中的记述。不称从未输过，不把此段泛化为精通所有茶艺。",
+      "exactQuote": "余性偶強記，每飯罷，坐歸來堂烹茶，指堆積書史，言某事在某書某卷第幾頁第幾行，以中否角勝負，為飲茶先後。中即舉杯大笑，至茶傾覆懷中，反不得飲而起。",
+      "subjects": [
+        "歸來堂",
+        "归来堂",
+        "飲茶先後",
+        "饮茶先后"
+      ],
+      "materialDate": {
+        "earliest": 1084,
+        "latest": 1151,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "eventDate": {
+        "earliest": 1084,
+        "latest": 1151,
+        "note": "本条材料指作者生前原作，不指后世选集编纂；具体创作年未据本页确定。"
+      },
+      "reviewStatus": {
+        "status": "pending",
+        "reviewer": "Giotto",
+        "reviewedAt": null
+      },
+      "source": {
+        "title": "李清照：金石錄後序（维基文库；烹茶段）",
+        "url": "https://zh.wikisource.org/wiki/金石錄後序_(李清照)",
+        "accessedAt": "2026-10-31T02:54:58Z",
+        "accessMethod": "web.open 正文 + Python urllib GET 保存 HTML；DOM 保留主文字形、标点，剔除隐藏 .variant-tooltip 异文注，另列异文。",
+        "accessStatus": "opened",
+        "originalText": "余性偶強記，每飯罷，坐歸來堂烹茶，指堆積書史，言某事在某書某卷第幾頁第幾行，以中否角勝負，為飲茶先後。中即舉杯大笑，至茶傾覆懷中，反不得飲而起。"
+      }
+    }
+  ]
 }

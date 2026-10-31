@@ -83,9 +83,11 @@ describe("角色提示词的事实与指令隔离", () => {
   it("仅包含该好友 reviewed supports，保留事实与存疑原文", () => {
     const messages = buildChatMessages(friend, sources, "何时相识？");
     const context = JSON.parse(messages[1].content.split("\n")[1]);
-    expect(context.friend).toEqual({ id: friend.id, name: friend.name, era: friend.era, persona: friend.persona });
+    expect(context.friend).toEqual({ id: friend.id, name: friend.name, era: friend.era, lifespan: friend.lifespan, persona: friend.persona });
     expect(context.sourceIds).toEqual(friend.sourceIds);
-    expect(context.sources).toEqual(getFriendSources(friend).map(({ id, status, title, supports }) => ({ id, status, title, supports })));
+    expect(context.knowledge.map(({ sourceId, content }: { sourceId: string; content: string }) => ({ sourceId, content })))
+      .toEqual(getFriendSources(friend).map(({ id, supports }) => ({ sourceId: id, content: supports })));
+    expect(context.knowledge.every((record: { exactQuote: string; tier: string }) => record.exactQuote === "" && record.tier === "sourced_anecdote")).toBe(true);
     expect(messages[1].content).toContain("744年");
     expect(messages[1].content).toContain("不得写成确定事实");
     expect(messages[1].content).toContain("醉眠秋共被");
@@ -94,7 +96,7 @@ describe("角色提示词的事实与指令隔离", () => {
   it("防御性过滤 pending/rejected 与白名单外来源", () => {
     const changed = sources.map((source) => ({ ...source, status: source.id === friend.sourceIds[0] ? "pending" as const : "rejected" as const }));
     const context = JSON.parse(buildChatMessages(friend, changed, "你好")[1].content.split("\n")[1]);
-    expect(context.sources).toEqual([]);
+    expect(context.knowledge).toEqual([]);
     expect(context.sourceIds).toEqual([]);
   });
   it.each(["libai", "dufu"])("%s 的四道晚代题加入系统耳闻规则与时代数据", (friendId) => {

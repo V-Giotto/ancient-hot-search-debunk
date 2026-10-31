@@ -3,16 +3,17 @@ import { describe, expect, it } from "vitest";
 import { findChatOutputViolations, findUnsupportedChatQuotes, getChatSafeReply, normalizeChatSelfReferences } from "@/lib/chat-guard";
 import { getFriendById, getFriendSources } from "@/lib/friends";
 import { makeSource } from "./fixtures";
+import { quoteKnowledge } from "./knowledge-fixtures";
 
-const friend = getFriendById("libai")!;
+const friend = { ...getFriendById("libai")!, knowledge: [quoteKnowledge("憐君如弟兄"), quoteKnowledge("春日忆李白", "title-one"), quoteKnowledge("全唐詩", "title-two")] };
 const sources = getFriendSources(friend);
 
-describe("好友引用必须逐字出自 reviewed 白名单 supports 或 title", () => {
+describe("好友引用必须逐字出自 reviewed 且获准的 exactQuote", () => {
   it.each([["“", "”"], ["‘", "’"], ["「", "」"], ["『", "』"], ['"', '"'], ["'", "'"]])("校验 %s%s 内的原话，不自动简繁转换", (open, close) => {
     expect(findUnsupportedChatQuotes(`杜甫写过${open}憐君如弟兄${close}。`, friend, sources)).toEqual([]);
     expect(findUnsupportedChatQuotes(`杜甫写过${open}怜君如弟兄${close}。`, friend, sources)).toEqual(["怜君如弟兄"]);
   });
-  it("书名可来自 supports 或仅出现在 title 中的标题", () => {
+  it("书名也须有独立exactQuote权限，不能从来源标题自动获得", () => {
     expect(findUnsupportedChatQuotes("《春日忆李白》《全唐詩》", friend, sources)).toEqual([]);
     expect(findUnsupportedChatQuotes("《全唐诗》《杜甫私信》", friend, sources)).toEqual(["全唐诗", "杜甫私信"]);
   });
@@ -51,7 +52,6 @@ describe("统一检查元话语、自我旁白与引文", () => {
   it.each([
     ["libai", "吾与杜甫曾同行同游。"], ["dufu", "李白说得爽快，甫也愿听你慢慢说。"],
     ["libai", "吾是李白，你今日过得如何？"], ["dufu", "我是杜甫，你慢慢说。"],
-    ["libai", "《春日忆李白》《李白与杜甫》"], ["dufu", "《鲁郡东石门送杜二甫》"],
   ])("允许第一人称、谈论对方及已审书名：%s %s", (id, reply) => {
     expect(findChatOutputViolations(reply, getFriendById(id)!, sources)).toEqual({ unsupportedQuotes: [], personaFragments: [], missingEraMarker: false, mixedSelfReferences: false });
   });
