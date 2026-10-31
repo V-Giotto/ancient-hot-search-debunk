@@ -45,7 +45,7 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
       const { toPng } = await import("html-to-image");
       const url = await toPng(cardRef.current, {
         width: 1200, height: 675, canvasWidth: 1200, canvasHeight: 675,
-        pixelRatio: 1, backgroundColor: "#f7f5f0", fontEmbedCSS: "",
+        pixelRatio: 1, backgroundColor: "#251347", fontEmbedCSS: "",
       });
       const link = document.createElement("a");
       link.download = `${topic.id}-查证卡.png`;
@@ -83,19 +83,19 @@ export function CheckCardDialog({ topic, result, onClose }: { topic: PublicTopic
       </div>
       <div ref={previewRef} className="relative aspect-video w-full overflow-hidden rounded-xl border border-ink/10">
         <div style={{ width: 1200, height: 675, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-          <div ref={cardRef} data-testid="check-card" style={{ width: 1200, height: 675, boxSizing: "border-box", padding: "38px 48px", background: "#f7f5f0", color: "#26252c", display: "flex", flexDirection: "column", fontFamily: "var(--system-sans)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #d6ad72", paddingBottom: 18 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}><span style={{ background: "#e84e48", color: "#fff", borderRadius: 10, padding: "5px 13px", fontSize: 28, fontWeight: 800 }}>辟</span><strong style={{ fontSize: 26 }}>古代热搜辟谣局</strong></div>
-              <span style={{ color: "#767680", fontSize: 18 }}>查证卡 / {topic.id}</span>
+          <div ref={cardRef} data-testid="check-card" style={{ width: 1200, height: 675, boxSizing: "border-box", padding: "38px 48px", background: "#251347", color: "var(--ink)", display: "flex", flexDirection: "column", fontFamily: "var(--system-sans)" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "3px solid var(--pixel-border)", paddingBottom: 18 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}><span style={{ background: "var(--accent)", color: "var(--background)", borderRadius: 2, padding: "5px 13px", fontSize: 28, fontWeight: 800 }}>辟</span><strong style={{ fontSize: 26 }}>古代热搜辟谣局</strong></div>
+              <span style={{ color: "var(--muted)", fontSize: 18 }}>查证卡 / {topic.id}</span>
             </div>
             <h3 style={{ fontSize: 37, lineHeight: 1.45, margin: "22px 0 15px", fontWeight: 800 }}>{topic.title}</h3>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `2px solid ${result.isTrue ? "#426b58" : "#c3433d"}`, color: result.isTrue ? "#426b58" : "#c3433d", padding: "6px 18px", borderRadius: 5, fontSize: 27, fontWeight: 800 }}><StatusIcon name={result.isTrue ? "verified" : "refuted"} size={32} />{result.isTrue ? "查证属实" : "谣言退散"}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `3px solid ${result.isTrue ? "var(--accent)" : "var(--pixel-pink)"}`, color: result.isTrue ? "var(--accent)" : "var(--pixel-pink)", padding: "6px 18px", borderRadius: 2, fontSize: 27, fontWeight: 800 }}><StatusIcon name={result.isTrue ? "verified" : "refuted"} size={32} />{result.isTrue ? "查证属实" : "谣言退散"}</span>
               <strong style={{ fontSize: 24 }}>查证结果：{result.isTrue ? "真" : "假"}</strong>
             </div>
-            <div style={{ background: "#fff", borderLeft: "5px solid #d6ad72", padding: "16px 22px", fontSize: 27, fontWeight: 650, lineHeight: 1.65 }}>{result.reveal.correctedClaim}</div>
+            <div style={{ background: "var(--background)", borderLeft: "5px solid var(--gold)", padding: "16px 22px", fontSize: 27, fontWeight: 650, lineHeight: 1.65 }}>{result.reveal.correctedClaim}</div>
             <p style={{ margin: "15px 0", fontSize: 21, lineHeight: 1.7 }}>{result.reveal.shortExplanation}</p>
-            <div style={{ marginTop: "auto", borderTop: "1px solid #dfd9ce", paddingTop: 14, fontSize: 16, lineHeight: 1.8, color: "#6d6559" }}>
+            <div style={{ marginTop: "auto", borderTop: "3px solid var(--pixel-border)", paddingTop: 14, fontSize: 16, lineHeight: 1.8, color: "var(--muted)" }}>
               <p style={{ margin: 0 }}>来源：{result.sources.map((source) => source.organization).join(" / ")}</p>
               <p style={{ margin: 0 }}><strong>{reviewLabel}</strong></p>
             </div>

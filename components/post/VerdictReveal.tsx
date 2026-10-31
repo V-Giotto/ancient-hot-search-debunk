@@ -40,7 +40,7 @@ export function VerdictReveal({ result, headingRef, children }: { result: Verdic
               <li key={source.id} className="rounded-xl border border-ink/10 p-4">
                 <div className="flex flex-wrap items-center gap-2 text-xs">
                   <span className="font-semibold">{source.organization}</span>
-                  <span className="rounded-md bg-gold/15 px-2 text-[#7d5b32]">{REVIEW_STATUS_LABELS[source.status]}</span>
+                  <span className="rounded-md bg-gold/15 px-2 text-gold">{REVIEW_STATUS_LABELS[source.status]}</span>
                   <span className="text-muted">{source.id}</span>
                 </div>
                 <a href={source.url} target="_blank" rel="noopener" className="mt-1 block font-semibold text-accent hover:underline">{source.title} <PixelIcon name="external" size={16} /></a>

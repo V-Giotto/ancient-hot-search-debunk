@@ -13,7 +13,7 @@ export function Title({ topic }: { topic: PublicTopic }) {
 }
 
 export function EraChip({ topic }: { topic: PublicTopic }) {
-  return <span aria-label={`历史年代：${topic.era.label}`} className="era-chip inline-flex max-w-full items-center rounded-full bg-gold/15 px-2 py-1 text-xs font-medium text-[#7d5b32]">{topic.era.label}</span>;
+  return <span aria-label={`历史年代：${topic.era.label}`} className="era-chip inline-flex max-w-full items-center rounded-full bg-gold/15 px-2 py-1 text-xs font-medium text-gold">{topic.era.label}</span>;
 }
 
 export function Body({ topic }: { topic: PublicTopic }) {

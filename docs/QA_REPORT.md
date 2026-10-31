@@ -2,23 +2,31 @@
 
 最新结果为下方“v0.27.0 全站复古像素风统一”；后文各阶段的 pending、409、未签名、人设待细化、旧数量与旧视觉描述均为当时验收状态，不代表当前实现。现有 14 题与 33 条来源均已审；13 份好友人设、11 张新增头像及原始人设中的未审事实均保持待 Giotto 审核，不继承题目或来源的 reviewed 签名。
 
-## v0.27.0 全站复古像素风统一（2026-10-31）
+## v0.27.0 全站复古像素风统一（2026-10-30）
 
-范围：只统一 UI 视觉与布局，修正 E2E 截图目录，删除指定的 UI 免责/模拟说明标签并补回归测试。`data/`、功能行为、其余展示文案、`CHANGELOG.md` 与静态部署内容未改；未引入字体或图片素材。
+本轮在 **box / Linux** 验收，Node.js v24.22.1，Google Chrome 156.0.8078.47（`/usr/bin/google-chrome`）。已审查上一轮提交 `1c715ef`，补全全站深紫底、亮绿高光、粗描边、整数硬阴影及小圆角；不引入外部字体、新图片或依赖。`data/`、功能、展示文案和静态部署相关内容未改；`CHANGELOG.md` 补 v0.27.0 条目。
+
+实现文件：`app/globals.css`、`app/not-found.tsx`、`components/ai/AskPanel.tsx`、`components/post/CheckCardDialog.tsx`、`components/post/VerdictReveal.tsx`、`components/post/formats/Moments.tsx`、`components/post/formats/Shared.tsx`、`scripts/e2e.mjs` 及本报告、任务书。
 
 ### 自动化验证
 
 | 命令 | 实际结果 |
 | --- | --- |
 | `npm run typecheck` | 通过 |
-| `npm test` | 34 个测试文件、1158 项通过；fetch/AI 均为 mock，无真实 AI 调用 |
+| `npm test` | 34 个测试文件、1158 项全部通过；无真实 AI 调用 |
 | `npm run build` | 通过；Next.js 16.4.3 生产构建，页面与 API 保持动态服务端路由 |
-| `$env:CHROME_PATH='C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'; $env:E2E_REVIEW_DIR='D:/agent_project/_shots'; npm run test:e2e` | 通过；14 条完整流程、282 次几何检查、浏览器错误 0 |
+| `CHROME_PATH=/usr/bin/google-chrome E2E_REVIEW_DIR=/workspace/shots/v0.27.0 npm run test:e2e` | 通过；14 条主流程、282 次主回归几何检查、浏览器错误 0 |
 | `git diff --check` | 通过 |
 
-E2E 使用本机 Edge，覆盖 `390×844`、`375×667`、`430×932` 与 `1440×900`：三种手机视口无横向溢出，全部可见链接、按钮、输入与 summary 的触控范围宽高均不小于 44px；底栏、聊天输入框和转发弹层互不遮挡。桌面仅有水平居中的 390px 单列，无侧栏与列外内容，列外为深紫纯色。新闻/发现详情正文实际计算对比度不低于 4.5:1；热榜色阶、状态图标、焦点样式和选择态另有浏览器对比度检查。
+`package.json` 没有 lint 脚本；本轮按要求以 `npm run typecheck` 和 `git diff --check` 作为静态检查，未新增 ESLint 或其它依赖。
 
-首屏 JS 使用每路由新会话、禁用 HTTP 缓存后的 Resource Timing `encodedBodySize` 计量，预算为 300000 字节：
+E2E 覆盖 `390×844`、`375×667`、`430×932` 和 `1440×900`。除上表主回归计数，含信息流扩充、Phase 3/4、素材与像素交互的全套布局审计共 **674 次**：检查无横向溢出、可见触控目标宽高 ≥44px、底栏及输入框/弹层不遮挡、无侧栏；桌面为居中的 390px 单列，列外为深紫纯色。
+
+新增逐状态文字对比度检查，合成透明背景后核对正文、辅助文案、标签及反馈（禁用控件除外）：95395 次文字样本检查，最低 **6.00:1**，达到 WCAG AA 4.5:1。另对四种视口的 52 个默认页面抽查，最低约 6.00:1。改写选中态新增亮绿边框/背景断言；点赞收藏、图标、焦点、键盘与弹层回归保留。
+
+### 首屏 JS
+
+每路由新会话、禁用 HTTP 缓存，以 Resource Timing `encodedBodySize` 计量全部首屏外部 JS（含自动预取），预算为 300000 字节。前五路由来自完整 E2E；好友列表和聊天采用相同函数、同一生产构建补测，结果另存 `artifacts/stage-6/friends-performance.json`。
 
 | 路由 | 压缩 JS 字节 | 结论 |
 | --- | ---: | --- |
@@ -26,27 +34,29 @@ E2E 使用本机 Edge，覆盖 `390×844`、`375×667`、`430×932` 与 `1440×9
 | `/discover` | 142507 | 通过 |
 | `/me` | 178102 | 通过 |
 | `/me?tab=favorites` | 178102 | 通过 |
-| `/post/H12` | 195623 | 通过 |
+| `/post/H12` | 195584 | 通过 |
+| `/friends` | 140184 | 通过 |
+| `/friends/libai` | 175104 | 通过 |
 
-`html-to-image` 导出 chunk 未在首屏提前加载。62 张既有 WebP 均返回 200、浏览器解码成功、保留尺寸和 `object-fit: cover`，CLS 不高于 0.1；发现页封面分隔线放在文字容器上，图片本体保持严格 16:9。
+最大 195584 字节。`html-to-image` 独立导出 chunk 未在首屏提前加载；既有 WebP 的加载、解码、比例和 CLS 检查通过，真实 PNG 导出仍为 1200×675。
 
-### 标签清理与截图目录
+### 样式清理、说明删除与截图
 
-- 聊天页不再渲染“这是角色扮演，史实以给定资料为准。”；AI 追问区不再渲染“AI 生成，可能有误，以史料为准。”。单测和全流程 E2E 对“虚构、架空、模拟、免责、角色扮演、以史料为准”等 UI 标签执行负向断言；服务端守卫、数据字段和历史文档不在删除范围。
-- `scripts/e2e.mjs` 使用 `process.env.E2E_REVIEW_DIR || "artifacts/e2e-review"`，再解析为绝对路径；`.gitignore` 的 `artifacts/` 覆盖默认目录。`tests/e2e-config.test.ts` 锁定环境变量、默认目录、无旧硬编码路径与忽略规则。
-- 单测与 E2E 不调用真实 AI：自启生产服务显式清空 AI Key，AI/聊天交互分支使用 503 或浏览器 mock；本轮没有 live-provider 结论。
+- 合并重复规则，删除旧冷暖主题、已移除组件的死样式及多余覆盖；修正新闻按钮/标题、进度入口、头像圆角、年代/审核标签、朋友圈、投票、改写选中态、404 按钮、AI 消息与查证卡预览/导出配色。发送按钮启用/禁用即时切换文字与背景，避免渐变中的低对比度。
+- 已核对聊天页“这是角色扮演，史实以给定资料为准。”及 AI 追问区“AI 生成，可能有误，以史料为准。”均不再渲染，相关单测与全流程禁用展示词检查通过；服务端约束、内部字段和历史文档保留。
+- `E2E_REVIEW_DIR` 覆盖截图目录，默认 `artifacts/e2e-review`，由既有 `.gitignore` 的 `artifacts/` 规则忽略；配置回归测试通过。截图在滚动重绘后拍摄，七张交付图另校验 PNG 格式和尺寸。
+- 指定截图全部生成至 `/workspace/shots/v0.27.0/`，已逐张目视复核；聊天用浏览器 mock 回复。单测使用 mock，E2E 自启 formal/preview 生产服务显式清空 AI Key，不调用真实 AI。
 
-指定截图均已生成到 `D:/agent_project/_shots/`，不进入 Git：
+- [v0.27.0-trending-390x844.png](/workspace/shots/v0.27.0/v0.27.0-trending-390x844.png)
+- [v0.27.0-discover-390x844.png](/workspace/shots/v0.27.0/v0.27.0-discover-390x844.png)
+- [v0.27.0-post-390x844.png](/workspace/shots/v0.27.0/v0.27.0-post-390x844.png)
+- [v0.27.0-friends-390x844.png](/workspace/shots/v0.27.0/v0.27.0-friends-390x844.png)
+- [v0.27.0-chat-390x844.png](/workspace/shots/v0.27.0/v0.27.0-chat-390x844.png)
+- [v0.27.0-me-390x844.png](/workspace/shots/v0.27.0/v0.27.0-me-390x844.png)
+- [v0.27.0-desktop-1440x900.png](/workspace/shots/v0.27.0/v0.27.0-desktop-1440x900.png)
 
-- `v0.27.0-trending-390x844.png`
-- `v0.27.0-discover-390x844.png`
-- `v0.27.0-post-390x844.png`
-- `v0.27.0-friends-390x844.png`
-- `v0.27.0-chat-390x844.png`
-- `v0.27.0-me-390x844.png`
-- `v0.27.0-desktop-1440x900.png`
+完整机器结果：`artifacts/stage-6/result.json`；过程截图：`artifacts/stage-6/screenshots/`，均被忽略。本轮无技术阻塞；真实 AI 服务未联测，既有 13 份好友人设及素材的人工审核事项仍保持原状态。验收后快进合并至 main 并打 `v0.27.0` tag；根目录未跟踪的 `D:/` 不纳入版本库。
 
-机器结果位于被忽略的 `artifacts/stage-6/result.json` 与 `artifacts/stage-6/screenshots/`。本轮技术验收不等于真实 AI 服务可用、人工史实审核、真人试玩、公开部署或生产就绪；这些结论均未作出。
 
 验收日期：2026-10-29。范围仅为现有 H03 的真实 AI 追问与 AskPanel；题目、来源与审核状态保持原样，其余七条未开发。
 

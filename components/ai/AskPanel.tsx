@@ -70,7 +70,7 @@ export function AskPanel({ topicId, reviewStatus, sources }: { topicId: string; 
   }
 
   return (
-    <section className="panel" aria-labelledby="ask-heading">
+    <section className="panel ask-panel" aria-labelledby="ask-heading">
       <p className="eyebrow">AI 追问 / 辟谣局值班史官</p>
       <h2 id="ask-heading" tabIndex={-1} className="text-xl font-bold">这条热搜，还想问什么？</h2>
       <div className="mt-5 grid gap-2" aria-label="预设问题">
@@ -86,7 +86,7 @@ export function AskPanel({ topicId, reviewStatus, sources }: { topicId: string; 
               <p className="ml-8 rounded-xl bg-gold/15 p-4 text-sm leading-7 break-words"><span className="font-semibold">你：</span>{question}</p>
               <div className="mr-4 rounded-xl border border-ink/10 bg-background p-4 text-sm leading-7 break-words">
                 <div className="flex flex-wrap items-center gap-2"><span className="font-semibold">值班史官 · AI</span>
-                  {response.preview && <span className="rounded bg-gold/20 px-2 text-xs text-[#7d5b32]">{pendingContent ? "开发预览·资料待审核" : "开发预览"}</span>}
+                  {response.preview && <span className="rounded bg-gold/20 px-2 text-xs text-gold">{pendingContent ? "开发预览·资料待审核" : "开发预览"}</span>}
                 </div>
                 <p className="mt-2 whitespace-pre-wrap">{response.answer}</p>
                 {ids.length > 0 && <ul className="mt-3 space-y-2" aria-label="本条回答引用">

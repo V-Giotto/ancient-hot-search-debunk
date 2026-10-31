@@ -108,6 +108,8 @@ async function versionScreenshot(page, name, version = "0.10.0", { scrollToTop =
     });
     assert.equal(await page.evaluate(() => window.scrollY), 0, `${name} 交付截图必须从页面顶部拍摄`);
   }
+  // Let the compositor repaint after returning from a deep interaction state.
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   const filename = `v${version}-${name}-390x844.png`;
   const target = path.join(screenshots, filename);
   await page.screenshot({ path: target, animations: "disabled" });
@@ -116,6 +118,7 @@ async function versionScreenshot(page, name, version = "0.10.0", { scrollToTop =
 
 const pixelUIRecords = [];
 const pixelIconNames = new Set();
+const textContrastRecords = [];
 
 async function pixelSourceChecks() {
   const files = [];
@@ -952,6 +955,52 @@ async function focusVisible(locator) {
 }
 
 // 核对实际可点击范围；原生 radio 的触控范围为关联的整张 label。
+async function readableTextChecks(page, state) {
+  const result = await page.evaluate(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 1;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    const colors = new Map();
+    function rgba(color) {
+      if (!colors.has(color)) {
+        context.clearRect(0, 0, 1, 1);
+        context.fillStyle = color;
+        context.fillRect(0, 0, 1, 1);
+        colors.set(color, [...context.getImageData(0, 0, 1, 1).data]);
+      }
+      return colors.get(color);
+    }
+    const blend = (top, bottom) => top.slice(0, 3).map((value, index) => value * top[3] / 255 + bottom[index] * (1 - top[3] / 255));
+    const luminance = (rgb) => rgb.map((value) => value / 255).map((value) => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
+    const backgrounds = new WeakMap();
+    function background(node) {
+      if (!node) return [255, 255, 255];
+      if (!backgrounds.has(node)) backgrounds.set(node, blend(rgba(getComputedStyle(node).backgroundColor), background(node.parentElement)));
+      return backgrounds.get(node);
+    }
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let text, checked = 0, minimumRatio = Infinity;
+    const failures = [];
+    while ((text = walker.nextNode())) {
+      const node = text.parentElement;
+      if (!text.textContent.trim() || !node?.checkVisibility() || node.closest('script, style, svg, .sr-only, :disabled, [aria-disabled="true"]')) continue;
+      const range = document.createRange();
+      range.selectNode(text);
+      if (!range.getBoundingClientRect().width || !range.getBoundingClientRect().height) continue;
+      const bg = background(node), fg = blend(rgba(getComputedStyle(node).color), bg);
+      const a = luminance(fg), b = luminance(bg), ratio = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+      minimumRatio = Math.min(minimumRatio, ratio);
+      checked++;
+      if (ratio < 4.5) failures.push({ text: text.textContent.trim().slice(0, 50), ratio, color: getComputedStyle(node).color, background: bg });
+    }
+    return { checked, minimumRatio, failures: failures.slice(0, 10) };
+  });
+  assert.ok(result.checked > 0, `${state} 未检查到正文`);
+  assert.deepEqual(result.failures, [], `${state} 文字对比度未达到 WCAG AA 4.5:1`);
+  textContrastRecords.push({ state, checked: result.checked, minimumRatio: result.minimumRatio });
+  return { checked: result.checked, minimumRatio: result.minimumRatio };
+}
+
 async function mobileGeometry(page, state) {
   await visible(page.locator(".app-shell"));
   await noOverflow(page);
@@ -960,6 +1009,7 @@ async function mobileGeometry(page, state) {
   await noDisclaimerLabels(page);
   await noHashtagTitles(page);
   await noAuxiliaryContent(page);
+  const textContrast = await readableTextChecks(page, state);
   const small = await page.evaluate(() => {
     const root = document.querySelector("dialog[open]") || document;
     return [...root.querySelectorAll('a[href], button, input, textarea, summary')].flatMap((node) => {
@@ -977,7 +1027,7 @@ async function mobileGeometry(page, state) {
     const tabs = await page.getByRole("navigation", { name: "主导航", exact: true }).boundingBox();
     assert.ok(Math.abs(tabs.y + tabs.height - viewport.height) < 1 && Math.abs(tabs.width - shell.width) < 1, "底部导航未固定在手机列底部");
   }
-  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px", noAuxiliaryContent: true, noHashtagTitles: true };
+  return { state, viewport, horizontalOverflow: false, touchTargets: ">=44px", noAuxiliaryContent: true, noHashtagTitles: true, textContrast };
 }
 
 async function coverGeometry(page, route) {
@@ -1899,6 +1949,10 @@ try {
     await visible(page.getByText("再打磨一下，看看遗漏了什么。", { exact: true }));
     await page.getByRole("button", { name: new RegExp(`^${best} `) }).click();
     await visible(page.getByText("改写正确，这样说更准确。", { exact: true }));
+    await page.waitForFunction(() => {
+      const selected = document.querySelector('.rewrite-option[aria-pressed="true"]');
+      return selected && getComputedStyle(selected).borderTopColor === "rgb(166, 226, 46)" && getComputedStyle(selected).backgroundColor === "rgb(39, 62, 26)";
+    });
     await mobileGeometry(page, `${id} 改写反馈`);
     if (id === "H03") {
       await screenshotAt(page, page.locator('[aria-labelledby="rewrite-heading"]'), "post-H03-rewrite-390x844.png");
@@ -2213,8 +2267,46 @@ try {
   assert.deepEqual(errors, [], "浏览器出现运行错误");
   const previewBuild = await previewBuildChecks(buildId);
   assert.deepEqual(errors, [], "新增信息流浏览器出现运行错误");
+  // Deliver all primary mobile views from one fresh session. Earlier flow
+  // captures may be scrolled to a particular interaction or the last feed row.
+  const reviewContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  try {
+    const reviewPage = await reviewContext.newPage();
+    reviewPage.on("pageerror", (error) => errors.push(error.message));
+    for (const [name, route] of [["trending", "/trending"], ["discover", "/discover"], ["post", "/post/H05"], ["friends", "/friends"]]) {
+      await reviewPage.goto(`${baseURL}${route}`);
+      await versionScreenshot(reviewPage, name, packageVersion);
+    }
+    const reply = "此事吾记不真切了，换个话头可好？";
+    await reviewContext.route("**/api/chat", (route) => route.fulfill({ status: 200, json: { reply } }));
+    await reviewPage.goto(`${baseURL}/friends/libai`);
+    await reviewPage.getByRole("textbox", { name: "写给李白", exact: true }).fill("你好");
+    await reviewPage.getByRole("button", { name: "发送消息", exact: true }).click();
+    await visible(reviewPage.getByRole("log").getByText(reply, { exact: true }));
+    await versionScreenshot(reviewPage, "chat", packageVersion);
+    // Use a real deterministic verdict to show both a collected sticker and
+    // locked ones, without seeding progress or contacting an AI provider.
+    await reviewPage.goto(`${baseURL}/post/H01`);
+    await reviewPage.getByRole("radio", { name: "是假的", exact: true }).check();
+    await reviewPage.getByRole("button", { name: "提交判断", exact: true }).click();
+    await visible(reviewPage.locator("#reveal-heading"));
+    await reviewPage.goto(`${baseURL}/me?tab=stickers`);
+    await collectionCount(reviewPage, 1);
+    await versionScreenshot(reviewPage, "me", packageVersion);
+  } finally { await reviewContext.close(); }
+  const deliveryScreenshots = ["trending", "discover", "post", "friends", "chat", "me", "desktop"].map((name) => path.join(reviewDir, `v${packageVersion}-${name}-${name === "desktop" ? "1440x900" : "390x844"}.png`));
+  for (const file of deliveryScreenshots) {
+    const png = await readFile(file);
+    assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", `交付截图不是 PNG：${file}`);
+    assert.equal(png.readUInt32BE(16), file.includes("desktop") ? 1440 : 390);
+    assert.equal(png.readUInt32BE(20), file.includes("desktop") ? 900 : 844);
+  }
+  assert.deepEqual(errors, [], "交付截图浏览器出现运行错误");
   const summary = { passed: true, phase4: previewBuild.phase4, feedExpansion, pixelUI: { ...pixelUI, auditedStates: pixelUIRecords.length, renderedIcons: [...pixelIconNames].sort(), audits: pixelUIRecords }, pixelAssets, social: { persistentLikesAndFavorites: true, modules: ["trending", "discover"], meFavoritesAndEmptyState: true, navigationOrder: ["热搜榜", "发现", "好友", "我的"], meTabs: { directFavorites: true, keyboard: "ArrowLeft/ArrowRight/Home/End/Enter/Space", redirect: "/stickers → /me" }, shareFriends: friendIds, shareModalFocusAndDismiss: true, offlineCardsPersistAndDeduplicate: true, screenshots: [path.join(reviewDir, `v${packageVersion}-me-390x844.png`), path.join(reviewDir, `v${packageVersion}-liked-390x844.png`), path.join(reviewDir, `v${packageVersion}-share-sheet-390x844.png`)] }, buildId, previewBuild, friends: { routes: ["/friends", ...friendIds.map((id) => `/friends/${id}`), "/friends/missing-friend"], viewports: ["390×844", "375×667", "430×932"], states: ["初始", "无 key 503", "发送中", "mock 回复", "长回复", "429", "502", "504", "刷新恢复/清空对话", "404"], realAiCalls: 0, memoryOnly: false, localStorageMaxEntries: 60, maxHistory: 12, listScreenshot: path.join(reviewDir, `v${packageVersion}-friends-390x844.png`), mockChatScreenshots: ["sushi", "kongzi", "kangxi"].map((id) => path.join(reviewDir, `v${packageVersion}-chat-${id}-390x844.png`)) }, revealChecks, replayChecks, trending, flow: "首页 → trending → H01–H14 → 判题 → 揭晓/来源 → 错误及正确改写 → PNG → 分题离开重进/刷新全新 → 重答不重复解锁", flows, formatChecks, performance: performanceChecks, poll: "多数/少数倾向文字条；主动投票滚动并聚焦判题区、避开吸顶头部；每次进入/刷新/再玩一次均可重投；旧版投票不恢复、不覆盖，与判题/贴纸隔离", wrongAnswerRevealed: true, stickerCollection: "三视口：未提交不收集、首次提交结果内即时反馈与贴纸墙链接、提交后 1/N、已收藏贴纸回帖全新、历史后退全新、进度刷新保留、再玩一次原地清空并聚焦判题、重答不重复获得、清除归零；答错也解锁；十四题全收集；初始 HTML 不泄题", viewports: ["390×844", "375×667", "430×932", "1440×900"], geometry, desktopShell, desktopChecks, homeLayout, modules: { trending: trendingTopics.map(({ id }) => id), discover: discoverTopics.map(({ id }) => id), historicalTopicsTrueFalse: "7:7", feedEntries: 44, authorThreads: true, newsLayout: "机构/发布时间/导语/正文/相关报道/读者评论/本机评论与回复串；无 emoji；含本机点赞/收藏/好友转发", socialLayout: "暖色大圆角/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接", screenshots: [path.join(reviewDir, `v${packageVersion}-news-comments-390x844.png`), path.join(reviewDir, `v${packageVersion}-post-390x844.png`), path.join(reviewDir, `v${packageVersion}-trending-390x844.png`)] }, aiStates: "真实 formal/preview 无配置均 503；三视口 AI 锚点/返回/重试及 loading/409/503/长回答布局 mock，无模型调用", keyboard: "提交后焦点与 Tab、focus-visible、弹窗焦点循环、Esc/按钮关闭及焦点返回通过", screenshots, browserErrors: errors };
   summary.modules.socialLayout = "统一深紫像素硬边/配图/评论/本机评论与楼中楼/本机关注切换刷新恢复/点赞收藏/真实复制链接";
+  summary.runtime = { platform: process.platform, node: process.version, browser: browser.version(), executablePath };
+  summary.readability = { auditedStates: textContrastRecords.length, checkedTextSamples: textContrastRecords.reduce((sum, record) => sum + record.checked, 0), minimumRatio: Math.min(...textContrastRecords.map((record) => record.minimumRatio)) };
+  summary.deliveryScreenshots = deliveryScreenshots;
   const eraDetails = geometry.filter((record) => record.eraChip);
   summary.displayContent = {
     version: packageVersion,
