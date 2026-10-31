@@ -1,0 +1,165 @@
+{
+  "id": "H16",
+  "era": {
+    "label": "唐代",
+    "order": 4
+  },
+  "rumorEra": "不限定",
+  "coreContext": "唐武德九年（626）皇位继承",
+  "evidenceEra": "五代后晋《旧唐书》（945年成书）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 16,
+  "module": "trending",
+  "format": "news",
+  "category": "古代职场",
+  "tags": [
+    "玄武门",
+    "李世民",
+    "时间顺序"
+  ],
+  "title": "玄武门之后，李世民的身份怎样变化",
+  "coverUrl": "/covers/h16.webp",
+  "coverAlt": "宫门与皇位继承文书的像素插画",
+  "author": {
+    "name": "大唐朝局观察站",
+    "handle": "@tang_watch",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/hype.webp",
+    "fictitious": true
+  },
+  "body": "玄武门话题又被翻上讨论榜。有人只记得冲突，有人盯着之后的身份变化，几个节点越聊越挤，最后被剪成了同一个瞬间。\n\n这次先把热闹的说法拆开：事变发生之后，史书怎样写李世民的身份？“之后”与“当场”也需要仔细区分。\n\n翻到对应条目再判断，不替人物补密谈，也不把后来的评价直接当作动机。",
+  "simulatedHeat": 306000,
+  "simulatedViews": 475000,
+  "simulatedLikes": 2270,
+  "simulatedComments": 270,
+  "simulatedReposts": 175,
+  "simulatedBookmarks": 382,
+  "comments": [
+    {
+      "id": "H16-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "人事变动消息太密，我的时间线还没排完。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H16-C01-R1",
+          "replyTo": "H16-C01",
+          "author": "大唐朝局观察站",
+          "avatar": "/avatars/pepper.webp",
+          "text": "我先按住消息合并键，去排一下先后顺序。"
+        },
+        {
+          "id": "H16-C01-R2",
+          "replyTo": "H16-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "对应条目分开贴，别把几个节点挤成一刻。"
+        }
+      ]
+    },
+    {
+      "id": "H16-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "把几个节点剪成一条消息，读起来倒是很省事。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H16-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "省事归省事，先后顺序得去原文里找。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H16-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "群聊名单先不改，我等对应条目。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H16-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "人物动机也能只凭一句话拍板吗？",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H16-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "书签备好了，今天只理顺这一段。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "玄武门之变后，李世民被立为皇太子。",
+  "isTrue": true,
+  "reveal": {
+    "verdictHeadline": "事变之后立为皇太子，有史书记载",
+    "shortExplanation": "《旧唐书·太宗本纪上》在玄武门事件后记“甲子，立為皇太子，庶政皆斷決。”《资治通鉴》卷191也记李世民被立为皇太子。",
+    "detailedExplanation": "《旧唐书》武德九年条先叙玄武门事件，随后记立为皇太子。《资治通鉴》卷191写“癸亥，立世民為皇太子。”两书都支持事变后立储的核心命题；各自的干支记日原样保留，不把它们静默合并。《旧唐书》的“謀害太宗”属于史书叙事，不作为已独立确认的私人动机。",
+    "correctedClaim": "据《旧唐书》等记载，玄武门之变后，李世民被立为皇太子。",
+    "funFact": "故宫博物院词条也按事变、被立为太子、后来即位的顺序叙述，不能压成同一时刻。"
+  },
+  "sourceIds": [
+    "S-H16-01",
+    "S-H16-02",
+    "S-H16-03"
+  ],
+  "aiFacts": [
+    "[S-H16-01] 《旧唐书》卷二武德九年条在玄武门事件之后记“甲子，立為皇太子，庶政皆斷決。”",
+    "[S-H16-02] 《资治通鉴》卷191记“癸亥，立世民為皇太子。”",
+    "[S-H16-03] 故宫博物院李世民词条记事变后被立为太子，后即帝位。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "“謀害太宗”只能归属于《旧唐书》的叙事，不推定双方私人动机。",
+    "不补密谈、遗言与军事细节；《旧唐书》甲子与《资治通鉴》癸亥原样区分，不合并为确定记日。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "据《旧唐书》等记载，玄武门之变后，李世民被立为皇太子。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    },
+    {
+      "id": "B",
+      "text": "玄武门之变只是普通争论，储君身份没有变化。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "C",
+      "text": "立为太子与后来即位就是同一个时间节点。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    }
+  ],
+  "news": {
+    "outlet": "大唐朝局观察站",
+    "lead": "围绕玄武门之变后的身份变化，读者开始核对史书条目与事件顺序。",
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "related": [
+      "这条说法该到哪一段材料核对？",
+      "对应材料能支持多大的结论范围？"
+    ]
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "id": "H17",
+  "era": {
+    "label": "战国",
+    "order": 2
+  },
+  "rumorEra": "不限定",
+  "coreContext": "战国末秦王政九年（前238）宫廷叛乱记载",
+  "evidenceEra": "西汉《史记》（司马迁著述）",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 17,
+  "module": "trending",
+  "format": "news",
+  "category": "古代职场",
+  "tags": [
+    "嫪毐",
+    "秦始皇本纪",
+    "印玺"
+  ],
+  "title": "嫪毐假用王玺发兵，《史记》怎么写",
+  "coverUrl": "/covers/h17.webp",
+  "coverAlt": "秦宫印玺与军情文书的像素插画",
+  "author": {
+    "name": "秦廷消息观察",
+    "handle": "@qin_news",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/hype.webp",
+    "fictitious": true
+  },
+  "body": "一条关于嫪毐与印玺的消息进入讨论区，评论很快把它比作权限出了问题。有人顺手补了整段密谋，另一些读者却连对应书页还没找到。\n\n印玺、发兵、叛乱，这几个词在材料里怎样连起来？先别让脑补跑在原文前面。\n\n这一题只问《史记·秦始皇本纪》有没有相应记载，不要求替所有私人细节作证。",
+  "simulatedHeat": 294000,
+  "simulatedViews": 460000,
+  "simulatedLikes": 2190,
+  "simulatedComments": 260,
+  "simulatedReposts": 170,
+  "simulatedBookmarks": 374,
+  "comments": [
+    {
+      "id": "H17-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "以为搬来小板凳就够了，结果还要带书签。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H17-C01-R1",
+          "replyTo": "H17-C01",
+          "author": "秦廷消息观察",
+          "avatar": "/avatars/pepper.webp",
+          "text": "权限的比喻先放下，我去找对应篇目。"
+        },
+        {
+          "id": "H17-C01-R2",
+          "replyTo": "H17-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "书页找到后再聊，评论补的密谈先别算进去。"
+        }
+      ]
+    },
+    {
+      "id": "H17-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "权限问题听着熟，具体用在哪里可得查。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H17-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "先找对应篇目，别让一句比喻代替整段材料。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H17-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "盖章之前查用途，转发之前查出处。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H17-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "评论补的密谈越来越长，有人贴原文位置吗？",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H17-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "这瓜先放稳，我去核对书页。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "《史记·秦始皇本纪》记载，嫪毐曾矫用秦王御玺及太后玺，调发兵众发动叛乱。",
+  "isTrue": true,
+  "reveal": {
+    "verdictHeadline": "矫玺发兵，《史记》有此记载",
+    "shortExplanation": "《史记·秦始皇本纪》九年条记“矯王御璽及太后璽以發縣卒及衛卒、官騎、戎翟君公、舍人，將欲攻蘄年宮為亂。”命题限定为该书有载。",
+    "detailedExplanation": "维基文库所选《史记》卷006在秦王政九年条叙述嫪毐作乱，记其矫用秦王及太后印玺调发兵众。本题据这段传世文献判真，不把书中记述等同于全部细节均经考古独立确认。版本登记与纸本核对范围见来源定位，不添私人密谋或对话。",
+    "correctedClaim": "《史记·秦始皇本纪》记载嫪毐矫用秦王御玺及太后玺，调发兵众作乱。",
+    "funFact": "查证时先分清“史书有载”和“考古独立确认”，两者不能直接合并。"
+  },
+  "sourceIds": [
+    "S-H17-01"
+  ],
+  "aiFacts": [
+    "[S-H17-01] 《史记》卷006秦王政九年条记“長信侯毐作亂而覺，矯王御璽及太后璽以發縣卒及衛卒、官騎、戎翟君公、舍人，將欲攻蘄年宮為亂。”"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "真假只判断《史记》有此记载，不称全部细节得到现代考古独立确认。",
+    "不得增补密谋、私生活、对话、伤亡或惩罚细节；原文保持核查摘录字形。",
+    "H17 暂不纳入秦始皇好友的常设 sourceIds 知识范围。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "《史记》完全没有关于嫪毐矫玺发兵的记载。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "B",
+      "text": "《史记·秦始皇本纪》记载嫪毐矫用秦王御玺及太后玺，调发兵众作乱。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    },
+    {
+      "id": "C",
+      "text": "这段记载证明所有私人密谋都已被考古完整复原。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    }
+  ],
+  "news": {
+    "outlet": "秦廷消息观察",
+    "lead": "印玺与发兵话题引发讨论，本次核对范围限定在《史记·秦始皇本纪》的记载。",
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "related": [
+      "这条说法该到哪一段材料核对？",
+      "对应材料能支持多大的结论范围？"
+    ]
+  }
+}

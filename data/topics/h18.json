@@ -1,0 +1,154 @@
+{
+  "id": "H18",
+  "era": {
+    "label": "北宋",
+    "order": 5
+  },
+  "rumorEra": "现代（小说、影视印象）",
+  "coreContext": "北宋末高俅受赏识与升迁",
+  "evidenceEra": "南宋私人笔记《挥麈录》",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 18,
+  "module": "discover",
+  "format": "post",
+  "category": "古代职场",
+  "tags": [
+    "高俅",
+    "蹴鞠",
+    "升迁"
+  ],
+  "title": "高俅踢了一脚球当场升任太尉",
+  "coverUrl": "/covers/h18.webp",
+  "coverAlt": "抱书卷的求职者与蹴鞠球的像素插画",
+  "author": {
+    "name": "大宋求职避雷指南",
+    "handle": "@song_job",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/pepper.webp",
+    "fictitious": true
+  },
+  "body": "家人们，我的简历还没改完，评论区就给我推来高俅的职场故事。\n\n有人说：球一踢，官职就到账。我的技能栏当场开始犹豫，到底写整理材料，还是写颠球？\n\n先别撕简历。这条消息里的“一次”和“当场”压缩了多少过程？把受赏识与升迁写在同一句里，真的可以省略中间的时间吗？我决定把笔记翻出来再选。",
+  "simulatedHeat": 282000,
+  "simulatedViews": 445000,
+  "simulatedLikes": 2110,
+  "simulatedComments": 250,
+  "simulatedReposts": 165,
+  "simulatedBookmarks": 366,
+  "comments": [
+    {
+      "id": "H18-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "我简历写了八页，评论区只劝我填会踢。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H18-C01-R1",
+          "replyTo": "H18-C01",
+          "author": "大宋求职避雷指南",
+          "avatar": "/avatars/pepper.webp",
+          "text": "我先把简历放好，去找这段故事里的时间词。"
+        },
+        {
+          "id": "H18-C01-R2",
+          "replyTo": "H18-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "把受赏识和授官分成两栏，看看中间究竟写了什么。"
+        }
+      ]
+    },
+    {
+      "id": "H18-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "隐藏招聘渠道在哪？我先把球放购物车。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H18-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "标题里的当场二字，最好拿时间线核对。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H18-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "球先别买，我连材料都还没看完。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H18-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "受赏识和授官能省掉中间的步骤吗？",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H18-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "技能栏暂时不改，蹲一个原文位置。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "高俅仅凭一次蹴鞠表现，当场被任命为太尉。",
+  "isTrue": false,
+  "reveal": {
+    "verdictHeadline": "受赏识与后续升迁，不能剪成当场授官",
+    "shortExplanation": "南宋王明清《挥麈录》记载，高俅因蹴鞠获得端王赏识，后来逐渐受到重用，并在宋徽宗即位后得到升迁。但这并非“当场升任太尉”，该书相关段落也未直接作出这种记载。",
+    "detailedExplanation": "所选段落写“由是日見親信”，继而写“逾月，王登寶位”，后面还有“不次遷拜”“數年間建節”。这段南宋私人笔记叙述了时间过程，不能压成踢球当场任命太尉；也不能把“建节”“使相”“三衙”换写成笔记直接记载官至太尉。",
+    "correctedClaim": "据南宋王明清《挥麈录》，高俅因蹴鞠受端王赏识，后来受重用并获升迁；相关段落未记载当场升任太尉。",
+    "funFact": "核对升迁故事，可以先圈出文中的时间词，再判断标题是否省掉了过程。"
+  },
+  "sourceIds": [
+    "S-H18-01"
+  ],
+  "aiFacts": [
+    "[S-H18-01] 南宋私人笔记《挥麈录》记高俅因蹴鞠获端王赏识，后来渐受亲信；宋徽宗即位后有升迁过程。",
+    "[S-H18-01] 同段的“逾月”“數年間”提示时间过程，未直接记载当场授太尉。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "《挥麈录》是南宋私人笔记，不称正史或同时代任命档案。",
+    "不得写“当场升任太尉有记载”，不得把建节、使相、三衙换写成笔记直接记高俅官至太尉。",
+    "不延伸宋代蹴鞠普及程度、小说与史实的全部异同或任官制度。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "高俅踢完一脚球，当场就被任命为太尉。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "B",
+      "text": "宋代所有高级官职都可以靠蹴鞠获得。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "C",
+      "text": "据南宋王明清《挥麈录》，高俅因蹴鞠受端王赏识，后来受重用并获升迁；相关段落未记载当场升任太尉。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    }
+  ]
+}

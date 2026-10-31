@@ -2291,5 +2291,441 @@
     "fictionalFraming": true,
     "statisticsOrigin": "design",
     "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H15",
+    "module": "trending",
+    "format": "news",
+    "category": "科技文物",
+    "tags": [
+      "王莽",
+      "新莽铜卡尺",
+      "器物查证"
+    ],
+    "title": "王莽身份被扒：铜卡尺能当穿越铁证吗",
+    "coverUrl": "/covers/h15.webp",
+    "coverAlt": "铜卡尺与人物档案的像素插画",
+    "author": {
+      "name": "时空异常观察社",
+      "handle": "@time_clue",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "一件铜卡尺，把王莽推上了身份讨论榜。评论里有人盯着工具外形，有人已经替他安排好了返程车票。\n\n古代器物与现代工具看起来相似，这条线索能走多远？器物的年代、结构和人的身份，需要怎样的材料才能接起来？\n\n先别忙着签发未来身份证。这回只判断一个问题：铜卡尺能不能证明王莽来自现代？",
+    "simulatedHeat": 318000,
+    "simulatedViews": 490000,
+    "simulatedLikes": 2350,
+    "simulatedComments": 280,
+    "simulatedReposts": 180,
+    "simulatedBookmarks": 390,
+    "comments": [
+      {
+        "id": "H15-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "时空管理局实习第一天，工单就跨了这么远。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H15-C01-R1",
+            "replyTo": "H15-C01",
+            "author": "时空异常观察社",
+            "avatar": "/avatars/pepper.webp",
+            "text": "身份工单先挂起，我先去读器物介绍。"
+          },
+          {
+            "id": "H15-C01-R2",
+            "replyTo": "H15-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "别让外形替人的来历签字，出处也带回来。"
+          }
+        ]
+      },
+      {
+        "id": "H15-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我还在找尺子，评论已经开始查返程车票了。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H15-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "先分清器物的年代和人的身份，需要的证据一样吗？",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H15-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "科技树讨论先暂停，我想看看器物说明。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H15-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "别只盯外形，出处和结构都得查。",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H15-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我的量尺还没找到，这个瓜先放收藏夹。",
+        "simulatedLikes": 28
+      }
+    ],
+    "news": {
+      "outlet": "时空异常观察社",
+      "lead": "铜卡尺引发王莽身份讨论，器物线索与穿越推论之间的证据成为焦点。",
+      "publishedAt": "2026-10-30T17:28:00-07:00",
+      "related": [
+        "这条说法该到哪一段材料核对？",
+        "对应材料能支持多大的结论范围？"
+      ]
+    },
+    "topicId": "H15",
+    "rank": 20,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H16",
+    "module": "trending",
+    "format": "news",
+    "category": "古代职场",
+    "tags": [
+      "玄武门",
+      "李世民",
+      "时间顺序"
+    ],
+    "title": "玄武门之后，李世民的身份怎样变化",
+    "coverUrl": "/covers/h16.webp",
+    "coverAlt": "宫门与皇位继承文书的像素插画",
+    "author": {
+      "name": "大唐朝局观察站",
+      "handle": "@tang_watch",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "玄武门话题又被翻上讨论榜。有人只记得冲突，有人盯着之后的身份变化，几个节点越聊越挤，最后被剪成了同一个瞬间。\n\n这次先把热闹的说法拆开：事变发生之后，史书怎样写李世民的身份？“之后”与“当场”也需要仔细区分。\n\n翻到对应条目再判断，不替人物补密谈，也不把后来的评价直接当作动机。",
+    "simulatedHeat": 306000,
+    "simulatedViews": 475000,
+    "simulatedLikes": 2270,
+    "simulatedComments": 270,
+    "simulatedReposts": 175,
+    "simulatedBookmarks": 382,
+    "comments": [
+      {
+        "id": "H16-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "人事变动消息太密，我的时间线还没排完。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H16-C01-R1",
+            "replyTo": "H16-C01",
+            "author": "大唐朝局观察站",
+            "avatar": "/avatars/pepper.webp",
+            "text": "我先按住消息合并键，去排一下先后顺序。"
+          },
+          {
+            "id": "H16-C01-R2",
+            "replyTo": "H16-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "对应条目分开贴，别把几个节点挤成一刻。"
+          }
+        ]
+      },
+      {
+        "id": "H16-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "把几个节点剪成一条消息，读起来倒是很省事。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H16-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "省事归省事，先后顺序得去原文里找。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H16-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "群聊名单先不改，我等对应条目。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H16-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "人物动机也能只凭一句话拍板吗？",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H16-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "书签备好了，今天只理顺这一段。",
+        "simulatedLikes": 28
+      }
+    ],
+    "news": {
+      "outlet": "大唐朝局观察站",
+      "lead": "围绕玄武门之变后的身份变化，读者开始核对史书条目与事件顺序。",
+      "publishedAt": "2026-10-30T17:28:00-07:00",
+      "related": [
+        "这条说法该到哪一段材料核对？",
+        "对应材料能支持多大的结论范围？"
+      ]
+    },
+    "topicId": "H16",
+    "rank": 21,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H17",
+    "module": "trending",
+    "format": "news",
+    "category": "古代职场",
+    "tags": [
+      "嫪毐",
+      "秦始皇本纪",
+      "印玺"
+    ],
+    "title": "嫪毐假用王玺发兵，《史记》怎么写",
+    "coverUrl": "/covers/h17.webp",
+    "coverAlt": "秦宫印玺与军情文书的像素插画",
+    "author": {
+      "name": "秦廷消息观察",
+      "handle": "@qin_news",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "一条关于嫪毐与印玺的消息进入讨论区，评论很快把它比作权限出了问题。有人顺手补了整段密谋，另一些读者却连对应书页还没找到。\n\n印玺、发兵、叛乱，这几个词在材料里怎样连起来？先别让脑补跑在原文前面。\n\n这一题只问《史记·秦始皇本纪》有没有相应记载，不要求替所有私人细节作证。",
+    "simulatedHeat": 294000,
+    "simulatedViews": 460000,
+    "simulatedLikes": 2190,
+    "simulatedComments": 260,
+    "simulatedReposts": 170,
+    "simulatedBookmarks": 374,
+    "comments": [
+      {
+        "id": "H17-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "以为搬来小板凳就够了，结果还要带书签。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H17-C01-R1",
+            "replyTo": "H17-C01",
+            "author": "秦廷消息观察",
+            "avatar": "/avatars/pepper.webp",
+            "text": "权限的比喻先放下，我去找对应篇目。"
+          },
+          {
+            "id": "H17-C01-R2",
+            "replyTo": "H17-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "书页找到后再聊，评论补的密谈先别算进去。"
+          }
+        ]
+      },
+      {
+        "id": "H17-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "权限问题听着熟，具体用在哪里可得查。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H17-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "先找对应篇目，别让一句比喻代替整段材料。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H17-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "盖章之前查用途，转发之前查出处。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H17-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "评论补的密谈越来越长，有人贴原文位置吗？",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H17-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "这瓜先放稳，我去核对书页。",
+        "simulatedLikes": 28
+      }
+    ],
+    "news": {
+      "outlet": "秦廷消息观察",
+      "lead": "印玺与发兵话题引发讨论，本次核对范围限定在《史记·秦始皇本纪》的记载。",
+      "publishedAt": "2026-10-30T17:28:00-07:00",
+      "related": [
+        "这条说法该到哪一段材料核对？",
+        "对应材料能支持多大的结论范围？"
+      ]
+    },
+    "topicId": "H17",
+    "rank": 22,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H20",
+    "module": "trending",
+    "format": "news",
+    "category": "科技文物",
+    "tags": [
+      "上官婉儿",
+      "墓志",
+      "考古"
+    ],
+    "title": "上官婉儿墓志曝光，墓主身份如何确认",
+    "coverUrl": "/covers/h20.webp",
+    "coverAlt": "唐代墓志与发掘记录的像素插画",
+    "author": {
+      "name": "长安考古观察",
+      "handle": "@tomb_watch",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/hype.webp",
+      "fictitious": true
+    },
+    "body": "上官婉儿墓的话题里，身份认定与墓葬受损原因常被放在一起讨论。一张现场图片传过来，评论已经开始替幕后人物排座次。\n\n先把问题分开：哪一项材料能用于核对墓主身份？发现材料的时间，与官方公开消息的时间，又是不是同一天？\n\n这次只判断墓志对身份认定的作用，先让线索各归各位，再看现有报道能够支持哪一步。",
+    "simulatedHeat": 258000,
+    "simulatedViews": 415000,
+    "simulatedLikes": 1950,
+    "simulatedComments": 230,
+    "simulatedReposts": 155,
+    "simulatedBookmarks": 350,
+    "comments": [
+      {
+        "id": "H20-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "刚想看人物档案，评论又开始排幕后名单了。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H20-C01-R1",
+            "replyTo": "H20-C01",
+            "author": "长安考古观察",
+            "avatar": "/avatars/pepper.webp",
+            "text": "先把身份与受损分两栏，再去核对材料。"
+          },
+          {
+            "id": "H20-C01-R2",
+            "replyTo": "H20-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "时间也分开记，发现与发布消息各占一行。"
+          }
+        ]
+      },
+      {
+        "id": "H20-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "线索不是脑补通行证，这句先记下来。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H20-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "发现时间和发布消息的时间，需要分别核对。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H20-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "现场图片我看了，还想看看文字依据。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H20-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "身份问题和受损原因，可以分两栏问吧？",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H20-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我的记录表空着，等材料来填。",
+        "simulatedLikes": 28
+      }
+    ],
+    "news": {
+      "outlet": "长安考古观察",
+      "lead": "上官婉儿墓志引发关注，核查聚焦身份依据，并区分考古发现与消息公开的时间。",
+      "publishedAt": "2026-10-30T17:28:00-07:00",
+      "related": [
+        "这条说法该到哪一段材料核对？",
+        "对应材料能支持多大的结论范围？"
+      ]
+    },
+    "topicId": "H20",
+    "rank": 23,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
   }
 ]

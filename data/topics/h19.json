@@ -1,0 +1,155 @@
+{
+  "id": "H19",
+  "era": {
+    "label": "北宋",
+    "order": 5
+  },
+  "rumorEra": "现代",
+  "coreContext": "《铡美案》的宋代故事背景与戏曲演变",
+  "evidenceEra": "后世戏曲及其演变史料（孙红瑀2023、范振平2014所采研究）；现代戏曲史研究",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 19,
+  "module": "discover",
+  "format": "post",
+  "category": "文人八卦",
+  "tags": [
+    "铡美案",
+    "陈世美",
+    "戏曲"
+  ],
+  "title": "陈世美塌房：包拯真审过这桩案吗",
+  "coverUrl": "/covers/h19.webp",
+  "coverAlt": "戏曲舞台与案卷相对的像素插画",
+  "author": {
+    "name": "古代塌房研究所",
+    "handle": "@stage_clue",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/pepper.webp",
+    "fictitious": true
+  },
+  "body": "这个故事熟到一提名字，评论区就能接着往下讲。熟悉归熟悉，我忽然卡住了：大家是在复述戏，还是在引用案卷？\n\n有人说情节记得清就是证据，有人让我先查题材怎么演变。我的追剧笔记翻得很快，史料索引却还没开。\n\n这次只核对陈世美被包拯处决这一完整故事，能不能当作有史料证实的宋代真实案件。",
+  "simulatedHeat": 270000,
+  "simulatedViews": 430000,
+  "simulatedLikes": 2030,
+  "simulatedComments": 240,
+  "simulatedReposts": 160,
+  "simulatedBookmarks": 358,
+  "comments": [
+    {
+      "id": "H19-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "追剧笔记翻得比史料索引快，我先自查。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H19-C01-R1",
+          "replyTo": "H19-C01",
+          "author": "古代塌房研究所",
+          "avatar": "/avatars/pepper.webp",
+          "text": "追剧笔记先合上，我去找题材研究的摘要。"
+        },
+        {
+          "id": "H19-C01-R2",
+          "replyTo": "H19-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "记得看研究讨论的对象，别把剧情与案卷混在一起。"
+        }
+      ]
+    },
+    {
+      "id": "H19-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "故事我能背，案卷在哪却没问过。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H19-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "情节熟悉和出处可靠，先分开打分。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H19-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "戏台边的小板凳已摆好，书也借来了。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H19-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "这题得查题材的来路，别只拼谁记得全。",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H19-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我先按住转发键，等大家把材料找齐。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "《铡美案》中陈世美被包拯处决的故事，是有史料证实的宋代真实案件。",
+  "isTrue": false,
+  "reveal": {
+    "verdictHeadline": "戏曲故事不能直接当作宋代案卷",
+    "shortExplanation": "《铡美案》属于经过长期演变的戏曲故事，不能作为宋代真实司法案件看待。现有史料没有证实陈世美被包拯处决这一完整情节。",
+    "detailedExplanation": "孙红瑀研究摘要讨论《赛琵琶》在传播中演化、改编为《铡美案》的过程。范振平摘要讨论戏曲角色与地方传说的关系。两篇研究支持区分戏曲题材与真实案件；本题判定不依赖“正史没写便绝不存在”的推理，也不据角色研究否定历史上所有同名人物。这里只用已摘录摘要，不补全文细节或题材起源的精确年代。",
+    "correctedClaim": "《铡美案》是长期演变的戏曲故事；现有史料没有证实陈世美被包拯处决这一完整情节是宋代真实案件。",
+    "funFact": "题材如何传播、改编，与某个司法案件是否获得史料证实，是两项需要分别举证的问题。"
+  },
+  "sourceIds": [
+    "S-H19-01",
+    "S-H19-02"
+  ],
+  "aiFacts": [
+    "[S-H19-01] 孙红瑀2023年研究摘要说《赛琵琶》在《百家公案》基础上糅合《琵琶记》而成，流传至甘肃后被改编为《铡美案》。",
+    "[S-H19-02] 范振平2014年研究摘要将戏曲陈世美作为角色讨论，并认为未指涉特定的真实人物；不能由此否定历史上所有同名人物。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "只能说现有史料没有证实这一完整案件，不写历史上不存在陈世美或绝无同名人物。",
+    "不以《宋史》本传未载推出不存在；不把“明清以后”作为精确起始时间。",
+    "两篇学术来源只用核查补录所摘摘要，不补地方传说原型细节或全文内容。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "《铡美案》是长期演变的戏曲故事；现有史料没有证实陈世美被包拯处决这一完整情节是宋代真实案件。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    },
+    {
+      "id": "B",
+      "text": "故事广为人知，就证明它是宋代真实司法案件。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "C",
+      "text": "只要某部史书未记载，就能认定同名人物从未存在。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    }
+  ]
+}

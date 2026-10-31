@@ -8,7 +8,7 @@ type ContentSetOptions = { expectedCount?: number };
 
 /**
  * 校验失败时抛出带字段路径的 ZodError 或带话题 ID 的完整性错误。
- * 默认按当前题目数量校验连续排名；8/12/14/16 条阶段均检查真假均衡。
+ * 默认按当前题目数量校验连续排名；真假由已审核命题决定，不要求各半。
  * pending/rejected 是合法审核状态；本模块不将其自动升级为 reviewed。
  */
 export function validateContentSet(
@@ -57,15 +57,6 @@ export function validateContentSet(
 
   for (let rank = 1; rank <= parsedTopics.length; rank += 1) {
     if (!ranks.has(rank)) errors.push(`rank 必须从 1 连续排列，缺少 ${rank}`);
-  }
-
-  if (expectedCount !== undefined && [8, 12, 14, 16].includes(expectedCount)) {
-    const trueCount = parsedTopics.filter((topic) => topic.isTrue).length;
-    const falseCount = parsedTopics.length - trueCount;
-    const half = expectedCount / 2;
-    if (trueCount !== half || falseCount !== half) {
-      errors.push(`真假比例必须为 ${half}:${half}，实际为 ${trueCount}:${falseCount}`);
-    }
   }
 
   if (errors.length > 0) throw new Error(`内容完整性校验失败：\n${errors.join("\n")}`);

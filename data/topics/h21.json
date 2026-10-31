@@ -1,0 +1,155 @@
+{
+  "id": "H21",
+  "era": {
+    "label": "明",
+    "order": 7
+  },
+  "rumorEra": "不限定",
+  "coreContext": "明万历五年（1577）守制与夺情",
+  "evidenceEra": "明万历五年（1577）历史事件；后世史书及现代研究",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 21,
+  "module": "discover",
+  "format": "post",
+  "category": "古代职场",
+  "tags": [
+    "张居正",
+    "守制",
+    "夺情"
+  ],
+  "title": "张居正父丧之后，守制与留任怎么回事",
+  "coverUrl": "/covers/h21.webp",
+  "coverAlt": "奏疏与留任印章相对的像素插画",
+  "author": {
+    "name": "大明职场摸鱼指南",
+    "handle": "@ming_work",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/pepper.webp",
+    "fictitious": true
+  },
+  "body": "今天的大明职场话题，评论区聊着聊着就变成了请假经验交流。有人只看了留任二字，就替整段事情补好了前因后果。\n\n我一边抱着工作日志，一边想问：父丧、奏请守制、皇帝的决定，这几步到底是什么顺序？人物心里怎么想，能不能只凭结果倒推？\n\n先把守制与夺情放回材料里核对，别把办公室经验直接填进史书。",
+  "simulatedHeat": 246000,
+  "simulatedViews": 400000,
+  "simulatedLikes": 1870,
+  "simulatedComments": 220,
+  "simulatedReposts": 150,
+  "simulatedBookmarks": 342,
+  "comments": [
+    {
+      "id": "H21-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "别人的工作日志要翻史书，我的只要翻日历。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H21-C01-R1",
+          "replyTo": "H21-C01",
+          "author": "大明职场摸鱼指南",
+          "avatar": "/avatars/pepper.webp",
+          "text": "工作日志先留白，我去核对奏请与决定的次序。"
+        },
+        {
+          "id": "H21-C01-R2",
+          "replyTo": "H21-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "把人物意向与事件记载分开读，别用结果倒推心理。"
+        }
+      ]
+    },
+    {
+      "id": "H21-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我只看了留任两个字，前面是不是还漏了步骤？",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H21-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "先把申请与决定的顺序查清楚。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H21-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "办公室经验先收一收，朝堂问题得看材料。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H21-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "人物心里怎么想，不能只看最后的结果吧？",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H21-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "摸鱼暂停，这次先核对原文。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "万历五年，张居正因父丧奏请守制，明神宗下令夺情，使其继续任职。",
+  "isTrue": true,
+  "reveal": {
+    "verdictHeadline": "先奏请守制，后下令夺情",
+    "shortExplanation": "《围绕张居正守制与夺情的论战》记万历五年张居正父亲去世，张居正奏请回乡守制，神宗下令夺情，使其继续任职。《明史·张居正传》也有父丧与夺情记载。",
+    "detailedExplanation": "现代研究文章明确记“张居正即奏请回乡丁忧守制”，随后叙神宗下令夺情。《明史》卷213有“未幾，丁父憂”与“居正自奪情後”等语，可以交叉核对事件。文章对张居正本人意向的判断，以及《明史》“居正惑之”的评价性措辞，都不能直接当作确定的内心事实。",
+    "correctedClaim": "据相关记载，万历五年张居正先因父丧奏请守制，后由明神宗下令夺情，继续任职。",
+    "funFact": "查证这件事，应区分奏请守制、皇帝下令与研究者对人物意向的解释。"
+  },
+  "sourceIds": [
+    "S-H21-01",
+    "S-H21-02"
+  ],
+  "aiFacts": [
+    "[S-H21-01] 人民周刊转载学习时报文章记万历五年张居正父丧，随即奏请回乡丁忧守制，神宗下令夺情。",
+    "[S-H21-02] 《明史》卷213张居正传有“未幾，丁父憂。帝遣司禮中官慰問”及“居正自奪情後”，可交叉核对事件。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "“张居正本人倾向夺情”是文章作者判断，不进入事实卡或判定。",
+    "《明史》“居正惑之”等属史书立场，不作心理定论；不得伪造张居正与皇帝的聊天或诏令。",
+    "不从本例推出所有明代官员都能随意选择守制，也不把丁忧直接等同现代请假。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "张居正父丧后从未奏请守制。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "B",
+      "text": "据相关记载，万历五年张居正先因父丧奏请守制，后由明神宗下令夺情，继续任职。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    },
+    {
+      "id": "C",
+      "text": "明代所有官员都可以随意选择是否守制。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    }
+  ]
+}

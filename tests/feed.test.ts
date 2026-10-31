@@ -18,15 +18,15 @@ beforeEach(() => vi.stubEnv("CONTENT_MODE", "preview"));
 afterEach(() => vi.unstubAllEnvs());
 
 describe("独立信息流与审核题库", () => {
-  it("44 条信息流：19 热搜、25 发现；14 题与 7:7 均衡", () => {
-    expect(entries).toHaveLength(44);
-    expect(new Set(entries.map(({ id }) => id)).size).toBe(44);
-    expect(topics).toHaveLength(14);
-    expect(topics.filter(({ isTrue }) => isTrue)).toHaveLength(7);
+  it("52 条信息流：23 热搜、29 发现；22 题按审核为12真10假", () => {
+    expect(entries).toHaveLength(52);
+    expect(new Set(entries.map(({ id }) => id)).size).toBe(52);
+    expect(topics).toHaveLength(22);
+    expect(topics.filter(({ isTrue }) => isTrue)).toHaveLength(12);
     expect(new Set(entries.map(({ topicId }) => topicId))).toEqual(new Set(ids));
     for (const [module, expectedIds] of [
-      ["trending", ["H01", "H02", "H03", "H04", "H07", "H09", ...numbered("T", 12), "H14"]],
-      ["discover", ["H05", "H06", "H08", "H10", "H11", "H12", ...numbered("P", 18), "H13"]],
+      ["trending", ["H01", "H02", "H03", "H04", "H07", "H09", ...numbered("T", 12), "H14", "H15", "H16", "H17", "H20"]],
+      ["discover", ["H05", "H06", "H08", "H10", "H11", "H12", ...numbered("P", 18), "H13", "H18", "H19", "H21", "H22"]],
     ] as const) {
       const members = entries.filter((entry) => entry.module === module);
       expect(members.map(({ id }) => id)).toEqual(expectedIds);

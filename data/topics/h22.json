@@ -1,0 +1,154 @@
+{
+  "id": "H22",
+  "era": {
+    "label": "唐代",
+    "order": 4
+  },
+  "rumorEra": "不限定",
+  "coreContext": "唐初李建成墓志谥号刊刻",
+  "evidenceEra": "唐代贞观二年（628）墓志；2005年出土、2012年追回、2013年移交收藏；现代研究",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 22,
+  "module": "discover",
+  "format": "post",
+  "category": "科技文物",
+  "tags": [
+    "李建成",
+    "墓志",
+    "谥号"
+  ],
+  "title": "李建成墓志，隐字位置真有磨改痕迹吗",
+  "coverUrl": "/covers/h22.webp",
+  "coverAlt": "墓志局部与放大镜的像素插画",
+  "author": {
+    "name": "墓志细节观察",
+    "handle": "@stone_clue",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/pepper.webp",
+    "fictitious": true
+  },
+  "body": "一块墓志，讨论区能开出好几个窗口：有人看字，有人猜原字，还有人已经替刻字者补完了整段心事。\n\n我的放大镜还没拿稳，结论就从痕迹一路跳到了心理分析。这中间每一步，都需要同一种证据吗？\n\n先把问题缩小，只核对谥号“隐”字所在的位置有没有磨改重刻痕迹。原先刻什么、为什么改，留给对应材料分别回答。",
+  "simulatedHeat": 234000,
+  "simulatedViews": 385000,
+  "simulatedLikes": 1790,
+  "simulatedComments": 210,
+  "simulatedReposts": 145,
+  "simulatedBookmarks": 334,
+  "comments": [
+    {
+      "id": "H22-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "放大镜刚到位，评论已经开始读心了。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H22-C01-R1",
+          "replyTo": "H22-C01",
+          "author": "墓志细节观察",
+          "avatar": "/avatars/pepper.webp",
+          "text": "放大镜先留给字迹，心事等有材料再说。"
+        },
+        {
+          "id": "H22-C01-R2",
+          "replyTo": "H22-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "把观察、辨字和解释拆开，先看能核对的那一步。"
+        }
+      ]
+    },
+    {
+      "id": "H22-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "一个字的地方，能塞进多少猜测？",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H22-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "痕迹与原字解读，先分两步问。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H22-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "刻字者的心事我先不猜，看看材料怎么说。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H22-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "出土、追回、收藏，也别挤成同一年。",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H22-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "这次先做细节观察员，暂不申请心理分析岗。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "李建成墓志中谥号“隐”字的位置存在磨改重刻痕迹。",
+  "isTrue": true,
+  "reveal": {
+    "verdictHeadline": "隐字位置有磨改痕迹，原字暂不定论",
+    "shortExplanation": "李建成墓志中谥号“隐”字的位置存在磨改重刻痕迹。原刻“戾”还是“灵”，现有解读存在分歧，本题不作确定结论。",
+    "detailedExplanation": "陕西日报报道指出“隐”字有明显修改痕迹，支持这一局部观察。判断只限磨改重刻痕迹，不据此确定原刻字或唐太宗的心理。现代经历按2005年出土、2012年追回、2013年移交收藏区分；不能把移交收藏当作出土。",
+    "correctedClaim": "李建成墓志谥号“隐”字位置存在磨改重刻痕迹；原刻“戾”还是“灵”，现有解读存在分歧。",
+    "funFact": "原刻字的解读有“戾”“灵”分歧，不作定论。《唐会要》的月份在核查材料中有“正月”“三月”两种引法；只在这里保留差异，不据此确定改谥月份，也不把月份差异用于真假判定。"
+  },
+  "sourceIds": [
+    "S-H22-01"
+  ],
+  "aiFacts": [
+    "[S-H22-01] 陕西日报报道李建成墓志“隐”字有明显修改痕迹；记录2005年出土、2012年追回、次年移交西安博物院收藏。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "核心命题只判断“隐”字位置有磨改重刻痕迹，不确定原刻“戾”还是“灵”。",
+    "不能从磨改痕迹直接断定唐太宗的心理或改字动机。",
+    "按2005年出土、2012年追回、2013年移交收藏区分，不把移交当出土。",
+    "《唐会要》月份差异只保留于“史料争议”折叠区，不用于核心判定；未取全文的研究不作已阅读全文。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "李建成墓志谥号“隐”字位置存在磨改重刻痕迹；原刻“戾”还是“灵”，现有解读存在分歧。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    },
+    {
+      "id": "B",
+      "text": "从磨改痕迹就能唯一确定原字和改字者的内心。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "C",
+      "text": "2013年移交收藏，就等于2013年才出土。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    }
+  ]
+}

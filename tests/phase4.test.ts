@@ -13,7 +13,7 @@ import sourceIndex from "@/data/source-index.json";
 
 vi.mock("next/navigation", () => ({ notFound: () => { throw new Error("NEXT_NOT_FOUND"); } }));
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
-const candidates = getAllTopics().slice(12);
+const candidates = getAllTopics().slice(12, 14);
 const request = (body: unknown) => new Request("http://localhost/api", { method: "POST", body: JSON.stringify(body) });
 
 describe("Phase 4 已审新题与展示审核边界", () => {
@@ -25,18 +25,18 @@ describe("Phase 4 已审新题与展示审核边界", () => {
     expect(EraSchema.safeParse({ label: "秦", order: 3 }).success).toBe(false);
   });
 
-  it.each(["formal", "", "invalid"])("%j 模式包含十四题；H13/H14 列表、详情、metadata 和判题可用", async (mode) => {
+  it.each(["formal", "", "invalid"])("%j 模式包含二十二题；H13/H14 列表、详情、metadata 和判题可用", async (mode) => {
     vi.stubEnv("CONTENT_MODE", mode);
     vi.stubEnv("AI_API_KEY", "");
     const upstream = vi.fn(); vi.stubGlobal("fetch", upstream);
     expect(getAvailableTopics().map(({ id }) => id)).toEqual(getAllTopics().map(({ id }) => id));
-    expect(getAvailableTopics()).toHaveLength(14);
-    expect(getAvailableFeedEntries()).toHaveLength(44);
+    expect(getAvailableTopics()).toHaveLength(22);
+    expect(getAvailableFeedEntries()).toHaveLength(52);
     for (const topic of candidates) {
       expect(getAvailableFeedEntryById(topic.id)?.editorialReviewStatus).toBe("pending");
       expect((await generateMetadata({ params: Promise.resolve({ id: topic.id }) })).title).toBe(topic.title);
       const page = await PostPage({ params: Promise.resolve({ id: topic.id }) });
-      expect(page.props.children.props.topicIds).toHaveLength(14);
+      expect(page.props.children.props.topicIds).toHaveLength(22);
       const response = await verdict(request({ topicId: topic.id, answer: topic.isTrue }));
       expect(response.status).toBe(200);
       expect(response.headers.get("cache-control")).toBe("no-store");
@@ -49,12 +49,12 @@ describe("Phase 4 已审新题与展示审核边界", () => {
     expect(upstream).not.toHaveBeenCalled();
   });
 
-  it.each(["formal", "preview"])("%s 为十四题、十九热搜和二十五发现；已审来源完整且无配置时不调用 AI", async (mode) => {
+  it.each(["formal", "preview"])("%s 为二十二题、二十三热搜和二十九发现；已审来源完整且无配置时不调用 AI", async (mode) => {
     vi.stubEnv("CONTENT_MODE", mode); vi.stubEnv("AI_API_KEY", "");
     const upstream = vi.fn(); vi.stubGlobal("fetch", upstream);
-    expect(getAvailableTopics()).toHaveLength(14);
-    expect(getAvailableFeedEntries().filter(({ module }) => module === "trending")).toHaveLength(19);
-    expect(getAvailableFeedEntries().filter(({ module }) => module === "discover")).toHaveLength(25);
+    expect(getAvailableTopics()).toHaveLength(22);
+    expect(getAvailableFeedEntries().filter(({ module }) => module === "trending")).toHaveLength(23);
+    expect(getAvailableFeedEntries().filter(({ module }) => module === "discover")).toHaveLength(29);
     for (const topic of candidates) {
       const entry = getAvailableFeedEntryById(topic.id)!;
       expect(entry.coverUrl).toBe(`/covers/${topic.id.toLowerCase()}.webp`);
@@ -62,7 +62,7 @@ describe("Phase 4 已审新题与展示审核边界", () => {
       expect(publicEntry.reviewStatus).toBe("reviewed");
       expect(JSON.stringify(publicEntry)).not.toMatch(/"(?:isTrue|reveal|sourceIds|rewriteOptions|aiFacts|aiLimitations|eraReview)"/);
       const page = await PostPage({ params: Promise.resolve({ id: topic.id }) });
-      expect(page.props.children.props.topicIds).toHaveLength(14);
+      expect(page.props.children.props.topicIds).toHaveLength(22);
       for (const answer of [true, false]) {
         const response = await verdict(request({ topicId: topic.id, answer }));
         const result = await response.json();
@@ -109,6 +109,6 @@ describe("Phase 4 已审新题与展示审核边界", () => {
       expect(bytes.toString("ascii", 0, 4)).toBe("RIFF");
       expect(bytes.toString("ascii", 8, 12)).toBe("WEBP");
     }
-    expect(getAllFeedEntries()).toHaveLength(44);
+    expect(getAllFeedEntries()).toHaveLength(52);
   });
 });

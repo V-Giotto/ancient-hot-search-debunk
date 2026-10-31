@@ -1,17 +1,19 @@
 import assert from "node:assert/strict";
 import { readFile, stat } from "node:fs/promises";
+import { clickAndWaitForResponse } from "./e2e-interactions.mjs";
 
 /** 已审新题在 formal 完整验收，并核对同一生产构建的 preview；AI 接口仅本机无 key。 */
 export async function phase4Checks({ browser, formalURL, previewURL, errors, geometryCheck, screenshot, version }) {
-  const topics = await Promise.all(["h13", "h14"].map(async (id) => JSON.parse(await readFile(`data/topics/${id}.json`, "utf8"))));
+  const topics = await Promise.all(Array.from({ length: 10 }, (_, index) => `h${index + 13}`).map(async (id) => JSON.parse(await readFile(`data/topics/${id}.json`, "utf8"))));
   const sourceIndex = JSON.parse(await readFile("data/source-index.json", "utf8"));
   const constraints = JSON.parse(await readFile("tests/fixtures/display-constraints.json", "utf8"));
   const formal = [];
   for (const topic of topics) {
     assert.equal(topic.reviewStatus, "reviewed");
     assert.equal(topic.reviewBy, "Giotto");
-    assert.equal(topic.reviewedAt, "2026-10-30T09:53:00-07:00");
-    assert.deepEqual(topic.eraReview, { status: "reviewed", reviewer: "Giotto", reviewedAt: "2026-10-30T09:53:00-07:00" });
+    const reviewedAt = Number(topic.id.slice(1)) >= 15 ? "2026-10-30T17:28:00-07:00" : "2026-10-30T09:53:00-07:00";
+    assert.equal(topic.reviewedAt, reviewedAt);
+    assert.deepEqual(topic.eraReview, { status: "reviewed", reviewer: "Giotto", reviewedAt });
     assert.equal((await fetch(`${formalURL}/post/${topic.id}`)).status, 200);
     assert.equal((await fetch(`${previewURL}/post/${topic.id}`)).status, 200);
     for (const [route, body] of [
@@ -28,7 +30,7 @@ export async function phase4Checks({ browser, formalURL, previewURL, errors, geo
         for (const source of result.sources) {
           assert.equal(source.status, "reviewed");
           assert.equal(source.verifiedBy, "Giotto");
-          assert.equal(source.verifiedAt, "2026-10-30T09:53:00-07:00");
+          assert.equal(source.verifiedAt, reviewedAt);
         }
       } else assert.doesNotMatch(JSON.stringify(result), /"(?:isTrue|reveal|sources|rewriteOptions)"/);
     }
@@ -41,7 +43,7 @@ export async function phase4Checks({ browser, formalURL, previewURL, errors, geo
     try {
       const page = await context.newPage();
       page.on("pageerror", (error) => errors.push(error.message));
-      for (const [module, count, id] of [["trending", 19, "H14"], ["discover", 25, "H13"]]) {
+      for (const [module, count, id] of [["trending", 23, "H20"], ["discover", 29, "H22"]]) {
         await page.goto(`${formalURL}/${module}`);
         const selector = module === "trending" ? ".trending-list > li" : ".discover-card";
         assert.equal(await page.locator(selector).count(), count);
@@ -75,10 +77,8 @@ export async function phase4Checks({ browser, formalURL, previewURL, errors, geo
         const copy = (await page.locator(".post-title, .post-body, .news-lead, .news-related, .comments-panel").allTextContents()).join("\n");
         for (const word of constraints.answerKeywords[topic.id]) assert.ok(!copy.includes(word), `${topic.id} 提前揭晓 ${word}`);
         geometry.push(await geometryCheck(page, `${topic.id} 初始与全部评论`));
-        const judge = page.waitForResponse((response) => response.url().endsWith("/api/verdict"));
         await page.getByRole("radio", { name: topic.isTrue ? "是真的" : "是假的", exact: true }).check();
-        await page.getByRole("button", { name: "提交判断", exact: true }).click();
-        const verdictResponse = await judge;
+        const verdictResponse = await clickAndWaitForResponse(page, page.getByRole("button", { name: "提交判断", exact: true }), "/api/verdict");
         assert.equal(verdictResponse.status(), 200);
         const result = await verdictResponse.json();
         assert.equal(result.isCorrect, true);
@@ -87,7 +87,7 @@ export async function phase4Checks({ browser, formalURL, previewURL, errors, geo
         await page.getByText("答对了！这次吃瓜有依据。", { exact: true }).waitFor();
         await page.getByText("为什么", { exact: true }).click();
         await page.getByText(`展开史料依据（${topic.sourceIds.length} 条）`, { exact: true }).click();
-        await page.getByText("延伸冷知识", { exact: true }).click();
+        await page.getByText(topic.id === "H22" ? "史料争议" : "延伸冷知识", { exact: true }).click();
         const reveal = page.locator(".reveal-panel");
         for (const field of ["shortExplanation", "detailedExplanation", "correctedClaim", "funFact"]) assert.ok(await reveal.getByText(topic.reveal[field], { exact: true }).isVisible());
         const urls = await reveal.locator("a[target='_blank']").evaluateAll((nodes) => nodes.map((node) => node.href));
@@ -102,10 +102,9 @@ export async function phase4Checks({ browser, formalURL, previewURL, errors, geo
         await page.getByText("改写正确，这样说更准确。", { exact: true }).waitFor();
         geometry.push(await geometryCheck(page, `${topic.id} 揭晓/范围限制/来源/改写`));
         await page.getByRole("link", { name: "问问 AI", exact: true }).click();
-        await page.getByRole("textbox").fill("这道题不能外推哪些范围？");
-        const ask = page.waitForResponse((response) => response.url().endsWith("/api/ask"));
-        await page.getByRole("button", { name: "发送问题", exact: true }).click();
-        assert.equal((await ask).status(), 503);
+        await page.getByRole("textbox", { name: "向值班史官提问", exact: true }).fill("这道题不能外推哪些范围？");
+        const ask = await clickAndWaitForResponse(page, page.getByRole("button", { name: "发送问题", exact: true }), "/api/ask");
+        assert.equal(ask.status(), 503);
         await page.getByText("AI 未配置", { exact: true }).waitFor();
         if (viewport.width === 390) {
           await page.getByRole("button", { name: "生成查证卡", exact: true }).click();
@@ -138,11 +137,11 @@ export async function phase4Checks({ browser, formalURL, previewURL, errors, geo
       }
       await page.goto(`${formalURL}/me`);
       await page.getByRole("list", { name: "贴纸收藏" }).waitFor();
-      assert.equal(await page.getByRole("list", { name: "贴纸收藏" }).locator(":scope > li").count(), 14);
-      assert.ok((await page.getByRole("status").textContent()).includes("2/14"));
-      geometry.push(await geometryCheck(page, "Phase 4 十四枚贴纸/同题去重"));
+      assert.equal(await page.getByRole("list", { name: "贴纸收藏" }).locator(":scope > li").count(), 22);
+      assert.ok((await page.getByRole("status").textContent()).includes("10/22"));
+      geometry.push(await geometryCheck(page, "Phase 4 二十二枚贴纸/同题去重"));
     } finally { await context.close(); }
   }
   assert.deepEqual(errors, [], "Phase 4 浏览器运行错误");
-  return { formal, flows, geometry, screenshots, browserErrors: [...errors], realAiCalls: 0, topics: 14, trueFalse: "7:7", feedEntries: 44, pendingSourceIds: sourceIndex.filter(({ status }) => status === "pending").map(({ id }) => id) };
+  return { formal, flows, geometry, screenshots, browserErrors: [...errors], realAiCalls: 0, topics: 22, trueFalse: "12:10", feedEntries: 52, pendingSourceIds: sourceIndex.filter(({ status }) => status === "pending").map(({ id }) => id) };
 }

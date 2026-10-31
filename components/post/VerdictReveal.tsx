@@ -50,7 +50,7 @@ export function VerdictReveal({ result, headingRef, children }: { result: Verdic
           </ul>
         </details>
         <details>
-          <summary><PixelIcon name="expand" size={16} className="details-expand" /><PixelIcon name="collapse" size={16} className="details-collapse" />延伸冷知识</summary>
+          <summary><PixelIcon name="expand" size={16} className="details-expand" /><PixelIcon name="collapse" size={16} className="details-collapse" />{result.sources.some(({ id }) => id === "S-H22-01") ? "史料争议" : "延伸冷知识"}</summary>
           <p className="mt-2">{result.reveal.funFact}</p>
         </details>
       </div>

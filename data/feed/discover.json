@@ -2756,5 +2756,405 @@
     "fictionalFraming": true,
     "statisticsOrigin": "design",
     "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H18",
+    "module": "discover",
+    "format": "post",
+    "category": "古代职场",
+    "tags": [
+      "高俅",
+      "蹴鞠",
+      "升迁"
+    ],
+    "title": "高俅踢了一脚球当场升任太尉",
+    "coverUrl": "/covers/h18.webp",
+    "coverAlt": "抱书卷的求职者与蹴鞠球的像素插画",
+    "author": {
+      "name": "大宋求职避雷指南",
+      "handle": "@song_job",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/pepper.webp",
+      "fictitious": true
+    },
+    "body": "家人们，我的简历还没改完，评论区就给我推来高俅的职场故事。\n\n有人说：球一踢，官职就到账。我的技能栏当场开始犹豫，到底写整理材料，还是写颠球？\n\n先别撕简历。这条消息里的“一次”和“当场”压缩了多少过程？把受赏识与升迁写在同一句里，真的可以省略中间的时间吗？我决定把笔记翻出来再选。",
+    "simulatedHeat": 282000,
+    "simulatedViews": 445000,
+    "simulatedLikes": 2110,
+    "simulatedComments": 250,
+    "simulatedReposts": 165,
+    "simulatedBookmarks": 366,
+    "comments": [
+      {
+        "id": "H18-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "我简历写了八页，评论区只劝我填会踢。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H18-C01-R1",
+            "replyTo": "H18-C01",
+            "author": "大宋求职避雷指南",
+            "avatar": "/avatars/pepper.webp",
+            "text": "我先把简历放好，去找这段故事里的时间词。"
+          },
+          {
+            "id": "H18-C01-R2",
+            "replyTo": "H18-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "把受赏识和授官分成两栏，看看中间究竟写了什么。"
+          }
+        ]
+      },
+      {
+        "id": "H18-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "隐藏招聘渠道在哪？我先把球放购物车。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H18-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "标题里的当场二字，最好拿时间线核对。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H18-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "球先别买，我连材料都还没看完。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H18-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "受赏识和授官能省掉中间的步骤吗？",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H18-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "技能栏暂时不改，蹲一个原文位置。",
+        "simulatedLikes": 28
+      }
+    ],
+    "topicId": "H18",
+    "rank": 26,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H19",
+    "module": "discover",
+    "format": "post",
+    "category": "文人八卦",
+    "tags": [
+      "铡美案",
+      "陈世美",
+      "戏曲"
+    ],
+    "title": "陈世美塌房：包拯真审过这桩案吗",
+    "coverUrl": "/covers/h19.webp",
+    "coverAlt": "戏曲舞台与案卷相对的像素插画",
+    "author": {
+      "name": "古代塌房研究所",
+      "handle": "@stage_clue",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/pepper.webp",
+      "fictitious": true
+    },
+    "body": "这个故事熟到一提名字，评论区就能接着往下讲。熟悉归熟悉，我忽然卡住了：大家是在复述戏，还是在引用案卷？\n\n有人说情节记得清就是证据，有人让我先查题材怎么演变。我的追剧笔记翻得很快，史料索引却还没开。\n\n这次只核对陈世美被包拯处决这一完整故事，能不能当作有史料证实的宋代真实案件。",
+    "simulatedHeat": 270000,
+    "simulatedViews": 430000,
+    "simulatedLikes": 2030,
+    "simulatedComments": 240,
+    "simulatedReposts": 160,
+    "simulatedBookmarks": 358,
+    "comments": [
+      {
+        "id": "H19-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "追剧笔记翻得比史料索引快，我先自查。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H19-C01-R1",
+            "replyTo": "H19-C01",
+            "author": "古代塌房研究所",
+            "avatar": "/avatars/pepper.webp",
+            "text": "追剧笔记先合上，我去找题材研究的摘要。"
+          },
+          {
+            "id": "H19-C01-R2",
+            "replyTo": "H19-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "记得看研究讨论的对象，别把剧情与案卷混在一起。"
+          }
+        ]
+      },
+      {
+        "id": "H19-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "故事我能背，案卷在哪却没问过。",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H19-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "情节熟悉和出处可靠，先分开打分。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H19-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "戏台边的小板凳已摆好，书也借来了。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H19-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "这题得查题材的来路，别只拼谁记得全。",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H19-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我先按住转发键，等大家把材料找齐。",
+        "simulatedLikes": 28
+      }
+    ],
+    "topicId": "H19",
+    "rank": 27,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H21",
+    "module": "discover",
+    "format": "post",
+    "category": "古代职场",
+    "tags": [
+      "张居正",
+      "守制",
+      "夺情"
+    ],
+    "title": "张居正父丧之后，守制与留任怎么回事",
+    "coverUrl": "/covers/h21.webp",
+    "coverAlt": "奏疏与留任印章相对的像素插画",
+    "author": {
+      "name": "大明职场摸鱼指南",
+      "handle": "@ming_work",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/pepper.webp",
+      "fictitious": true
+    },
+    "body": "今天的大明职场话题，评论区聊着聊着就变成了请假经验交流。有人只看了留任二字，就替整段事情补好了前因后果。\n\n我一边抱着工作日志，一边想问：父丧、奏请守制、皇帝的决定，这几步到底是什么顺序？人物心里怎么想，能不能只凭结果倒推？\n\n先把守制与夺情放回材料里核对，别把办公室经验直接填进史书。",
+    "simulatedHeat": 246000,
+    "simulatedViews": 400000,
+    "simulatedLikes": 1870,
+    "simulatedComments": 220,
+    "simulatedReposts": 150,
+    "simulatedBookmarks": 342,
+    "comments": [
+      {
+        "id": "H21-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "别人的工作日志要翻史书，我的只要翻日历。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H21-C01-R1",
+            "replyTo": "H21-C01",
+            "author": "大明职场摸鱼指南",
+            "avatar": "/avatars/pepper.webp",
+            "text": "工作日志先留白，我去核对奏请与决定的次序。"
+          },
+          {
+            "id": "H21-C01-R2",
+            "replyTo": "H21-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "把人物意向与事件记载分开读，别用结果倒推心理。"
+          }
+        ]
+      },
+      {
+        "id": "H21-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "我只看了留任两个字，前面是不是还漏了步骤？",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H21-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "先把申请与决定的顺序查清楚。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H21-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "办公室经验先收一收，朝堂问题得看材料。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H21-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "人物心里怎么想，不能只看最后的结果吧？",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H21-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "摸鱼暂停，这次先核对原文。",
+        "simulatedLikes": 28
+      }
+    ],
+    "topicId": "H21",
+    "rank": 28,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
+  },
+  {
+    "id": "H22",
+    "module": "discover",
+    "format": "post",
+    "category": "科技文物",
+    "tags": [
+      "李建成",
+      "墓志",
+      "谥号"
+    ],
+    "title": "李建成墓志，隐字位置真有磨改痕迹吗",
+    "coverUrl": "/covers/h22.webp",
+    "coverAlt": "墓志局部与放大镜的像素插画",
+    "author": {
+      "name": "墓志细节观察",
+      "handle": "@stone_clue",
+      "bio": "围观之后，把问题带回材料里核对。",
+      "avatarUrl": "/avatars/pepper.webp",
+      "fictitious": true
+    },
+    "body": "一块墓志，讨论区能开出好几个窗口：有人看字，有人猜原字，还有人已经替刻字者补完了整段心事。\n\n我的放大镜还没拿稳，结论就从痕迹一路跳到了心理分析。这中间每一步，都需要同一种证据吗？\n\n先把问题缩小，只核对谥号“隐”字所在的位置有没有磨改重刻痕迹。原先刻什么、为什么改，留给对应材料分别回答。",
+    "simulatedHeat": 234000,
+    "simulatedViews": 385000,
+    "simulatedLikes": 1790,
+    "simulatedComments": 210,
+    "simulatedReposts": 145,
+    "simulatedBookmarks": 334,
+    "comments": [
+      {
+        "id": "H22-C01",
+        "author": "工单先挂起",
+        "avatar": "/avatars/spectator.webp",
+        "role": "troll",
+        "text": "放大镜刚到位，评论已经开始读心了。",
+        "simulatedLikes": 83,
+        "replies": [
+          {
+            "id": "H22-C01-R1",
+            "replyTo": "H22-C01",
+            "author": "墓志细节观察",
+            "avatar": "/avatars/pepper.webp",
+            "text": "放大镜先留给字迹，心事等有材料再说。"
+          },
+          {
+            "id": "H22-C01-R2",
+            "replyTo": "H22-C01-R1",
+            "author": "原文书签夹",
+            "avatar": "/avatars/hype.webp",
+            "text": "把观察、辨字和解释拆开，先看能核对的那一步。"
+          }
+        ]
+      },
+      {
+        "id": "H22-C02",
+        "author": "小板凳占座",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "一个字的地方，能塞进多少猜测？",
+        "simulatedLikes": 72
+      },
+      {
+        "id": "H22-C03",
+        "author": "书签核对员",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "痕迹与原字解读，先分两步问。",
+        "simulatedLikes": 61
+      },
+      {
+        "id": "H22-C04",
+        "author": "街口等消息",
+        "avatar": "/avatars/spectator.webp",
+        "role": "in_world",
+        "text": "刻字者的心事我先不猜，看看材料怎么说。",
+        "simulatedLikes": 50
+      },
+      {
+        "id": "H22-C05",
+        "author": "材料慢慢翻",
+        "avatar": "/avatars/hype.webp",
+        "role": "history_nerd",
+        "text": "出土、追回、收藏，也别挤成同一年。",
+        "simulatedLikes": 39
+      },
+      {
+        "id": "H22-C06",
+        "author": "按住转发键",
+        "avatar": "/avatars/spectator.webp",
+        "role": "spectator",
+        "text": "这次先做细节观察员，暂不申请心理分析岗。",
+        "simulatedLikes": 28
+      }
+    ],
+    "topicId": "H22",
+    "rank": 29,
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "fictionalFraming": true,
+    "statisticsOrigin": "design",
+    "editorialReviewStatus": "pending"
   }
 ]

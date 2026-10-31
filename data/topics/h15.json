@@ -1,0 +1,165 @@
+{
+  "id": "H15",
+  "era": {
+    "label": "新",
+    "order": 3
+  },
+  "rumorEra": "现代网络流言",
+  "coreContext": "新莽度量衡器物（9—23）",
+  "evidenceEra": "新朝器物（公元9年）；清末已有同类器物发现和研究；现代博物馆研究",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 15,
+  "module": "trending",
+  "format": "news",
+  "category": "科技文物",
+  "tags": [
+    "王莽",
+    "新莽铜卡尺",
+    "器物查证"
+  ],
+  "title": "王莽身份被扒：铜卡尺能当穿越铁证吗",
+  "coverUrl": "/covers/h15.webp",
+  "coverAlt": "铜卡尺与人物档案的像素插画",
+  "author": {
+    "name": "时空异常观察社",
+    "handle": "@time_clue",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/hype.webp",
+    "fictitious": true
+  },
+  "body": "一件铜卡尺，把王莽推上了身份讨论榜。评论里有人盯着工具外形，有人已经替他安排好了返程车票。\n\n古代器物与现代工具看起来相似，这条线索能走多远？器物的年代、结构和人的身份，需要怎样的材料才能接起来？\n\n先别忙着签发未来身份证。这回只判断一个问题：铜卡尺能不能证明王莽来自现代？",
+  "simulatedHeat": 318000,
+  "simulatedViews": 490000,
+  "simulatedLikes": 2350,
+  "simulatedComments": 280,
+  "simulatedReposts": 180,
+  "simulatedBookmarks": 390,
+  "comments": [
+    {
+      "id": "H15-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "时空管理局实习第一天，工单就跨了这么远。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H15-C01-R1",
+          "replyTo": "H15-C01",
+          "author": "时空异常观察社",
+          "avatar": "/avatars/pepper.webp",
+          "text": "身份工单先挂起，我先去读器物介绍。"
+        },
+        {
+          "id": "H15-C01-R2",
+          "replyTo": "H15-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "别让外形替人的来历签字，出处也带回来。"
+        }
+      ]
+    },
+    {
+      "id": "H15-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我还在找尺子，评论已经开始查返程车票了。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H15-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "先分清器物的年代和人的身份，需要的证据一样吗？",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H15-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "科技树讨论先暂停，我想看看器物说明。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H15-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "别只盯外形，出处和结构都得查。",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H15-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我的量尺还没找到，这个瓜先放收藏夹。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "王莽时期出现的铜卡尺能够证明王莽是现代穿越者。",
+  "isTrue": false,
+  "reveal": {
+    "verdictHeadline": "铜卡尺是真实器物，穿越推论没有依据",
+    "shortExplanation": "铜卡尺是真实的古代技术器物，结构与现代工具相似，并不构成王莽来自现代的证据。",
+    "detailedExplanation": "国博介绍这件卡尺铸造于始建国元年（公元9年），由固定尺和活动尺组成。科普时报记清末在多地已有同类器物发现及考证，这不能改写为国博这一件在清末发现。器物的年代和结构可查，不能据此确定王莽来自现代，也不能认定由他本人发明。",
+    "correctedClaim": "新朝已有铜卡尺；结构与现代工具相似，并不构成王莽来自现代的证据。",
+    "funFact": "清末已有同类器物发现和研究，与某一件馆藏的具体发现经历是不同问题。"
+  },
+  "sourceIds": [
+    "S-H15-01",
+    "S-H15-02",
+    "S-H15-03"
+  ],
+  "aiFacts": [
+    "[S-H15-01] 国博介绍始建国元年（公元9年）卡尺由固定尺和活动尺组成。",
+    "[S-H15-02] 科普时报记清末在多地发现新莽铜卡尺，并已有考证；不等于国博这一件在清末发现。",
+    "[S-H15-03] 澎湃文章记述了以铜卡尺称王莽为穿越者的网络说法，不能作为穿越证据。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "不能把结构相似当成穿越证据，不能认定王莽本人设计或发明卡尺。",
+    "清末发现和研究仅指同类器物，不写国博这一件清末发现；不扩写现代游标读数机制。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "王莽亲自从现代带回了铜卡尺。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "B",
+      "text": "新朝已有铜卡尺；结构与现代工具相似，并不构成王莽来自现代的证据。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    },
+    {
+      "id": "C",
+      "text": "新莽铜卡尺只是网络上编出来的道具。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    }
+  ],
+  "news": {
+    "outlet": "时空异常观察社",
+    "lead": "铜卡尺引发王莽身份讨论，器物线索与穿越推论之间的证据成为焦点。",
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "related": [
+      "这条说法该到哪一段材料核对？",
+      "对应材料能支持多大的结论范围？"
+    ]
+  }
+}

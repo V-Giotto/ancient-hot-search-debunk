@@ -65,9 +65,9 @@ describe("发现页", () => {
     });
   });
 
-  it("十四位作者使用数据中的独立可读 handle，不含随机数字串", () => {
+  it("二十二位作者使用数据中的独立可读 handle，不含随机数字串", () => {
     const handles = getAllTopics().map((topic) => topic.author.handle);
-    expect(new Set(handles).size).toBe(14);
+    expect(new Set(handles).size).toBe(22);
     for (const handle of handles) expect(handle).toMatch(/^@[a-z_]{3,20}$/);
     expect(handles).toContain("@changan_chihuo");
   });

@@ -1,0 +1,166 @@
+{
+  "id": "H20",
+  "era": {
+    "label": "唐代",
+    "order": 4
+  },
+  "rumorEra": "不限定",
+  "coreContext": "唐景云元年（710）安葬与墓主身份认定",
+  "evidenceEra": "唐代墓志（记载公元710年安葬），2013年8月出土，9月11日官方消息公开",
+  "eraReview": {
+    "status": "reviewed",
+    "reviewer": "Giotto",
+    "reviewedAt": "2026-10-30T17:28:00-07:00"
+  },
+  "rank": 20,
+  "module": "trending",
+  "format": "news",
+  "category": "科技文物",
+  "tags": [
+    "上官婉儿",
+    "墓志",
+    "考古"
+  ],
+  "title": "上官婉儿墓志曝光，墓主身份如何确认",
+  "coverUrl": "/covers/h20.webp",
+  "coverAlt": "唐代墓志与发掘记录的像素插画",
+  "author": {
+    "name": "长安考古观察",
+    "handle": "@tomb_watch",
+    "bio": "围观之后，把问题带回材料里核对。",
+    "avatarUrl": "/avatars/hype.webp",
+    "fictitious": true
+  },
+  "body": "上官婉儿墓的话题里，身份认定与墓葬受损原因常被放在一起讨论。一张现场图片传过来，评论已经开始替幕后人物排座次。\n\n先把问题分开：哪一项材料能用于核对墓主身份？发现材料的时间，与官方公开消息的时间，又是不是同一天？\n\n这次只判断墓志对身份认定的作用，先让线索各归各位，再看现有报道能够支持哪一步。",
+  "simulatedHeat": 258000,
+  "simulatedViews": 415000,
+  "simulatedLikes": 1950,
+  "simulatedComments": 230,
+  "simulatedReposts": 155,
+  "simulatedBookmarks": 350,
+  "comments": [
+    {
+      "id": "H20-C01",
+      "author": "工单先挂起",
+      "avatar": "/avatars/spectator.webp",
+      "role": "troll",
+      "text": "刚想看人物档案，评论又开始排幕后名单了。",
+      "simulatedLikes": 83,
+      "replies": [
+        {
+          "id": "H20-C01-R1",
+          "replyTo": "H20-C01",
+          "author": "长安考古观察",
+          "avatar": "/avatars/pepper.webp",
+          "text": "先把身份与受损分两栏，再去核对材料。"
+        },
+        {
+          "id": "H20-C01-R2",
+          "replyTo": "H20-C01-R1",
+          "author": "原文书签夹",
+          "avatar": "/avatars/hype.webp",
+          "text": "时间也分开记，发现与发布消息各占一行。"
+        }
+      ]
+    },
+    {
+      "id": "H20-C02",
+      "author": "小板凳占座",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "线索不是脑补通行证，这句先记下来。",
+      "simulatedLikes": 72
+    },
+    {
+      "id": "H20-C03",
+      "author": "书签核对员",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "发现时间和发布消息的时间，需要分别核对。",
+      "simulatedLikes": 61
+    },
+    {
+      "id": "H20-C04",
+      "author": "街口等消息",
+      "avatar": "/avatars/spectator.webp",
+      "role": "in_world",
+      "text": "现场图片我看了，还想看看文字依据。",
+      "simulatedLikes": 50
+    },
+    {
+      "id": "H20-C05",
+      "author": "材料慢慢翻",
+      "avatar": "/avatars/hype.webp",
+      "role": "history_nerd",
+      "text": "身份问题和受损原因，可以分两栏问吧？",
+      "simulatedLikes": 39
+    },
+    {
+      "id": "H20-C06",
+      "author": "按住转发键",
+      "avatar": "/avatars/spectator.webp",
+      "role": "spectator",
+      "text": "我的记录表空着，等材料来填。",
+      "simulatedLikes": 28
+    }
+  ],
+  "claim": "2013年考古发现的墓志为确认上官婉儿墓主身份提供了关键证据。",
+  "isTrue": true,
+  "reveal": {
+    "verdictHeadline": "墓志为墓主身份认定提供关键证据",
+    "shortExplanation": "中新网2013年9月11日报道依据陕西省文物局信息，指出墓志记载墓主为唐中宗昭容上官氏，即上官婉儿。墓志是确认墓主身份的关键证据。",
+    "detailedExplanation": "中新网9月11日报道墓志盖题“大唐故昭容上官氏铭”，志文可确定墓主身份，并记唐景云元年（710年）八月安葬。9月25日报道说明，8月下旬已发现墓志，9月11日才公开官方消息。不能把唐代安葬、2013年出土与消息公开混为一个时间，也不能从身份已确认推出受损原因及主使已经查明。",
+    "correctedClaim": "2013年发现的唐代墓志，为确认上官婉儿墓主身份提供了关键证据；墓葬受损的原因不能据此确定。",
+    "funFact": "“早在8月下旬就已发现墓志”与9月11日官方消息公开，对应的是发现与发布两个节点。"
+  },
+  "sourceIds": [
+    "S-H20-01",
+    "S-H20-02",
+    "S-H20-03"
+  ],
+  "aiFacts": [
+    "[S-H20-01] 中新网2013-09-11依据陕西省文物局信息，记墓志墓主为唐中宗昭容上官氏，即上官婉儿，葬于唐景云元年(710年)八月。",
+    "[S-H20-02] 中新网2013-09-25记8月下旬已发现墓志，9月11日才公开官方消息；墓志出现后确认墓主身份。",
+    "[S-H20-03] 央视转载也记墓志盖题“大唐故昭容上官氏铭”，支持身份认定。"
+  ],
+  "aiLimitations": [
+    "信息流文案、评论与参与提示不作为史实依据。",
+    "封面不能作为实物照片或历史复原依据。",
+    "“官方毁墓”只是推测，不进核心判定，不确定主使、指令或受损全过程。",
+    "必须区分710年安葬、2013年8月出土和9月11日官方消息公开。",
+    "不扩写相貌、遗言、生平作品、墓志全文或政治心理。"
+  ],
+  "reviewStatus": "reviewed",
+  "reviewBy": "Giotto",
+  "reviewedAt": "2026-10-30T17:28:00-07:00",
+  "assetLicense": "外部提供的原创像素风插画·非史料、非历史复原·待 Giotto 审核",
+  "rewriteOptions": [
+    {
+      "id": "A",
+      "text": "墓志确认了身份，就等于受损原因和幕后主使也已确定。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "B",
+      "text": "上官婉儿墓主身份完全没有墓志依据。",
+      "isBest": false,
+      "feedback": "这句话超出了已核验材料能支持的范围，需回到原文核对。"
+    },
+    {
+      "id": "C",
+      "text": "2013年发现的唐代墓志，为确认上官婉儿墓主身份提供了关键证据；墓葬受损的原因不能据此确定。",
+      "isBest": true,
+      "feedback": "保留材料性质、时间顺序与证据范围。"
+    }
+  ],
+  "news": {
+    "outlet": "长安考古观察",
+    "lead": "上官婉儿墓志引发关注，核查聚焦身份依据，并区分考古发现与消息公开的时间。",
+    "publishedAt": "2026-10-30T17:28:00-07:00",
+    "related": [
+      "这条说法该到哪一段材料核对？",
+      "对应材料能支持多大的结论范围？"
+    ]
+  }
+}
